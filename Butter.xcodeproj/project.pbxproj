@@ -12,6 +12,10 @@
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
 		03FA6EF01674355600491A1D /* BTRCollectionViewCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6EEF1674355300491A1D /* BTRCollectionViewCommon.h */; };
+		03FA6F0016743BD700491A1D /* NSValue+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */; };
+		03FA6F0116743BD700491A1D /* NSValue+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */; };
+		03FA6F0216743BD700491A1D /* NSIndexPath+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */; };
+		03FA6F0316743BD700491A1D /* NSIndexPath+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6EFF16743BD700491A1D /* NSIndexPath+BTRAdditions.h */; };
 		AB05CE3D1672E95900534E63 /* BTRCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB05CE1B1672E95900534E63 /* BTRCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB05CE3E1672E95900534E63 /* BTRCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB05CE1C1672E95900534E63 /* BTRCollectionView.m */; };
 		AB05CE3F1672E95900534E63 /* BTRCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = AB05CE1D1672E95900534E63 /* BTRCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,10 +29,6 @@
 		AB05CE4C1672E95900534E63 /* BTRCollectionViewScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB05CE2A1672E95900534E63 /* BTRCollectionViewScrollView.h */; };
 		AB05CE4D1672E95900534E63 /* BTRCollectionViewScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB05CE2B1672E95900534E63 /* BTRCollectionViewScrollView.m */; };
 		AB05CE501672E95900534E63 /* BTRGeometryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB05CE2E1672E95900534E63 /* BTRGeometryAdditions.h */; };
-		AB05CE591672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB05CE371672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AB05CE5A1672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AB05CE381672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.m */; };
-		AB05CE5B1672E95900534E63 /* NSValue+BTRCollectionViewAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB05CE391672E95900534E63 /* NSValue+BTRCollectionViewAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AB05CE5C1672E95900534E63 /* NSValue+BTRCollectionViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AB05CE3A1672E95900534E63 /* NSValue+BTRCollectionViewAdditions.m */; };
 		AB05CE5D1672E95900534E63 /* NSView+BTRCollectionViewAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB05CE3B1672E95900534E63 /* NSView+BTRCollectionViewAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB05CE5E1672E95900534E63 /* NSView+BTRCollectionViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AB05CE3C1672E95900534E63 /* NSView+BTRCollectionViewAdditions.m */; };
 /* End PBXBuildFile section */
@@ -45,6 +45,10 @@
 		03239F6A1672E712004263D7 /* Butter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Butter.h; sourceTree = "<group>"; };
 		03239F7E1672E7C8004263D7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		03FA6EEF1674355300491A1D /* BTRCollectionViewCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRCollectionViewCommon.h; sourceTree = "<group>"; };
+		03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSValue+BTRAdditions.m"; path = "Categories/NSValue+BTRAdditions.m"; sourceTree = "<group>"; };
+		03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+BTRAdditions.h"; path = "Categories/NSValue+BTRAdditions.h"; sourceTree = "<group>"; };
+		03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSIndexPath+BTRAdditions.m"; path = "Categories/NSIndexPath+BTRAdditions.m"; sourceTree = "<group>"; };
+		03FA6EFF16743BD700491A1D /* NSIndexPath+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSIndexPath+BTRAdditions.h"; path = "Categories/NSIndexPath+BTRAdditions.h"; sourceTree = "<group>"; };
 		AB05CE1B1672E95900534E63 /* BTRCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRCollectionView.h; sourceTree = "<group>"; };
 		AB05CE1C1672E95900534E63 /* BTRCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRCollectionView.m; sourceTree = "<group>"; };
 		AB05CE1D1672E95900534E63 /* BTRCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRCollectionViewCell.h; sourceTree = "<group>"; };
@@ -58,10 +62,6 @@
 		AB05CE2A1672E95900534E63 /* BTRCollectionViewScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRCollectionViewScrollView.h; sourceTree = "<group>"; };
 		AB05CE2B1672E95900534E63 /* BTRCollectionViewScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRCollectionViewScrollView.m; sourceTree = "<group>"; };
 		AB05CE2E1672E95900534E63 /* BTRGeometryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRGeometryAdditions.h; sourceTree = "<group>"; };
-		AB05CE371672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+BTRCollectionViewAdditions.h"; sourceTree = "<group>"; };
-		AB05CE381672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+BTRCollectionViewAdditions.m"; sourceTree = "<group>"; };
-		AB05CE391672E95900534E63 /* NSValue+BTRCollectionViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+BTRCollectionViewAdditions.h"; sourceTree = "<group>"; };
-		AB05CE3A1672E95900534E63 /* NSValue+BTRCollectionViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+BTRCollectionViewAdditions.m"; sourceTree = "<group>"; };
 		AB05CE3B1672E95900534E63 /* NSView+BTRCollectionViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+BTRCollectionViewAdditions.h"; sourceTree = "<group>"; };
 		AB05CE3C1672E95900534E63 /* NSView+BTRCollectionViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+BTRCollectionViewAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +119,7 @@
 		03239EBB1672E6D6004263D7 /* Butter */ = {
 			isa = PBXGroup;
 			children = (
+				03FA6EFB1674393400491A1D /* Categories */,
 				03239ECA1672E6DC004263D7 /* Components */,
 				03239EBC1672E6D6004263D7 /* Supporting Files */,
 				03239F6A1672E712004263D7 /* Butter.h */,
@@ -144,6 +145,17 @@
 			name = Components;
 			sourceTree = "<group>";
 		};
+		03FA6EFB1674393400491A1D /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */,
+				03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */,
+				03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */,
+				03FA6EFF16743BD700491A1D /* NSIndexPath+BTRAdditions.h */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		AB05CE1A1672E95900534E63 /* BTRCollectionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,10 +173,6 @@
 				AB05CE2B1672E95900534E63 /* BTRCollectionViewScrollView.m */,
 				AB05CE2E1672E95900534E63 /* BTRGeometryAdditions.h */,
 				03FA6EEF1674355300491A1D /* BTRCollectionViewCommon.h */,
-				AB05CE371672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.h */,
-				AB05CE381672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.m */,
-				AB05CE391672E95900534E63 /* NSValue+BTRCollectionViewAdditions.h */,
-				AB05CE3A1672E95900534E63 /* NSValue+BTRCollectionViewAdditions.m */,
 				AB05CE3B1672E95900534E63 /* NSView+BTRCollectionViewAdditions.h */,
 				AB05CE3C1672E95900534E63 /* NSView+BTRCollectionViewAdditions.m */,
 			);
@@ -184,13 +192,13 @@
 				AB05CE3F1672E95900534E63 /* BTRCollectionViewCell.h in Headers */,
 				AB05CE461672E95900534E63 /* BTRCollectionViewFlowLayout.h in Headers */,
 				AB05CE4A1672E95900534E63 /* BTRCollectionViewLayout.h in Headers */,
-				AB05CE591672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.h in Headers */,
 				AB05CE5D1672E95900534E63 /* NSView+BTRCollectionViewAdditions.h in Headers */,
-				AB05CE5B1672E95900534E63 /* NSValue+BTRCollectionViewAdditions.h in Headers */,
 				AB05CE411672E95900534E63 /* BTRCollectionViewClipView.h in Headers */,
 				AB05CE4C1672E95900534E63 /* BTRCollectionViewScrollView.h in Headers */,
 				AB05CE501672E95900534E63 /* BTRGeometryAdditions.h in Headers */,
 				03FA6EF01674355600491A1D /* BTRCollectionViewCommon.h in Headers */,
+				03FA6F0116743BD700491A1D /* NSValue+BTRAdditions.h in Headers */,
+				03FA6F0316743BD700491A1D /* NSIndexPath+BTRAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,9 +272,9 @@
 				AB05CE471672E95900534E63 /* BTRCollectionViewFlowLayout.m in Sources */,
 				AB05CE4B1672E95900534E63 /* BTRCollectionViewLayout.m in Sources */,
 				AB05CE4D1672E95900534E63 /* BTRCollectionViewScrollView.m in Sources */,
-				AB05CE5A1672E95900534E63 /* NSIndexPath+BTRCollectionViewAdditions.m in Sources */,
-				AB05CE5C1672E95900534E63 /* NSValue+BTRCollectionViewAdditions.m in Sources */,
 				AB05CE5E1672E95900534E63 /* NSView+BTRCollectionViewAdditions.m in Sources */,
+				03FA6F0016743BD700491A1D /* NSValue+BTRAdditions.m in Sources */,
+				03FA6F0216743BD700491A1D /* NSIndexPath+BTRAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

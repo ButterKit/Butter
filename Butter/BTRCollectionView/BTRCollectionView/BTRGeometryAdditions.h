@@ -20,7 +20,7 @@ NS_INLINE BTREdgeInsets BTREdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bot
     return (BTREdgeInsets){top, left, bottom, right};
 }
 
-// NSString <-> Data type conversions
+// NSString to Data type conversions
 
 NS_INLINE NSString* BTRNSStringFromCGRect(CGRect rect) {
     return NSStringFromRect(rect);

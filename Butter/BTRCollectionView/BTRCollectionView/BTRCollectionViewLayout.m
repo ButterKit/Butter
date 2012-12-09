@@ -8,7 +8,7 @@
 #import "BTRCollectionView.h"
 #import "BTRCollectionViewLayout.h"
 #import "BTRGeometryAdditions.h"
-#import "NSIndexPath+BTRCollectionViewAdditions.h"
+#import "NSIndexPath+BTRAdditions.h"
 
 @interface BTRCollectionView()
 - (id)currentUpdate;

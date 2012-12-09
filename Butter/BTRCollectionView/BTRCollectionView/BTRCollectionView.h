@@ -10,7 +10,7 @@
 #import "BTRCollectionViewCell.h"
 #import "BTRCollectionViewCommon.h"
 #import "BTRCollectionViewScrollView.h"
-#import "NSIndexPath+BTRCollectionViewAdditions.h"
+#import "NSIndexPath+BTRAdditions.h"
 #import "NSView+BTRCollectionViewAdditions.h"
 
 typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
@@ -23,32 +23,32 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
     // Combining positions from the same grouping (horizontal or vertical) will result in an NSInvalidArgumentException.
 	
 	/**
-	 Scroll so that the item is positioned at the top of the collection view’s bounds. This option is mutually exclusive with the UICollectionViewScrollPositionCenteredVertically and UICollectionViewScrollPositionBottom options.
+	 Scroll so that the item is positioned at the top of the collection view’s bounds. This option is mutually exclusive with the BTRCollectionViewScrollPositionCenteredVertically and BTRCollectionViewScrollPositionBottom options.
 	 */
     BTRCollectionViewScrollPositionTop                  = 1 << 0,
 	/**
-	 Scroll so that the item is centered vertically in the collection view. This option is mutually exclusive with the UICollectionViewScrollPositionTop and UICollectionViewScrollPositionBottom options.
+	 Scroll so that the item is centered vertically in the collection view. This option is mutually exclusive with the BTRCollectionViewScrollPositionTop and BTRCollectionViewScrollPositionBottom options.
 	 */
     BTRCollectionViewScrollPositionCenteredVertically   = 1 << 1,
 	/**
-	 Scroll so that the item is positioned at the bottom of the collection view’s bounds. This option is mutually exclusive with the UICollectionViewScrollPositionTop and UICollectionViewScrollPositionCenteredVertically options.
+	 Scroll so that the item is positioned at the bottom of the collection view’s bounds. This option is mutually exclusive with the BTRCollectionViewScrollPositionTop and BTRCollectionViewScrollPositionCenteredVertically options.
 	 */
     BTRCollectionViewScrollPositionBottom               = 1 << 2,
 
     // Likewise, the horizontal positions are mutually exclusive to each other.
 	
 	/**
-	 Scroll so that the item is positioned at the left edge of the collection view’s bounds. This option is mutually exclusive with the UICollectionViewScrollPositionCenteredHorizontally and UICollectionViewScrollPositionRight options.
+	 Scroll so that the item is positioned at the left edge of the collection view’s bounds. This option is mutually exclusive with the BTRCollectionViewScrollPositionCenteredHorizontally and BTRCollectionViewScrollPositionRight options.
 	 */
     BTRCollectionViewScrollPositionLeft                 = 1 << 3,
 	
 	/**
-	 Scroll so that the item is centered horizontally in the collection view. This option is mutually exclusive with the UICollectionViewScrollPositionLeft and UICollectionViewScrollPositionRight options.
+	 Scroll so that the item is centered horizontally in the collection view. This option is mutually exclusive with the BTRCollectionViewScrollPositionLeft and BTRCollectionViewScrollPositionRight options.
 	 */
     BTRCollectionViewScrollPositionCenteredHorizontally = 1 << 4,
 	
 	/**
-	 Scroll so that the item is positioned at the right edge of the collection view’s bounds. This option is mutually exclusive with the UICollectionViewScrollPositionLeft and UICollectionViewScrollPositionCenteredHorizontally options.
+	 Scroll so that the item is positioned at the right edge of the collection view’s bounds. This option is mutually exclusive with the BTRCollectionViewScrollPositionLeft and BTRCollectionViewScrollPositionCenteredHorizontally options.
 	 */
     BTRCollectionViewScrollPositionRight                = 1 << 5
 };
@@ -86,7 +86,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 
 /**
  The object that acts as the delegate of the collection view.
- @discussion The delegate must adopt the UICollectionViewDelegate protocol. The collection view maintains a weak reference to the delegate object.
+ @discussion The delegate must adopt the BTRCollectionViewDelegate protocol. The collection view maintains a weak reference to the delegate object.
  
  The delegate object is responsible for managing selection behavior and interactions with individual items.
  */
@@ -94,7 +94,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 
 /**
  The object that provides the data for the collection view.
- @discussion The data source must adopt the UICollectionViewDataSource protocol. The collection view maintains a weak reference to the data source object.
+ @discussion The data source must adopt the BTRCollectionViewDataSource protocol. The collection view maintains a weak reference to the data source object.
  */
 @property (nonatomic, assign) IBOutlet id <BTRCollectionViewDataSource> dataSource;
 
@@ -118,7 +118,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 
 /**
  Register a nib file for use in creating new collection view cells.
- @param nib The nib object containing the cell object. The nib file must contain only one top-level object and that object must be of the type UICollectionViewCell.
+ @param nib The nib object containing the cell object. The nib file must contain only one top-level object and that object must be of the type BTRCollectionViewCell.
  @param identifier The reuse identifier to associate with the specified nib file. This parameter must not be nil and must not be an empty string.
  @discussion Prior to calling the `dequeueReusableCellWithReuseIdentifier:forIndexPath:` method of the collection view, you must use this method or the registerClass:forCellWithReuseIdentifier: method to tell the collection view how to create a new cell of the given type. If a cell of the specified type is not currently in a reuse queue, the collection view uses the provided information to create a new cell object automatically.
  
@@ -139,7 +139,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 
 /**
  Registers a nib file for use in creating supplementary views for the collection view.
- @param nib The nib object containing the view object. The nib file must contain only one top-level object and that object must be of the type UICollectionViewCell.
+ @param nib The nib object containing the view object. The nib file must contain only one top-level object and that object must be of the type BTRCollectionViewCell.
  @param kind The kind of supplementary view to create. This value is defined by the layout object. This parameter must not be nil.
  @param identifier The reuse identifier to associate with the specified nib file. This parameter must not be nil and must not be an empty string.
  @discussion Prior to calling the `dequeueReusableSupplementaryViewOfKind:withReuseIdentifier:forIndexPath:` method of the collection view, you must use this method or the `registerClass:forSupplementaryViewOfKind:withReuseIdentifier:` method to tell the collection view how to create a supplementary view of the given type. If a view of the specified type is not currently in a reuse queue, the collection view uses the provided information to create a view object automatically.
@@ -152,7 +152,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
  Returns a reusable cell object located by its identifier
  @param identifier The reuse identifier for the specified cell. This parameter must not be nil.
  @param indexPath The index path specifying the location of the cell. The data source receives this information when it is asked for the cell and should just pass it along. This method uses the index path to perform additional configuration based on the cell’s position in the collection view.
- @return A valid UICollectionReusableView object.
+ @return A valid BTRCollectionReusableView object.
  @discussion Call this method from your data source object when asked to provide a new cell for the collection view. This method dequeues an existing cell if one is available or creates a new one based on the class or nib file you previously registered.
  
  @warning *Important:* You must register a class or nib file using the `registerClass:forCellWithReuseIdentifier:` or `registerNib:forCellWithReuseIdentifier:` method before calling this method.
@@ -166,7 +166,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
  @param elementKind The kind of supplementary view to retrieve. This value is defined by the layout object. This parameter must not be nil.
  @param identifier The reuse identifier for the specified view. This parameter must not be nil.
  @param indexPath The index path specifying the location of the supplementary view in the collection view. The data source receives this information when it is asked for the view and should just pass it along. This method uses the information to perform additional configuration based on the view’s position in the collection view.
- @return A valid UICollectionReusableView object.
+ @return A valid BTRCollectionReusableView object.
  @discussion Call this method from your data source object when asked to provide a new supplementary view for the collection view. This method dequeues an existing view if one is available or creates a new one based on the class or nib file you previously registered.
  
  @warning *Important:* You must register a class or nib file using the registerClass:forSupplementaryViewOfKind:withReuseIdentifier: or registerNib:forSupplementaryViewOfKind:withReuseIdentifier: method before calling this method. You can also register a set of default supplementary views with the layout object using the registerClass:forDecorationViewOfKind: or registerNib:forDecorationViewOfKind: method.
@@ -216,7 +216,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 
 /** 
  Returns an array of visible cells currently displayed by the collection view.
- @return An array of UICollectionViewCell objects. If no cells are visible, this method returns an empty array.
+ @return An array of BTRCollectionViewCell objects. If no cells are visible, this method returns an empty array.
  @discussion This method returns the complete list of visible cells displayed by the collection view.
  */
 - (NSArray *)visibleCells;
@@ -285,7 +285,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 
 /**
  A Boolean value that indicates whether users can select items in the collection view.
- @discussion If the value of this property is YES (the default), users can select items. If you want more fine-grained control over the selection of items, you must provide a delegate object and implement the appropriate methods of the UICollectionViewDelegate protocol.
+ @discussion If the value of this property is YES (the default), users can select items. If you want more fine-grained control over the selection of items, you must provide a delegate object and implement the appropriate methods of the BTRCollectionViewDelegate protocol.
  */
 @property (nonatomic) BOOL allowsSelection;
 
@@ -307,7 +307,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
  Selects the item at the specified index path and optionally scrolls it into view.
  @param indexPath The index path of the item to select. Specifying nil for this parameter clears the current selection.
  @param animated Specify YES to animate the change in the selection or NO to make the change without animating it.
- @param scrollPosition An option that specifies where the item should be positioned when scrolling finishes. For a list of possible values, see “UICollectionViewScrollPosition”.
+ @param scrollPosition An option that specifies where the item should be positioned when scrolling finishes. For a list of possible values, see “BTRCollectionViewScrollPosition”.
  @discussion If the `allowsSelection` property is NO, calling this method has no effect. If there is an existing selection with a different index path and the `allowsMultipleSelection` property is NO, calling this method replaces the previous selection.
  
  This method does not cause any selection-related delegate methods to be called.
@@ -378,7 +378,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 /**
  Scrolls the collection view contents until the specified item is visible.
  @param indexPath The index path of the item to scroll into view.
- @param scrollPosition An option that specifies where the item should be positioned when scrolling finishes. For a list of possible values, see “UICollectionViewScrollPosition”.
+ @param scrollPosition An option that specifies where the item should be positioned when scrolling finishes. For a list of possible values, see “BTRCollectionViewScrollPosition”.
  @param animated Specify YES to animate the scrolling behavior or NO to adjust the scroll view’s visible content immediately.
  */
 - (void)scrollToItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated;

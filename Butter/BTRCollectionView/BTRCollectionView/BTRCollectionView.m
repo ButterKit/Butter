@@ -9,6 +9,7 @@
 #import "BTRCollectionViewCell.h"
 #import "BTRCollectionViewLayout.h"
 #import "BTRCollectionViewFlowLayout.h"
+#import "NSIndexPath+BTRAdditions.h"
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 
@@ -744,8 +745,8 @@ const char kBTRColletionViewExt;
 - (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection {
     NSMutableArray *moveUpdateItems = [self arrayForUpdateAction:BTRCollectionUpdateActionMove];
     [moveUpdateItems addObject:
-     [[BTRCollectionViewUpdateItem alloc] initWithInitialIndexPath:[NSIndexPath indexPathForItem:NSNotFound inSection:section]
-                                                    finalIndexPath:[NSIndexPath indexPathForItem:NSNotFound inSection:newSection]
+     [[BTRCollectionViewUpdateItem alloc] initWithInitialIndexPath:[NSIndexPath btr_indexPathForItem:NSNotFound inSection:section]
+                                                    finalIndexPath:[NSIndexPath btr_indexPathForItem:NSNotFound inSection:newSection]
                                                       updateAction:BTRCollectionUpdateActionMove]];
     if(!_collectionViewFlags.updating) {
         [self setupCellAnimations];
@@ -1615,7 +1616,7 @@ const char kBTRColletionViewExt;
     for(NSInteger i=0;i<[oldCollectionViewData numberOfSections];i++) {
         NSMutableArray * sectionArr = [NSMutableArray array];
         for(NSInteger j=0;j< [oldCollectionViewData numberOfItemsInSection:i];j++)
-            [sectionArr addObject: @([oldCollectionViewData globalIndexForItemAtIndexPath:[NSIndexPath indexPathForItem:j inSection:i]])];
+            [sectionArr addObject: @([oldCollectionViewData globalIndexForItemAtIndexPath:[NSIndexPath btr_indexPathForItem:j inSection:i]])];
         [newModel addObject:sectionArr];
     }
     
@@ -1668,7 +1669,7 @@ const char kBTRColletionViewExt;
     for(NSInteger i=0; i < [newModel count]; i++) {
         NSMutableArray* section = newModel[i];
         for(NSInteger j=0; j<[section count];j++) {
-            NSInteger newGlobalIndex = [_collectionViewData globalIndexForItemAtIndexPath:[NSIndexPath indexPathForItem:j inSection:i]];
+            NSInteger newGlobalIndex = [_collectionViewData globalIndexForItemAtIndexPath:[NSIndexPath btr_indexPathForItem:j inSection:i]];
             if([section[j] intValue] != NSNotFound)
                 oldToNewMap[[section[j] intValue]] = @(newGlobalIndex);
             if(newGlobalIndex != NSNotFound)
@@ -1723,7 +1724,7 @@ const char kBTRColletionViewExt;
     [sections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         BTRCollectionViewUpdateItem *updateItem =
         [[BTRCollectionViewUpdateItem alloc] initWithAction:updateAction
-                                               forIndexPath:[NSIndexPath indexPathForItem:NSNotFound
+                                               forIndexPath:[NSIndexPath btr_indexPathForItem:NSNotFound
                                                                                 inSection:section]];
         [updateActions addObject:updateItem];
     }];
@@ -1917,7 +1918,7 @@ const char kBTRColletionViewExt;
     NSMutableArray* globalIndexPaths = [[NSMutableArray alloc] initWithCapacity:_numItems];
     for(NSInteger section = 0;section<_numSections;section++)
         for(NSInteger item=0;item<_sectionItemCounts[section];item++)
-            [globalIndexPaths addObject:[NSIndexPath indexPathForItem:item inSection:section]];
+            [globalIndexPaths addObject:[NSIndexPath btr_indexPathForItem:item inSection:section]];
     _globalItems = [NSArray arrayWithArray:globalIndexPaths];
     _collectionViewDataFlags.itemCountsAreValid = YES;
 }

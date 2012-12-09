@@ -8,8 +8,8 @@
 #import "BTRCollectionViewFlowLayout.h"
 #import "BTRCollectionView.h"
 #import "BTRGeometryAdditions.h"
-#import "NSIndexPath+BTRCollectionViewAdditions.h"
-#import "NSValue+BTRCollectionViewAdditions.h"
+#import "NSIndexPath+BTRAdditions.h"
+#import "NSValue+BTRAdditions.h"
 #import <objc/runtime.h>
 
 NSString *const BTRCollectionElementKindSectionHeader = @"BTRCollectionElementKindSectionHeader";
@@ -118,7 +118,7 @@ static char kBTRCachedItemRectsKey;
 			normalizedHeaderFrame.origin.x += section.frame.origin.x;
 			normalizedHeaderFrame.origin.y += section.frame.origin.y;
 			if (!CGRectIsEmpty(normalizedHeaderFrame) && CGRectIntersectsRect(normalizedHeaderFrame, rect)) {
-				BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withIndexPath:[NSIndexPath indexPathForItem:0 inSection:sectionIndex]];
+				BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withIndexPath:[NSIndexPath btr_indexPathForItem:0 inSection:sectionIndex]];
 				layoutAttributes.frame = normalizedHeaderFrame;
 				[layoutAttributesArray addObject:layoutAttributes];
 			}
@@ -148,7 +148,7 @@ static char kBTRCachedItemRectsKey;
                             sectionItemIndex = [section.items indexOfObjectIdenticalTo:item];
                             itemFrame = item.itemFrame;
                         }
-                        layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForItem:sectionItemIndex inSection:sectionIndex]];
+                        layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath btr_indexPathForItem:sectionItemIndex inSection:sectionIndex]];
                         layoutAttributes.frame = CGRectMake(normalizedRowFrame.origin.x + itemFrame.origin.x, normalizedRowFrame.origin.y + itemFrame.origin.y, itemFrame.size.width, itemFrame.size.height);
                         [layoutAttributesArray addObject:layoutAttributes];
                     }
@@ -159,7 +159,7 @@ static char kBTRCachedItemRectsKey;
 			normalizedFooterFrame.origin.x += section.frame.origin.x;
 			normalizedFooterFrame.origin.y += section.frame.origin.y;
 			if (!CGRectIsEmpty(normalizedFooterFrame) && CGRectIntersectsRect(normalizedFooterFrame, rect)) {
-				BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionFooter withIndexPath:[NSIndexPath indexPathForItem:0 inSection:sectionIndex]];
+				BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionFooter withIndexPath:[NSIndexPath btr_indexPathForItem:0 inSection:sectionIndex]];
 				layoutAttributes.frame = normalizedFooterFrame;
 				[layoutAttributesArray addObject:layoutAttributes];
 			}
@@ -206,7 +206,7 @@ static char kBTRCachedItemRectsKey;
             normalizedHeaderFrame.origin.x += section.frame.origin.x;
             normalizedHeaderFrame.origin.y += section.frame.origin.y;
 
-            BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withIndexPath:[NSIndexPath indexPathForItem:0 inSection:sectionIndex]];
+            BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withIndexPath:[NSIndexPath btr_indexPathForItem:0 inSection:sectionIndex]];
             layoutAttributes.frame = normalizedHeaderFrame;
 
             return layoutAttributes;
@@ -319,7 +319,7 @@ static char kBTRCachedItemRectsKey;
         // if delegate implements size delegate, query it for all items
         if (implementsSizeDelegate) {
             for (NSUInteger item = 0; item < numberOfItems; item++) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+                NSIndexPath *indexPath = [NSIndexPath btr_indexPathForItem:item inSection:section];
                 CGSize itemSize = implementsSizeDelegate ? [flowDataSource collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath] : self.itemSize;
 
                 BTRGridLayoutItem *layoutItem = [layoutSection addItem];
