@@ -48,9 +48,6 @@ typedef NS_ENUM(NSUInteger, BTRCollectionViewItemType) {
 - (BOOL)isCell;
 @end
 
-// used internally for deserialization until I figure out the proper way.
-extern NSString *const BTRCollectionViewLayoutAwokeFromNib;
-
 @interface BTRCollectionViewLayout : NSObject <NSCoding>
 
 // Methods in this class are meant to be overridden and will be called by its collection view to gather layout information.

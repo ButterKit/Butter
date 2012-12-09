@@ -5,13 +5,13 @@
 //  AppKit Port: Copyright (c) 2012 Indragie Karunaratne and Jonathan Willing. All rights reserved.
 //
 
+#import <objc/runtime.h>
+#import <QuartzCore/QuartzCore.h>
+
 #import "BTRCollectionView.h"
 #import "BTRCollectionViewCell.h"
 #import "BTRCollectionViewLayout.h"
 #import "BTRCollectionViewFlowLayout.h"
-#import "NSIndexPath+BTRAdditions.h"
-#import <objc/runtime.h>
-#import <QuartzCore/QuartzCore.h>
 
 NSString *const BTRCollectionElementKindCell = @"BTRCollectionElementKindCell";
 NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementKindDecorationView";
@@ -24,48 +24,55 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)prepareToLoadData;
 @end
 
-@class BTRCollectionViewExt;
-
 @interface BTRCollectionView() {
-    // ivar layout needs to EQUAL to UICollectionView.
+    // Collection view layout
     BTRCollectionViewLayout *_layout;
+	// Collection view data source
     __unsafe_unretained id<BTRCollectionViewDataSource> _dataSource;
+	// Background view displayed beneath the collection view
     NSView *_backgroundView;
+	// Set of index paths for the selected items
     NSMutableSet *_indexPathsForSelectedItems;
+	// Reuse queues for collection view cells
     NSMutableDictionary *_cellReuseQueues;
+	// Reuse queues for collection view supplementary views
     NSMutableDictionary *_supplementaryViewReuseQueues;
+	// Set of items that are highlighted (highlighted state comes before selected)
     NSMutableSet *_indexPathsForHighlightedItems;
-    int _reloadingSuspendedCount;
-    BTRCollectionReusableView *_firstResponderView;
-    NSView *_newContentView;
-    int _firstResponderViewType;
-    NSString *_firstResponderViewKind;
-    NSIndexPath *_firstResponderIndexPath;
+	// Tracks the state of reload suspension
+    NSInteger _reloadingSuspendedCount;
+	// Dictionary containing all views visible on screen
     NSMutableDictionary *_allVisibleViewsDict;
-    NSIndexPath *_pendingSelectionIndexPath;
-    NSMutableSet *_pendingDeselectionIndexPaths;
+	// Container class that stores the layout data for the collection view
     BTRCollectionViewData *_collectionViewData;
-    id _update;
-    CGRect _visibleBoundRects;
-    CGRect _preRotationBounds;
-    CGPoint _rotationBoundsOffset;
-    int _rotationAnimationCount;
-    int _updateCount;
+	// Stores the information associated with an update of the collection view's items
+    NSDictionary *_update;
+	// Keeps track of state for item animations
+    NSInteger _updateCount;
+	// Temporary array of items that are inserted
     NSMutableArray *_insertItems;
+	// Temporary array of items that are deleted
     NSMutableArray *_deleteItems;
+	// Temporary array of items that are reloaded
     NSMutableArray *_reloadItems;
+	// Temporary array of items that are moved
     NSMutableArray *_moveItems;
+	// The original array of inserted items before the array is mutated
     NSArray *_originalInsertItems;
+	// The original array of deleted items before the array is mutaed
     NSArray *_originalDeleteItems;
-    NSEvent *_currentEvent;
+	// Block that is executed when updates to the collection view have been completed
     void (^_updateCompletionHandler)();
+	// Maps cell classes to reuse identifiers
     NSMutableDictionary *_cellClassDict;
+	// Maps cell nibs to reuse identifiers
     NSMutableDictionary *_cellNibDict;
+	// Maps supplementary view classes to reuse identifiers
     NSMutableDictionary *_supplementaryViewClassDict;
+	// Maps supplementary view nibs to reuse identifiers
     NSMutableDictionary *_supplementaryViewNibDict;
-    NSMutableDictionary *_cellNibExternalObjectsTables;
-    NSMutableDictionary *_supplementaryViewNibExternalObjectsTables;
     struct {
+		// Tracks which methods the delegate and data source implement
         unsigned int delegateShouldHighlightItemAtIndexPath : 1;
         unsigned int delegateDidHighlightItemAtIndexPath : 1;
         unsigned int delegateDidUnhighlightItemAtIndexPath : 1;
@@ -78,56 +85,40 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         unsigned int delegateDidEndDisplayingSupplementaryView : 1;
         unsigned int dataSourceNumberOfSections : 1;
         unsigned int dataSourceViewForSupplementaryElement : 1;
-        unsigned int reloadSkippedDuringSuspension : 1;
-        unsigned int scheduledUpdateVisibleCells : 1;
-        unsigned int scheduledUpdateVisibleCellLayoutAttributes : 1;
+		// Collection view options
         unsigned int allowsSelection : 1;
         unsigned int allowsMultipleSelection : 1;
+		// Tracks collection view state
         unsigned int updating : 1;
-        unsigned int fadeCellsForBoundsChange : 1;
         unsigned int updatingLayout : 1;
         unsigned int needsReload : 1;
         unsigned int reloading : 1;
-        unsigned int skipLayoutDuringSnapshotting : 1;
-        unsigned int layoutInvalidatedSinceLastCellUpdate : 1;
-        unsigned int doneFirstLayout : 1;
+		unsigned int doneFirstLayout : 1;
     } _collectionViewFlags;
-    CGPoint _lastLayoutOffset;
     
 }
+// Stores all the data associated with collection view layout
 @property (nonatomic, strong) BTRCollectionViewData *collectionViewData;
-@property (nonatomic, strong, readonly) BTRCollectionViewExt *extVars;
-@property (nonatomic, readonly) id currentUpdate;
+// Mapped to the ivar _allVisibleViewsDict (dictionary of all visible views)
 @property (nonatomic, readonly) NSDictionary *visibleViewsDict;
-@property (nonatomic, assign) CGRect visibleBoundRects;
+// The total content size of the collection view, used to set the view's frame size
 @property (nonatomic, assign) CGSize contentSize;
+// Convenience accessor for the parent scroll view
 @property (nonatomic, strong, readonly) BTRCollectionViewScrollView *scrollView;
+// The index path that was clicked (set on mouseDown:)
+@property (nonatomic, strong) NSIndexPath *clickedIndexPath;
 @end
-
-// Used by BTRCollectionView for external variables.
-// (We need to keep the total class size equal to the UICollectionView variant)
-@interface BTRCollectionViewExt : NSObject
-@property (nonatomic, strong) id nibObserverToken;
-@property (nonatomic, strong) BTRCollectionViewLayout *nibLayout;
-@property (nonatomic, strong) NSDictionary *nibCellsExternalObjects;
-@property (nonatomic, strong) NSDictionary *supplementaryViewsExternalObjects;
-@property (nonatomic, strong) NSIndexPath *touchingIndexPath;
-@end
-
-@implementation BTRCollectionViewExt @end
-const char kBTRColletionViewExt;
 
 @implementation BTRCollectionView
 
 @synthesize collectionViewLayout = _layout;
-@synthesize currentUpdate = _update;
 @synthesize visibleViewsDict = _allVisibleViewsDict;
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
 - (void)BTRCollectionViewCommonSetup
 {
+	// Allocate storage variables, configure default settings
     self.allowsSelection = YES;
     _indexPathsForSelectedItems = [NSMutableSet new];
     _indexPathsForHighlightedItems = [NSMutableSet new];
@@ -138,10 +129,9 @@ const char kBTRColletionViewExt;
     _cellNibDict = [NSMutableDictionary new];
     _supplementaryViewClassDict = [NSMutableDictionary new];
 	_supplementaryViewNibDict = [NSMutableDictionary new];
-    
-    // add class that saves additional ivars
-    objc_setAssociatedObject(self, &kBTRColletionViewExt, [BTRCollectionViewExt new], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
+	
+	// Make the view layer backed and set the redraw policy so that
+	// the view is only redrawn when -setNeedsDisplay:YES is called
     self.wantsLayer = YES;
     self.layer.backgroundColor = [NSColor blueColor].CGColor;
     self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
@@ -159,63 +149,45 @@ const char kBTRColletionViewExt;
 - (id)initWithCoder:(NSCoder *)inCoder {
     if ((self = [super initWithCoder:inCoder])) {
         [self BTRCollectionViewCommonSetup];
-        // add observer for nib deserialization.
-
-        id nibObserverToken = [[NSNotificationCenter defaultCenter] addObserverForName:BTRCollectionViewLayoutAwokeFromNib object:nil queue:nil usingBlock:^(NSNotification *note) {
-            self.extVars.nibLayout = note.object;
-        }];
-        self.extVars.nibObserverToken = nibObserverToken;
     }
     return self;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-
-    // check if NIB deserialization found a layout.
-    id nibObserverToken = self.extVars.nibObserverToken;
-    if (nibObserverToken) {
-        [[NSNotificationCenter defaultCenter] removeObserver:nibObserverToken];
-        self.extVars.nibObserverToken = nil;
-    }
-
-    BTRCollectionViewLayout *nibLayout = self.extVars.nibLayout;
-    if (nibLayout) {
-        self.collectionViewLayout = nibLayout;
-        self.extVars.nibLayout = nil;
-    }
-}
-
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ collection view layout: %@", [super description], self.collectionViewLayout];
+    return [NSString stringWithFormat:@"%@ collection view layout: %@",
+			[super description],
+			self.collectionViewLayout];
 }
 
 - (void)dealloc {
-    id nibObserverToken = self.extVars.nibObserverToken;
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    if (nibObserverToken) [nc removeObserver:nibObserverToken];
-    [nc removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma mark - NSView
 
 - (BOOL)isFlipped
 {
+	// This view uses a flipped coordinate system with the origin at the top left corner
     return YES;
 }
 
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
     [super viewWillMoveToSuperview:newSuperview];
+	// The collection view should always be placed inside a scroll view
+	// Hence, it's superview should be an NSClipView
     if ([newSuperview isKindOfClass:[NSClipView class]]) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         if (self.superview && [self.superview isKindOfClass:[NSClipView class]]) {
             self.superview.postsBoundsChangedNotifications = NO;
             [nc removeObserver:self name:NSViewBoundsDidChangeNotification object:self.superview];
         }
+		// Tell the clip view to post bounds changed notifications so that notifications are posted
+		// when the view is scrolled
         NSClipView *clipView = (NSClipView *)newSuperview;
         clipView.postsBoundsChangedNotifications = YES;
+		// Register for that notification and trigger layout
         [nc addObserverForName:NSViewBoundsDidChangeNotification object:clipView queue:nil usingBlock:^(NSNotification *note) {
             [self setNeedsLayout:YES];
         }];
@@ -224,61 +196,41 @@ const char kBTRColletionViewExt;
 
 - (void)layout {
     [super layout];
-
-    // Adding alpha animation to make the relayouting smooth
-    if (_collectionViewFlags.fadeCellsForBoundsChange) {
-        CATransition *transition = [CATransition animation];
-        transition.duration = 0.25f;
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        transition.type = kCATransitionFade;
-        //[self.layer addAnimation:transition forKey:@"rotationAnimation"];
-    }
-
+	// Validate the layout inside the currently visible rectangle
     [_collectionViewData validateLayoutInRect:self.visibleRect];
-
-    // update cells
-    if (_collectionViewFlags.fadeCellsForBoundsChange) {
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-    }
-
-    if(!_collectionViewFlags.updatingLayout)
-        [self updateVisibleCellsNow:YES];
-
-    if (_collectionViewFlags.fadeCellsForBoundsChange) {
-        [CATransaction commit];
-    }
-
-    // do we need to update contentSize?
+	// Update the visible cells 
+    if (!_collectionViewFlags.updatingLayout) [self updateVisibleCellsNow:YES];
+	// Check if the content size needs to be reset
     CGSize contentSize = [_collectionViewData collectionViewContentRect].size;
     if (!CGSizeEqualToSize(self.contentSize, contentSize)) {
+		// Set the new content size and run layout again
         self.contentSize = contentSize;
-
-        // if contentSize is different, we need to re-evaluate layout, bounds (contentOffset) might changed
         [_collectionViewData validateLayoutInRect:self.visibleRect];
         [self updateVisibleCellsNow:YES];
     }
-    
+	// Set the frame of the background view to the visible section of the view
+	// This means that the background view moves as a backdrop as the view is scrolled
     if (_backgroundView) {
         _backgroundView.frame = self.visibleRect;
     }
-
-    _collectionViewFlags.fadeCellsForBoundsChange = NO;
-    _collectionViewFlags.doneFirstLayout = YES;
 }
 
 - (void)setFrame:(NSRect)frame {
     if (!NSEqualRects(frame, self.frame)) {
+		// If the frame is different, check if the layout needs to be invalidated
         if ([self.collectionViewLayout shouldInvalidateLayoutForBoundsChange:frame]) {
             [self invalidateLayout];
-            _collectionViewFlags.fadeCellsForBoundsChange = YES;
         }
         [super setFrame:frame];
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma mark - Public
+
+////////////////////////////////////////////////////////////
+/// All of these public methods are documented in the header
+////////////////////////////////////////////////////////////
 
 - (void)registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier {
     NSParameterAssert(cellClass);
@@ -297,7 +249,7 @@ const char kBTRColletionViewExt;
 - (void)registerNib:(NSNib *)nib forCellWithReuseIdentifier:(NSString *)identifier {
     NSArray *topLevelObjects = nil;
     [nib instantiateWithOwner:nil topLevelObjects:&topLevelObjects];
-#pragma unused(topLevelObjects)
+	// Check to make sure that the NIB's only top level object is the cell view
     NSAssert(topLevelObjects.count == 1 && [topLevelObjects[0] isKindOfClass:BTRCollectionViewCell.class], @"must contain exactly 1 top level object which is a BTRCollectionViewCell");
 
     _cellNibDict[identifier] = nib;
@@ -306,7 +258,7 @@ const char kBTRColletionViewExt;
 - (void)registerNib:(NSNib *)nib forSupplementaryViewOfKind:(NSString *)kind withReuseIdentifier:(NSString *)identifier {
     NSArray *topLevelObjects = nil;
     [nib instantiateWithOwner:nil topLevelObjects:&topLevelObjects];
-#pragma unused(topLevelObjects)
+	// Check to make sure that the NIB's only top level object is the supplementary view
     NSAssert(topLevelObjects.count == 1 && [topLevelObjects[0] isKindOfClass:BTRCollectionReusableView.class], @"must contain exactly 1 top level object which is a BTRCollectionReusableView");
 
 	NSString *kindAndIdentifier = [NSString stringWithFormat:@"%@/%@", kind, identifier];
@@ -314,42 +266,33 @@ const char kBTRColletionViewExt;
 }
 
 - (id)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath {
-    // de-queue cell (if available)
+    // Check to see if there is already a reusable cell in the reuse queue
     NSMutableArray *reusableCells = _cellReuseQueues[identifier];
     BTRCollectionViewCell *cell = [reusableCells lastObject];
     if (cell) {
         [reusableCells removeObjectAtIndex:[reusableCells count]-1];
     }else {
+		// If a NIB was registered for the cell, instantiate the NIB and retrieve the view from there
         if (_cellNibDict[identifier]) {
             // Cell was registered via registerNib:forCellWithReuseIdentifier:
             NSNib *cellNib = _cellNibDict[identifier];
-            NSMutableDictionary *externalObjects = [NSMutableDictionary dictionaryWithDictionary:self.extVars.nibCellsExternalObjects[identifier]];
-            if (externalObjects) {
-                NSMutableArray *topLevelObjects = [NSMutableArray array];
-                externalObjects[NSNibTopLevelObjects] = topLevelObjects;
-                [cellNib instantiateNibWithExternalNameTable:externalObjects];
-                cell = topLevelObjects[0];
-            } else {
-                NSArray *topLevelObjects = nil;
-                [cellNib instantiateWithOwner:self topLevelObjects:&topLevelObjects];
-                cell = topLevelObjects[0];
-            }
+            NSArray *topLevelObjects = nil;
+			[cellNib instantiateWithOwner:self topLevelObjects:&topLevelObjects];
+			cell = topLevelObjects[0];
         } else {
+			// Otherwise, attempt to create a new cell view from a registered class
             Class cellClass = _cellClassDict[identifier];
             if (cellClass == nil) {
+				// Throw an exception if no NIB or Class was registered for the cell class
                 @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Class not registered for identifier %@", identifier] userInfo:nil];
             }
+			// Ask the layout to supply the attributes for the new cell
             if (self.collectionViewLayout) {
                 BTRCollectionViewLayoutAttributes *attributes = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
                 cell = [[cellClass alloc] initWithFrame:attributes.frame];
             } else {
                 cell = [cellClass new];
             }
-        }
-        BTRCollectionViewLayout *layout = [self collectionViewLayout];
-        if ([layout isKindOfClass:[BTRCollectionViewFlowLayout class]]) {
-            CGSize itemSize = ((BTRCollectionViewFlowLayout *)layout).itemSize;
-            cell.bounds = CGRectMake(0, 0, itemSize.width, itemSize.height);
         }
         cell.collectionView = self;
         cell.reuseIdentifier = identifier;
@@ -358,34 +301,31 @@ const char kBTRColletionViewExt;
 }
 
 - (id)dequeueReusableSupplementaryViewOfKind:(NSString *)elementKind withReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath {
+	// Check to see if there's already a supplementary view of the desired type in the reuse queue
 	NSString *kindAndIdentifier = [NSString stringWithFormat:@"%@/%@", elementKind, identifier];
     NSMutableArray *reusableViews = _supplementaryViewReuseQueues[kindAndIdentifier];
     BTRCollectionReusableView *view = [reusableViews lastObject];
     if (view) {
         [reusableViews removeObjectAtIndex:reusableViews.count - 1];
     } else {
+		// Otherwise, check to see if a NIB was registered for the view
+		// and use that to create an instance of the view
         if (_supplementaryViewNibDict[kindAndIdentifier]) {
             // supplementary view was registered via registerNib:forCellWithReuseIdentifier:
             NSNib *supplementaryViewNib = _supplementaryViewNibDict[kindAndIdentifier];
-			NSMutableDictionary *externalObjects = [NSMutableDictionary dictionaryWithDictionary:self.extVars.supplementaryViewsExternalObjects[kindAndIdentifier]];
-			if (externalObjects) {
-                NSMutableArray *topLevelObjects = [NSMutableArray array];
-                externalObjects[NSNibTopLevelObjects] = topLevelObjects;
-                [supplementaryViewNib instantiateNibWithExternalNameTable:externalObjects];
-                view = topLevelObjects[0];
-            } else {
-                NSArray *topLevelObjects = nil;
-                [supplementaryViewNib instantiateWithOwner:self topLevelObjects:&topLevelObjects];
-                view = topLevelObjects[0];
-            }
+			NSArray *topLevelObjects = nil;
+			[supplementaryViewNib instantiateWithOwner:self topLevelObjects:&topLevelObjects];
+			view = topLevelObjects[0];
         } else {
+			// Check to see if a class was registered for the view
 			Class viewClass = _supplementaryViewClassDict[kindAndIdentifier];
 			if (viewClass == nil) {
+				// Throw an exception if neither a class nor a NIB was registered
 				@throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Class not registered for kind/identifier %@", kindAndIdentifier] userInfo:nil];
 			}
 			if (self.collectionViewLayout) {
-				BTRCollectionViewLayoutAttributes *attributes = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:elementKind
-																														  atIndexPath:indexPath];
+				// Ask the collection view for the layout attributes for the view
+				BTRCollectionViewLayoutAttributes *attributes = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:elementKind atIndexPath:indexPath];
 				view = [[viewClass alloc] initWithFrame:attributes.frame];
 			} else {
 				view = [viewClass new];
@@ -406,37 +346,39 @@ const char kBTRColletionViewExt;
 
 - (NSArray *)visibleCells {
     return [[_allVisibleViewsDict allValues] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+		// Check if the cell is within the visible rect
         return [evaluatedObject isKindOfClass:[BTRCollectionViewCell class]] && CGRectIntersectsRect(self.visibleRect, [evaluatedObject frame]);
     }]];
 }
 
 - (void)reloadData {
+	// Don't reload data if reloading has been suspended
     if (_reloadingSuspendedCount != 0) return;
+	// Invalidate the layout
     [self invalidateLayout];
+	// Remove every view from the collection view and empty the dictionary
     [_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         if ([obj isKindOfClass:[NSView class]]) {
             [obj removeFromSuperview];
         }
     }];
     [_allVisibleViewsDict removeAllObjects];
-
-    for(NSIndexPath *indexPath in _indexPathsForSelectedItems) {
+	// Deselect everything
+    for (NSIndexPath *indexPath in _indexPathsForSelectedItems) {
         BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
         selectedCell.selected = NO;
         selectedCell.highlighted = NO;
     }
     [_indexPathsForSelectedItems removeAllObjects];
     [_indexPathsForHighlightedItems removeAllObjects];
-
+	// Layout
     [self setNeedsLayout:YES];
-
-
-    //NSAssert(sectionCount == 1, @"Sections are currently not supported.");
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Query Grid
+
+// A bunch of methods that query the collection view's layout for information
 
 - (NSInteger)numberOfSections {
     return [_collectionViewData numberOfSections];
@@ -454,6 +396,7 @@ const char kBTRColletionViewExt;
     return [[self collectionViewLayout] layoutAttributesForSupplementaryViewOfKind:kind atIndexPath:indexPath];
 }
 
+// Iterate through the keys until a cell with a frame that contains the given point is found
 - (NSIndexPath *)indexPathForItemAtPoint:(CGPoint)point {
     __block NSIndexPath *indexPath = nil;
     [_allVisibleViewsDict enumerateKeysAndObjectsWithOptions:kNilOptions usingBlock:^(id key, id obj, BOOL *stop) {
@@ -469,6 +412,7 @@ const char kBTRColletionViewExt;
     return indexPath;
 }
 
+// Iterate through the keys until a cell matching the given cell is found
 - (NSIndexPath *)indexPathForCell:(BTRCollectionViewCell *)cell {
     __block NSIndexPath *indexPath = nil;
     [_allVisibleViewsDict enumerateKeysAndObjectsWithOptions:kNilOptions usingBlock:^(id key, id obj, BOOL *stop) {
@@ -484,9 +428,8 @@ const char kBTRColletionViewExt;
     return indexPath;
 }
 
+// Iterate through the keys until a cell with an index path matching the given index path is found
 - (BTRCollectionViewCell *)cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    // NSInteger index = [_collectionViewData globalIndexForItemAtIndexPath:indexPath];
-    // TODO Apple uses some kind of globalIndex for this.
     __block BTRCollectionViewCell *cell = nil;
     [_allVisibleViewsDict enumerateKeysAndObjectsWithOptions:0 usingBlock:^(id key, id obj, BOOL *stop) {
         BTRCollectionViewItemKey *itemKey = (BTRCollectionViewItemKey *)key;
@@ -500,6 +443,7 @@ const char kBTRColletionViewExt;
     return cell;
 }
 
+// Iterate the views and separate the cells out from the rest
 - (NSArray *)indexPathsForVisibleItems {
 	NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:[_allVisibleViewsDict count]];
 
@@ -513,23 +457,20 @@ const char kBTRColletionViewExt;
 	return indexPaths;
 }
 
-// returns nil or an array of selected index paths
+// Returns nil or an array of selected index paths
 - (NSArray *)indexPathsForSelectedItems {
     return [_indexPathsForSelectedItems allObjects];
 }
 
-// Interacting with the collection view.
 - (void)scrollToItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated {
-
-    // ensure grid is layouted; else we can't scroll.
+	
+	// Make sure layout is valid before scrolling
     [self layout];
-
     BTRCollectionViewLayoutAttributes *layoutAttributes = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
     if (layoutAttributes) {
         CGRect targetRect = layoutAttributes.frame;
 
-        // hack to add proper margins to flowlayout.
-        // TODO: how to pack this into BTRCollectionViewFlowLayout?
+        // TODO: Fix this hack to apply proper margins
         if ([self.collectionViewLayout isKindOfClass:[BTRCollectionViewFlowLayout class]]) {
             BTRCollectionViewFlowLayout *flowLayout = (BTRCollectionViewFlowLayout *)self.collectionViewLayout;
             targetRect.size.height += flowLayout.scrollDirection == BTRCollectionViewScrollDirectionVertical ? flowLayout.minimumLineSpacing : flowLayout.minimumInteritemSpacing;
@@ -539,76 +480,57 @@ const char kBTRColletionViewExt;
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Mouse Event Handling
+
+// TODO: All of this logic needs an overhaul to support proper desktop highlighting and selecting behaviour
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
     [super mouseDown:theEvent];
-    CGPoint touchPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    NSIndexPath *indexPath = [self indexPathForItemAtPoint:touchPoint];
+    CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
     if (indexPath) {
-        
+        // Deselect all the other cells
         if (!self.allowsMultipleSelection) {
-            // temporally unhighlight background on touchesBegan (keeps selected by _indexPathsForSelectedItems)
             for (BTRCollectionViewCell* visibleCell in [self allCells]) {
                 visibleCell.highlighted = NO;
                 visibleCell.selected = NO;
-                
-                // NOTE: doesn't work due to the _indexPathsForHighlightedItems validation
-                //[self unhighlightItemAtIndexPath:indexPathForVisibleItem animated:YES notifyDelegate:YES];
             }
         }
-        
+        // Highlight the clicked cell
         [self highlightItemAtIndexPath:indexPath animated:YES scrollPosition:BTRCollectionViewScrollPositionNone notifyDelegate:YES];
-        
-        self.extVars.touchingIndexPath = indexPath;
-    }
+        self.clickedIndexPath = indexPath;
+    } else {
+		// If empty space was clicked, unhighlight everything
+		[self unhighlightAllItems];
+	}
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
     [super mouseDragged:theEvent];
-    if (self.extVars.touchingIndexPath) {
-        CGPoint touchPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-        NSIndexPath *indexPath = [self indexPathForItemAtPoint:touchPoint];
-        if ([indexPath isEqual:self.extVars.touchingIndexPath]) {
-            [self highlightItemAtIndexPath:indexPath animated:YES scrollPosition:BTRCollectionViewScrollPositionNone notifyDelegate:YES];
-        }
-        else {
-            [self unhighlightItemAtIndexPath:self.extVars.touchingIndexPath animated:YES notifyDelegate:YES];
-        }
-    }
+    // TODO: Implement a dragging rectangle
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
     [super mouseUp:theEvent];
-    CGPoint touchPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    NSIndexPath *indexPath = [self indexPathForItemAtPoint:touchPoint];
-    if ([indexPath isEqual:self.extVars.touchingIndexPath]) {
+    CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
+    if ([indexPath isEqual:self.clickedIndexPath]) {
+		// On mouse down, do the _actual_ selection (highlighting != selecting)
         [self userSelectedItemAtIndexPath:indexPath];
-        
-        [self unhighlightAllItems];
-        self.extVars.touchingIndexPath = nil;
+    } else {
+		// Reset the selection that was messed up in mouseDown:
+		if (!self.allowsMultipleSelection) {
+			for (BTRCollectionViewCell *visibleCell in [self allCells]) {
+				NSIndexPath* indexPathForVisibleItem = [self indexPathForCell:visibleCell];
+				visibleCell.selected = [_indexPathsForSelectedItems containsObject:indexPathForVisibleItem];
+			}
+		}
     }
-    else {
-        [self cellTouchCancelled];
-    }
-}
-
-- (void)cellTouchCancelled {
-    // TODO: improve behavior on touchesCancelled
-    if (!self.allowsMultipleSelection) {
-        // highlight selected-background again
-        for (BTRCollectionViewCell* visibleCell in [self allCells]) {
-            NSIndexPath* indexPathForVisibleItem = [self indexPathForCell:visibleCell];
-            visibleCell.selected = [_indexPathsForSelectedItems containsObject:indexPathForVisibleItem];
-        }
-    }
-
-    [self unhighlightAllItems];
-    self.extVars.touchingIndexPath = nil;
+	[self unhighlightAllItems];
+	self.clickedIndexPath = nil;
 }
 
 - (void)userSelectedItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -721,10 +643,18 @@ const char kBTRColletionViewExt;
     }
 }
 
-- (void)unhighlightAllItems {
+- (void)unhighlightAllItems
+{
     for (NSIndexPath *indexPath in [_indexPathsForHighlightedItems copy]) {
         [self unhighlightItemAtIndexPath:indexPath animated:NO notifyDelegate:YES];
     }
+}
+
+- (void)deselectAllItems
+{
+	for (NSIndexPath *indexPath in [_indexPathsForSelectedItems copy]) {
+		[self deselectItemAtIndexPath:indexPath animated:NO notifyDelegate:NO];
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -810,21 +740,11 @@ const char kBTRColletionViewExt;
 
     // not sure it was it original code, but here this prevents crash
     // in case we switch layout before previous one was initially loaded
-    if(CGRectIsEmpty(self.bounds) || !_collectionViewFlags.doneFirstLayout) {
+    if (CGRectIsEmpty(self.bounds) || !_collectionViewFlags.doneFirstLayout) {
         _layout.collectionView = nil;
         _collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
         layout.collectionView = self;
         _layout = layout;
-        
-        // originally the use method
-        // _setNeedsVisibleCellsUpdate:withLayoutAttributes:
-        // here with CellsUpdate set to YES and LayoutAttributes parameter set to NO
-        // inside this method probably some flags are set and finally
-        // setNeedsDisplay is called
-        
-        _collectionViewFlags.scheduledUpdateVisibleCells= YES;
-        _collectionViewFlags.scheduledUpdateVisibleCellLayoutAttributes = NO;
-
         [self setNeedsDisplay:YES];
     }
     else {
@@ -1063,10 +983,6 @@ const char kBTRColletionViewExt;
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private
 
-- (BTRCollectionViewExt *)extVars {
-    return objc_getAssociatedObject(self, &kBTRColletionViewExt);
-}
-
 - (void)invalidateLayout {
     [self.collectionViewLayout invalidateLayout];
     [self.collectionViewData invalidate]; // invalidate layout cache
@@ -1283,7 +1199,7 @@ const char kBTRColletionViewExt;
                                          finalAttrs.frame.size.width,
                                          finalAttrs.frame.size.height);
             
-            if(CGRectIntersectsRect(_visibleBoundRects, startRect) || CGRectIntersectsRect(_visibleBoundRects, finalRect)) {
+            if(CGRectIntersectsRect(self.visibleRect, startRect) || CGRectIntersectsRect(self.visibleRect, finalRect)) {
                 BTRCollectionReusableView *view = [self createPreparedCellForItemAtIndexPath:indexPath
                                                                         withLayoutAttributes:startAttrs];
                 [self addControlledSubview:view];
@@ -1338,7 +1254,7 @@ const char kBTRColletionViewExt;
         newAllVisibleView[newKey] = view;
     }
 
-    NSArray *allNewlyVisibleItems = [_layout layoutAttributesForElementsInRect:_visibleBoundRects];
+    NSArray *allNewlyVisibleItems = [_layout layoutAttributesForElementsInRect:self.visibleRect];
     for (BTRCollectionViewLayoutAttributes *attrs in allNewlyVisibleItems) {
         BTRCollectionViewItemKey *key = [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attrs];
         
@@ -1372,7 +1288,7 @@ const char kBTRColletionViewExt;
          }
      } completion:^ {
          NSMutableSet *set = [NSMutableSet set];
-         NSArray *visibleItems = [_layout layoutAttributesForElementsInRect:_visibleBoundRects];
+         NSArray *visibleItems = [_layout layoutAttributesForElementsInRect:self.visibleRect];
          for(BTRCollectionViewLayoutAttributes *attrs in visibleItems)
              [set addObject: [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attrs]];
 

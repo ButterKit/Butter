@@ -179,8 +179,6 @@
 @property (nonatomic, unsafe_unretained) BTRCollectionView *collectionView;
 @end
 
-NSString *const BTRCollectionViewLayoutAwokeFromNib = @"BTRCollectionViewLayoutAwokeFromNib";
-
 @implementation BTRCollectionViewLayout
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -195,8 +193,6 @@ NSString *const BTRCollectionViewLayoutAwokeFromNib = @"BTRCollectionViewLayoutA
         _finalAnimationLayoutAttributesDict = [NSMutableDictionary new];
         _insertedSectionsSet = [NSMutableIndexSet new];
         _deletedSectionsSet = [NSMutableIndexSet new];
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:BTRCollectionViewLayoutAwokeFromNib object:self];
     }
     return self;
 }
