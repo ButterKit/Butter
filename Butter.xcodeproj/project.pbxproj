@@ -155,9 +155,9 @@
 		03239EA61672E6D6004263D7 = {
 			isa = PBXGroup;
 			children = (
+				03239EBB1672E6D6004263D7 /* Butter */,
 				03FA703D16746A9700491A1D /* External */,
 				03FA702616746A6600491A1D /* Examples */,
-				03239EBB1672E6D6004263D7 /* Butter */,
 				03239EB41672E6D6004263D7 /* Frameworks */,
 				03239EB31672E6D6004263D7 /* Products */,
 			);
@@ -194,11 +194,10 @@
 		03239EBB1672E6D6004263D7 /* Butter */ = {
 			isa = PBXGroup;
 			children = (
-				03FA6FD71674625E00491A1D /* External */,
+				03239F6A1672E712004263D7 /* Butter.h */,
 				03FA6EFB1674393400491A1D /* Categories */,
 				03239ECA1672E6DC004263D7 /* Components */,
 				03239EBC1672E6D6004263D7 /* Supporting Files */,
-				03239F6A1672E712004263D7 /* Butter.h */,
 			);
 			path = Butter;
 			sourceTree = "<group>";
@@ -230,21 +229,6 @@
 				03FA6EFF16743BD700491A1D /* NSIndexPath+BTRAdditions.h */,
 			);
 			name = Categories;
-			sourceTree = "<group>";
-		};
-		03FA6FD71674625E00491A1D /* External */ = {
-			isa = PBXGroup;
-			children = (
-				03FA7022167469F700491A1D /* Rebel */,
-			);
-			name = External;
-			sourceTree = "<group>";
-		};
-		03FA7022167469F700491A1D /* Rebel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Rebel;
 			sourceTree = "<group>";
 		};
 		03FA702616746A6600491A1D /* Examples */ = {

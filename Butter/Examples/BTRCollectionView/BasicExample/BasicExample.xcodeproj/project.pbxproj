@@ -13,8 +13,7 @@
 		03594AB91671C9BF0025210A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 03594AB71671C9BF0025210A /* Credits.rtf */; };
 		03594ABC1671C9BF0025210A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03594ABB1671C9BF0025210A /* AppDelegate.m */; };
 		03594ABF1671C9BF0025210A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03594ABD1671C9BF0025210A /* MainMenu.xib */; };
-		03FA6FD11674411800491A1D /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FA6FD01674411800491A1D /* Butter.framework */; };
-		03FA6FD21674411C00491A1D /* Butter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 03FA6FD01674411800491A1D /* Butter.framework */; };
+		AB2D9EC71674745100F67E99 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2D9EC61674745100F67E99 /* Butter.framework */; };
 		ABC215121671ED92006D2B79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC215111671ED92006D2B79 /* QuartzCore.framework */; };
 		ABC215181671F354006D2B79 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC215171671F354006D2B79 /* CollectionViewCell.m */; };
 		ABC2151D167284CD006D2B79 /* FooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC2151A167284CD006D2B79 /* FooterView.m */; };
@@ -28,7 +27,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				03FA6FD21674411C00491A1D /* Butter.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,7 +46,7 @@
 		03594ABA1671C9BF0025210A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		03594ABB1671C9BF0025210A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		03594ABE1671C9BF0025210A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		03FA6FD01674411800491A1D /* Butter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Butter.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug/Butter.framework"; sourceTree = "<group>"; };
+		AB2D9EC61674745100F67E99 /* Butter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Butter.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug/Butter.framework"; sourceTree = "<group>"; };
 		ABC215111671ED92006D2B79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		ABC215161671F354006D2B79 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		ABC215171671F354006D2B79 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
@@ -63,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03FA6FD11674411800491A1D /* Butter.framework in Frameworks */,
+				AB2D9EC71674745100F67E99 /* Butter.framework in Frameworks */,
 				ABC215121671ED92006D2B79 /* QuartzCore.framework in Frameworks */,
 				03594AA91671C9BF0025210A /* Cocoa.framework in Frameworks */,
 			);
@@ -92,7 +90,7 @@
 		03594AA71671C9BF0025210A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				03FA6FD01674411800491A1D /* Butter.framework */,
+				AB2D9EC61674745100F67E99 /* Butter.framework */,
 				ABC215111671ED92006D2B79 /* QuartzCore.framework */,
 				03594AA81671C9BF0025210A /* Cocoa.framework */,
 				03594AAA1671C9BF0025210A /* Other Frameworks */,
@@ -303,6 +301,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BasicExample/BasicExample-Prefix.pch";
@@ -319,6 +318,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BasicExample/BasicExample-Prefix.pch";

@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03FA6FD41674412600491A1D /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FA6FD31674412600491A1D /* Butter.framework */; };
-		03FA6FD51674412B00491A1D /* Butter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 03FA6FD31674412600491A1D /* Butter.framework */; };
+		AB2D9EC9167474E800F67E99 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2D9EC8167474E800F67E99 /* Butter.framework */; };
 		ABC2152C16729CC7006D2B79 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC2152B16729CC7006D2B79 /* Cocoa.framework */; };
 		ABC2153616729CC7006D2B79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABC2153416729CC7006D2B79 /* InfoPlist.strings */; };
 		ABC2153816729CC7006D2B79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC2153716729CC7006D2B79 /* main.m */; };
@@ -27,14 +26,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				03FA6FD51674412B00491A1D /* Butter.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03FA6FD31674412600491A1D /* Butter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Butter.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug/Butter.framework"; sourceTree = "<group>"; };
+		AB2D9EC8167474E800F67E99 /* Butter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Butter.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug/Butter.framework"; sourceTree = "<group>"; };
 		ABC2152816729CC7006D2B79 /* CircleLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CircleLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABC2152B16729CC7006D2B79 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		ABC2152E16729CC7006D2B79 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -60,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03FA6FD41674412600491A1D /* Butter.framework in Frameworks */,
+				AB2D9EC9167474E800F67E99 /* Butter.framework in Frameworks */,
 				ABC215B51672A066006D2B79 /* QuartzCore.framework in Frameworks */,
 				ABC2152C16729CC7006D2B79 /* Cocoa.framework in Frameworks */,
 			);
@@ -89,7 +87,7 @@
 		ABC2152A16729CC7006D2B79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				03FA6FD31674412600491A1D /* Butter.framework */,
+				AB2D9EC8167474E800F67E99 /* Butter.framework */,
 				ABC215B41672A066006D2B79 /* QuartzCore.framework */,
 				ABC2152B16729CC7006D2B79 /* Cocoa.framework */,
 				ABC2152D16729CC7006D2B79 /* Other Frameworks */,
@@ -302,6 +300,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CircleLayout/CircleLayout-Prefix.pch";
@@ -318,6 +317,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CircleLayout/CircleLayout-Prefix.pch";
