@@ -6,7 +6,7 @@
 //
 //
 
-#import "BTRCollectionView.h"
+#import <Butter/Butter.h>
 
 @interface CollectionViewCell : BTRCollectionViewCell
 

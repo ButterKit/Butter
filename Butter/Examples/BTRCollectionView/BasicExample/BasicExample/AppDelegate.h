@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "BTRCollectionView.h"
+#import <Butter/Butter.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, BTRCollectionViewDataSource, BTRCollectionViewDelegate>
 

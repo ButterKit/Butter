@@ -92,7 +92,7 @@
  
  */
 
-#import "BTRCollectionView.h"
+#import <Butter/Butter.h>
 
 @class Cell;
 @protocol CellDelegate <NSObject>

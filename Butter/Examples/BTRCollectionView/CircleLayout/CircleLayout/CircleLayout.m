@@ -164,7 +164,7 @@
     for(NSInteger i=0;i< [self.collectionView numberOfSections];i++)
         for(NSInteger j=0; j<[self.collectionView numberOfItemsInSection:i];j++)
         {
-            NSIndexPath* indexPath = [NSIndexPath indexPathForItem:j inSection:i];
+            NSIndexPath* indexPath = [NSIndexPath btr_indexPathForItem:j inSection:i];
             [attributes addObject:[self layoutAttributesForItemAtIndexPath:indexPath]];
         }
     return attributes;

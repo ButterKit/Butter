@@ -92,7 +92,7 @@
  
  */
 
-#import "BTRCollectionView.h"
+#import <Butter/Butter.h>
 
 @interface CircleLayout : BTRCollectionViewLayout
 
