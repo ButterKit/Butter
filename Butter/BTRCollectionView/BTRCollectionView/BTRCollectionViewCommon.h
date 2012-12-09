@@ -1,14 +1,12 @@
 //
 //  BTRCollectionViewCommon.h
+//  Butter
 //
-//  Original Source: Copyright (c) 2012 Peter Steinberger. All rights reserved.
-//  AppKit Port: Copyright (c) 2012 Indragie Karunaratne and Jonathan Willing. All rights reserved.
+//  Created by Indragie Karunaratne on 2012-12-08.
+//  Copyright (c) 2012 ButterKit. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-@class BTRCollectionView, BTRCollectionViewCell, BTRCollectionReusableView;
-
+@class BTRCollectionReusableView, BTRCollectionViewCell;
 @protocol BTRCollectionViewDataSource <NSObject>
 @required
 
@@ -58,5 +56,3 @@
 - (void)collectionView:(BTRCollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
 
 @end
-
-#define PSBlockImplCast (__bridge void *)

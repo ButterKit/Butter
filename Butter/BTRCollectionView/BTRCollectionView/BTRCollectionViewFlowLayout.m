@@ -7,10 +7,6 @@
 
 #import "BTRCollectionViewFlowLayout.h"
 #import "BTRCollectionView.h"
-#import "BTRGridLayoutItem.h"
-#import "BTRGridLayoutInfo.h"
-#import "BTRGridLayoutRow.h"
-#import "BTRGridLayoutSection.h"
 #import "BTRGeometryAdditions.h"
 #import "NSIndexPath+BTRCollectionViewAdditions.h"
 #import "NSValue+BTRCollectionViewAdditions.h"
@@ -368,3 +364,436 @@ static char kBTRCachedItemRectsKey;
 }
 
 @end
+
+@implementation BTRGridLayoutInfo {
+    NSMutableArray *_sections;
+    CGRect _visibleBounds;
+    CGSize _layoutSize;
+    BOOL _isValid;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSObject
+
+- (id)init {
+    if((self = [super init])) {
+        _sections = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p dimension:%.1f horizontal:%d contentSize:%@ sections:%@>", NSStringFromClass([self class]), self, self.dimension, self.horizontal, BTRNSStringFromCGSize(self.contentSize), self.sections];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public
+
+- (BTRGridLayoutInfo *)snapshot {
+    BTRGridLayoutInfo *layoutInfo = [[self class] new];
+    layoutInfo.sections = self.sections;
+    layoutInfo.rowAlignmentOptions = self.rowAlignmentOptions;
+    layoutInfo.usesFloatingHeaderFooter = self.usesFloatingHeaderFooter;
+    layoutInfo.dimension = self.dimension;
+    layoutInfo.horizontal = self.horizontal;
+    layoutInfo.leftToRight = self.leftToRight;
+    layoutInfo.contentSize = self.contentSize;
+    return layoutInfo;
+}
+
+- (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath {
+    BTRGridLayoutSection *section = self.sections[indexPath.section];
+    CGRect itemFrame;
+    if (section.fixedItemSize) {
+        itemFrame = (CGRect){.size=section.itemSize};
+    }else {
+        itemFrame = [section.items[indexPath.item] itemFrame];
+    }
+    return itemFrame;
+}
+
+- (id)addSection {
+    BTRGridLayoutSection *section = [BTRGridLayoutSection new];
+    section.rowAlignmentOptions = self.rowAlignmentOptions;
+    section.layoutInfo = self;
+    [_sections addObject:section];
+    [self invalidate:NO];
+    return section;
+}
+
+- (void)invalidate:(BOOL)arg {
+    _isValid = NO;
+}
+
+@end
+
+@implementation BTRGridLayoutItem
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSObject
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p itemFrame:%@>", NSStringFromClass([self class]), self, BTRNSStringFromCGRect(self.itemFrame)];
+}
+
+@end
+
+@implementation BTRGridLayoutRow {
+	NSMutableArray *_items;
+    BOOL _isValid;
+    int _verticalAlignement;
+    int _horizontalAlignement;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSObject
+
+- (id)init {
+    if((self = [super init])) {
+        _items = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p frame:%@ index:%ld items:%@>", NSStringFromClass([self class]), self, BTRNSStringFromCGRect(self.rowFrame), self.index, self.items];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public
+
+- (void)invalidate {
+    _isValid = NO;
+    _rowSize = CGSizeZero;
+    _rowFrame = CGRectZero;
+}
+
+- (NSArray *)itemRects {
+    return [self layoutRowAndGenerateRectArray:YES];
+}
+
+- (void)layoutRow {
+    [self layoutRowAndGenerateRectArray:NO];
+}
+
+- (NSArray *)layoutRowAndGenerateRectArray:(BOOL)generateRectArray {
+    NSMutableArray *rects = generateRectArray ? [NSMutableArray array] : nil;
+    if (!_isValid || generateRectArray) {
+        // properties for aligning
+        BOOL isHorizontal = self.section.layoutInfo.horizontal;
+        BOOL isLastRow = self.section.indexOfImcompleteRow == self.index;
+        BTRFlowLayoutHorizontalAlignment horizontalAlignment = [self.section.rowAlignmentOptions[isLastRow ? BTRFlowLayoutLastRowHorizontalAlignmentKey : BTRFlowLayoutCommonRowHorizontalAlignmentKey] integerValue];
+		
+        // calculate space that's left over if we would align it from left to right.
+        CGFloat leftOverSpace = self.section.layoutInfo.dimension;
+        if (isHorizontal) {
+            leftOverSpace -= self.section.sectionMargins.top + self.section.sectionMargins.bottom;
+        }else {
+            leftOverSpace -= self.section.sectionMargins.left + self.section.sectionMargins.right;
+        }
+		
+        // calculate the space that we have left after counting all items.
+        // UICollectionView is smart and lays out items like they would have been placed on a full row
+        // So we need to calculate the "usedItemCount" with using the last item as a reference size.
+        // This allows us to correctly justify-place the items in the grid.
+        NSUInteger usedItemCount = 0;
+        NSInteger itemIndex = 0;
+        CGFloat spacing = isHorizontal ? self.section.verticalInterstice : self.section.horizontalInterstice;
+        // the last row should justify as if it is filled with more (invisible) items so that the whole
+        // UICollectionView feels more like a grid than a random line of blocks
+        while (itemIndex < self.itemCount || isLastRow) {
+            CGFloat nextItemSize;
+            // first we need to find the size (width/height) of the next item to fit
+            if (!self.fixedItemSize) {
+                BTRGridLayoutItem *item = self.items[MIN(itemIndex, self.itemCount-1)];
+                nextItemSize = isHorizontal ? item.itemFrame.size.height : item.itemFrame.size.width;
+            }else {
+                nextItemSize = isHorizontal ? self.section.itemSize.height : self.section.itemSize.width;
+            }
+            
+            // the first item does not add a separator spacing,
+            // every one afterwards in the same row will need this spacing constant
+            if (itemIndex > 0) {
+                nextItemSize += spacing;
+            }
+            
+            // check to see if we can at least fit an item (+separator if necessary)
+            if (leftOverSpace < nextItemSize) {
+                break;
+            }
+            
+            // we need to maintain the leftover space after the maximum amount of items have
+            // occupied, so we know how to adjust equal spacing among all the items in a row
+            leftOverSpace -= nextItemSize;
+            
+            itemIndex++;
+            usedItemCount = itemIndex;
+        }
+		
+        // push everything to the right if right-aligning and divide in half for centered
+        // currently there is no public API supporting this behavior
+        CGPoint itemOffset = CGPointZero;
+        if (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentRight) {
+            itemOffset.x += leftOverSpace;
+        }else if(horizontalAlignment == BTRFlowLayoutHorizontalAlignmentCentered) {
+            itemOffset.x += leftOverSpace/2;
+        }
+        
+        // calculate the justified spacing among all items in a row if we are using
+        // the default BTRFlowLayoutHorizontalAlignmentJustify layout
+        CGFloat interSpacing = leftOverSpace/(CGFloat)(usedItemCount-1);
+		
+        // calculate row frame as union of all items
+        CGRect frame = CGRectZero;
+        CGRect itemFrame = (CGRect){.size=self.section.itemSize};
+        for (itemIndex = 0; itemIndex < self.itemCount; itemIndex++) {
+            BTRGridLayoutItem *item = nil;
+            if (!self.fixedItemSize) {
+                item = self.items[itemIndex];
+                itemFrame = [item itemFrame];
+            }
+            // depending on horizontal/vertical for an item size (height/width),
+            // we add the minimum separator then an equally distributed spacing
+            // (since our default mode is justify) calculated from the total leftover
+            // space divided by the number of intervals
+            if (isHorizontal) {
+                itemFrame.origin.y = itemOffset.y;
+                itemOffset.y += itemFrame.size.height + self.section.verticalInterstice;
+                if (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentJustify) {
+                    itemOffset.y += interSpacing;
+                }
+            }else {
+                itemFrame.origin.x = itemOffset.x;
+                itemOffset.x += itemFrame.size.width + self.section.horizontalInterstice;
+                if (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentJustify) {
+                    itemOffset.x += interSpacing;
+                }
+            }
+            item.itemFrame = CGRectIntegral(itemFrame); // might call nil; don't care
+            [rects addObject:[NSValue btr_valueWithCGRect:CGRectIntegral(itemFrame)]];
+            frame = CGRectUnion(frame, itemFrame);
+        }
+        _rowSize = frame.size;
+        //        _rowFrame = frame; // set externally
+        _isValid = YES;
+    }
+    return rects;
+}
+
+- (void)addItem:(BTRGridLayoutItem *)item {
+    [_items addObject:item];
+    item.rowObject = self;
+    [self invalidate];
+}
+
+- (BTRGridLayoutRow *)snapshot {
+    BTRGridLayoutRow *snapshotRow = [[self class] new];
+    snapshotRow.section = self.section;
+    snapshotRow.items = self.items;
+    snapshotRow.rowSize = self.rowSize;
+    snapshotRow.rowFrame = self.rowFrame;
+    snapshotRow.index = self.index;
+    snapshotRow.complete = self.complete;
+    snapshotRow.fixedItemSize = self.fixedItemSize;
+    snapshotRow.itemCount = self.itemCount;
+    return snapshotRow;
+}
+
+- (BTRGridLayoutRow *)copyFromSection:(BTRGridLayoutSection *)section {
+    return nil; // ???
+}
+
+- (NSInteger)itemCount {
+    if(self.fixedItemSize) {
+        return _itemCount;
+    }else {
+        return [self.items count];
+    }
+}
+
+@end
+
+@implementation BTRGridLayoutSection {
+	NSMutableArray *_items;
+    NSMutableArray *_rows;
+    BOOL _isValid;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSObject
+
+- (id)init {
+    if((self = [super init])) {
+        _items = [NSMutableArray new];
+        _rows = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p itemCount:%ld frame:%@ rows:%@>", NSStringFromClass([self class]), self, self.itemsCount, BTRNSStringFromCGRect(self.frame), self.rows];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public
+
+- (void)invalidate {
+    _isValid = NO;
+    self.rows = [NSMutableArray array];
+}
+
+- (void)computeLayout {
+    if (!_isValid) {
+        NSAssert([self.rows count] == 0, @"No rows shall be at this point.");
+		
+        // iterate over all items, turning them into rows.
+        CGSize sectionSize = CGSizeZero;
+        NSInteger rowIndex = 0;
+        NSInteger itemIndex = 0;
+        NSInteger itemsByRowCount = 0;
+        CGFloat dimensionLeft = 0;
+        BTRGridLayoutRow *row = nil;
+        // get dimension and compensate for section margin
+		CGFloat headerFooterDimension = self.layoutInfo.dimension;
+        CGFloat dimension = headerFooterDimension;
+		
+        if (self.layoutInfo.horizontal) {
+            dimension -= self.sectionMargins.top + self.sectionMargins.bottom;
+			self.headerFrame = CGRectMake(sectionSize.width, 0, self.headerDimension, headerFooterDimension);
+			sectionSize.width += self.headerDimension + self.sectionMargins.left;
+        }else {
+            dimension -= self.sectionMargins.left + self.sectionMargins.right;
+			self.headerFrame = CGRectMake(0, sectionSize.height, headerFooterDimension, self.headerDimension);
+			sectionSize.height += self.headerDimension + self.sectionMargins.top;
+        }
+		
+        float spacing = self.layoutInfo.horizontal ? self.verticalInterstice : self.horizontalInterstice;
+        
+        do {
+            BOOL finishCycle = itemIndex >= self.itemsCount;
+            // TODO: fast path could even remove row creation and just calculate on the fly
+            BTRGridLayoutItem *item = nil;
+            if (!finishCycle) item = self.fixedItemSize ? nil : self.items[itemIndex];
+			
+            CGSize itemSize = self.fixedItemSize ? self.itemSize : item.itemFrame.size;
+            CGFloat itemDimension = self.layoutInfo.horizontal ? itemSize.height : itemSize.width;
+            // first item of each row does not add spacing
+            if (itemsByRowCount > 0) itemDimension += spacing;
+            if (dimensionLeft < itemDimension || finishCycle) {
+                // finish current row
+                if (row) {
+                    // compensate last row
+                    self.itemsByRowCount = fmaxf(itemsByRowCount, self.itemsByRowCount);
+                    row.itemCount = itemsByRowCount;
+					
+                    // if current row is done but there are still items left, increase the incomplete row counter
+                    if (!finishCycle) self.indexOfImcompleteRow = rowIndex;
+					
+                    [row layoutRow];
+					
+                    if (self.layoutInfo.horizontal) {
+                        row.rowFrame = CGRectMake(sectionSize.width, self.sectionMargins.top, row.rowSize.width, row.rowSize.height);
+                        sectionSize.height = fmaxf(row.rowSize.height, sectionSize.height);
+                        sectionSize.width += row.rowSize.width + (finishCycle ? 0 : self.horizontalInterstice);
+                    }else {
+                        row.rowFrame = CGRectMake(self.sectionMargins.left, sectionSize.height, row.rowSize.width, row.rowSize.height);
+                        sectionSize.height += row.rowSize.height + (finishCycle ? 0 : self.verticalInterstice);
+                        sectionSize.width = fmaxf(row.rowSize.width, sectionSize.width);
+                    }
+                }
+                // add new rows until the section is fully layouted
+                if (!finishCycle) {
+                    // create new row
+                    row.complete = YES; // finish up current row
+                    row = [self addRow];
+                    row.fixedItemSize = self.fixedItemSize;
+                    row.index = rowIndex;
+                    self.indexOfImcompleteRow = rowIndex;
+                    rowIndex++;
+                    // convert an item from previous row to current, remove spacing for first item
+                    if (itemsByRowCount > 0) itemDimension -= spacing;
+                    dimensionLeft = dimension - itemDimension;
+                    itemsByRowCount = 0;
+                }
+            } else {
+                dimensionLeft -= itemDimension;
+            }
+			
+            // add item on slow path
+            if (item) [row addItem:item];
+			
+            itemIndex++;
+            itemsByRowCount++;
+        }while (itemIndex <= self.itemsCount); // cycle once more to finish last row
+		
+        if (self.layoutInfo.horizontal) {
+			sectionSize.width += self.sectionMargins.right;
+			self.footerFrame = CGRectMake(sectionSize.width, 0, self.footerDimension, headerFooterDimension);
+			sectionSize.width += self.footerDimension;
+        }else {
+			sectionSize.height += self.sectionMargins.bottom;
+			self.footerFrame = CGRectMake(0, sectionSize.height, headerFooterDimension, self.footerDimension);
+			sectionSize.height += self.footerDimension;
+        }
+		
+        _frame = CGRectMake(0, 0, sectionSize.width, sectionSize.height);
+        _isValid = YES;
+    }
+}
+
+- (void)recomputeFromIndex:(NSInteger)index {
+    // TODO: use index.
+    [self invalidate];
+    [self computeLayout];
+}
+
+- (BTRGridLayoutItem *)addItem {
+    BTRGridLayoutItem *item = [BTRGridLayoutItem new];
+    item.section = self;
+    [_items addObject:item];
+    return item;
+}
+
+- (BTRGridLayoutRow *)addRow {
+    BTRGridLayoutRow *row = [BTRGridLayoutRow new];
+    row.section = self;
+    [_rows addObject:row];
+    return row;
+}
+
+- (BTRGridLayoutSection *)snapshot {
+    BTRGridLayoutSection *snapshotSection = [BTRGridLayoutSection new];
+    snapshotSection.items = [self.items copy];
+    snapshotSection.rows = [self.items copy];
+    snapshotSection.verticalInterstice = self.verticalInterstice;
+    snapshotSection.horizontalInterstice = self.horizontalInterstice;
+    snapshotSection.sectionMargins = self.sectionMargins;
+    snapshotSection.frame = self.frame;
+    snapshotSection.headerFrame = self.headerFrame;
+    snapshotSection.footerFrame = self.footerFrame;
+    snapshotSection.headerDimension = self.headerDimension;
+    snapshotSection.footerDimension = self.footerDimension;
+    snapshotSection.layoutInfo = self.layoutInfo;
+    snapshotSection.rowAlignmentOptions = self.rowAlignmentOptions;
+    snapshotSection.fixedItemSize = self.fixedItemSize;
+    snapshotSection.itemSize = self.itemSize;
+    snapshotSection.itemsCount = self.itemsCount;
+    snapshotSection.otherMargin = self.otherMargin;
+    snapshotSection.beginMargin = self.beginMargin;
+    snapshotSection.endMargin = self.endMargin;
+    snapshotSection.actualGap = self.actualGap;
+    snapshotSection.lastRowBeginMargin = self.lastRowBeginMargin;
+    snapshotSection.lastRowEndMargin = self.lastRowEndMargin;
+    snapshotSection.lastRowActualGap = self.lastRowActualGap;
+    snapshotSection.lastRowIncomplete = self.lastRowIncomplete;
+    snapshotSection.itemsByRowCount = self.itemsByRowCount;
+    snapshotSection.indexOfImcompleteRow = self.indexOfImcompleteRow;
+    return snapshotSection;
+}
+
+- (NSInteger)itemsCount {
+    return self.fixedItemSize ? _itemsCount : [self.items count];
+}
+
+@end
+

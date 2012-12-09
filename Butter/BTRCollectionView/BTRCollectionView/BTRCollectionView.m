@@ -6,15 +6,14 @@
 //
 
 #import "BTRCollectionView.h"
-#import "BTRCollectionViewData.h"
 #import "BTRCollectionViewCell.h"
 #import "BTRCollectionViewLayout.h"
 #import "BTRCollectionViewFlowLayout.h"
-#import "BTRCollectionViewItemKey.h"
-#import "BTRCollectionViewUpdateItem.h"
-
-#import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
+#import <QuartzCore/QuartzCore.h>
+
+NSString *const BTRCollectionElementKindCell = @"BTRCollectionElementKindCell";
+NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementKindDecorationView";
 
 @interface BTRCollectionViewLayout (Internal)
 @property (nonatomic, unsafe_unretained) BTRCollectionView *collectionView;
@@ -23,13 +22,6 @@
 @interface BTRCollectionViewData (Internal)
 - (void)prepareToLoadData;
 @end
-
-
-@interface BTRCollectionViewUpdateItem()
-- (NSIndexPath *)indexPath;
-- (BOOL)isSectionOperation;
-@end
-
 
 @class BTRCollectionViewExt;
 
@@ -267,7 +259,7 @@ const char kBTRColletionViewExt;
     }
     
     if (_backgroundView) {
-        _backgroundView.frame = (NSRect){.origin=self.scrollView.contentOffset,.size=self.bounds.size};
+        _backgroundView.frame = self.visibleRect;
     }
 
     _collectionViewFlags.fadeCellsForBoundsChange = NO;
@@ -806,7 +798,7 @@ const char kBTRColletionViewExt;
     if (backgroundView != _backgroundView) {
         [_backgroundView removeFromSuperview];
         _backgroundView = backgroundView;
-        backgroundView.frame = (NSRect){.origin=self.scrollView.contentOffset,.size=self.bounds.size};
+        backgroundView.frame = self.visibleRect;
         backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [self addSubview:backgroundView positioned:NSWindowBelow relativeTo:nil];
     }
@@ -1740,4 +1732,394 @@ const char kBTRColletionViewExt;
         [self endItemAnimations];
     }
 }
+@end
+
+@interface BTRCollectionViewData () {
+    CGRect _validLayoutRect;
+    
+    NSInteger _numItems;
+    NSInteger _numSections;
+    NSInteger *_sectionItemCounts;
+    NSArray *_globalItems; // Apple uses id *_globalItems; - a C array?
+	
+	/*
+	 // At this point, I've no idea how _screenPageDict is structured. Looks like some optimization for layoutAttributesForElementsInRect.
+	 And why UICGPointKey? Isn't that doable with NSValue?
+	 
+	 "<UICGPointKey: 0x11432d40>" = "<NSMutableIndexSet: 0x11432c60>[number of indexes: 9 (in 1 ranges), indexes: (0-8)]";
+	 "<UICGPointKey: 0xb94bf60>" = "<NSMutableIndexSet: 0x18dea7e0>[number of indexes: 11 (in 2 ranges), indexes: (6-15 17)]";
+	 
+	 (lldb) p (CGPoint)[[[[[collectionView valueForKey:@"_collectionViewData"] valueForKey:@"_screenPageDict"] allKeys] objectAtIndex:0] point]
+	 (CGPoint) $11 = (x=15, y=159)
+	 (lldb) p (CGPoint)[[[[[collectionView valueForKey:@"_collectionViewData"] valueForKey:@"_screenPageDict"] allKeys] objectAtIndex:1] point]
+	 (CGPoint) $12 = (x=15, y=1128)
+	 
+	 // https://github.com/steipete/iOS6-Runtime-Headers/blob/master/UICGPointKey.h
+	 
+	 NSMutableDictionary *_screenPageDict;
+	 */
+	
+    // @steipete
+    NSArray *_cellLayoutAttributes;
+	
+    CGSize _contentSize;
+    struct {
+        unsigned int contentSizeIsValid:1;
+        unsigned int itemCountsAreValid:1;
+        unsigned int layoutIsPrepared:1;
+    } _collectionViewDataFlags;
+}
+@property (nonatomic, unsafe_unretained) BTRCollectionView *collectionView;
+@property (nonatomic, unsafe_unretained) BTRCollectionViewLayout *layout;
+@end
+
+@implementation BTRCollectionViewData
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSObject
+
+- (id)initWithCollectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)layout {
+    if((self = [super init])) {
+        _globalItems = [NSArray new];
+        _collectionView = collectionView;
+        _layout = layout;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    if(_sectionItemCounts) free(_sectionItemCounts);
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p numItems:%ld numSections:%ld globalItems:%@>", NSStringFromClass([self class]), self, self.numberOfItems, self.numberOfSections, _globalItems];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public
+
+- (void)invalidate {
+    _collectionViewDataFlags.itemCountsAreValid = NO;
+    _collectionViewDataFlags.layoutIsPrepared = NO;
+    _validLayoutRect = CGRectNull;  // don't set CGRectZero in case of _contentSize=CGSizeZero
+}
+
+- (CGRect)collectionViewContentRect {
+    return (CGRect){.size=_contentSize};
+}
+
+- (void)validateLayoutInRect:(CGRect)rect {
+    [self validateItemCounts];
+    [self prepareToLoadData];
+    
+    // rect.size should be within _contentSize
+    rect.size.width = fminf(rect.size.width, _contentSize.width);
+    rect.size.height = fminf(rect.size.height, _contentSize.height);
+    
+    // TODO: check if we need to fetch data from layout
+    if (!CGRectEqualToRect(_validLayoutRect, rect)) {
+        _validLayoutRect = rect;
+        _cellLayoutAttributes = [self.layout layoutAttributesForElementsInRect:rect];
+    }
+}
+
+- (NSInteger)numberOfItems {
+    [self validateItemCounts];
+    return _numItems;
+}
+
+- (NSInteger)numberOfItemsBeforeSection:(NSInteger)section {
+    return [self numberOfItemsInSection:section-1]; // ???
+}
+
+- (NSInteger)numberOfItemsInSection:(NSInteger)section {
+    [self validateItemCounts];
+    if (section > _numSections || section < 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Section %ld out of range: 0...%ld", section, _numSections] userInfo:nil];
+    }
+    
+    NSInteger numberOfItemsInSection = 0;
+    if (_sectionItemCounts) {
+        numberOfItemsInSection = _sectionItemCounts[section];
+    }
+    return numberOfItemsInSection;
+}
+
+- (NSInteger)numberOfSections {
+    [self validateItemCounts];
+    return _numSections;
+}
+
+- (CGRect)rectForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGRectZero;
+}
+
+- (NSIndexPath *)indexPathForItemAtGlobalIndex:(NSInteger)index {
+    return _globalItems[index];
+}
+
+- (NSInteger)globalIndexForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return [_globalItems indexOfObject:indexPath];
+}
+
+- (BOOL)layoutIsPrepared {
+    return _collectionViewDataFlags.layoutIsPrepared;
+}
+
+- (void)setLayoutIsPrepared:(BOOL)layoutIsPrepared {
+    _collectionViewDataFlags.layoutIsPrepared = layoutIsPrepared;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Fetch Layout Attributes
+
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
+    [self validateLayoutInRect:rect];
+    return _cellLayoutAttributes;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Private
+
+// ensure item count is valid and loaded
+- (void)validateItemCounts {
+    if (!_collectionViewDataFlags.itemCountsAreValid) {
+        [self updateItemCounts];
+    }
+}
+
+// query dataSource for new data
+- (void)updateItemCounts {
+    // query how many sections there will be
+    _numSections = 1;
+    if ([self.collectionView.dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
+        _numSections = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
+    }
+    if (_numSections <= 0) { // early bail-out
+        _numItems = 0;
+        free(_sectionItemCounts); _sectionItemCounts = 0;
+        return;
+    }
+    // allocate space
+    if (!_sectionItemCounts) {
+        _sectionItemCounts = malloc(_numSections * sizeof(NSInteger));
+    }else {
+        _sectionItemCounts = realloc(_sectionItemCounts, _numSections * sizeof(NSInteger));
+    }
+	
+    // query cells per section
+    _numItems = 0;
+    for (NSInteger i=0; i<_numSections; i++) {
+        NSInteger cellCount = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:i];
+        _sectionItemCounts[i] = cellCount;
+        _numItems += cellCount;
+    }
+    NSMutableArray* globalIndexPaths = [[NSMutableArray alloc] initWithCapacity:_numItems];
+    for(NSInteger section = 0;section<_numSections;section++)
+        for(NSInteger item=0;item<_sectionItemCounts[section];item++)
+            [globalIndexPaths addObject:[NSIndexPath indexPathForItem:item inSection:section]];
+    _globalItems = [NSArray arrayWithArray:globalIndexPaths];
+    _collectionViewDataFlags.itemCountsAreValid = YES;
+}
+
+- (void)prepareToLoadData {
+    if (!self.layoutIsPrepared) {
+        [self.layout prepareLayout];
+        _contentSize = self.layout.collectionViewContentSize;
+        self.layoutIsPrepared = YES;
+    }
+}
+
+@end
+
+NSString *BTRCollectionViewItemTypeToString(BTRCollectionViewItemType type) {
+    switch (type) {
+        case BTRCollectionViewItemTypeCell: return @"Cell";
+        case BTRCollectionViewItemTypeDecorationView: return @"Decoration";
+        case BTRCollectionViewItemTypeSupplementaryView: return @"Supplementary";
+        default: return @"<INVALID>";
+    }
+}
+
+@implementation BTRCollectionViewItemKey
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Static
+
++ (id)collectionItemKeyForCellWithIndexPath:(NSIndexPath *)indexPath {
+    BTRCollectionViewItemKey *key = [[self class] new];
+    key.indexPath = indexPath;
+    key.type = BTRCollectionViewItemTypeCell;
+    key.identifier = BTRCollectionElementKindCell;
+    return key;
+}
+
++ (id)collectionItemKeyForLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
+    BTRCollectionViewItemKey *key = [[self class] new];
+    key.indexPath = layoutAttributes.indexPath;
+    key.type = layoutAttributes.representedElementCategory;
+    key.identifier = layoutAttributes.representedElementKind;
+    return key;
+}
+
+// elementKind or reuseIdentifier?
++ (id)collectionItemKeyForDecorationViewOfKind:(NSString *)elementKind andIndexPath:(NSIndexPath *)indexPath {
+    BTRCollectionViewItemKey *key = [[self class] new];
+    key.indexPath = indexPath;
+    key.identifier = elementKind;
+    key.type = BTRCollectionViewItemTypeDecorationView;
+    return key;
+}
+
++ (id)collectionItemKeyForSupplementaryViewOfKind:(NSString *)elementKind andIndexPath:(NSIndexPath *)indexPath {
+    BTRCollectionViewItemKey *key = [[self class] new];
+    key.indexPath = indexPath;
+    key.identifier = elementKind;
+    key.type = BTRCollectionViewItemTypeSupplementaryView;
+    return key;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSObject
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p Type = %@ Identifier=%@ IndexPath = %@>", NSStringFromClass([self class]),
+            self, BTRCollectionViewItemTypeToString(self.type), _identifier, self.indexPath];
+}
+
+- (NSUInteger)hash {
+    return (([_indexPath hash] + _type) * 31) + [_identifier hash];
+}
+
+- (BOOL)isEqual:(id)other {
+    if ([other isKindOfClass:[self class]]) {
+        BTRCollectionViewItemKey *otherKeyItem = (BTRCollectionViewItemKey *)other;
+        // identifier might be nil?
+        if (_type == otherKeyItem.type && [_indexPath isEqual:otherKeyItem.indexPath] && ([_identifier isEqualToString:otherKeyItem.identifier] || _identifier == otherKeyItem.identifier)) {
+            return YES;
+		}
+	}
+    return NO;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    BTRCollectionViewItemKey *itemKey = [[self class] new];
+    itemKey.indexPath = self.indexPath;
+    itemKey.type = self.type;
+    itemKey.identifier = self.identifier;
+    return itemKey;
+}
+
+@end
+
+
+@interface BTRCollectionViewUpdateItem() {
+    NSIndexPath *_initialIndexPath;
+    NSIndexPath *_finalIndexPath;
+    BTRCollectionUpdateAction _updateAction;
+    id _gap;
+}
+@end
+
+@implementation BTRCollectionViewUpdateItem
+
+@synthesize updateAction = _updateAction;
+@synthesize indexPathBeforeUpdate = _initialIndexPath;
+@synthesize indexPathAfterUpdate = _finalIndexPath;
+
+- (id)initWithInitialIndexPath:(NSIndexPath *)initialIndexPath finalIndexPath:(NSIndexPath *)finalIndexPath updateAction:(BTRCollectionUpdateAction)updateAction {
+    if((self = [super init])) {
+        _initialIndexPath = initialIndexPath;
+        _finalIndexPath = finalIndexPath;
+        _updateAction = updateAction;
+    }
+    return self;
+}
+
+- (id)initWithAction:(BTRCollectionUpdateAction)updateAction forIndexPath:(NSIndexPath*)indexPath {
+    if(updateAction == BTRCollectionUpdateActionInsert)
+        return [self initWithInitialIndexPath:nil finalIndexPath:indexPath updateAction:updateAction];
+    else if(updateAction == BTRCollectionUpdateActionDelete)
+        return [self initWithInitialIndexPath:indexPath finalIndexPath:nil updateAction:updateAction];
+    else if(updateAction == BTRCollectionUpdateActionReload)
+        return [self initWithInitialIndexPath:indexPath finalIndexPath:indexPath updateAction:updateAction];
+	
+    return nil;
+}
+
+- (id)initWithOldIndexPath:(NSIndexPath *)oldIndexPath newIndexPath:(NSIndexPath *)newIndexPath {
+    return [self initWithInitialIndexPath:oldIndexPath finalIndexPath:newIndexPath updateAction:BTRCollectionUpdateActionMove];
+}
+
+- (NSString *)description {
+    NSString *action = nil;
+    switch (_updateAction) {
+        case BTRCollectionUpdateActionInsert: action = @"insert"; break;
+        case BTRCollectionUpdateActionDelete: action = @"delete"; break;
+        case BTRCollectionUpdateActionMove:   action = @"move";   break;
+        case BTRCollectionUpdateActionReload: action = @"reload"; break;
+        default: break;
+    }
+	
+    return [NSString stringWithFormat:@"Index path before update (%@) index path after update (%@) action (%@).",  _initialIndexPath, _finalIndexPath, action];
+}
+
+- (void)setNewIndexPath:(NSIndexPath *)indexPath {
+    _finalIndexPath = indexPath;
+}
+
+- (void)setGap:(id)gap {
+    _gap = gap;
+}
+
+- (BOOL)isSectionOperation {
+    return (_initialIndexPath.item == NSNotFound || _finalIndexPath.item == NSNotFound);
+}
+
+- (NSIndexPath *)newIndexPath {
+    return _finalIndexPath;
+}
+
+- (id)gap {
+    return _gap;
+}
+
+- (BTRCollectionUpdateAction)action {
+    return _updateAction;
+}
+
+- (id)indexPath {
+    //TODO: check this
+    return _initialIndexPath;
+}
+
+- (NSComparisonResult)compareIndexPaths:(BTRCollectionViewUpdateItem *)otherItem {
+    NSComparisonResult result = NSOrderedSame;
+    NSIndexPath *selfIndexPath = nil;
+    NSIndexPath *otherIndexPath = nil;
+    
+    switch (_updateAction) {
+        case BTRCollectionUpdateActionInsert:
+            selfIndexPath = _finalIndexPath;
+            otherIndexPath = [otherItem newIndexPath];
+            break;
+        case BTRCollectionUpdateActionDelete:
+            selfIndexPath = _initialIndexPath;
+            otherIndexPath = [otherItem indexPath];
+        default: break;
+    }
+	
+    if (self.isSectionOperation) result = [@(selfIndexPath.section) compare:@(otherIndexPath.section)];
+    else result = [selfIndexPath compare:otherIndexPath];
+    return result;
+}
+
+- (NSComparisonResult)inverseCompareIndexPaths:(BTRCollectionViewUpdateItem *)otherItem {
+    return (NSComparisonResult) ([self compareIndexPaths:otherItem]*-1);
+}
+
 @end

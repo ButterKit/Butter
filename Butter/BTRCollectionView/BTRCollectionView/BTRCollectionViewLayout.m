@@ -7,9 +7,6 @@
 
 #import "BTRCollectionView.h"
 #import "BTRCollectionViewLayout.h"
-#import "BTRCollectionViewItemKey.h"
-#import "BTRCollectionViewData.h"
-#import "BTRCollectionViewUpdateItem.h"
 #import "BTRGeometryAdditions.h"
 #import "NSIndexPath+BTRCollectionViewAdditions.h"
 
@@ -24,6 +21,7 @@
 - (void)setIndexPath:(NSIndexPath *)indexPath;
 @end
 
+@class BTRCollectionViewUpdateItem;
 @interface BTRCollectionViewUpdateItem()
 - (BOOL)isSectionOperation;
 @end
