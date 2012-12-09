@@ -13,8 +13,7 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
-		self.wantsLayer = YES;
-		self.layer.backgroundColor = [NSColor purpleColor].CGColor;
+		self.backgroundColor = [NSColor purpleColor];
 	}
 	return self;
 }

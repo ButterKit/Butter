@@ -6,7 +6,7 @@
 //
 
 #import "BTRCollectionViewCommon.h"
-#import <Rebel/Rebel.h>
+#import "RBLView.h"
 
 @class BTRCollectionViewLayout, BTRCollectionView, BTRCollectionViewLayoutAttributes;
 

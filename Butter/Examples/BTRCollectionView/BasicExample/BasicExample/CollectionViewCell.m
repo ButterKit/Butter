@@ -17,7 +17,7 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
-		self.layer.backgroundColor = [NSColor yellowColor].CGColor;
+		self.backgroundColor = [NSColor yellowColor];
 		[self addSubview:self.titleLabel];
 	}
 	return self;

@@ -13,3 +13,6 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+*.xcworkspace
+!default.xcworkspace
+xcuserdata

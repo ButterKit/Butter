@@ -11,6 +11,8 @@
 #import "HeaderView.h"
 #import "FooterView.h"
 
+#import <Butter/RBLScrollView.h>
+
 @interface AppDelegate()
 @property (strong, nonatomic) BTRCollectionView *collectionView;
 @property (strong, nonatomic) NSArray *data;

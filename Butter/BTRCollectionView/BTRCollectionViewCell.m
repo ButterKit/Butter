@@ -29,9 +29,7 @@
 
 - (void)BTRCollectionReusableViewCommonSetup
 {
-    self.wantsLayer = YES;
-    self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-    self.layer.backgroundColor = [NSColor greenColor].CGColor;
+    self.backgroundColor = [NSColor greenColor];
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -112,7 +110,7 @@
 
 - (void)BTRCollectionViewCellCommonSetup
 {
-    self.layer.backgroundColor = [NSColor purpleColor].CGColor;
+    self.backgroundColor = [NSColor purpleColor];
 }
 
 - (id)initWithFrame:(CGRect)frame {

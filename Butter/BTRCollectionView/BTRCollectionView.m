@@ -128,11 +128,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     _supplementaryViewClassDict = [NSMutableDictionary new];
 	_supplementaryViewNibDict = [NSMutableDictionary new];
 	
-	// Make the view layer backed and set the redraw policy so that
-	// the view is only redrawn when -setNeedsDisplay:YES is called
-    self.wantsLayer = YES;
-    self.layer.backgroundColor = [NSColor blueColor].CGColor;
-    self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+    self.backgroundColor = [NSColor blueColor];
 }
 
 - (id)initWithFrame:(CGRect)frame collectionViewLayout:(BTRCollectionViewLayout *)layout {

@@ -10,6 +10,8 @@
 #import "Cell.h"
 #import "CircleLayout.h"
 
+#import <Butter/RBLScrollView.h>
+
 static NSInteger count;
 
 @interface AppDelegate()
@@ -27,7 +29,7 @@ static NSInteger count;
         [self.sections[0] addObject:@(count++)];
     
 	NSView *view = [self.window contentView];
-	BTRCollectionViewScrollView *scrollView = [[BTRCollectionViewScrollView alloc] initWithFrame:view.bounds];
+	RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:view.bounds];
 	scrollView.hasHorizontalScroller = NO;
     scrollView.hasVerticalScroller = YES;
     scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;

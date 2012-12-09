@@ -12,7 +12,7 @@
 #import "NSIndexPath+BTRAdditions.h"
 #import "NSView+BTRCollectionViewAdditions.h"
 
-#import <Rebel/Rebel.h>
+#import "RBLView.h"
 
 typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 	/**
