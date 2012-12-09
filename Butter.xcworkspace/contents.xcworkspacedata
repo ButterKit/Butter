@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "container:"
+      name = "Framework">
+      <FileRef
+         location = "group:Butter.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Examples">
+      <Group
+         location = "container:"
+         name = "BTRCollectionView">
+         <FileRef
+            location = "group:Butter/Examples/BTRCollectionView/BasicExample/BasicExample.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Butter/Examples/BTRCollectionView/CircleLayout/CircleLayout.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+</Workspace>
