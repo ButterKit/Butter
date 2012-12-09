@@ -34,7 +34,7 @@ static NSString *footerViewIdentifier = @"Test Footer View";
 	//[collectionViewFlowLayout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
 	
 	NSView *view = [self.window contentView];
-	BTRCollectionViewScrollView *scrollView = [[BTRCollectionViewScrollView alloc] initWithFrame:view.bounds];
+	RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:view.bounds];
 	scrollView.hasHorizontalScroller = NO;
     scrollView.hasVerticalScroller = YES;
     scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;

@@ -103,8 +103,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 @property (nonatomic, readonly) NSDictionary *visibleViewsDict;
 // The total content size of the collection view, used to set the view's frame size
 @property (nonatomic, assign) CGSize contentSize;
-// Convenience accessor for the parent scroll view
-@property (nonatomic, strong, readonly) BTRCollectionViewScrollView *scrollView;
 // The index path that was clicked (set on mouseDown:)
 @property (nonatomic, strong) NSIndexPath *clickedIndexPath;
 @end
@@ -860,7 +858,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         CGRect contentRect = [_collectionViewData collectionViewContentRect];
 
         [self setContentSize:contentRect.size];
-        [self.scrollView setContentOffset:contentRect.origin];
+        [self scrollPoint:contentRect.origin];
         
         void (^applyNewLayoutBlock)(void) = ^{
             NSEnumerator *keys = [layoutInterchangeData keyEnumerator];
@@ -973,11 +971,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     if (!CGSizeEqualToSize(_contentSize, contentSize)) {
         [self setFrameSize:contentSize];
     }
-}
-
-- (BTRCollectionViewScrollView *)scrollView
-{
-    return (BTRCollectionViewScrollView *)self.enclosingScrollView;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

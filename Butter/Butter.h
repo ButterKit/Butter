@@ -10,3 +10,4 @@
 #import <Butter/BTRCollectionViewCell.h>
 #import <Butter/BTRCollectionViewLayout.h>
 #import <Butter/BTRCollectionViewFlowLayout.h>
+#import <Rebel/Rebel.h>

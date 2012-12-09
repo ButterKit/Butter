@@ -1,0 +1,3 @@
+[submodule "Butter/External/Rebel"]
+	path = Butter/External/Rebel
+	url = git://github.com/github/Rebel.git

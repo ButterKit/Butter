@@ -6,10 +6,11 @@
 //
 
 #import "BTRCollectionViewCommon.h"
+#import <Rebel/Rebel.h>
 
 @class BTRCollectionViewLayout, BTRCollectionView, BTRCollectionViewLayoutAttributes;
 
-@interface BTRCollectionReusableView : NSView
+@interface BTRCollectionReusableView : RBLView
 
 @property (nonatomic, readonly, copy) NSString *reuseIdentifier;
 

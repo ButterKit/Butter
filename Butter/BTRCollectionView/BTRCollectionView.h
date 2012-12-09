@@ -9,9 +9,10 @@
 #import "BTRCollectionViewFlowLayout.h"
 #import "BTRCollectionViewCell.h"
 #import "BTRCollectionViewCommon.h"
-#import "BTRCollectionViewScrollView.h"
 #import "NSIndexPath+BTRAdditions.h"
 #import "NSView+BTRCollectionViewAdditions.h"
+
+#import <Rebel/Rebel.h>
 
 typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 	/**
@@ -53,7 +54,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
     BTRCollectionViewScrollPositionRight                = 1 << 5
 };
 
-@interface BTRCollectionView : NSView
+@interface BTRCollectionView : RBLView
 
 /** @name Initializing a Collection View */
 
