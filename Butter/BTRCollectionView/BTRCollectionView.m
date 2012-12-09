@@ -477,21 +477,49 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (CGRect)adjustRect:(CGRect)targetRect forScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
 {
+	NSUInteger verticalPosition = scrollPosition & 0x07;   // 0000 0111
+    NSUInteger horizontalPosition = scrollPosition & 0x38; // 0011 1000
+    
+    if (verticalPosition != BTRCollectionViewScrollPositionNone
+        && verticalPosition != BTRCollectionViewScrollPositionTop
+        && verticalPosition != BTRCollectionViewScrollPositionCenteredVertically
+        && verticalPosition != BTRCollectionViewScrollPositionBottom)
+    {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"BTRCollectionViewScrollPosition: attempt to use a scroll position with multiple vertical positioning styles" userInfo:nil];
+    }
+    
+    if (horizontalPosition != BTRCollectionViewScrollPositionNone
+       && horizontalPosition != BTRCollectionViewScrollPositionLeft
+       && horizontalPosition != BTRCollectionViewScrollPositionCenteredHorizontally
+       && horizontalPosition != BTRCollectionViewScrollPositionRight) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"BTRCollectionViewScrollPosition: attempt to use a scroll position with multiple horizontal positioning styles" userInfo:nil];
+    }
+    
     CGRect frame = self.visibleRect;
     CGFloat calculateX;
     CGFloat calculateY;
 	CGRect adjustedRect = targetRect;
-    switch (scrollPosition) {
-        case BTRCollectionViewScrollPositionCenteredHorizontally:
-            calculateX = adjustedRect.origin.x - ((frame.size.width / 2) - (adjustedRect.size.width / 2));
-            adjustedRect = CGRectMake(calculateX, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
-            break;
-            
+    switch (verticalPosition) {
         case BTRCollectionViewScrollPositionCenteredVertically:
             calculateY = adjustedRect.origin.y - ((frame.size.height / 2) - (adjustedRect.size.height / 2));
             adjustedRect = CGRectMake(adjustedRect.origin.x, calculateY, adjustedRect.size.width, frame.size.height);
             break;
+			
+		case BTRCollectionViewScrollPositionTop:
+            adjustedRect = CGRectMake(adjustedRect.origin.x, adjustedRect.origin.y, adjustedRect.size.width, frame.size.height);
+            break;
             
+        case BTRCollectionViewScrollPositionBottom:
+            calculateY = targetRect.origin.y - (frame.size.height - targetRect.size.height);
+            adjustedRect = CGRectMake(adjustedRect.origin.x, calculateY, adjustedRect.size.width, frame.size.height);
+            break;
+	}
+	switch (horizontalPosition) {
+		case BTRCollectionViewScrollPositionCenteredHorizontally:
+            calculateX = adjustedRect.origin.x - ((frame.size.width / 2) - (adjustedRect.size.width / 2));
+            adjustedRect = CGRectMake(calculateX, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
+            break;
+			
         case BTRCollectionViewScrollPositionLeft:
             adjustedRect = CGRectMake(adjustedRect.origin.x, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
             break;
@@ -500,16 +528,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
             calculateX = adjustedRect.origin.x - (frame.size.width - adjustedRect.size.width);
             adjustedRect = CGRectMake(calculateX, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
             break;
-            
-        case BTRCollectionViewScrollPositionTop:
-            adjustedRect = CGRectMake(adjustedRect.origin.x, adjustedRect.origin.y, adjustedRect.size.width, frame.size.height);
-            break;
-            
-        case BTRCollectionViewScrollPositionBottom:
-            calculateY = targetRect.origin.y - (frame.size.height - targetRect.size.height);
-            adjustedRect = CGRectMake(adjustedRect.origin.x, calculateY, adjustedRect.size.width, frame.size.height);
-            break;
-        case BTRCollectionViewScrollPositionNone:;
     }
     return targetRect;
 }
