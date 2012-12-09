@@ -135,29 +135,7 @@ static IMP RBLViewDrawRectIMP;
 	return [self instanceMethodForSelector:@selector(drawRect:)] != RBLViewDrawRectIMP;
 }
 
-- (void)drawRect:(NSRect)rect {
-	CGContextRef context = NSGraphicsContext.currentContext.graphicsPort;
-
-	if (self.clearsContextBeforeDrawing && !self.opaque) {
-		CGContextClearRect(context, rect);
-	}
-
-	if (self.contents != nil) {
-		NSCompositingOperation operation = (self.opaque ? NSCompositeCopy : NSCompositeSourceOver);
-		[self.contents drawInRect:self.bounds fromRect:NSZeroRect operation:operation fraction:1];
-	}
-}
-
 #pragma mark Layout
-
-+ (BOOL)requiresConstraintBasedLayout {
-	// Necessary for -layout to be consistently invoked.
-	return YES;
-}
-
-- (void)layout {
-	[super layout];
-}
 
 #pragma mark View Hierarchy
 
@@ -185,16 +163,6 @@ static IMP RBLViewDrawRectIMP;
 	[self applyLayerProperties];
 }
 
-// 10.8+ only.
-- (void)updateLayer {
-	NSAssert(self.contents != nil, @"%@ does not have contents, %s should not be invoked", self, __func__);
-	self.layer.contents = self.contents;
-}
-
-// 10.8+ only.
-- (BOOL)wantsUpdateLayer {
-	return self.contents != nil;
-}
 
 #pragma mark NSObject
 

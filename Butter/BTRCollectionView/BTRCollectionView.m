@@ -470,8 +470,48 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
             targetRect.size.height += flowLayout.scrollDirection == BTRCollectionViewScrollDirectionVertical ? flowLayout.minimumLineSpacing : flowLayout.minimumInteritemSpacing;
             targetRect.size.width += flowLayout.scrollDirection == BTRCollectionViewScrollDirectionVertical ? flowLayout.minimumInteritemSpacing : flowLayout.minimumLineSpacing;
         }
+		targetRect = [self adjustRect:targetRect forScrollPosition:scrollPosition];
         [self btr_scrollRectToVisible:targetRect animated:animated];
     }
+}
+
+- (CGRect)adjustRect:(CGRect)targetRect forScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
+{
+    CGRect frame = self.visibleRect;
+    CGFloat calculateX;
+    CGFloat calculateY;
+	CGRect adjustedRect = targetRect;
+    switch (scrollPosition) {
+        case BTRCollectionViewScrollPositionCenteredHorizontally:
+            calculateX = adjustedRect.origin.x - ((frame.size.width / 2) - (adjustedRect.size.width / 2));
+            adjustedRect = CGRectMake(calculateX, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
+            break;
+            
+        case BTRCollectionViewScrollPositionCenteredVertically:
+            calculateY = adjustedRect.origin.y - ((frame.size.height / 2) - (adjustedRect.size.height / 2));
+            adjustedRect = CGRectMake(adjustedRect.origin.x, calculateY, adjustedRect.size.width, frame.size.height);
+            break;
+            
+        case BTRCollectionViewScrollPositionLeft:
+            adjustedRect = CGRectMake(adjustedRect.origin.x, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
+            break;
+            
+        case BTRCollectionViewScrollPositionRight:
+            calculateX = adjustedRect.origin.x - (frame.size.width - adjustedRect.size.width);
+            adjustedRect = CGRectMake(calculateX, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
+            break;
+            
+        case BTRCollectionViewScrollPositionTop:
+            adjustedRect = CGRectMake(adjustedRect.origin.x, adjustedRect.origin.y, adjustedRect.size.width, frame.size.height);
+            break;
+            
+        case BTRCollectionViewScrollPositionBottom:
+            calculateY = targetRect.origin.y - (frame.size.height - targetRect.size.height);
+            adjustedRect = CGRectMake(adjustedRect.origin.x, calculateY, adjustedRect.size.width, frame.size.height);
+            break;
+        case BTRCollectionViewScrollPositionNone:;
+    }
+    return targetRect;
 }
 
 #pragma mark - Mouse Event Handling
