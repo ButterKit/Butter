@@ -28,7 +28,7 @@ static NSString *footerViewIdentifier = @"Test Footer View";
 	BTRCollectionViewFlowLayout *collectionViewFlowLayout = [[BTRCollectionViewFlowLayout alloc] init];
 	
 	[collectionViewFlowLayout setScrollDirection:BTRCollectionViewScrollDirectionVertical];
-	[collectionViewFlowLayout setItemSize:CGSizeMake(245, 250)];
+	[collectionViewFlowLayout setItemSize:CGSizeMake(250, 250)];
 	[collectionViewFlowLayout setHeaderReferenceSize:CGSizeMake(500, 30)];
 	[collectionViewFlowLayout setFooterReferenceSize:CGSizeMake(500, 50)];
 	[collectionViewFlowLayout setMinimumInteritemSpacing:10];
