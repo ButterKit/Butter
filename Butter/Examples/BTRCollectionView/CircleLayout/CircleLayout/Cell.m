@@ -116,7 +116,7 @@
         self.contentView.layer.borderWidth = 1.0f;
         self.contentView.layer.borderColor = [NSColor whiteColor].CGColor;
         self.contentView.layer.backgroundColor = [NSColor underPageBackgroundColor].CGColor;
-		self.layer.backgroundColor = [NSColor clearColor].CGColor;
+		self.backgroundColor = [NSColor clearColor];
 		[self addSubview:[self label]];
     }
     return self;
