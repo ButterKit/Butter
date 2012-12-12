@@ -65,6 +65,7 @@ static NSInteger count;
 }
 
 - (void)cellClicked:(Cell *)cell {
+	//TODO: Deletion is broken. Layout is not updated automatically.
 	NSIndexPath *tappedCellPath = [self.collectionView indexPathForCell:cell];
 	NSLog(@"%@",self.sections[tappedCellPath.section][tappedCellPath.item]);
 	if (tappedCellPath != nil)
@@ -137,8 +138,9 @@ static NSInteger count;
 
 -(void)changeLayout:(id)sender {
     if([self.collectionView.collectionViewLayout isKindOfClass:[CircleLayout class]]) {
-		[NSView rbl_animateImplicitlyWithDuration:5.f animations:^{
-			NSLog(@"outer block: %@ implicit on: %x", NSAnimationContext.currentContext, NSAnimationContext.currentContext.allowsImplicitAnimation);
+		// Wrapping new layouts in an animation block is not nessesary to get an animation.
+		// This is just an example of how the animation can be changed as desired.
+		[NSView rbl_animateWithDuration:1.5 animationCurve:RBLViewAnimationCurveEaseInOut animations:^{
 			[self.collectionView setCollectionViewLayout:[[BTRCollectionViewFlowLayout alloc] init] animated:YES];
 		} completion:NULL];
 	}
