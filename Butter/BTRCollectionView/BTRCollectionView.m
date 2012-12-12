@@ -207,6 +207,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     if (_backgroundView) {
         _backgroundView.frame = self.visibleRect;
     }
+	// We have now done a full layout pass, so update the flag
+	if (!_collectionViewFlags.doneFirstLayout) _collectionViewFlags.doneFirstLayout = YES;
 }
 
 - (void)setFrame:(NSRect)frame {
