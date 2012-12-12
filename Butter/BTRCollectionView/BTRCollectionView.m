@@ -13,6 +13,8 @@
 #import "BTRCollectionViewLayout.h"
 #import "BTRCollectionViewFlowLayout.h"
 
+#import "NSView+RBLAnimationAdditions.h"
+
 NSString *const BTRCollectionElementKindCell = @"BTRCollectionElementKindCell";
 NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementKindDecorationView";
 
@@ -934,7 +936,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         };
         
         if(animated) {
-            [NSView btr_animateWithDuration:.3 animations:^ {
+            [NSView rbl_animateImplicitlyWithDuration:.3 animations:^{
                  _collectionViewFlags.updatingLayout = YES;
                  applyNewLayoutBlock();
              } completion:^ {
@@ -1328,7 +1330,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         [view applyLayoutAttributes:attr];
     };
 
-    [NSView btr_animateWithDuration:.3 animations:^{
+    [NSView rbl_animateImplicitlyWithDuration:.3 animations:^{
          _collectionViewFlags.updatingLayout = YES;
          for(NSDictionary *animation in animations) {
              BTRCollectionReusableView* view = animation[@"view"];

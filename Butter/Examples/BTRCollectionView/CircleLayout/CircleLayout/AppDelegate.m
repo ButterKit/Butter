@@ -10,6 +10,7 @@
 #import "Cell.h"
 #import "CircleLayout.h"
 
+#import <Butter/NSView+RBLAnimationAdditions.h>
 #import <Butter/RBLScrollView.h>
 
 static NSInteger count;

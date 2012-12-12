@@ -37,7 +37,7 @@
 		03FA705F16746AAE00491A1D /* NSImage+RBLResizableImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA704616746AAE00491A1D /* NSImage+RBLResizableImageAdditions.m */; };
 		03FA706016746AAE00491A1D /* NSTextView+RBLAntialiasingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA704716746AAE00491A1D /* NSTextView+RBLAntialiasingAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		03FA706116746AAE00491A1D /* NSTextView+RBLAntialiasingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA704816746AAE00491A1D /* NSTextView+RBLAntialiasingAdditions.m */; };
-		03FA706216746AAE00491A1D /* NSView+RBLAnimationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA704916746AAE00491A1D /* NSView+RBLAnimationAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		03FA706216746AAE00491A1D /* NSView+RBLAnimationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA704916746AAE00491A1D /* NSView+RBLAnimationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA706316746AAE00491A1D /* NSView+RBLAnimationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA704A16746AAE00491A1D /* NSView+RBLAnimationAdditions.m */; };
 		03FA706416746AAE00491A1D /* RBLClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA704B16746AAE00491A1D /* RBLClipView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		03FA706516746AAE00491A1D /* RBLClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA704C16746AAE00491A1D /* RBLClipView.m */; };
@@ -51,7 +51,6 @@
 		03FA706D16746AAE00491A1D /* RBLTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA705416746AAE00491A1D /* RBLTableCellView.m */; };
 		03FA706E16746AAE00491A1D /* RBLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA705516746AAE00491A1D /* RBLView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA706F16746AAE00491A1D /* RBLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA705616746AAE00491A1D /* RBLView.m */; };
-		03FA707016746AAE00491A1D /* Rebel.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA705716746AAE00491A1D /* Rebel.h */; settings = {ATTRIBUTES = (Private, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,7 +135,6 @@
 		03FA705416746AAE00491A1D /* RBLTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBLTableCellView.m; path = Butter/External/Rebel/Rebel/RBLTableCellView.m; sourceTree = "<group>"; };
 		03FA705516746AAE00491A1D /* RBLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBLView.h; path = Butter/External/Rebel/Rebel/RBLView.h; sourceTree = "<group>"; };
 		03FA705616746AAE00491A1D /* RBLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBLView.m; path = Butter/External/Rebel/Rebel/RBLView.m; sourceTree = "<group>"; };
-		03FA705716746AAE00491A1D /* Rebel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rebel.h; path = Butter/External/Rebel/Rebel/Rebel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,7 +297,6 @@
 				03FA705416746AAE00491A1D /* RBLTableCellView.m */,
 				03FA705516746AAE00491A1D /* RBLView.h */,
 				03FA705616746AAE00491A1D /* RBLView.m */,
-				03FA705716746AAE00491A1D /* Rebel.h */,
 			);
 			name = Rebel;
 			sourceTree = "<group>";
@@ -342,18 +339,17 @@
 				03FA6F6C16743D6000491A1D /* BTRCollectionViewLayout.h in Headers */,
 				03FA6F6D16743D6000491A1D /* BTRCollectionViewCell.h in Headers */,
 				03FA6F7216743D6000491A1D /* NSView+BTRCollectionViewAdditions.h in Headers */,
+				03FA706216746AAE00491A1D /* NSView+RBLAnimationAdditions.h in Headers */,
 				03FA6F0316743BD700491A1D /* NSIndexPath+BTRAdditions.h in Headers */,
-				03FA705816746AAE00491A1D /* CAAnimation+RBLBlockAdditions.h in Headers */,
 				03FA705A16746AAE00491A1D /* NSApplication+RBLBlockAdditions.h in Headers */,
+				03FA705816746AAE00491A1D /* CAAnimation+RBLBlockAdditions.h in Headers */,
 				03FA705C16746AAE00491A1D /* NSColor+RBLCGColorAdditions.h in Headers */,
 				03FA705E16746AAE00491A1D /* NSImage+RBLResizableImageAdditions.h in Headers */,
 				03FA706016746AAE00491A1D /* NSTextView+RBLAntialiasingAdditions.h in Headers */,
-				03FA706216746AAE00491A1D /* NSView+RBLAnimationAdditions.h in Headers */,
 				03FA706416746AAE00491A1D /* RBLClipView.h in Headers */,
 				03FA706616746AAE00491A1D /* RBLPopover.h in Headers */,
 				03FA706816746AAE00491A1D /* RBLResizableImage.h in Headers */,
 				03FA706C16746AAE00491A1D /* RBLTableCellView.h in Headers */,
-				03FA707016746AAE00491A1D /* Rebel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
