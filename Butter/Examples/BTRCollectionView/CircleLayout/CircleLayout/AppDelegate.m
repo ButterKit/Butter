@@ -42,6 +42,8 @@ static NSInteger count;
 	[self.collectionView setDelegate:self];
 	scrollView.documentView = _collectionView;
 	[view addSubview:scrollView positioned:NSWindowBelow relativeTo:self.toggleButton];
+	
+	self.toggleButton.autoresizingMask = NSViewMaxYMargin | NSViewMaxXMargin;
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(BTRCollectionView *)collectionView
@@ -70,7 +72,7 @@ static NSInteger count;
 		[self.sections[tappedCellPath.section] removeObjectAtIndex:tappedCellPath.item];
 		[self.collectionView performBatchUpdates:^{
 			[self.collectionView deleteItemsAtIndexPaths:@[tappedCellPath]];
-			
+			[self.collectionView setNeedsLayout:YES];
 		} completion:^
 		 {
 			 NSLog(@"delete finished");
@@ -133,15 +135,16 @@ static NSInteger count;
 	}*/
 }
 
--(void)changeLayout:(id)sender
-{
-    if([self.collectionView.collectionViewLayout isKindOfClass:[CircleLayout class]])
-    {
-		[self.collectionView setCollectionViewLayout:[[BTRCollectionViewFlowLayout alloc] init] animated:YES];
-    }
-    else
+-(void)changeLayout:(id)sender {
+    if([self.collectionView.collectionViewLayout isKindOfClass:[CircleLayout class]]) {
+		[NSView rbl_animateImplicitlyWithDuration:5.f animations:^{
+			NSLog(@"outer block: %@ implicit on: %x", NSAnimationContext.currentContext, NSAnimationContext.currentContext.allowsImplicitAnimation);
+			[self.collectionView setCollectionViewLayout:[[BTRCollectionViewFlowLayout alloc] init] animated:YES];
+		} completion:NULL];
+	}
+    else {
         [self.collectionView setCollectionViewLayout:[[CircleLayout alloc] init] animated:YES];
-	
+	}
 }
 
 

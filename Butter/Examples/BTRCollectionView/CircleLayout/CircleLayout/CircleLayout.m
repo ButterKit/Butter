@@ -105,8 +105,7 @@
 
 @implementation CircleLayout
 
--(void)prepareLayout
-{
+- (void)prepareLayout {
     [super prepareLayout];
     
     CGSize size = self.collectionView.frame.size;
@@ -115,8 +114,11 @@
     _radius = MIN(size.width, size.height) / 2.5;
 }
 
--(void) prepareForCollectionViewUpdates:(NSArray *)updateItems
-{
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
+	return YES;
+}
+
+- (void)prepareForCollectionViewUpdates:(NSArray *)updateItems {
     [super prepareForCollectionViewUpdates:updateItems];
     
     _insertedIndexPaths = [[NSMutableArray alloc] init];
@@ -135,13 +137,13 @@
     }
 }
 
--(void)finalizeCollectionViewUpdates
+- (void)finalizeCollectionViewUpdates
 {
     [super finalizeCollectionViewUpdates];
     _insertedIndexPaths = nil;
 }
 
--(CGSize)collectionViewContentSize
+- (CGSize)collectionViewContentSize
 {
     return [self collectionView].frame.size;
 }
@@ -156,7 +158,7 @@
     return attributes;
 }
 
--(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
+- (NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray* attributes = [NSMutableArray array];
     
