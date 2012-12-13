@@ -801,6 +801,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         _collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
         layout.collectionView = self;
         _layout = layout;
+#warning TODO
+		//TODO: Call -will/didTransitionFromLayout:toLayout: with a nil fromLayout.
         [self setNeedsDisplay:YES];
     }
     else {
@@ -921,7 +923,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         void (^applyNewLayoutBlock)(void) = ^{
             NSEnumerator *keys = [layoutInterchangeData keyEnumerator];
             for(BTRCollectionViewItemKey *key in keys) {
-                [(BTRCollectionViewCell *)_allVisibleViewsDict[key] applyLayoutAttributes:layoutInterchangeData[key][@"newLayoutInfos"]];
+				BTRCollectionViewCell *cell = (BTRCollectionViewCell *)_allVisibleViewsDict[key];
+				[cell willTransitionFromLayout:_layout toLayout:layout];
+                [cell applyLayoutAttributes:layoutInterchangeData[key][@"newLayoutInfos"]];
+				[cell didTransitionFromLayout:_layout toLayout:layout];
             }
         };
         
