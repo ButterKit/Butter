@@ -51,6 +51,8 @@
 		03FA706D16746AAE00491A1D /* RBLTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA705416746AAE00491A1D /* RBLTableCellView.m */; };
 		03FA706E16746AAE00491A1D /* RBLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA705516746AAE00491A1D /* RBLView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA706F16746AAE00491A1D /* RBLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA705616746AAE00491A1D /* RBLView.m */; };
+		ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABE939381679942300A7A1B8 /* BTRImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE939391679942300A7A1B8 /* BTRImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +145,8 @@
 		03FA705516746AAE00491A1D /* RBLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBLView.h; path = Butter/External/Rebel/Rebel/RBLView.h; sourceTree = "<group>"; };
 		03FA705616746AAE00491A1D /* RBLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBLView.m; path = Butter/External/Rebel/Rebel/RBLView.m; sourceTree = "<group>"; };
 		ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SelectionDemo.xcodeproj; path = Butter/Examples/BTRCollectionView/SelectionDemo/SelectionDemo.xcodeproj; sourceTree = "<group>"; };
+		ABE939381679942300A7A1B8 /* BTRImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRImageView.h; path = BTRImageView/BTRImageView.h; sourceTree = "<group>"; };
+		ABE939391679942300A7A1B8 /* BTRImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRImageView.m; path = BTRImageView/BTRImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +225,7 @@
 		03239ECA1672E6DC004263D7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				ABE93937167993DB00A7A1B8 /* BTRImageView */,
 				AB05CE1A1672E95900534E63 /* BTRCollectionView */,
 			);
 			name = Components;
@@ -338,6 +343,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		ABE93937167993DB00A7A1B8 /* BTRImageView */ = {
+			isa = PBXGroup;
+			children = (
+				ABE939381679942300A7A1B8 /* BTRImageView.h */,
+				ABE939391679942300A7A1B8 /* BTRImageView.m */,
+			);
+			name = BTRImageView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -367,6 +381,7 @@
 				03FA706616746AAE00491A1D /* RBLPopover.h in Headers */,
 				03FA706816746AAE00491A1D /* RBLResizableImage.h in Headers */,
 				03FA706C16746AAE00491A1D /* RBLTableCellView.h in Headers */,
+				ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +507,7 @@
 				03FA706B16746AAE00491A1D /* RBLScrollView.m in Sources */,
 				03FA706D16746AAE00491A1D /* RBLTableCellView.m in Sources */,
 				03FA706F16746AAE00491A1D /* RBLView.m in Sources */,
+				ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
