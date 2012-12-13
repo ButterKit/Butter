@@ -34,7 +34,7 @@
 
 @interface BTRCollectionViewCell : BTRCollectionReusableView
 
-@property (nonatomic, readonly) NSView *contentView; // add custom subviews to the cell's contentView
+@property (nonatomic, readonly) RBLView *contentView; // add custom subviews to the cell's contentView
 
 // Cells become highlighted when the user touches them.
 // The selected state is toggled when the user lifts up from a highlighted cell.
