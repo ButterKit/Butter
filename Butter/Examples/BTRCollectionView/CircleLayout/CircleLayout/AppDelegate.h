@@ -15,6 +15,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSButton *toggleButton;
 
--(IBAction)changeLayout:(id)sender;
+- (IBAction)changeLayout:(id)sender;
+- (IBAction)addCell:(id)sender;
 
 @end

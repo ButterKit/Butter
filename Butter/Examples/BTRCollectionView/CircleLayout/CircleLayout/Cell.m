@@ -112,12 +112,12 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.contentView.layer.cornerRadius = 35.0;
+		self.contentView.backgroundColor = [NSColor underPageBackgroundColor];
+		self.contentView.cornerRadius = 35.f;
+		self.contentView.layer.borderColor = [NSColor whiteColor].CGColor;
         self.contentView.layer.borderWidth = 1.0f;
-        self.contentView.layer.borderColor = [NSColor whiteColor].CGColor;
-        self.contentView.layer.backgroundColor = [NSColor underPageBackgroundColor].CGColor;
 		self.backgroundColor = [NSColor clearColor];
-		[self addSubview:[self label]];
+		[self addSubview:self.label];
     }
     return self;
 }
@@ -134,6 +134,9 @@
 	return _label;
 }
 
+- (void)willTransitionFromLayout:(BTRCollectionViewLayout *)oldLayout toLayout:(BTRCollectionViewLayout *)newLayout {
+	NSLog(@"%s",__PRETTY_FUNCTION__);
+}
 
 - (void)_setLayoutAttributes:(BTRCollectionViewLayoutAttributes*)attrs
 {

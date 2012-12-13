@@ -68,6 +68,13 @@
 			remoteGlobalIDString = 03594AA41671C9BF0025210A;
 			remoteInfo = BasicExample;
 		};
+		ABE938ED16792D6000A7A1B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABE938C716792D5200A7A1B8;
+			remoteInfo = SelectionDemo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -135,6 +142,7 @@
 		03FA705416746AAE00491A1D /* RBLTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBLTableCellView.m; path = Butter/External/Rebel/Rebel/RBLTableCellView.m; sourceTree = "<group>"; };
 		03FA705516746AAE00491A1D /* RBLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBLView.h; path = Butter/External/Rebel/Rebel/RBLView.h; sourceTree = "<group>"; };
 		03FA705616746AAE00491A1D /* RBLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBLView.m; path = Butter/External/Rebel/Rebel/RBLView.m; sourceTree = "<group>"; };
+		ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SelectionDemo.xcodeproj; path = Butter/Examples/BTRCollectionView/SelectionDemo/SelectionDemo.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +250,7 @@
 			children = (
 				03FA703316746A7F00491A1D /* BasicExample.xcodeproj */,
 				03FA702916746A7900491A1D /* CircleLayout.xcodeproj */,
+				ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */,
 			);
 			name = BTRCollectionView;
 			sourceTree = "<group>";
@@ -319,6 +328,14 @@
 			);
 			name = BTRCollectionView;
 			path = BTRCollectionView/BTRCollectionView;
+			sourceTree = "<group>";
+		};
+		ABE938E816792D6000A7A1B8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABE938EE16792D6000A7A1B8 /* SelectionDemo.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -404,6 +421,10 @@
 					ProductGroup = 03FA702A16746A7900491A1D /* Products */;
 					ProjectRef = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
 				},
+				{
+					ProductGroup = ABE938E816792D6000A7A1B8 /* Products */;
+					ProjectRef = ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -425,6 +446,13 @@
 			fileType = wrapper.application;
 			path = BasicExample.app;
 			remoteRef = 03FA703B16746A7F00491A1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABE938EE16792D6000A7A1B8 /* SelectionDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SelectionDemo.app;
+			remoteRef = ABE938ED16792D6000A7A1B8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
