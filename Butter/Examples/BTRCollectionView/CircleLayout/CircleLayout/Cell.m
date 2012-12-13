@@ -112,12 +112,11 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-		self.contentView.backgroundColor = [NSColor underPageBackgroundColor];
 		self.contentView.cornerRadius = 35.f;
 		self.contentView.layer.borderColor = [NSColor whiteColor].CGColor;
         self.contentView.layer.borderWidth = 1.0f;
+        self.contentView.layer.borderWidth = 2.0f;
 		self.backgroundColor = [NSColor clearColor];
-		[self addSubview:self.label];
     }
     return self;
 }

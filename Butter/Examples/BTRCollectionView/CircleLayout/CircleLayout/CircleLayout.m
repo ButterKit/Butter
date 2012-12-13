@@ -120,7 +120,6 @@
 
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems {
     [super prepareForCollectionViewUpdates:updateItems];
-    
     _insertedIndexPaths = [[NSMutableArray alloc] init];
     
     for (BTRCollectionViewUpdateItem* update in updateItems)
@@ -152,8 +151,8 @@
 {
     BTRCollectionViewLayoutAttributes* attributes = [BTRCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:path];
     attributes.size = CGSizeMake(ITEM_SIZE, ITEM_SIZE);
-    attributes.center = CGPointMake(_center.x + _radius*(1-.1*path.section) * cosf(2 * path.item * M_PI / _cellCount),
-                                    _center.y + _radius*(1-.1*path.section) * sinf(2 * path.item * M_PI / _cellCount));
+    attributes.center = CGPointMake(ceilf(_center.x + _radius*(1-.1*path.section) * cosf(2 * path.item * M_PI / _cellCount)),
+                                    ceilf(_center.y + _radius*(1-.1*path.section) * sinf(2 * path.item * M_PI / _cellCount)));
 
     return attributes;
 }

@@ -18,6 +18,7 @@
 	self = [super initWithFrame:frame];
 	if (self) {
 		self.backgroundColor = [NSColor yellowColor];
+		self.contentView.opaque = YES;
 		[self addSubview:self.titleLabel];
 	}
 	return self;
@@ -29,7 +30,7 @@
 
 - (NSTextField *)titleLabel {
 	if (!_titleLabel) {
-		_titleLabel = [[NSTextField alloc] initWithFrame:self.bounds];
+		_titleLabel = [[NSTextField alloc] initWithFrame:(CGRect){ .size = CGSizeMake(self.bounds.size.width, 20) }];
 		[_titleLabel setBezeled:NO];
 		[_titleLabel setDrawsBackground:NO];
 		[_titleLabel setEditable:NO];

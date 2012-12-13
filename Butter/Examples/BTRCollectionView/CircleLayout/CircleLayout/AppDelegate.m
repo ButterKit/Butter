@@ -40,6 +40,7 @@ static NSInteger count;
 	[self.collectionView setDelegate:self];
 	[self.collectionView setDataSource:self];
 	[self.collectionView registerClass:[Cell class] forCellWithReuseIdentifier:@"MY_CELL"];
+	self.collectionView.backgroundColor = [NSColor underPageBackgroundColor];
 	scrollView.documentView = _collectionView;
 	[view addSubview:scrollView positioned:NSWindowBelow relativeTo:self.toggleButton];
 }
