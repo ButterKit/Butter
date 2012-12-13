@@ -9,6 +9,7 @@
 
 #import "AppDelegate.h"
 #import <Butter/RBLScrollView.h>
+#import <Butter/NSView+RBLAnimationAdditions.h>
 #import "Cell.h"
 
 @interface AppDelegate()
@@ -25,8 +26,6 @@
     scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 	
 	BTRCollectionViewFlowLayout *flowLayout = [[BTRCollectionViewFlowLayout alloc] init];
-#warning setting item size here is temporary until the delegate methods are fixed
-	flowLayout.itemSize = CGSizeMake(180, 140);
     self.collectionView = [[BTRCollectionView alloc] initWithFrame:scrollView.bounds collectionViewLayout:flowLayout];
     self.collectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 	[self.collectionView registerClass:[Cell class] forCellWithReuseIdentifier:@"MY_CELL"];
@@ -40,18 +39,43 @@
     Cell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     
 	cell.label.stringValue = [NSString stringWithFormat:@"{%ld,%ld}", (long)indexPath.row, (long)indexPath.section];
-	cell.layer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%d",(arc4random() % (32))]];
+	//cell.contentView.layer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%d",(arc4random() % (32))]];
+	cell.imageView.image = [NSImage imageNamed:[NSString stringWithFormat:@"%d",(arc4random() % (32))]];
 	
     return cell;
 }
 
 - (CGSize)collectionView:(BTRCollectionViewCell *)collectionView layout:(BTRCollectionViewCell *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"%s",__PRETTY_FUNCTION__); // not called
-    return CGSizeMake(1000, 1000); //CGSizeMake(130, 180);
+    return CGSizeMake(180, 140);
 }
 
 - (NSInteger)collectionView:(BTRCollectionViewCell *)view numberOfItemsInSection:(NSInteger)section {
-    return 1000;
+    return 5000;
+}
+
+- (BOOL)collectionView:(BTRCollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	NSLog(@"%s",__PRETTY_FUNCTION__);
+	return YES;
+}
+
+- (void)collectionView:(BTRCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	NSLog(@"%s",__PRETTY_FUNCTION__);
+}
+
+- (void)collectionView:(BTRCollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+	NSLog(@"%s",__PRETTY_FUNCTION__);
+	BTRCollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+	[NSView rbl_animateWithDuration:0.1 animationCurve:RBLViewAnimationCurveEaseInOut animations:^{
+		cell.layer.transform = CATransform3DConcat(CATransform3DMakeScale(0.9, 0.9, 0.0), CATransform3DMakeTranslation(9, 9, 0));
+	} completion:^{
+		[NSView rbl_animateWithDuration:0.2 animationCurve:RBLViewAnimationCurveEaseOut animations:^{
+			cell.layer.transform = CATransform3DIdentity;
+		} completion:NULL];
+	}];
+}
+
+- (void)collectionView:(BTRCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+	NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 
 @end

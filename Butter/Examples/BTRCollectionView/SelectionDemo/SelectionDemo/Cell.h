@@ -7,10 +7,11 @@
 //
 
 #import <Butter/Butter.h>
+#import <Butter/BTRImageView.h>
 
 @interface Cell : BTRCollectionViewCell
 
 @property (nonatomic, strong) NSTextField *label;
-@property (nonatomic, strong) NSImageView *imageView;
+@property (nonatomic, strong) BTRImageView *imageView;
 
 @end
