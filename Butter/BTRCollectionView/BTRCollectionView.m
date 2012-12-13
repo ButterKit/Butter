@@ -959,6 +959,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 }
 
 - (void)setDelegate:(id<BTRCollectionViewDelegate>)delegate {
+	_delegate = delegate;
+	
 	//	Managing the Selected Cells
 	_collectionViewFlags.delegateShouldSelectItemAtIndexPath       = [self.delegate respondsToSelector:@selector(collectionView:shouldSelectItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidSelectItemAtIndexPath          = [self.delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)];
