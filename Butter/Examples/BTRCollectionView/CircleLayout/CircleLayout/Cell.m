@@ -112,9 +112,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+		self.contentView.backgroundColor = [NSColor purpleColor];
 		self.contentView.cornerRadius = 35.f;
 		self.contentView.layer.borderColor = [NSColor whiteColor].CGColor;
-        self.contentView.layer.borderWidth = 1.0f;
         self.contentView.layer.borderWidth = 2.0f;
 		self.backgroundColor = [NSColor clearColor];
     }
@@ -134,12 +134,19 @@
 }
 
 - (void)willTransitionFromLayout:(BTRCollectionViewLayout *)oldLayout toLayout:(BTRCollectionViewLayout *)newLayout {
-	NSLog(@"%s",__PRETTY_FUNCTION__);
+	if ([newLayout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
+		self.contentView.cornerRadius = 5.f;
+		self.contentView.backgroundColor = [NSColor greenColor];
+
+	} else {
+		self.contentView.cornerRadius = 35.f;
+		self.contentView.backgroundColor = [NSColor purpleColor];
+	}
 }
 
-- (void)_setLayoutAttributes:(BTRCollectionViewLayoutAttributes*)attrs
-{
-    [super _setLayoutAttributes:attrs];
-}
+//- (void)applyLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
+//	[super applyLayoutAttributes:layoutAttributes];
+//	NSLog(@"%s",__PRETTY_FUNCTION__);
+//}
 
 @end
