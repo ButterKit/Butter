@@ -34,9 +34,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	// Background view displayed beneath the collection view
     NSView *_backgroundView;
 	// Set of index paths for the selected items
-    NSMutableSet *_indexPathsForSelectedItems;
+    NSMutableArray *_indexPathsForSelectedItems;
 	// Set of items that are highlighted (highlighted state comes before selected)
-    NSMutableSet *_indexPathsForHighlightedItems;
+    NSMutableArray *_indexPathsForHighlightedItems;
 	// Set of items that were newly highlighted by a mouse event
 	NSMutableSet *_indexPathsForNewlyHighlightedItems;
 	// Set of items that were newly unhighlighted by a mouse event
@@ -119,8 +119,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 {
 	// Allocate storage variables, configure default settings
     self.allowsSelection = YES;
-    _indexPathsForSelectedItems = [NSMutableSet new];
-    _indexPathsForHighlightedItems = [NSMutableSet new];
+    _indexPathsForSelectedItems = [NSMutableArray new];
+    _indexPathsForHighlightedItems = [NSMutableArray new];
     _cellReuseQueues = [NSMutableDictionary new];
     _supplementaryViewReuseQueues = [NSMutableDictionary new];
     _allVisibleViewsDict = [NSMutableDictionary new];
@@ -456,7 +456,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 // Returns nil or an array of selected index paths
 - (NSArray *)indexPathsForSelectedItems {
-    return [_indexPathsForSelectedItems allObjects];
+    return [_indexPathsForSelectedItems copy];
 }
 
 - (void)scrollToItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated {
@@ -541,30 +541,63 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
     BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
     BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
-	BOOL invertSelection     = commandKeyDown || shiftKeyDown;
+	BOOL shiftOrCommandDown  = commandKeyDown || shiftKeyDown;
 	CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
-	void (^unhighlightBlock)(void) = ^{
-		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithSet:_indexPathsForHighlightedItems];
+	__block BOOL unhighlightedAll = NO;
+	void (^unhighlightAllBlock)(void) = ^{
+		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithArray:_indexPathsForHighlightedItems];
 		[self unhighlightAllItems];
 	};
-	if (indexPath) {
-		BOOL alreadySelected = [_indexPathsForSelectedItems containsObject:indexPath];
-		if (!invertSelection && !alreadySelected) unhighlightBlock();
-		if (!alreadySelected) {
-			if ([self highlightItemAtIndexPath:indexPath
-									  animated:YES
-								scrollPosition:BTRCollectionViewScrollPositionNone
-								notifyDelegate:YES]) {
-				_indexPathsForNewlyHighlightedItems = [NSMutableSet setWithObject:indexPath];
-			}
-		} else if (invertSelection) {
-			_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithObject:indexPath];
-			[self unhighlightItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
+	void (^unhighlightBlock)(void) = ^{
+		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithObject:indexPath];
+		[self unhighlightItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
+	};
+	void (^highlightBlock)(void) = ^{
+		if ([self highlightItemAtIndexPath:indexPath
+								  animated:YES
+							scrollPosition:BTRCollectionViewScrollPositionNone
+							notifyDelegate:YES]) {
+			_indexPathsForNewlyHighlightedItems = [NSMutableSet setWithObject:indexPath];
 		}
-	} else {
-		unhighlightBlock();
+	};
+	if (!indexPath) {
+		unhighlightAllBlock();
+		return;
 	}
+	BOOL alreadySelected = [_indexPathsForSelectedItems containsObject:indexPath];
+	if (!shiftOrCommandDown && !alreadySelected)
+		unhighlightAllBlock();
+	if (shiftOrCommandDown && alreadySelected) {
+		unhighlightBlock();
+	} else {
+		if (commandKeyDown || ![_indexPathsForHighlightedItems count]) {
+			highlightBlock();
+		} else if (shiftKeyDown && [_indexPathsForSelectedItems count]) {
+			NSIndexPath *lastIndexPath = [_indexPathsForSelectedItems lastObject];
+			NSIndexPath *newIndexPath = indexPath;
+			NSMutableArray *selectionRange = [NSMutableArray array];
+			if ([lastIndexPath compare:newIndexPath] == NSOrderedDescending) {
+				for (NSUInteger i = lastIndexPath.section; i <= newIndexPath.section; i++) {
+					NSUInteger numberOfItems = [self numberOfItemsInSection:i];
+					NSUInteger currentItem = 0;
+					if (i == newIndexPath.section) {
+						numberOfItems = newIndexPath.row + 1;
+						if (i == lastIndexPath.section) {
+							currentItem = lastIndexPath.row;
+						}
+						for (NSUInteger j = currentItem; j < numberOfItems; j++) {
+							NSIndexPath *indexPath = [NSIndexPath btr_indexPathForItem:i inSection:lastIndexPath.section];
+							[selectionRange addObject:indexPath];
+						}
+					}
+				}
+			} else {
+				
+			}
+		}
+	}
+	
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
@@ -985,7 +1018,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)setAllowsMultipleSelection:(BOOL)allowsMultipleSelection {
 	if (_allowsMultipleSelection != allowsMultipleSelection) {
 		_allowsMultipleSelection = allowsMultipleSelection;
-        for (NSIndexPath *selectedIndexPath in [[_indexPathsForSelectedItems copy] reverseObjectEnumerator]) {
+        for (NSIndexPath *selectedIndexPath in [_indexPathsForSelectedItems copy]) {
             if (_indexPathsForSelectedItems.count == 1) break;
             [self deselectItemAtIndexPath:selectedIndexPath animated:YES notifyDelegate:YES];
         }
