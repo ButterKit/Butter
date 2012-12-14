@@ -65,13 +65,6 @@ const CGFloat decelerationRate = 0.87;
 	}
 }
 
-#pragma mark - NSObject
-
-- (void)dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark Lifecycle
 
 - (id)initWithFrame:(NSRect)frame {
@@ -92,6 +85,7 @@ const CGFloat decelerationRate = 0.87;
 
 - (void)dealloc {
 	CVDisplayLinkRelease(_displayLink);
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark Scrolling
