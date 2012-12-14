@@ -8,8 +8,8 @@
 //
 
 #import "AppDelegate.h"
-#import <Butter/RBLScrollView.h>
-#import <Butter/NSView+RBLAnimationAdditions.h>
+#import <Butter/BTRScrollView.h>
+#import <Butter/NSView+BTRAdditions.h>
 #import "Cell.h"
 
 @interface AppDelegate()
@@ -20,7 +20,7 @@
 
 - (void)awakeFromNib {
 	NSView *view = [self.window contentView];
-	RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:view.bounds];
+	BTRScrollView *scrollView = [[BTRScrollView alloc] initWithFrame:view.bounds];
 	scrollView.hasHorizontalScroller = NO;
     scrollView.hasVerticalScroller = YES;
     scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -65,10 +65,10 @@
 - (void)collectionView:(BTRCollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
 	NSLog(@"%s",__PRETTY_FUNCTION__);
 	BTRCollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-	[NSView rbl_animateWithDuration:0.1 animationCurve:RBLViewAnimationCurveEaseInOut animations:^{
+	[NSView btr_animateWithDuration:0.1 animationCurve:BTRViewAnimationCurveEaseInOut animations:^{
 		cell.layer.transform = CATransform3DConcat(CATransform3DMakeScale(0.9, 0.9, 0.0), CATransform3DMakeTranslation(9, 9, 0));
 	} completion:^{
-		[NSView rbl_animateWithDuration:0.2 animationCurve:RBLViewAnimationCurveEaseOut animations:^{
+		[NSView btr_animateWithDuration:0.2 animationCurve:BTRViewAnimationCurveEaseOut animations:^{
 			cell.layer.transform = CATransform3DIdentity;
 		} completion:NULL];
 	}];

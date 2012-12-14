@@ -10,8 +10,8 @@
 #import "Cell.h"
 #import "CircleLayout.h"
 
-#import <Butter/NSView+RBLAnimationAdditions.h>
-#import <Butter/RBLScrollView.h>
+#import <Butter/NSView+BTRAdditions.h>
+#import <Butter/BTRScrollView.h>
 
 static NSInteger count;
 
@@ -30,7 +30,7 @@ static NSInteger count;
         [self.sections[0] addObject:@(count++)];
     
 	NSView *view = [self.window contentView];
-	RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:view.bounds];
+	BTRScrollView *scrollView = [[BTRScrollView alloc] initWithFrame:view.bounds];
 	scrollView.hasHorizontalScroller = NO;
     scrollView.hasVerticalScroller = YES;
     scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -83,7 +83,7 @@ static NSInteger count;
 - (void)changeLayout:(id)sender {
 	// Wrapping new layouts in an animation block is not nessesary to get an animation.
 	// This is just an example of how the animation can be changed as desired.
-	[NSView rbl_animateWithDuration:1.5 animationCurve:RBLViewAnimationCurveEaseInOut animations:^{
+	[NSView btr_animateWithDuration:1.5 animationCurve:BTRViewAnimationCurveEaseInOut animations:^{
 		if([self.collectionView.collectionViewLayout isKindOfClass:[CircleLayout class]]) {
 			
 			[self.collectionView setCollectionViewLayout:[[BTRCollectionViewFlowLayout alloc] init] animated:YES];

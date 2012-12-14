@@ -6,11 +6,11 @@
 //
 
 #import "BTRCollectionViewCommon.h"
-#import "RBLView.h"
+#import "BTRView.h"
 
 @class BTRCollectionViewLayout, BTRCollectionView, BTRCollectionViewLayoutAttributes;
 
-@interface BTRCollectionReusableView : RBLView
+@interface BTRCollectionReusableView : BTRView
 
 @property (nonatomic, readonly, copy) NSString *reuseIdentifier;
 
@@ -34,7 +34,7 @@
 
 @interface BTRCollectionViewCell : BTRCollectionReusableView
 
-@property (nonatomic, readonly) RBLView *contentView; // add custom subviews to the cell's contentView
+@property (nonatomic, readonly) BTRView *contentView; // add custom subviews to the cell's contentView
 
 // Cells become highlighted when the user touches them.
 // The selected state is toggled when the user lifts up from a highlighted cell.

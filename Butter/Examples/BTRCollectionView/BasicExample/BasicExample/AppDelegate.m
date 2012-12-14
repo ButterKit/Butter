@@ -11,7 +11,7 @@
 #import "HeaderView.h"
 #import "FooterView.h"
 
-#import <Butter/RBLScrollView.h>
+#import <Butter/BTRScrollView.h>
 
 @interface AppDelegate()
 @property (strong, nonatomic) BTRCollectionView *collectionView;
@@ -36,7 +36,7 @@ static NSString *footerViewIdentifier = @"Test Footer View";
 	//[collectionViewFlowLayout setSectionInset:UIEdgeInsetsMake(10, 0, 20, 0)];
 	
 	NSView *view = [self.window contentView];
-	RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:view.bounds];
+	BTRScrollView *scrollView = [[BTRScrollView alloc] initWithFrame:view.bounds];
 	scrollView.hasHorizontalScroller = NO;
     scrollView.hasVerticalScroller = YES;
     scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;

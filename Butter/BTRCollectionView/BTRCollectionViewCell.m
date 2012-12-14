@@ -89,7 +89,7 @@
 
 
 @implementation BTRCollectionViewCell {
-    RBLView *_contentView;
+    BTRView *_contentView;
     NSView *_backgroundView;
     NSView *_selectedBackgroundView;
     id _selectionSegueTemplate;
@@ -116,11 +116,11 @@
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         [self BTRCollectionReusableViewCommonSetup];
-        _backgroundView = [[RBLView alloc] initWithFrame:self.bounds];
+        _backgroundView = [[BTRView alloc] initWithFrame:self.bounds];
         _backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [self addSubview:_backgroundView];
 
-        _contentView = [[RBLView alloc] initWithFrame:self.bounds];
+        _contentView = [[BTRView alloc] initWithFrame:self.bounds];
         _contentView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [self addSubview:_contentView];
     }
@@ -134,12 +134,12 @@
         if ([[self subviews] count] > 0) {
             _contentView = [self subviews][0];
         } else {
-            _contentView = [[RBLView alloc] initWithFrame:self.bounds];
+            _contentView = [[BTRView alloc] initWithFrame:self.bounds];
             _contentView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
             [self addSubview:_contentView];
         }
         
-        _backgroundView = [[RBLView alloc] initWithFrame:self.bounds];
+        _backgroundView = [[BTRView alloc] initWithFrame:self.bounds];
         _backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [self addSubview:_backgroundView positioned:NSWindowBelow relativeTo:_contentView];
     }

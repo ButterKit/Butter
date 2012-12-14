@@ -7,7 +7,7 @@
 //
 
 #import "Cell.h"
-#import <Butter/NSView+RBLAnimationAdditions.h>
+#import <Butter/NSView+BTRAdditions.h>
 
 @implementation Cell
 
@@ -18,7 +18,7 @@
 	[self addSubview:self.imageView];
 	[self addSubview:self.label];
 	
-	RBLView *selectedBackgroundView = [[RBLView alloc] initWithFrame:self.bounds];
+	BTRView *selectedBackgroundView = [[BTRView alloc] initWithFrame:self.bounds];
 	selectedBackgroundView.backgroundColor = [NSColor redColor];
 	selectedBackgroundView.opaque = YES;
 	self.selectedBackgroundView = selectedBackgroundView;
@@ -49,7 +49,7 @@
 
 // It is very easy to animate the highlighting animation.
 - (void)setHighlighted:(BOOL)highlighted {
-	[NSView rbl_animateWithDuration:0.3 animations:^{
+	[NSView btr_animateWithDuration:0.3 animations:^{
 		[super setHighlighted:highlighted];
 	} completion:NULL];
 }
