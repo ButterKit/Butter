@@ -544,21 +544,20 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	BOOL shiftOrCommandDown  = commandKeyDown || shiftKeyDown;
 	CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
-	__block BOOL unhighlightedAll = NO;
 	void (^unhighlightAllBlock)(void) = ^{
 		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithArray:_indexPathsForHighlightedItems];
 		[self unhighlightAllItems];
 	};
-	void (^unhighlightBlock)(void) = ^{
-		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithObject:indexPath];
-		[self unhighlightItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
-	};
-	void (^highlightBlock)(void) = ^{
-		if ([self highlightItemAtIndexPath:indexPath
+	void (^highlightBlock)(NSIndexPath *) = ^(NSIndexPath *path){
+		if ([self highlightItemAtIndexPath:path
 								  animated:YES
 							scrollPosition:BTRCollectionViewScrollPositionNone
 							notifyDelegate:YES]) {
-			_indexPathsForNewlyHighlightedItems = [NSMutableSet setWithObject:indexPath];
+			if (_indexPathsForNewlyHighlightedItems) {
+				_indexPathsForNewlyHighlightedItems = [NSMutableSet setWithObject:path];
+			} else {
+				[_indexPathsForNewlyHighlightedItems addObject:path];
+			}
 		}
 	};
 	if (!indexPath) {
@@ -569,31 +568,38 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	if (!shiftOrCommandDown && !alreadySelected)
 		unhighlightAllBlock();
 	if (shiftOrCommandDown && alreadySelected) {
-		unhighlightBlock();
+		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithObject:indexPath];
+		[self unhighlightItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
 	} else {
 		if (commandKeyDown || ![_indexPathsForHighlightedItems count]) {
-			highlightBlock();
+			highlightBlock(indexPath);
 		} else if (shiftKeyDown && [_indexPathsForSelectedItems count]) {
-			NSIndexPath *lastIndexPath = [_indexPathsForSelectedItems lastObject];
-			NSIndexPath *newIndexPath = indexPath;
-			NSMutableArray *selectionRange = [NSMutableArray array];
-			if ([lastIndexPath compare:newIndexPath] == NSOrderedDescending) {
-				for (NSUInteger i = lastIndexPath.section; i <= newIndexPath.section; i++) {
-					NSUInteger numberOfItems = [self numberOfItemsInSection:i];
-					NSUInteger currentItem = 0;
-					if (i == newIndexPath.section) {
-						numberOfItems = newIndexPath.row + 1;
-						if (i == lastIndexPath.section) {
-							currentItem = lastIndexPath.row;
-						}
-						for (NSUInteger j = currentItem; j < numberOfItems; j++) {
-							NSIndexPath *indexPath = [NSIndexPath btr_indexPathForItem:i inSection:lastIndexPath.section];
-							[selectionRange addObject:indexPath];
-						}
-					}
-				}
+			NSIndexPath *one = [_indexPathsForSelectedItems lastObject];
+			NSIndexPath *two = indexPath;
+			NSIndexPath *startingIndexPath = nil;
+			NSIndexPath *endingIndexPath = nil;
+			if ([one compare:two] == NSOrderedDescending) {
+				startingIndexPath = one;
+				endingIndexPath = two;
 			} else {
-				
+				startingIndexPath = two;
+				endingIndexPath = one;
+			}
+			NSMutableArray *selectionRange = [NSMutableArray array];
+			for (NSUInteger i = startingIndexPath.section; i <= endingIndexPath.section; i++) {
+				NSUInteger numberOfItems = [self numberOfItemsInSection:i];
+				NSUInteger currentItem = 0;
+				if (i == endingIndexPath.section)
+					numberOfItems = endingIndexPath.row + 1;
+				if (i == startingIndexPath.section)
+					currentItem = startingIndexPath.row;
+				for (NSUInteger j = currentItem; j < numberOfItems; j++) {
+					NSIndexPath *indexPath = [NSIndexPath btr_indexPathForItem:j inSection:i];
+					[selectionRange addObject:indexPath];
+				}
+			}
+			for (NSIndexPath *indexPath in selectionRange) {
+				highlightBlock(indexPath);
 			}
 		}
 	}
