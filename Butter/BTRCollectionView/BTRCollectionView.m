@@ -626,6 +626,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)mouseUp:(NSEvent *)theEvent
 {
 	[super mouseUp:theEvent];
+	// "Commit" all the changes by selecting/deselecting the highlight/unhighlighted cells
 	for (NSIndexPath *indexPath in _indexPathsForNewlyUnhighlightedItems) {
 		[self deselectItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
 	}
@@ -663,7 +664,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 	if (shouldSelect) {
 		BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
-		selectedCell.selected = YES;
+		if (animated) {
+			[NSView btr_animate:^{
+				selectedCell.selected = YES;
+			}];
+		} else {
+			selectedCell.selected = YES;
+		}
 		[_indexPathsForSelectedItems addObject:indexPath];
 		if (notifyDelegate && _collectionViewFlags.delegateDidSelectItemAtIndexPath) {
 			[self.delegate collectionView:self didSelectItemAtIndexPath:indexPath];
@@ -691,7 +698,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         }
         if (shouldDeselect) {
             BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
-			selectedCell.selected = NO;
+			if (animated) {
+				[NSView btr_animate:^{
+					selectedCell.selected = NO;
+				}];
+			} else {
+				selectedCell.selected = NO;
+			}
 			[_indexPathsForSelectedItems removeObject:indexPath];
 			[self unhighlightItemAtIndexPath:indexPath animated:animated notifyDelegate:notify];
 			if (notify && _collectionViewFlags.delegateDidDeselectItemAtIndexPath) {
@@ -713,7 +726,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     }
     if (shouldHighlight) {
         BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
-        highlightedCell.highlighted = YES;
+        if (animated) {
+			[NSView btr_animate:^{
+				highlightedCell.highlighted = YES;
+			}];
+		} else {
+			highlightedCell.highlighted = YES;
+		}
         [_indexPathsForHighlightedItems addObject:indexPath];
         if (notifyDelegate && _collectionViewFlags.delegateDidHighlightItemAtIndexPath) {
             [self.delegate collectionView:self didHighlightItemAtIndexPath:indexPath];
@@ -725,7 +744,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)unhighlightItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notifyDelegate {
     if ([_indexPathsForHighlightedItems containsObject:indexPath]) {
         BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
-        highlightedCell.highlighted = NO;
+        if (animated) {
+			[NSView btr_animate:^{
+				highlightedCell.highlighted = NO;
+			}];
+		} else {
+			highlightedCell.highlighted = NO;
+		}
         [_indexPathsForHighlightedItems removeObject:indexPath];
         if (notifyDelegate && _collectionViewFlags.delegateDidUnhighlightItemAtIndexPath) {
             [self.delegate collectionView:self didUnhighlightItemAtIndexPath:indexPath];

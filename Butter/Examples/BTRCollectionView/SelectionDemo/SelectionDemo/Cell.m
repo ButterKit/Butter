@@ -46,18 +46,4 @@
 	}
 	return _imageView;
 }
-
-// It is very easy to animate the highlighting animation.
-- (void)setHighlighted:(BOOL)highlighted {
-	[NSView btr_animateWithDuration:0.3 animations:^{
-		[super setHighlighted:highlighted];
-	} completion:NULL];
-}
-
-- (void)setSelected:(BOOL)selected
-{
-	[NSView btr_animateWithDuration:0.3 animations:^{
-		[super setSelected:selected];
-	} completion:NULL];
-}
 @end
