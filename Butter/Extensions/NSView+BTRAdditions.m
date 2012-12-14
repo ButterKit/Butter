@@ -25,7 +25,7 @@ static NSUInteger BTRAnimationContextCount = 0;
 	if (completion == nil) completion = ^{};
 	
 	// If we're in an animation block, just enable implicit animations
-	if (self.btr_isInAnimationContext) {
+	if ([self btr_isInAnimationContext]) {
 		NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
 		animations();
 		return;
@@ -41,13 +41,13 @@ static NSUInteger BTRAnimationContextCount = 0;
 }
 
 + (void)btr_animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(void))completion {
-	if (!self.btr_isInAnimationContext)
+	if (![self btr_isInAnimationContext])
 		NSAnimationContext.currentContext.duration = duration;
 	[self btr_animate:animations completion:completion];
 }
 
 + (void)btr_animateWithDuration:(NSTimeInterval)duration animationCurve:(BTRViewAnimationCurve)curve animations:(void (^)(void))animations completion:(void (^)(void))completion {
-	if (!self.btr_isInAnimationContext)
+	if (![self btr_isInAnimationContext])
 		NSAnimationContext.currentContext.timingFunction = [self timingFunctionWithCurve:curve];
 	[self btr_animateWithDuration:duration animations:animations completion:completion];
 }
