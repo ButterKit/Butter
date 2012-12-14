@@ -551,7 +551,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	// Convenience block for building the highlighted items array and highlighting an item
 	void (^highlightBlock)(NSIndexPath *) = ^(NSIndexPath *path){
 		if ([self highlightItemAtIndexPath:path
-								  animated:YES
+								  animated:self.animatesSelection
 							scrollPosition:BTRCollectionViewScrollPositionNone
 							notifyDelegate:YES]) {
 			if (!_indexPathsForNewlyHighlightedItems) {
@@ -574,7 +574,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	// we want to inverse the selection and deselect it
 	if (commandKeyDown && alreadySelected) {
 		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithObject:indexPath];
-		[self unhighlightItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
+		[self unhighlightItemAtIndexPath:indexPath animated:self.animatesSelection notifyDelegate:YES];
 	} else {
 		// If nothing has been highlighted yet and shift is not being pressed,
 		// just highlight the single item
@@ -628,11 +628,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[super mouseUp:theEvent];
 	// "Commit" all the changes by selecting/deselecting the highlight/unhighlighted cells
 	for (NSIndexPath *indexPath in _indexPathsForNewlyUnhighlightedItems) {
-		[self deselectItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
+		[self deselectItemAtIndexPath:indexPath animated:self.animatesSelection notifyDelegate:YES];
 	}
 	for (NSIndexPath *indexPath in _indexPathsForNewlyHighlightedItems) {
 		[self selectItemAtIndexPath:indexPath
-						   animated:YES
+						   animated:self.animatesSelection
 					 scrollPosition:BTRCollectionViewScrollPositionNone
 					 notifyDelegate:YES];
 	}

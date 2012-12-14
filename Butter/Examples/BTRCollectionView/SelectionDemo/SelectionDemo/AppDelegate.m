@@ -29,6 +29,7 @@
     self.collectionView = [[BTRCollectionView alloc] initWithFrame:scrollView.bounds collectionViewLayout:flowLayout];
     self.collectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 	self.collectionView.allowsMultipleSelection = YES;
+	self.collectionView.animatesSelection = YES;
 	[self.collectionView registerClass:[Cell class] forCellWithReuseIdentifier:@"MY_CELL"];
 	[self.collectionView setDataSource:self];
 	[self.collectionView setDelegate:self];

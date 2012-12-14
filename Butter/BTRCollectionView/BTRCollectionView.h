@@ -298,6 +298,12 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
 @property (nonatomic) BOOL allowsMultipleSelection;
 
 /**
+ A Boolean value that determines whether selections and highlighting are animated. 
+ @discussion This property controls the animation behaviour of cell selection. The default value of this property is NO.
+ */
+@property (nonatomic) BOOL animatesSelection;
+
+/**
  Returns the index paths for the selected items.
  @return An array of NSIndexPath objects, each of which corresponds to a single selected item. If there are no selected items, this method returns an empty array.
  */
