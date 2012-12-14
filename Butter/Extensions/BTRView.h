@@ -38,4 +38,15 @@
 // Defaults to NO.
 @property (nonatomic, assign, getter = isFlipped) BOOL flipped;
 
+// Whether the content is redrawn with a default animation applied.
+//
+// Defaults to NO.
+@property (nonatomic) BOOL animateContents;
+
+// A wrapper around -layout that enables the animation on view redrawing,
+// draws the view, and changes back to default content animation setting.
+//
+// The animation can be customized by wrapping the call in a NSView animation.
+- (void)displayAnimated;
+
 @end
