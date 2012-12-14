@@ -9,6 +9,15 @@
 
 #import "BTRClipView.h"
 
+const CGFloat decelerationRate = 0.87;
+
+@interface BTRClipView()
+@property (nonatomic) CVDisplayLinkRef displayLink;
+@property (nonatomic) BOOL animate;
+@property (nonatomic) CGPoint destination;
+@property (nonatomic, readonly, getter = isScrolling) BOOL scrolling;
+@end
+
 @implementation BTRClipView
 
 #pragma mark Properties
@@ -31,6 +40,15 @@
 	self.layer.opaque = opaque;
 }
 
+- (CVDisplayLinkRef)displayLink {
+	if (_displayLink == NULL) {
+		CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
+		CVDisplayLinkSetOutputCallback(_displayLink, &BTRScrollingCallback, (__bridge void *)(self));
+		CVDisplayLinkSetCurrentCGDisplay(_displayLink, kCGDirectMainDisplay);
+	}
+	return _displayLink;
+}
+
 #pragma mark Lifecycle
 
 - (id)initWithFrame:(NSRect)frame {
@@ -49,14 +67,74 @@
 	return self;
 }
 
+- (void)dealloc {
+	CVDisplayLinkRelease(_displayLink);
+}
+
+#pragma mark Scrolling
+
 - (void)scrollToPoint:(NSPoint)newOrigin {
-	[super scrollToPoint:newOrigin];
-	NSLog(@"%s",__PRETTY_FUNCTION__);
+	if (self.isScrolling) {
+		[self endScrolling];
+	}
+	
+	if (self.animate) {
+		self.destination = newOrigin;
+		[self beginScrolling];
+	} else {
+		[super scrollToPoint:newOrigin];
+	}
 }
 
 - (BOOL)scrollRectToVisible:(NSRect)aRect animated:(BOOL)animated {
+	self.animate = animated;
 	return [super scrollRectToVisible:aRect];
-	NSLog(@"%s",__PRETTY_FUNCTION__);
+}
+
+- (void)beginScrolling {
+	CVDisplayLinkStart(self.displayLink);
+}
+
+- (void)endScrolling {
+	CVDisplayLinkStop(self.displayLink);
+	self.animate = NO;
+}
+
+- (BOOL)isScrolling {
+	return CVDisplayLinkIsRunning(self.displayLink);
+}
+
+static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeStamp* now, const CVTimeStamp* outputTime, CVOptionFlags flagsIn, CVOptionFlags* flagsOut, void* displayLinkContext) {
+	__block CVReturn status;
+	@autoreleasepool {
+		BTRClipView *clipView = (__bridge id)displayLinkContext;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			status = [clipView updateOrigin];
+		});
+	}
+    return status;
+}
+					   
+- (CVReturn)updateOrigin {
+	if(self.window == nil) {
+		[self endScrolling];
+		return kCVReturnError;
+	}
+	
+	CGPoint o = self.bounds.origin;
+	CGPoint lastOrigin = o;
+	o.x = o.x * decelerationRate + self.destination.x * (1-decelerationRate);
+	o.y = o.y * decelerationRate + self.destination.y * (1-decelerationRate);
+	
+	[self setBoundsOrigin:o];
+	
+	if((fabsf(o.x - lastOrigin.x) < 0.1) && (fabsf(o.y - lastOrigin.y) < 0.1)) {
+		[self endScrolling];
+		[self setBoundsOrigin:self.destination];
+		[(NSScrollView *)self.superview flashScrollers];
+	}
+	
+	return kCVReturnSuccess;
 }
 
 @end

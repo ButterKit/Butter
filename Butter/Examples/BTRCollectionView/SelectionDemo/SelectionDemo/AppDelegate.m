@@ -60,6 +60,7 @@
 }
 
 - (void)collectionView:(BTRCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:BTRCollectionViewScrollPositionCenteredVertically animated:YES];
 }
 
 - (void)collectionView:(BTRCollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -74,6 +75,7 @@
 }
 
 - (void)collectionView:(BTRCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+	
 }
 
 @end
