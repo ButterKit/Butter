@@ -12,18 +12,15 @@
 // for MVVM.
 @interface BTRView : NSView
 
-// A background color for the view, or nil if none has been set. This property
-// is not the same as CALayer.backgroundColor, but does manipulate it.
+// A background color for the view, or nil if none has been set.
 @property (nonatomic, strong) NSColor *backgroundColor;
 
-// Whether the view's content and subviews clip to its bounds. This property
-// is not the same as CALayer.masksToBounds, but does manipulate it.
+// Whether the view's content and subviews masks to its bounds
 //
 // Defaults to NO.
-@property (nonatomic, assign) BOOL clipsToBounds;
+@property (nonatomic, assign) BOOL masksToBounds;
 
-// A radius used to draw rounded corners for the view's background. This property
-// is not the same as CALayer.cornerRadius, but does manipulate it.
+// A radius used to draw rounded corners for the view's background.
 //
 // Typically, you will want to enable clipsToBounds when setting this property
 // to a non-zero value.

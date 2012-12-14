@@ -11,6 +11,7 @@
 		03239EC01672E6D6004263D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03239EBE1672E6D6004263D7 /* InfoPlist.strings */; };
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
+		03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E41480167B03D800EACE0F /* BTRCommon.h */; };
 		03FA6F0016743BD700491A1D /* NSValue+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */; };
 		03FA6F0116743BD700491A1D /* NSValue+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F0216743BD700491A1D /* NSIndexPath+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */; };
@@ -84,6 +85,7 @@
 		03239EC11672E6D6004263D7 /* Butter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Butter-Prefix.pch"; sourceTree = "<group>"; };
 		03239F6A1672E712004263D7 /* Butter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Butter.h; sourceTree = "<group>"; };
 		03239F7E1672E7C8004263D7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		03E41480167B03D800EACE0F /* BTRCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRCommon.h; sourceTree = "<group>"; };
 		03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSValue+BTRAdditions.m"; path = "Categories/NSValue+BTRAdditions.m"; sourceTree = "<group>"; };
 		03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+BTRAdditions.h"; path = "Categories/NSValue+BTRAdditions.h"; sourceTree = "<group>"; };
 		03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSIndexPath+BTRAdditions.m"; path = "Categories/NSIndexPath+BTRAdditions.m"; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */,
 				ABACCA3C167AD439003EFDD6 /* BTRView.h */,
 				ABACCA3D167AD439003EFDD6 /* BTRView.m */,
+				03E41480167B03D800EACE0F /* BTRCommon.h */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */,
 				ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */,
 				ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */,
+				03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

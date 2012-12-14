@@ -9,6 +9,7 @@
 //
 
 #import "BTRClipView.h"
+#import "BTRCommon.h"
 
 const CGFloat decelerationRate = 0.88;
 
@@ -25,21 +26,7 @@ const CGFloat decelerationRate = 0.88;
 
 @dynamic layer;
 
-- (NSColor *)backgroundColor {
-	return [NSColor colorWithCGColor:self.layer.backgroundColor];
-}
-
-- (void)setBackgroundColor:(NSColor *)color {
-	self.layer.backgroundColor = color.CGColor;
-}
-
-- (BOOL)isOpaque {
-	return self.layer.opaque;
-}
-
-- (void)setOpaque:(BOOL)opaque {
-	self.layer.opaque = opaque;
-}
+BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 - (CVDisplayLinkRef)displayLink {
 	if (_displayLink == NULL) {
