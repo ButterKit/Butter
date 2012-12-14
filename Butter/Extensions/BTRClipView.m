@@ -44,9 +44,32 @@ const CGFloat decelerationRate = 0.87;
 	if (_displayLink == NULL) {
 		CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
 		CVDisplayLinkSetOutputCallback(_displayLink, &BTRScrollingCallback, (__bridge void *)(self));
-		CVDisplayLinkSetCurrentCGDisplay(_displayLink, kCGDirectMainDisplay);
+		[self updateCVDisplay];
 	}
 	return _displayLink;
+}
+
+#pragma mark - NSView
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
+{
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	if (self.window) {
+		[nc removeObserver:self name:NSWindowDidChangeScreenNotification object:self.window];
+	}
+	[super viewWillMoveToWindow:newWindow];
+	if (newWindow) {
+		[nc addObserverForName:NSWindowDidChangeScreenNotification object:newWindow queue:nil usingBlock:^(NSNotification *note) {
+			[self updateCVDisplay];
+		}];
+	}
+}
+
+#pragma mark - NSObject
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark Lifecycle
@@ -124,6 +147,19 @@ const CGFloat decelerationRate = 0.87;
 	}
 	
 	return kCVReturnSuccess;
+}
+
+- (void)updateCVDisplay
+{
+	NSScreen *screen = self.window.screen;
+	if (screen) {
+		NSDictionary* screenDictionary = [[NSScreen mainScreen] deviceDescription];
+		NSNumber *screenID = [screenDictionary objectForKey:@"NSScreenNumber"];
+		CGDirectDisplayID displayID = [screenID unsignedIntValue];
+		CVDisplayLinkSetCurrentCGDisplay(_displayLink, displayID);
+	} else {
+		CVDisplayLinkSetCurrentCGDisplay(_displayLink, kCGDirectMainDisplay);
+	}
 }
 
 static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeStamp* now, const CVTimeStamp* outputTime, CVOptionFlags flagsIn, CVOptionFlags* flagsOut, void* displayLinkContext) {
