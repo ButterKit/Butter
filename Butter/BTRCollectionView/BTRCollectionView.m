@@ -119,6 +119,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 {
 	// Allocate storage variables, configure default settings
     self.allowsSelection = YES;
+	self.flipped = YES;
+	self.backgroundColor = [NSColor blueColor];
+	
     _indexPathsForSelectedItems = [NSMutableArray new];
     _indexPathsForHighlightedItems = [NSMutableArray new];
     _cellReuseQueues = [NSMutableDictionary new];
@@ -128,8 +131,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     _cellNibDict = [NSMutableDictionary new];
     _supplementaryViewClassDict = [NSMutableDictionary new];
 	_supplementaryViewNibDict = [NSMutableDictionary new];
-	
-    self.backgroundColor = [NSColor blueColor];
 }
 
 - (id)initWithFrame:(CGRect)frame collectionViewLayout:(BTRCollectionViewLayout *)layout {
@@ -160,12 +161,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 
 #pragma mark - NSView
-
-- (BOOL)isFlipped
-{
-	// This view uses a flipped coordinate system with the origin at the top left corner
-    return YES;
-}
 
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
