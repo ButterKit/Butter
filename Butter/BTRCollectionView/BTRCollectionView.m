@@ -35,12 +35,16 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     NSView *_backgroundView;
 	// Set of index paths for the selected items
     NSMutableSet *_indexPathsForSelectedItems;
+	// Set of items that are highlighted (highlighted state comes before selected)
+    NSMutableSet *_indexPathsForHighlightedItems;
+	// Set of items that were newly highlighted by a mouse event
+	NSMutableSet *_indexPathsForNewlyHighlightedItems;
+	// Set of items that were newly unhighlighted by a mouse event
+	NSMutableSet *_indexPathsForNewlyUnhighlightedItems;
 	// Reuse queues for collection view cells
     NSMutableDictionary *_cellReuseQueues;
 	// Reuse queues for collection view supplementary views
     NSMutableDictionary *_supplementaryViewReuseQueues;
-	// Set of items that are highlighted (highlighted state comes before selected)
-    NSMutableSet *_indexPathsForHighlightedItems;
 	// Tracks the state of reload suspension
     NSInteger _reloadingSuspendedCount;
 	// Dictionary containing all views visible on screen
@@ -102,8 +106,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 @property (nonatomic, readonly) NSDictionary *visibleViewsDict;
 // The total content size of the collection view, used to set the view's frame size
 @property (nonatomic, assign) CGSize contentSize;
-// The index path that was clicked (set on mouseDown:)
-@property (nonatomic, strong) NSIndexPath *clickedIndexPath;
 @end
 
 @implementation BTRCollectionView
@@ -484,8 +486,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     if (verticalPosition != BTRCollectionViewScrollPositionNone
         && verticalPosition != BTRCollectionViewScrollPositionTop
         && verticalPosition != BTRCollectionViewScrollPositionCenteredVertically
-        && verticalPosition != BTRCollectionViewScrollPositionBottom)
-    {
+        && verticalPosition != BTRCollectionViewScrollPositionBottom) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"BTRCollectionViewScrollPosition: attempt to use a scroll position with multiple vertical positioning styles" userInfo:nil];
     }
     
@@ -495,7 +496,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		&& horizontalPosition != BTRCollectionViewScrollPositionRight) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"BTRCollectionViewScrollPosition: attempt to use a scroll position with multiple horizontal positioning styles" userInfo:nil];
     }
-    
     CGRect frame = self.visibleRect;
     CGFloat calculateX;
     CGFloat calculateY;
@@ -535,28 +535,53 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - Mouse Event Handling
 
-// TODO: All of this logic needs an overhaul to support proper desktop highlighting and selecting behaviour
-
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    [super mouseDown:theEvent];
-    CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
-    if (indexPath) {
-        // Deselect all the other cells
-        if (!self.allowsMultipleSelection) {
-            for (BTRCollectionViewCell* visibleCell in [self allCells]) {
-                visibleCell.highlighted = NO;
-                visibleCell.selected = NO;
-            }
-        }
-        // Highlight the clicked cell
-        [self highlightItemAtIndexPath:indexPath animated:YES scrollPosition:BTRCollectionViewScrollPositionNone notifyDelegate:YES];
-        self.clickedIndexPath = indexPath;
-    } else {
-		// If empty space was clicked, unhighlight everything
+	[super mouseDown:theEvent];
+	NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
+    BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
+    BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
+	BOOL invertSelection     = commandKeyDown || shiftKeyDown;
+	CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
+	void (^unhighlightBlock)(void) = ^{
+		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithSet:_indexPathsForHighlightedItems];
 		[self unhighlightAllItems];
+	};
+	if (indexPath) {
+		BOOL alreadySelected = [_indexPathsForSelectedItems containsObject:indexPath];
+		if (!invertSelection && !alreadySelected) unhighlightBlock();
+		if (!alreadySelected) {
+			if ([self highlightItemAtIndexPath:indexPath
+									  animated:YES
+								scrollPosition:BTRCollectionViewScrollPositionNone
+								notifyDelegate:YES]) {
+				_indexPathsForNewlyHighlightedItems = [NSMutableSet setWithObject:indexPath];
+			}
+		} else if (invertSelection) {
+			_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithObject:indexPath];
+			[self unhighlightItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
+		}
+	} else {
+		unhighlightBlock();
 	}
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+	[super mouseUp:theEvent];
+	for (NSIndexPath *indexPath in _indexPathsForNewlyUnhighlightedItems) {
+		[self deselectItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
+	}
+	for (NSIndexPath *indexPath in _indexPathsForNewlyHighlightedItems) {
+		[self selectItemAtIndexPath:indexPath
+						   animated:YES
+					 scrollPosition:BTRCollectionViewScrollPositionNone
+					 notifyDelegate:YES];
+	}
+	_indexPathsForNewlyHighlightedItems = nil;
+	_indexPathsForNewlyUnhighlightedItems = nil;
+	[self unhighlightAllItems];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
@@ -565,118 +590,76 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     // TODO: Implement a dragging rectangle
 }
 
-- (void)mouseUp:(NSEvent *)theEvent
-{
-    [super mouseUp:theEvent];
-    CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
-    if ([indexPath isEqual:self.clickedIndexPath]) {
-		// On mouse down, do the _actual_ selection (highlighting != selecting)
-        [self userSelectedItemAtIndexPath:indexPath];
-    } else {
-		// Reset the selection that was messed up in mouseDown:
-		if (!self.allowsMultipleSelection) {
-			for (BTRCollectionViewCell *visibleCell in [self allCells]) {
-				NSIndexPath* indexPathForVisibleItem = [self indexPathForCell:visibleCell];
-				visibleCell.selected = [_indexPathsForSelectedItems containsObject:indexPathForVisibleItem];
+- (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
+					 animated:(BOOL)animated
+			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
+			   notifyDelegate:(BOOL)notifyDelegate {
+	
+    if (!self.allowsMultipleSelection) {
+		for (NSIndexPath *selectedIndexPath in [_indexPathsForSelectedItems copy]) {
+			if (![indexPath isEqual:selectedIndexPath]) {
+				[self deselectItemAtIndexPath:selectedIndexPath animated:animated notifyDelegate:notifyDelegate];
 			}
 		}
-    }
-	[self unhighlightAllItems];
-	self.clickedIndexPath = nil;
-}
-
-- (void)userSelectedItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.allowsMultipleSelection && [_indexPathsForSelectedItems containsObject:indexPath]) {
-        [self deselectItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
-    }
-    else {
-        [self selectItemAtIndexPath:indexPath animated:YES scrollPosition:BTRCollectionViewScrollPositionNone notifyDelegate:YES];
-    }
-}
-
-// select item, notify delegate (internal)
-- (void)selectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition notifyDelegate:(BOOL)notifyDelegate {
-	
-    if (self.allowsMultipleSelection && [_indexPathsForSelectedItems containsObject:indexPath]) {
-		
-        BOOL shouldDeselect = YES;
-        if (notifyDelegate && _collectionViewFlags.delegateShouldDeselectItemAtIndexPath) {
-            shouldDeselect = [self.delegate collectionView:self shouldDeselectItemAtIndexPath:indexPath];
-        }
-		
-        if (shouldDeselect) {
-            [self deselectItemAtIndexPath:indexPath animated:animated];
-			
-            if (notifyDelegate && _collectionViewFlags.delegateDidDeselectItemAtIndexPath) {
-                [self.delegate collectionView:self didDeselectItemAtIndexPath:indexPath];
-            }
-        }
-		
-    } else {
-        // either single selection, or wasn't already selected in multiple selection mode
-        
-        if (!self.allowsMultipleSelection) {
-            for (NSIndexPath *selectedIndexPath in [_indexPathsForSelectedItems copy]) {
-                if(![indexPath isEqual:selectedIndexPath]) {
-                    [self deselectItemAtIndexPath:selectedIndexPath animated:animated notifyDelegate:notifyDelegate];
-                }
-            }
-        }
-		
-        BOOL shouldSelect = YES;
-        if (notifyDelegate && _collectionViewFlags.delegateShouldSelectItemAtIndexPath) {
-            shouldSelect = [self.delegate collectionView:self shouldSelectItemAtIndexPath:indexPath];
-        }
-		
-        if (shouldSelect) {
-            BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
-            selectedCell.selected = YES;
-            [_indexPathsForSelectedItems addObject:indexPath];
-			
-            if (notifyDelegate && _collectionViewFlags.delegateDidSelectItemAtIndexPath) {
-                [self.delegate collectionView:self didSelectItemAtIndexPath:indexPath];
-            }
-        }
-    }
-	
+	}
+	BOOL shouldSelect = YES;
+	if (notifyDelegate && _collectionViewFlags.delegateShouldSelectItemAtIndexPath) {
+		shouldSelect = [self.delegate collectionView:self shouldSelectItemAtIndexPath:indexPath];
+	}
+	if (shouldSelect) {
+		BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
+		selectedCell.selected = YES;
+		[_indexPathsForSelectedItems addObject:indexPath];
+		if (notifyDelegate && _collectionViewFlags.delegateDidSelectItemAtIndexPath) {
+			[self.delegate collectionView:self didSelectItemAtIndexPath:indexPath];
+		}
+	}
     [self unhighlightItemAtIndexPath:indexPath animated:animated notifyDelegate:YES];
 }
 
-- (void)selectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition {
+- (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
+					 animated:(BOOL)animated
+			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition {
     [self selectItemAtIndexPath:indexPath animated:animated scrollPosition:scrollPosition notifyDelegate:NO];
 }
 
 - (void)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated
 {
-    [self deselectItemAtIndexPath:indexPath animated:animated notifyDelegate:NO];
+	[self deselectItemAtIndexPath:indexPath animated:animated notifyDelegate:NO];
 }
 
-- (void)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notify {
+- (BOOL)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notify {
     if ([_indexPathsForSelectedItems containsObject:indexPath]) {
-        BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
-        selectedCell.selected = NO;
-        [_indexPathsForSelectedItems removeObject:indexPath];
-		
-        [self unhighlightItemAtIndexPath:indexPath animated:animated notifyDelegate:notify];
-		
-        if (notify && _collectionViewFlags.delegateDidDeselectItemAtIndexPath) {
-            [self.delegate collectionView:self didDeselectItemAtIndexPath:indexPath];
+		BOOL shouldDeselect = YES;
+        if (notify && _collectionViewFlags.delegateShouldDeselectItemAtIndexPath) {
+            shouldDeselect = [self.delegate collectionView:self shouldDeselectItemAtIndexPath:indexPath];
         }
+        if (shouldDeselect) {
+            BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
+			selectedCell.selected = NO;
+			[_indexPathsForSelectedItems removeObject:indexPath];
+			[self unhighlightItemAtIndexPath:indexPath animated:animated notifyDelegate:notify];
+			if (notify && _collectionViewFlags.delegateDidDeselectItemAtIndexPath) {
+				[self.delegate collectionView:self didDeselectItemAtIndexPath:indexPath];
+			}
+        }
+		return shouldDeselect;
     }
+	return NO;
 }
 
-- (BOOL)highlightItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition notifyDelegate:(BOOL)notifyDelegate {
+- (BOOL)highlightItemAtIndexPath:(NSIndexPath *)indexPath
+						animated:(BOOL)animated
+				  scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
+				  notifyDelegate:(BOOL)notifyDelegate {
     BOOL shouldHighlight = YES;
     if (notifyDelegate && _collectionViewFlags.delegateShouldHighlightItemAtIndexPath) {
         shouldHighlight = [self.delegate collectionView:self shouldHighlightItemAtIndexPath:indexPath];
     }
-	
     if (shouldHighlight) {
         BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
         highlightedCell.highlighted = YES;
         [_indexPathsForHighlightedItems addObject:indexPath];
-		
         if (notifyDelegate && _collectionViewFlags.delegateDidHighlightItemAtIndexPath) {
             [self.delegate collectionView:self didHighlightItemAtIndexPath:indexPath];
         }
@@ -689,7 +672,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
         highlightedCell.highlighted = NO;
         [_indexPathsForHighlightedItems removeObject:indexPath];
-		
         if (notifyDelegate && _collectionViewFlags.delegateDidUnhighlightItemAtIndexPath) {
             [self.delegate collectionView:self didUnhighlightItemAtIndexPath:indexPath];
         }
@@ -706,7 +688,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)deselectAllItems
 {
 	for (NSIndexPath *indexPath in [_indexPathsForSelectedItems copy]) {
-		[self deselectItemAtIndexPath:indexPath animated:NO notifyDelegate:NO];
+		[self deselectItemAtIndexPath:indexPath animated:NO notifyDelegate:YES];
 	}
 }
 
