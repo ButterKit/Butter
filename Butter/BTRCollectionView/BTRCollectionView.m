@@ -819,7 +819,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         _collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
         layout.collectionView = self;
         _layout = layout;
-#warning TODO
 		//TODO: Call -will/didTransitionFromLayout:toLayout: with a nil fromLayout.
         [self setNeedsDisplay:YES];
     } else {
