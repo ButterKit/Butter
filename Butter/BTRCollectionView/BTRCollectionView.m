@@ -215,6 +215,17 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     }
 }
 
+#pragma mark - NSResponder
+
+- (BOOL)acceptsFirstResponder
+{
+	return YES;
+}
+
+- (BOOL)canBecomeKeyView
+{
+	return YES;
+}
 
 #pragma mark - Public
 
@@ -578,7 +589,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		} else if (shiftKeyDown && [_indexPathsForSelectedItems count]) {
 			// When shift is being held, we want multiple selection behaviour
 			// Take two index paths, the first index path that was selected and the newly selected index path
-			NSIndexPath *one = [_indexPathsForSelectedItems objectAtIndex:0];
+			NSIndexPath *one = _indexPathsForSelectedItems[0];
 			NSIndexPath *two = indexPath;
 			NSIndexPath *startingIndexPath = nil;
 			NSIndexPath *endingIndexPath = nil;
@@ -643,6 +654,25 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     // TODO: Implement a dragging rectangle
 }
 
+#pragma mark - Key Events
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+	[self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
+}
+
+- (void)moveUp:(id)sender
+{
+	
+}
+
+- (void)moveDown:(id)sender
+{
+	
+}
+
+#pragma mark - Selection and Highlighting 
+
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 					 animated:(BOOL)animated
 			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
@@ -673,6 +703,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		if (notifyDelegate && _collectionViewFlags.delegateDidSelectItemAtIndexPath) {
 			[self.delegate collectionView:self didSelectItemAtIndexPath:indexPath];
 		}
+		[self scrollToItemAtIndexPath:indexPath atScrollPosition:scrollPosition animated:animated];
 	}
     [self unhighlightItemAtIndexPath:indexPath animated:animated notifyDelegate:YES];
 }
