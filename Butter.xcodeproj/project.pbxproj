@@ -100,8 +100,8 @@
 		03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRCollectionViewCell.m; path = Butter/BTRCollectionView/BTRCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
 		03FA702916746A7900491A1D /* CircleLayout.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CircleLayout.xcodeproj; path = Butter/Examples/BTRCollectionView/CircleLayout/CircleLayout.xcodeproj; sourceTree = "<group>"; };
 		03FA703316746A7F00491A1D /* BasicExample.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BasicExample.xcodeproj; path = Butter/Examples/BTRCollectionView/BasicExample/BasicExample.xcodeproj; sourceTree = "<group>"; };
-		ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+BTRAdditions.h"; sourceTree = "<group>"; };
-		ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+BTRAdditions.m"; sourceTree = "<group>"; };
+		ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BTRAdditions.h"; path = "Extensions/NSView+BTRAdditions.h"; sourceTree = "<group>"; };
+		ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BTRAdditions.m"; path = "Extensions/NSView+BTRAdditions.m"; sourceTree = "<group>"; };
 		ABACCA38167AD439003EFDD6 /* BTRClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRClipView.h; sourceTree = "<group>"; };
 		ABACCA39167AD439003EFDD6 /* BTRClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRClipView.m; sourceTree = "<group>"; };
 		ABACCA3A167AD439003EFDD6 /* BTRScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRScrollView.h; sourceTree = "<group>"; };
@@ -198,6 +198,8 @@
 		03FA6EFB1674393400491A1D /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */,
+				ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */,
 				03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */,
 				03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */,
 				03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */,
@@ -261,8 +263,6 @@
 		ABACCA35167AD439003EFDD6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */,
-				ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */,
 				ABACCA38167AD439003EFDD6 /* BTRClipView.h */,
 				ABACCA39167AD439003EFDD6 /* BTRClipView.m */,
 				ABACCA3A167AD439003EFDD6 /* BTRScrollView.h */,

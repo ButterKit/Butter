@@ -536,9 +536,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	// selected in mouseUp:
 	//
 	NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
-    BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
-    BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
-	BOOL shiftOrCommandDown  = commandKeyDown || shiftKeyDown;
+    BOOL commandKeyDown = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
+    BOOL shiftKeyDown = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
 	
 	CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
@@ -555,7 +554,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 								  animated:YES
 							scrollPosition:BTRCollectionViewScrollPositionNone
 							notifyDelegate:YES]) {
-			if (_indexPathsForNewlyHighlightedItems) {
+			if (!_indexPathsForNewlyHighlightedItems) {
 				_indexPathsForNewlyHighlightedItems = [NSMutableSet setWithObject:path];
 			} else {
 				[_indexPathsForNewlyHighlightedItems addObject:path];
@@ -567,20 +566,30 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		unhighlightAllBlock();
 		return;
 	}
-	if (!shiftOrCommandDown && !alreadySelected)
+	// If command is not being pressed, unhighlight everything
+	// before highlighting the new item
+	if (!commandKeyDown)
 		unhighlightAllBlock();
-	if (shiftOrCommandDown && alreadySelected) {
+	// If a modifier key is being held down and the item is already selected,
+	// we want to inverse the selection and deselect it
+	if (commandKeyDown && alreadySelected) {
 		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithObject:indexPath];
 		[self unhighlightItemAtIndexPath:indexPath animated:YES notifyDelegate:YES];
 	} else {
-		if (commandKeyDown || ![_indexPathsForHighlightedItems count]) {
+		// If nothing has been highlighted yet and shift is not being pressed,
+		// just highlight the single item
+		if (!shiftKeyDown) {
 			highlightBlock(indexPath);
 		} else if (shiftKeyDown && [_indexPathsForSelectedItems count]) {
-			NSIndexPath *one = [_indexPathsForSelectedItems lastObject];
+			// When shift is being held, we want multiple selection behaviour
+			// Take two index paths, the first index path that was selected and the newly selected index path
+			NSIndexPath *one = [_indexPathsForSelectedItems objectAtIndex:0];
 			NSIndexPath *two = indexPath;
 			NSIndexPath *startingIndexPath = nil;
 			NSIndexPath *endingIndexPath = nil;
-			if ([one compare:two] == NSOrderedDescending) {
+			// Compare to see which index comes first, and decide what the starting and ending index paths are
+			// (the starting path should always be the lower one)
+			if ([one compare:two] == NSOrderedAscending) {
 				startingIndexPath = one;
 				endingIndexPath = two;
 			} else {
@@ -588,11 +597,16 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 				endingIndexPath = one;
 			}
 			NSMutableArray *selectionRange = [NSMutableArray array];
+			// Iterate through each section until reaching the section of the ending index path
 			for (NSUInteger i = startingIndexPath.section; i <= endingIndexPath.section; i++) {
 				NSUInteger numberOfItems = [self numberOfItemsInSection:i];
 				NSUInteger currentItem = 0;
+				// If we're currently iterating the last section, make sure the iteration
+				// stops at the index of the ending index path
 				if (i == endingIndexPath.section)
 					numberOfItems = endingIndexPath.row + 1;
+				// If we're iterating the first section, make sure the iteration starts
+				// at the index of the starting index path
 				if (i == startingIndexPath.section)
 					currentItem = startingIndexPath.row;
 				for (NSUInteger j = currentItem; j < numberOfItems; j++) {
@@ -600,6 +614,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 					[selectionRange addObject:indexPath];
 				}
 			}
+			// Highlight the entire range
 			for (NSIndexPath *indexPath in selectionRange) {
 				highlightBlock(indexPath);
 			}
