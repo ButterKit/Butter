@@ -528,6 +528,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	[super mouseDown:theEvent];
+	if (!self.allowsSelection) return;
 	//
 	// A note about this whole "highlighted" state thing that seems somewhat confusing
 	// The highlighted state occurs on mouseDown:. It is the intermediary step to either
@@ -626,6 +627,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)mouseUp:(NSEvent *)theEvent
 {
 	[super mouseUp:theEvent];
+	if (!self.allowsSelection) return;
 	// "Commit" all the changes by selecting/deselecting the highlight/unhighlighted cells
 	for (NSIndexPath *indexPath in _indexPathsForNewlyUnhighlightedItems) {
 		[self deselectItemAtIndexPath:indexPath animated:self.animatesSelection notifyDelegate:YES];
@@ -643,6 +645,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)mouseDragged:(NSEvent *)theEvent
 {
     [super mouseDragged:theEvent];
+	if (!self.allowsSelection) return;
     // TODO: Implement a dragging rectangle
 }
 
