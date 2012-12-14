@@ -187,14 +187,14 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	// Validate the layout inside the currently visible rectangle
     [_collectionViewData validateLayoutInRect:self.visibleRect];
 	// Update the visible cells
-    if (!_collectionViewFlags.updatingLayout) [self updateVisibleCellsNow:YES];
+    if (!_collectionViewFlags.updatingLayout) [self updateVisibleCells];
 	// Check if the content size needs to be reset
     CGSize contentSize = [_collectionViewData collectionViewContentRect].size;
     if (!CGSizeEqualToSize([self frame].size, contentSize)) {
 		// Set the new content size and run layout again
         [self setFrameSize:contentSize];
         [_collectionViewData validateLayoutInRect:self.visibleRect];
-        [self updateVisibleCellsNow:YES];
+        [self updateVisibleCells];
     }
 	// Set the frame of the background view to the visible section of the view
 	// This means that the background view moves as a backdrop as the view is scrolled
@@ -1047,31 +1047,27 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private
 
 - (void)invalidateLayout {
     [self.collectionViewLayout invalidateLayout];
-    [self.collectionViewData invalidate]; // invalidate layout cache
+    [self.collectionViewData invalidate];
 }
 
-// update currently visible cells, fetches new cells if needed
-// TODO: use now parameter.
-- (void)updateVisibleCellsNow:(BOOL)now {
+- (void)updateVisibleCells
+{
+	// Build an array of the items that need to be made visible
     NSArray *layoutAttributesArray = [_collectionViewData layoutAttributesForElementsInRect:self.visibleRect];
-	
-    // create ItemKey/Attributes dictionary
     NSMutableDictionary *itemKeysToAddDict = [NSMutableDictionary dictionary];
     for (BTRCollectionViewLayoutAttributes *layoutAttributes in layoutAttributesArray) {
         BTRCollectionViewItemKey *itemKey = [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:layoutAttributes];
         itemKeysToAddDict[itemKey] = layoutAttributes;
     }
-	
-    // detect what items should be removed and queued back.
+	// Build a set of the currently visible items that need to be removed and reused
     NSMutableSet *allVisibleItemKeys = [NSMutableSet setWithArray:[_allVisibleViewsDict allKeys]];
     [allVisibleItemKeys minusSet:[NSSet setWithArray:[itemKeysToAddDict allKeys]]];
 	
-    // remove views that have not been processed and prepare them for re-use.
+	// Remove views that are no longer visible and queue them for reuse
     for (BTRCollectionViewItemKey *itemKey in allVisibleItemKeys) {
         BTRCollectionReusableView *reusableView = _allVisibleViewsDict[itemKey];
         if (reusableView) {
@@ -1082,17 +1078,17 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
                     [self.delegate collectionView:self didEndDisplayingCell:(BTRCollectionViewCell *)reusableView forItemAtIndexPath:itemKey.indexPath];
                 }
                 [self reuseCell:(BTRCollectionViewCell *)reusableView];
-            }else if(itemKey.type == BTRCollectionViewItemTypeSupplementaryView) {
+            } else if (itemKey.type == BTRCollectionViewItemTypeSupplementaryView) {
                 if (_collectionViewFlags.delegateDidEndDisplayingSupplementaryView) {
                     [self.delegate collectionView:self didEndDisplayingSupplementaryView:reusableView forElementOfKind:itemKey.identifier atIndexPath:itemKey.indexPath];
                 }
                 [self reuseSupplementaryView:reusableView];
             }
-            // TODO: decoration views etc?
+            // TODO: Add support for decoration views
         }
     }
 	
-    // finally add new cells.
+    // Add new cells
     [itemKeysToAddDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         BTRCollectionViewItemKey *itemKey = key;
         BTRCollectionViewLayoutAttributes *layoutAttributes = obj;
@@ -1381,7 +1377,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 }
 
 - (void)setupCellAnimations {
-    [self updateVisibleCellsNow:YES];
+    [self updateVisibleCells];
     [self suspendReloads];
     _collectionViewFlags.updating = YES;
 }

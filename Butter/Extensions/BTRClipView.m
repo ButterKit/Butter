@@ -104,17 +104,6 @@ const CGFloat decelerationRate = 0.87;
 	return CVDisplayLinkIsRunning(self.displayLink);
 }
 
-static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeStamp* now, const CVTimeStamp* outputTime, CVOptionFlags flagsIn, CVOptionFlags* flagsOut, void* displayLinkContext) {
-	__block CVReturn status;
-	@autoreleasepool {
-		BTRClipView *clipView = (__bridge id)displayLinkContext;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			status = [clipView updateOrigin];
-		});
-	}
-    return status;
-}
-					   
 - (CVReturn)updateOrigin {
 	if(self.window == nil) {
 		[self endScrolling];
@@ -137,4 +126,14 @@ static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeS
 	return kCVReturnSuccess;
 }
 
+static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeStamp* now, const CVTimeStamp* outputTime, CVOptionFlags flagsIn, CVOptionFlags* flagsOut, void* displayLinkContext) {
+	__block CVReturn status;
+	@autoreleasepool {
+		BTRClipView *clipView = (__bridge id)displayLinkContext;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			status = [clipView updateOrigin];
+		});
+	}
+    return status;
+}
 @end
