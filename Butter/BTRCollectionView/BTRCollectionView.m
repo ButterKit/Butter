@@ -26,7 +26,14 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)prepareToLoadData;
 @end
 
-@interface BTRCollectionView() {
+@interface BTRCollectionView ()
+// Stores all the data associated with collection view layout
+@property (nonatomic, strong) BTRCollectionViewData *collectionViewData;
+// Mapped to the ivar _allVisibleViewsDict (dictionary of all visible views)
+@property (nonatomic, readonly) NSDictionary *visibleViewsDict;
+@end
+
+@implementation BTRCollectionView {
 	// Collection view layout
 	BTRCollectionViewLayout *_layout;
 	// Collection view data source
@@ -98,15 +105,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		unsigned int reloading : 1;
 		unsigned int doneFirstLayout : 1;
 	} _collectionViewFlags;
-	
 }
-// Stores all the data associated with collection view layout
-@property (nonatomic, strong) BTRCollectionViewData *collectionViewData;
-// Mapped to the ivar _allVisibleViewsDict (dictionary of all visible views)
-@property (nonatomic, readonly) NSDictionary *visibleViewsDict;
-@end
-
-@implementation BTRCollectionView
 
 @synthesize collectionViewLayout = _layout;
 @synthesize visibleViewsDict = _allVisibleViewsDict;
