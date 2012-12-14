@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-// A base class for saner, more full-featured layer-backed views with support
-// for MVVM.
+// A base class for saner, more full-featured layer-backed views.
 @interface BTRView : NSView
 
 // A background color for the view, or nil if none has been set.
