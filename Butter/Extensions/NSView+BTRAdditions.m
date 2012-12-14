@@ -21,8 +21,7 @@ static NSUInteger BTRAnimationContextCount = 0;
 }
 
 + (void)btr_animate:(void (^)(void))animations completion:(void (^)(void))completion {
-	// It's not clear whether NSAnimationContext will accept a nil completion
-	// block.
+	// It's not clear whether NSAnimationContext will accept a nil completion block.
 	if (completion == nil) completion = ^{};
 	
 	// If we're in an animation block, just enable implicit animations
@@ -55,10 +54,6 @@ static NSUInteger BTRAnimationContextCount = 0;
 
 + (BOOL)btr_isInAnimationContext {
 	return BTRAnimationContextCount > 0;
-}
-
-- (instancetype)btr_animator {
-	return self.class.btr_isInAnimationContext ? self.animator : self;
 }
 
 #pragma mark Timing functions
