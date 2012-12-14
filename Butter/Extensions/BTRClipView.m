@@ -4,12 +4,13 @@
 //
 //  Created by Justin Spahr-Summers on 2012-09-14.
 //  Modified by Jonathan Willing
+//  Deceleration logic originally from TwUI
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
 #import "BTRClipView.h"
 
-const CGFloat decelerationRate = 0.87;
+const CGFloat decelerationRate = 0.88;
 
 @interface BTRClipView()
 @property (nonatomic) CVDisplayLinkRef displayLink;
