@@ -11,6 +11,8 @@
 
 @implementation Cell
 
+const CGFloat borderOffset = 10.f;
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self == nil) return nil;
@@ -29,7 +31,7 @@
 
 - (NSTextField *)label {
 	if (!_label) {
-		_label = [[NSTextField alloc] initWithFrame:self.bounds];
+		_label = [[NSTextField alloc] initWithFrame:CGRectInset(self.bounds, borderOffset, borderOffset)];
 		[_label setBezeled:NO];
 		[_label setDrawsBackground:NO];
 		[_label setEditable:NO];
@@ -42,7 +44,7 @@
 
 - (BTRImageView *)imageView {
 	if (!_imageView) {
-		_imageView = [[BTRImageView alloc] initWithFrame:CGRectInset(self.bounds, 10.f, 10.f)];
+		_imageView = [[BTRImageView alloc] initWithFrame:CGRectInset(self.bounds, borderOffset, borderOffset)];
 	}
 	return _imageView;
 }
