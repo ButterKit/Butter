@@ -42,7 +42,7 @@
 
 - (BTRImageView *)imageView {
 	if (!_imageView) {
-		_imageView = [[BTRImageView alloc] initWithFrame:self.bounds];
+		_imageView = [[BTRImageView alloc] initWithFrame:CGRectInset(self.bounds, 10.f, 10.f)];
 	}
 	return _imageView;
 }
