@@ -25,9 +25,6 @@
 
 #pragma mark Properties
 
-// Implemented by NSView.
-@dynamic layerContentsRedrawPolicy;
-
 - (void)setBackgroundColor:(NSColor *)color {
 	_backgroundColor = color;
 	[self applyLayerProperties];
