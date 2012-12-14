@@ -24,4 +24,6 @@
 // Defaults to NO.
 @property (nonatomic, getter = isOpaque) BOOL opaque;
 
+- (BOOL)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated;
+
 @end

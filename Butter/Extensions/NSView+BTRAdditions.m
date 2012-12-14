@@ -8,6 +8,7 @@
 //
 
 #import "NSView+BTRAdditions.h"
+#import "BTRClipView.h"
 #import <QuartzCore/CAMediaTimingFunction.h>
 
 static NSUInteger BTRAnimationContextCount = 0;
@@ -56,15 +57,18 @@ static NSUInteger BTRAnimationContextCount = 0;
 	return BTRAnimationContextCount > 0;
 }
 
-- (void)btr_scrollRectToVisible:(NSRect)rect animated:(BOOL)animated
-{
+- (void)btr_scrollRectToVisible:(NSRect)rect animated:(BOOL)animated {
 	NSClipView *clipView = [[self enclosingScrollView] contentView];
-	
-	// TODO: This will not be a smooth animation.
-	if (animated)
-		[clipView.animator scrollRectToVisible:rect];
-	else
-		[clipView scrollRectToVisible:rect];
+	if ([clipView isKindOfClass:BTRClipView.class]) {
+		[(BTRClipView *)clipView scrollRectToVisible:rect animated:animated];
+	} else {
+		if (animated) {
+			[(NSClipView *)[clipView animator] scrollRectToVisible:rect];
+		}
+		else {
+			[clipView scrollRectToVisible:rect];
+		}
+	}
 }
 
 #pragma mark Timing functions

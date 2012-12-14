@@ -3,6 +3,7 @@
 //  Originally from Rebel
 //
 //  Created by Justin Spahr-Summers on 2012-09-14.
+//  Modified by Jonathan Willing
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
@@ -46,6 +47,16 @@
 	self.opaque = NO;
 
 	return self;
+}
+
+- (void)scrollToPoint:(NSPoint)newOrigin {
+	[super scrollToPoint:newOrigin];
+	NSLog(@"%s",__PRETTY_FUNCTION__);
+}
+
+- (BOOL)scrollRectToVisible:(NSRect)aRect animated:(BOOL)animated {
+	return [super scrollRectToVisible:aRect];
+	NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 
 @end
