@@ -25,8 +25,6 @@
 		03FA6F6C16743D6000491A1D /* BTRCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5C16743D6000491A1D /* BTRCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6D16743D6000491A1D /* BTRCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5D16743D6000491A1D /* BTRCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6E16743D6000491A1D /* BTRCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */; };
-		03FA6F7216743D6000491A1D /* NSView+BTRCollectionViewAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F6216743D6000491A1D /* NSView+BTRCollectionViewAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		03FA6F7316743D6000491A1D /* NSView+BTRCollectionViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6F6316743D6000491A1D /* NSView+BTRCollectionViewAdditions.m */; };
 		ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */; };
 		ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA38167AD439003EFDD6 /* BTRClipView.h */; settings = {ATTRIBUTES = (); }; };
@@ -100,8 +98,6 @@
 		03FA6F5C16743D6000491A1D /* BTRCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRCollectionViewLayout.h; path = Butter/BTRCollectionView/BTRCollectionViewLayout.h; sourceTree = SOURCE_ROOT; };
 		03FA6F5D16743D6000491A1D /* BTRCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRCollectionViewCell.h; path = Butter/BTRCollectionView/BTRCollectionViewCell.h; sourceTree = SOURCE_ROOT; };
 		03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRCollectionViewCell.m; path = Butter/BTRCollectionView/BTRCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
-		03FA6F6216743D6000491A1D /* NSView+BTRCollectionViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BTRCollectionViewAdditions.h"; path = "Butter/BTRCollectionView/NSView+BTRCollectionViewAdditions.h"; sourceTree = SOURCE_ROOT; };
-		03FA6F6316743D6000491A1D /* NSView+BTRCollectionViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BTRCollectionViewAdditions.m"; path = "Butter/BTRCollectionView/NSView+BTRCollectionViewAdditions.m"; sourceTree = SOURCE_ROOT; };
 		03FA702916746A7900491A1D /* CircleLayout.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CircleLayout.xcodeproj; path = Butter/Examples/BTRCollectionView/CircleLayout/CircleLayout.xcodeproj; sourceTree = "<group>"; };
 		03FA703316746A7F00491A1D /* BasicExample.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BasicExample.xcodeproj; path = Butter/Examples/BTRCollectionView/BasicExample/BasicExample.xcodeproj; sourceTree = "<group>"; };
 		ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+BTRAdditions.h"; sourceTree = "<group>"; };
@@ -257,8 +253,6 @@
 				03FA6F5516743D6000491A1D /* BTRCollectionViewLayout.m */,
 				03FA6F5D16743D6000491A1D /* BTRCollectionViewCell.h */,
 				03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */,
-				03FA6F6216743D6000491A1D /* NSView+BTRCollectionViewAdditions.h */,
-				03FA6F6316743D6000491A1D /* NSView+BTRCollectionViewAdditions.m */,
 			);
 			name = BTRCollectionView;
 			path = BTRCollectionView/BTRCollectionView;
@@ -311,7 +305,6 @@
 				03FA6F6B16743D6000491A1D /* BTRCollectionViewCommon.h in Headers */,
 				03FA6F6C16743D6000491A1D /* BTRCollectionViewLayout.h in Headers */,
 				03FA6F6D16743D6000491A1D /* BTRCollectionViewCell.h in Headers */,
-				03FA6F7216743D6000491A1D /* NSView+BTRCollectionViewAdditions.h in Headers */,
 				03FA6F0316743BD700491A1D /* NSIndexPath+BTRAdditions.h in Headers */,
 				ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */,
 				ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */,
@@ -430,7 +423,6 @@
 				03FA6F6516743D6000491A1D /* BTRCollectionViewLayout.m in Sources */,
 				03FA6F6716743D6000491A1D /* BTRCollectionView.m in Sources */,
 				03FA6F6E16743D6000491A1D /* BTRCollectionViewCell.m in Sources */,
-				03FA6F7316743D6000491A1D /* NSView+BTRCollectionViewAdditions.m in Sources */,
 				ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */,
 				ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */,
 				ABACCA41167AD439003EFDD6 /* BTRClipView.m in Sources */,

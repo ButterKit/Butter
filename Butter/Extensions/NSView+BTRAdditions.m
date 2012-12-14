@@ -56,6 +56,17 @@ static NSUInteger BTRAnimationContextCount = 0;
 	return BTRAnimationContextCount > 0;
 }
 
+- (void)btr_scrollRectToVisible:(NSRect)rect animated:(BOOL)animated
+{
+	NSClipView *clipView = [[self enclosingScrollView] contentView];
+	
+	// TODO: This will not be a smooth animation.
+	if (animated)
+		[clipView.animator scrollRectToVisible:rect];
+	else
+		[clipView scrollRectToVisible:rect];
+}
+
 #pragma mark Timing functions
 
 + (CAMediaTimingFunction *)timingFunctionWithCurve:(BTRViewAnimationCurve)curve {

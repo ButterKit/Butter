@@ -41,4 +41,7 @@ typedef NS_ENUM(NSInteger, BTRViewAnimationCurve) {
 					 animations:(void (^)(void))animations
 					 completion:(void (^)(void))completion;
 
+
+- (void)btr_scrollRectToVisible:(NSRect)rect animated:(BOOL)animated;
+
 @end

@@ -10,7 +10,6 @@
 #import "BTRCollectionViewCell.h"
 #import "BTRCollectionViewCommon.h"
 #import "NSIndexPath+BTRAdditions.h"
-#import "NSView+BTRCollectionViewAdditions.h"
 
 #import "BTRView.h"
 
