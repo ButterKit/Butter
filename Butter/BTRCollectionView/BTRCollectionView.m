@@ -456,6 +456,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (void)scrollToItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated {
 	
+	if (scrollPosition == BTRCollectionViewScrollPositionNone) return;
 	// Make sure layout is valid before scrolling
     [self layout];
     BTRCollectionViewLayoutAttributes *layoutAttributes = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
@@ -769,11 +770,15 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         if (notifyDelegate && _collectionViewFlags.delegateDidHighlightItemAtIndexPath) {
             [self.delegate collectionView:self didHighlightItemAtIndexPath:indexPath];
         }
+		[self scrollToItemAtIndexPath:indexPath atScrollPosition:scrollPosition animated:animated];
     }
     return shouldHighlight;
 }
 
-- (void)unhighlightItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notifyDelegate {
+- (void)unhighlightItemAtIndexPath:(NSIndexPath *)indexPath
+						  animated:(BOOL)animated
+					notifyDelegate:(BOOL)notifyDelegate
+{
     if ([_indexPathsForHighlightedItems containsObject:indexPath]) {
         BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
         if (animated) {
