@@ -78,15 +78,16 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 #pragma mark Scrolling
 
-- (void)scrollToPoint:(NSPoint)newOrigin {
-	if (self.isScrolling) {
-		[self endScrolling];
-	}
-	
+- (void)scrollToPoint:(NSPoint)newOrigin {	
 	if (self.animate) {
 		self.destination = newOrigin;
-		[self beginScrolling];
+		if (!self.isScrolling) {
+			[self beginScrolling];
+		}
 	} else {
+		if (self.isScrolling) {
+			[self endScrolling];
+		}
 		[super scrollToPoint:newOrigin];
 	}
 }
