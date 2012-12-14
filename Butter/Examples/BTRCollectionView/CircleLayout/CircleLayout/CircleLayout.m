@@ -1,9 +1,9 @@
 
 /*
-     File: CircleLayout.m
- Abstract: 
+ File: CircleLayout.m
+ Abstract:
  
-  Version: 1.0
+ Version: 1.0
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -96,8 +96,7 @@
 #import "Cell.h"
 #define ITEM_SIZE 70
 
-@interface CircleLayout()
-{
+@interface CircleLayout() {
     NSMutableArray* _insertedIndexPaths;
 }
 @end
@@ -114,23 +113,17 @@
     _radius = MIN(size.width, size.height) / 2.5;
 }
 
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
-	return YES;
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+	return !CGSizeEqualToSize(self.collectionView.bounds.size, newBounds.size);
 }
 
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems {
     [super prepareForCollectionViewUpdates:updateItems];
     _insertedIndexPaths = [[NSMutableArray alloc] init];
     
-    for (BTRCollectionViewUpdateItem* update in updateItems)
-    {
-//        if (update.updateAction == PSTCollectionUpdateActionDelete)
-//        {
-//            [self.deleteIndexPaths addObject:update.indexPathBeforeUpdate];
-//        }
-//        else
-        if (update.updateAction == BTRCollectionUpdateActionInsert)
-        {
+    for (BTRCollectionViewUpdateItem* update in updateItems) {
+        if (update.updateAction == BTRCollectionUpdateActionInsert)  {
             [_insertedIndexPaths addObject:update.indexPathAfterUpdate];
         }
     }
@@ -153,30 +146,26 @@
     attributes.size = CGSizeMake(ITEM_SIZE, ITEM_SIZE);
     attributes.center = CGPointMake(ceilf(_center.x + _radius*(1-.1*path.section) * cosf(2 * path.item * M_PI / _cellCount)),
                                     ceilf(_center.y + _radius*(1-.1*path.section) * sinf(2 * path.item * M_PI / _cellCount)));
-
+	
     return attributes;
 }
 
 - (NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray* attributes = [NSMutableArray array];
-    
-    
-    for(NSInteger i=0;i< [self.collectionView numberOfSections];i++)
-        for(NSInteger j=0; j<[self.collectionView numberOfItemsInSection:i];j++)
-        {
+    for (NSInteger i = 0; i < [self.collectionView numberOfSections]; i++) {
+        for (NSInteger j = 0; j < [self.collectionView numberOfItemsInSection:i]; j++) {
             NSIndexPath* indexPath = [NSIndexPath btr_indexPathForItem:j inSection:i];
             [attributes addObject:[self layoutAttributesForItemAtIndexPath:indexPath]];
         }
+	}
     return attributes;
 }
 
 - (BTRCollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 {
     BTRCollectionViewLayoutAttributes* attributes = (BTRCollectionViewLayoutAttributes*)[super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
-    
-    if([_insertedIndexPaths containsObject:itemIndexPath] )
-    {
+    if ([_insertedIndexPaths containsObject:itemIndexPath] ) {
         attributes = (BTRCollectionViewLayoutAttributes *)[self layoutAttributesForItemAtIndexPath:itemIndexPath];
         attributes.alpha = 0.0;
         attributes.center = CGPointMake(_center.x, _center.y);

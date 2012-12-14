@@ -191,7 +191,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     [super layout];
 	// Validate the layout inside the currently visible rectangle
     [_collectionViewData validateLayoutInRect:self.visibleRect];
-	// Update the visible cells 
+	// Update the visible cells
     if (!_collectionViewFlags.updatingLayout) [self updateVisibleCellsNow:YES];
 	// Check if the content size needs to be reset
     CGSize contentSize = [_collectionViewData collectionViewContentRect].size;
@@ -246,7 +246,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     [nib instantiateWithOwner:nil topLevelObjects:&topLevelObjects];
 	// Check to make sure that the NIB's only top level object is the cell view
     NSAssert(topLevelObjects.count == 1 && [topLevelObjects[0] isKindOfClass:BTRCollectionViewCell.class], @"must contain exactly 1 top level object which is a BTRCollectionViewCell");
-
+	
     _cellNibDict[identifier] = nib;
 }
 
@@ -255,7 +255,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     [nib instantiateWithOwner:nil topLevelObjects:&topLevelObjects];
 	// Check to make sure that the NIB's only top level object is the supplementary view
     NSAssert(topLevelObjects.count == 1 && [topLevelObjects[0] isKindOfClass:BTRCollectionReusableView.class], @"must contain exactly 1 top level object which is a BTRCollectionReusableView");
-
+	
 	NSString *kindAndIdentifier = [NSString stringWithFormat:@"%@/%@", kind, identifier];
     _supplementaryViewNibDict[kindAndIdentifier] = nib;
 }
@@ -441,14 +441,14 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 // Iterate the views and separate the cells out from the rest
 - (NSArray *)indexPathsForVisibleItems {
 	NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:[_allVisibleViewsDict count]];
-
+	
 	[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		BTRCollectionViewItemKey *itemKey = (BTRCollectionViewItemKey *)key;
         if (itemKey.type == BTRCollectionViewItemTypeCell) {
 			[indexPaths addObject:itemKey.indexPath];
 		}
 	}];
-
+	
 	return indexPaths;
 }
 
@@ -464,7 +464,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     BTRCollectionViewLayoutAttributes *layoutAttributes = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
     if (layoutAttributes) {
         CGRect targetRect = layoutAttributes.frame;
-
+		
         // TODO: Fix this hack to apply proper margins
         if ([self.collectionViewLayout isKindOfClass:[BTRCollectionViewFlowLayout class]]) {
             BTRCollectionViewFlowLayout *flowLayout = (BTRCollectionViewFlowLayout *)self.collectionViewLayout;
@@ -490,9 +490,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     }
     
     if (horizontalPosition != BTRCollectionViewScrollPositionNone
-       && horizontalPosition != BTRCollectionViewScrollPositionLeft
-       && horizontalPosition != BTRCollectionViewScrollPositionCenteredHorizontally
-       && horizontalPosition != BTRCollectionViewScrollPositionRight) {
+		&& horizontalPosition != BTRCollectionViewScrollPositionLeft
+		&& horizontalPosition != BTRCollectionViewScrollPositionCenteredHorizontally
+		&& horizontalPosition != BTRCollectionViewScrollPositionRight) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"BTRCollectionViewScrollPosition: attempt to use a scroll position with multiple horizontal positioning styles" userInfo:nil];
     }
     
@@ -597,22 +597,22 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 // select item, notify delegate (internal)
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition notifyDelegate:(BOOL)notifyDelegate {
-
+	
     if (self.allowsMultipleSelection && [_indexPathsForSelectedItems containsObject:indexPath]) {
-
+		
         BOOL shouldDeselect = YES;
         if (notifyDelegate && _collectionViewFlags.delegateShouldDeselectItemAtIndexPath) {
             shouldDeselect = [self.delegate collectionView:self shouldDeselectItemAtIndexPath:indexPath];
         }
-
+		
         if (shouldDeselect) {
             [self deselectItemAtIndexPath:indexPath animated:animated];
-
+			
             if (notifyDelegate && _collectionViewFlags.delegateDidDeselectItemAtIndexPath) {
                 [self.delegate collectionView:self didDeselectItemAtIndexPath:indexPath];
             }
         }
-
+		
     } else {
         // either single selection, or wasn't already selected in multiple selection mode
         
@@ -623,23 +623,23 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
                 }
             }
         }
-
+		
         BOOL shouldSelect = YES;
         if (notifyDelegate && _collectionViewFlags.delegateShouldSelectItemAtIndexPath) {
             shouldSelect = [self.delegate collectionView:self shouldSelectItemAtIndexPath:indexPath];
         }
-
+		
         if (shouldSelect) {
             BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
             selectedCell.selected = YES;
             [_indexPathsForSelectedItems addObject:indexPath];
-
+			
             if (notifyDelegate && _collectionViewFlags.delegateDidSelectItemAtIndexPath) {
                 [self.delegate collectionView:self didSelectItemAtIndexPath:indexPath];
             }
         }
     }
-
+	
     [self unhighlightItemAtIndexPath:indexPath animated:animated notifyDelegate:YES];
 }
 
@@ -657,9 +657,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         BTRCollectionViewCell *selectedCell = [self cellForItemAtIndexPath:indexPath];
         selectedCell.selected = NO;
         [_indexPathsForSelectedItems removeObject:indexPath];
-
+		
         [self unhighlightItemAtIndexPath:indexPath animated:animated notifyDelegate:notify];
-
+		
         if (notify && _collectionViewFlags.delegateDidDeselectItemAtIndexPath) {
             [self.delegate collectionView:self didDeselectItemAtIndexPath:indexPath];
         }
@@ -671,12 +671,12 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     if (notifyDelegate && _collectionViewFlags.delegateShouldHighlightItemAtIndexPath) {
         shouldHighlight = [self.delegate collectionView:self shouldHighlightItemAtIndexPath:indexPath];
     }
-
+	
     if (shouldHighlight) {
         BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
         highlightedCell.highlighted = YES;
         [_indexPathsForHighlightedItems addObject:indexPath];
-
+		
         if (notifyDelegate && _collectionViewFlags.delegateDidHighlightItemAtIndexPath) {
             [self.delegate collectionView:self didHighlightItemAtIndexPath:indexPath];
         }
@@ -689,7 +689,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
         highlightedCell.highlighted = NO;
         [_indexPathsForHighlightedItems removeObject:indexPath];
-
+		
         if (notifyDelegate && _collectionViewFlags.delegateDidUnhighlightItemAtIndexPath) {
             [self.delegate collectionView:self didUnhighlightItemAtIndexPath:indexPath];
         }
@@ -743,7 +743,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (void)deleteItemsAtIndexPaths:(NSArray *)indexPaths {
     [self updateRowsAtIndexPaths:indexPaths updateAction:BTRCollectionUpdateActionDelete];
-
+	
 }
 
 - (void)reloadItemsAtIndexPaths:(NSArray *)indexPaths {
@@ -760,18 +760,18 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         [self setupCellAnimations];
         [self endItemAnimations];
     }
-
+	
 }
 
 - (void)performBatchUpdates:(void (^)(void))updates completion:(void (^)(void))completion {
     if(!updates) return;
     
     [self setupCellAnimations];
-
+	
     updates();
     
     if(completion) _updateCompletionHandler = completion;
-        
+	
     [self endItemAnimations];
 }
 
@@ -790,7 +790,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (void)setCollectionViewLayout:(BTRCollectionViewLayout *)layout animated:(BOOL)animated {
     if (layout == _layout) return;
-
+	
     // not sure it was it original code, but here this prevents crash
     // in case we switch layout before previous one was initially loaded
     if (CGRectIsEmpty(self.bounds) || !_collectionViewFlags.doneFirstLayout) {
@@ -801,13 +801,12 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 #warning TODO
 		//TODO: Call -will/didTransitionFromLayout:toLayout: with a nil fromLayout.
         [self setNeedsDisplay:YES];
-    }
-    else {
+    } else {
         layout.collectionView = self;
         
         _collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
         [_collectionViewData prepareToLoadData];
-
+		
         NSArray *previouslySelectedIndexPaths = [self indexPathsForSelectedItems];
         NSMutableSet *selectedCellKeys = [NSMutableSet setWithCapacity:[previouslySelectedIndexPaths count]];
         
@@ -818,20 +817,20 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         NSArray *previouslyVisibleItemsKeys = [_allVisibleViewsDict allKeys];
         NSSet *previouslyVisibleItemsKeysSet = [NSSet setWithArray:previouslyVisibleItemsKeys];
         NSMutableSet *previouslyVisibleItemsKeysSetMutable = [NSMutableSet setWithArray:previouslyVisibleItemsKeys];
-
-        if([selectedCellKeys intersectsSet:selectedCellKeys]) {
+		
+        if ([selectedCellKeys intersectsSet:selectedCellKeys]) {
             [previouslyVisibleItemsKeysSetMutable intersectSet:previouslyVisibleItemsKeysSetMutable];
         }
         
-        NSView *previouslyVisibleView = _allVisibleViewsDict[[previouslyVisibleItemsKeysSetMutable anyObject]];
-        [previouslyVisibleView removeFromSuperview];
-        [self addSubview:previouslyVisibleView positioned:NSWindowAbove relativeTo:nil];
+		//  NSView *previouslyVisibleView = _allVisibleViewsDict[[previouslyVisibleItemsKeysSetMutable anyObject]];
+		//  [previouslyVisibleView removeFromSuperview];
+		//  [self addSubview:previouslyVisibleView positioned:NSWindowAbove relativeTo:nil];
         
         CGRect rect = [_collectionViewData collectionViewContentRect];
         NSArray *newlyVisibleLayoutAttrs = [_collectionViewData layoutAttributesForElementsInRect:rect];
         
         NSMutableDictionary *layoutInterchangeData = [NSMutableDictionary dictionaryWithCapacity:
-                                                     [newlyVisibleLayoutAttrs count] + [previouslyVisibleItemsKeysSet count]];
+													  [newlyVisibleLayoutAttrs count] + [previouslyVisibleItemsKeysSet count]];
         
         NSMutableSet *newlyVisibleItemsKeys = [NSMutableSet set];
         for(BTRCollectionViewLayoutAttributes *attr in newlyVisibleLayoutAttrs) {
@@ -888,7 +887,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
             layoutInterchangeData[key] = [NSDictionary dictionaryWithObjects:@[prevAttr,newAttr]
                                                                      forKeys:@[@"previousLayoutInfos", @"newLayoutInfos"]];
         }
-
+		
         for(BTRCollectionViewItemKey *key in [layoutInterchangeData keyEnumerator]) {
             if(key.type == BTRCollectionViewItemTypeCell) {
                 BTRCollectionViewCell* cell = _allVisibleViewsDict[key];
@@ -913,7 +912,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         };
         
         CGRect contentRect = [_collectionViewData collectionViewContentRect];
-
+		
         [self setContentSize:contentRect.size];
         [self scrollPoint:contentRect.origin];
         
@@ -939,12 +938,12 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         
         if(animated) {
             [NSView rbl_animateWithDuration:.3 animations:^{
-                 _collectionViewFlags.updatingLayout = YES;
-                 applyNewLayoutBlock();
-             } completion:^ {
-                 freeUnusedViews();
-                 _collectionViewFlags.updatingLayout = NO;
-             }];
+				_collectionViewFlags.updatingLayout = YES;
+				applyNewLayoutBlock();
+			} completion:^ {
+				freeUnusedViews();
+				_collectionViewFlags.updatingLayout = NO;
+			}];
         }
         else {
             applyNewLayoutBlock();
@@ -968,19 +967,19 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	_collectionViewFlags.delegateDidSelectItemAtIndexPath          = [self.delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)];
 	_collectionViewFlags.delegateShouldDeselectItemAtIndexPath     = [self.delegate respondsToSelector:@selector(collectionView:shouldDeselectItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidDeselectItemAtIndexPath        = [self.delegate respondsToSelector:@selector(collectionView:didDeselectItemAtIndexPath:)];
-
+	
 	//	Managing Cell Highlighting
 	_collectionViewFlags.delegateShouldHighlightItemAtIndexPath    = [self.delegate respondsToSelector:@selector(collectionView:shouldHighlightItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidHighlightItemAtIndexPath       = [self.delegate respondsToSelector:@selector(collectionView:didHighlightItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidUnhighlightItemAtIndexPath     = [self.delegate respondsToSelector:@selector(collectionView:didUnhighlightItemAtIndexPath:)];
-
+	
 	//	Tracking the Removal of Views
 	_collectionViewFlags.delegateDidEndDisplayingCell              = [self.delegate respondsToSelector:@selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidEndDisplayingSupplementaryView = [self.delegate respondsToSelector:@selector(collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:)];
-
+	
 	//	Managing Actions for Cells
 	_collectionViewFlags.delegateSupportsMenus                     = [self.delegate respondsToSelector:@selector(collectionView:shouldShowMenuForItemAtIndexPath:)];
-
+	
 	// These aren't present in the flags which is a little strange. Not adding them because thet will mess with byte alignment which will affect cross compatibility.
 	// The flag names are guesses and are there for documentation purposes.
 	//
@@ -992,10 +991,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)setDataSource:(id<BTRCollectionViewDataSource>)dataSource {
     if (dataSource != _dataSource) {
 		_dataSource = dataSource;
-
+		
 		//	Getting Item and Section Metrics
 		_collectionViewFlags.dataSourceNumberOfSections = [_dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)];
-
+		
 		//	Getting Views for Items
 		_collectionViewFlags.dataSourceViewForSupplementaryElement = [_dataSource respondsToSelector:@selector(collectionView:viewForSupplementaryElementOfKind:atIndexPath:)];
     }
@@ -1030,18 +1029,18 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 // TODO: use now parameter.
 - (void)updateVisibleCellsNow:(BOOL)now {
     NSArray *layoutAttributesArray = [_collectionViewData layoutAttributesForElementsInRect:self.visibleRect];
-
+	
     // create ItemKey/Attributes dictionary
     NSMutableDictionary *itemKeysToAddDict = [NSMutableDictionary dictionary];
     for (BTRCollectionViewLayoutAttributes *layoutAttributes in layoutAttributesArray) {
         BTRCollectionViewItemKey *itemKey = [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:layoutAttributes];
         itemKeysToAddDict[itemKey] = layoutAttributes;
     }
-
+	
     // detect what items should be removed and queued back.
     NSMutableSet *allVisibleItemKeys = [NSMutableSet setWithArray:[_allVisibleViewsDict allKeys]];
     [allVisibleItemKeys minusSet:[NSSet setWithArray:[itemKeysToAddDict allKeys]]];
-
+	
     // remove views that have not been processed and prepare them for re-use.
     for (BTRCollectionViewItemKey *itemKey in allVisibleItemKeys) {
         BTRCollectionReusableView *reusableView = _allVisibleViewsDict[itemKey];
@@ -1062,24 +1061,24 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
             // TODO: decoration views etc?
         }
     }
-
+	
     // finally add new cells.
     [itemKeysToAddDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         BTRCollectionViewItemKey *itemKey = key;
         BTRCollectionViewLayoutAttributes *layoutAttributes = obj;
-
+		
         // check if cell is in visible dict; add it if not.
         BTRCollectionReusableView *view = _allVisibleViewsDict[itemKey];
         if (!view) {
             if (itemKey.type == BTRCollectionViewItemTypeCell) {
                 view = [self createPreparedCellForItemAtIndexPath:itemKey.indexPath withLayoutAttributes:layoutAttributes];
-
+				
             } else if (itemKey.type == BTRCollectionViewItemTypeSupplementaryView) {
                 view = [self createPreparedSupplementaryViewForElementOfKind:layoutAttributes.representedElementKind
 																 atIndexPath:layoutAttributes.indexPath
 														withLayoutAttributes:layoutAttributes];
             }
-
+			
 			//Supplementary views are optional
 			if (view) {
 				_allVisibleViewsDict[itemKey] = view;
@@ -1094,13 +1093,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 // fetches a cell from the dataSource and sets the layoutAttributes
 - (BTRCollectionViewCell *)createPreparedCellForItemAtIndexPath:(NSIndexPath *)indexPath withLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
-
+	
     BTRCollectionViewCell *cell = [self.dataSource collectionView:self cellForItemAtIndexPath:indexPath];
-
+	
     // reset selected/highlight state
     [cell setHighlighted:[_indexPathsForHighlightedItems containsObject:indexPath]];
     [cell setSelected:[_indexPathsForSelectedItems containsObject:indexPath]];
-
+	
     [cell applyLayoutAttributes:layoutAttributes];
     return cell;
 }
@@ -1122,10 +1121,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)queueReusableView:(BTRCollectionReusableView *)reusableView inQueue:(NSMutableDictionary *)queue {
     NSString *cellIdentifier = reusableView.reuseIdentifier;
     NSParameterAssert([cellIdentifier length]);
-
+	
     [reusableView removeFromSuperview];
     [reusableView prepareForReuse];
-
+	
     // enqueue cell
     NSMutableArray *reuseableViews = queue[cellIdentifier];
     if (!reuseableViews) {
@@ -1163,7 +1162,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 -(NSMutableArray *)arrayForUpdateAction:(BTRCollectionUpdateAction)updateAction {
     NSMutableArray *ret = nil;
-
+	
     switch (updateAction) {
         case BTRCollectionUpdateActionInsert:
             if(!_insertItems) _insertItems = [[NSMutableArray alloc] init];
@@ -1201,7 +1200,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     
     NSMutableArray *animations = [[NSMutableArray alloc] init];
     NSMutableDictionary *newAllVisibleView = [[NSMutableDictionary alloc] init];
-
+	
     for (BTRCollectionViewUpdateItem *updateItem in items) {
         if (updateItem.isSectionOperation) continue;
         
@@ -1233,9 +1232,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
                                           startAttrs.frame.size.width,
                                           startAttrs.frame.size.height);
             CGRect finalRect = CGRectMake(CGRectGetMidX(finalAttrs.frame)-finalAttrs.center.x,
-                                         CGRectGetMidY(finalAttrs.frame)-finalAttrs.center.y,
-                                         finalAttrs.frame.size.width,
-                                         finalAttrs.frame.size.height);
+										  CGRectGetMidY(finalAttrs.frame)-finalAttrs.center.y,
+										  finalAttrs.frame.size.width,
+										  finalAttrs.frame.size.height);
             
             if(CGRectIntersectsRect(self.visibleRect, startRect) || CGRectIntersectsRect(self.visibleRect, finalRect)) {
                 BTRCollectionReusableView *view = [self createPreparedCellForItemAtIndexPath:indexPath
@@ -1291,7 +1290,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         [newKey setIndexPath:newIndexPath];
         newAllVisibleView[newKey] = view;
     }
-
+	
     NSArray *allNewlyVisibleItems = [_layout layoutAttributesForElementsInRect:self.visibleRect];
     for (BTRCollectionViewLayoutAttributes *attrs in allNewlyVisibleItems) {
         BTRCollectionViewItemKey *key = [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attrs];
@@ -1310,44 +1309,44 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     }
     
     _allVisibleViewsDict = newAllVisibleView;
-
+	
     for(NSDictionary *animation in animations) {
         BTRCollectionReusableView *view = animation[@"view"];
         BTRCollectionViewLayoutAttributes *attr = animation[@"previousLayoutInfos"];
         [view applyLayoutAttributes:attr];
     };
-
+	
     [NSView rbl_animateWithDuration:.3 animations:^{
-         _collectionViewFlags.updatingLayout = YES;
-         for(NSDictionary *animation in animations) {
-             BTRCollectionReusableView* view = animation[@"view"];
-             BTRCollectionViewLayoutAttributes* attrs = animation[@"newLayoutInfos"];
-             [view applyLayoutAttributes:attrs];
-         }
-     } completion:^ {
-         NSMutableSet *set = [NSMutableSet set];
-         NSArray *visibleItems = [_layout layoutAttributesForElementsInRect:self.visibleRect];
-         for(BTRCollectionViewLayoutAttributes *attrs in visibleItems)
-             [set addObject: [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attrs]];
-
-         NSMutableSet *toRemove =  [NSMutableSet set];
-         for(BTRCollectionViewItemKey *key in [_allVisibleViewsDict keyEnumerator]) {
-             if(![set containsObject:key]) {
-                 [self reuseCell:_allVisibleViewsDict[key]];
-                 [toRemove addObject:key];
-             }
-         }
-         for(id key in toRemove)
-             [_allVisibleViewsDict removeObjectForKey:key];
-         
-         _collectionViewFlags.updatingLayout = NO;
-         
-         if(_updateCompletionHandler) {
-             _updateCompletionHandler();
-             _updateCompletionHandler = nil;
-         }
-     }];
-
+		_collectionViewFlags.updatingLayout = YES;
+		for(NSDictionary *animation in animations) {
+			BTRCollectionReusableView* view = animation[@"view"];
+			BTRCollectionViewLayoutAttributes* attrs = animation[@"newLayoutInfos"];
+			[view applyLayoutAttributes:attrs];
+		}
+	} completion:^ {
+		NSMutableSet *set = [NSMutableSet set];
+		NSArray *visibleItems = [_layout layoutAttributesForElementsInRect:self.visibleRect];
+		for(BTRCollectionViewLayoutAttributes *attrs in visibleItems)
+			[set addObject: [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attrs]];
+		
+		NSMutableSet *toRemove =  [NSMutableSet set];
+		for(BTRCollectionViewItemKey *key in [_allVisibleViewsDict keyEnumerator]) {
+			if(![set containsObject:key]) {
+				[self reuseCell:_allVisibleViewsDict[key]];
+				[toRemove addObject:key];
+			}
+		}
+		for(id key in toRemove)
+			[_allVisibleViewsDict removeObjectForKey:key];
+		
+		_collectionViewFlags.updatingLayout = NO;
+		
+		if(_updateCompletionHandler) {
+			_updateCompletionHandler();
+			_updateCompletionHandler = nil;
+		}
+	}];
+	
     [_layout finalizeCollectionViewUpdates];
 }
 
@@ -1364,21 +1363,21 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     
     [_layout invalidateLayout];
     [_collectionViewData prepareToLoadData];
-
+	
     NSMutableArray *someMutableArr1 = [[NSMutableArray alloc] init];
-
+	
     NSArray *removeUpdateItems = [[self arrayForUpdateAction:BTRCollectionUpdateActionDelete]
                                   sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)];
     
     NSArray *insertUpdateItems = [[self arrayForUpdateAction:BTRCollectionUpdateActionInsert]
                                   sortedArrayUsingSelector:@selector(compareIndexPaths:)];
-
+	
     NSMutableArray *sortedMutableReloadItems = [[_reloadItems sortedArrayUsingSelector:@selector(compareIndexPaths:)] mutableCopy];
     NSMutableArray *sortedMutableMoveItems = [[_moveItems sortedArrayUsingSelector:@selector(compareIndexPaths:)] mutableCopy];
     
     _originalDeleteItems = [removeUpdateItems copy];
     _originalInsertItems = [insertUpdateItems copy];
-
+	
     NSMutableArray *someMutableArr2 = [[NSMutableArray alloc] init];
     NSMutableArray *someMutableArr3 =[[NSMutableArray alloc] init];
     NSMutableDictionary *operations = [[NSMutableDictionary alloc] init];
@@ -1440,11 +1439,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
             @([operations[@(deleteItem.indexPathBeforeUpdate.section)][@"deleted"] intValue]+1);
         }
     }
-                      
+	
     for(NSInteger i=0; i<[sortedInsertMutableItems count]; i++) {
         BTRCollectionViewUpdateItem *insertItem = sortedInsertMutableItems[i];
         NSIndexPath *indexPath = insertItem.indexPathAfterUpdate;
-
+		
         BOOL sectionOperation = [insertItem isSectionOperation];
         if(sectionOperation) {
             NSAssert([indexPath section]<[_collectionViewData numberOfSections],
@@ -1455,8 +1454,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
                 if([moveItem.indexPathAfterUpdate isEqual:indexPath]) {
                     if(moveItem.isSectionOperation)
                         NSAssert(NO, @"attempt to perform an insert and a move to the same section (%ld)",indexPath.section);
-//                    else
-//                        NSAssert(NO, @"attempt to perform an insert and a move to the same index path (%@)",indexPath);
+					//                    else
+					//                        NSAssert(NO, @"attempt to perform an insert and a move to the same index path (%@)",indexPath);
                 }
             }
             
@@ -1484,12 +1483,12 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
             
             if(!operations[@(indexPath.section)])
                 operations[@(indexPath.section)] = [NSMutableDictionary dictionary];
-
+			
             operations[@(indexPath.section)][@"inserted"] =
             @([operations[@(indexPath.section)][@"inserted"] intValue]+1);
         }
     }
-
+	
     for(BTRCollectionViewUpdateItem * sortedItem in sortedMutableMoveItems) {
         if(sortedItem.isSectionOperation) {
             NSAssert(sortedItem.indexPathBeforeUpdate.section<[oldCollectionViewData numberOfSections],
@@ -1528,11 +1527,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         
         operations[@(sortedItem.indexPathBeforeUpdate.section)][@"movedOut"] =
         @([operations[@(sortedItem.indexPathBeforeUpdate.section)][@"movedOut"] intValue]+1);
-
+		
         operations[@(sortedItem.indexPathAfterUpdate.section)][@"movedIn"] =
         @([operations[@(sortedItem.indexPathAfterUpdate.section)][@"movedIn"] intValue]+1);
     }
-
+	
 #if !defined  NS_BLOCK_ASSERTIONS
     for(NSNumber *sectionKey in [operations keyEnumerator]) {
         NSInteger section = [sectionKey intValue];
@@ -1547,12 +1546,12 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
                  @"invalide update in section %ld: number of items after update (%ld) should be equal to the number of items before update (%ld) "\
                  "plus count of inserted items (%ld), minus count of deleted items (%ld), plus count of items moved in (%ld), minus count of items moved out (%ld)",
                  section,
-                  [_collectionViewData numberOfItemsInSection:section],
+				 [_collectionViewData numberOfItemsInSection:section],
                  [oldCollectionViewData numberOfItemsInSection:section],
                  insertedCount,deletedCount,movedInCount, movedOutCount);
     }
 #endif
-
+	
     [someMutableArr2 addObjectsFromArray:sortedDeletedMutableItems];
     [someMutableArr3 addObjectsFromArray:sortedInsertMutableItems];
     [someMutableArr1 addObjectsFromArray:[someMutableArr2 sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)]];
@@ -1560,7 +1559,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     [someMutableArr1 addObjectsFromArray:[someMutableArr3 sortedArrayUsingSelector:@selector(compareIndexPaths:)]];
     
     NSMutableArray *layoutUpdateItems = [[NSMutableArray alloc] init];
-
+	
     [layoutUpdateItems addObjectsFromArray:sortedDeletedMutableItems];
     [layoutUpdateItems addObjectsFromArray:sortedMutableMoveItems];
     [layoutUpdateItems addObjectsFromArray:sortedInsertMutableItems];
@@ -1613,10 +1612,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     
     NSMutableArray *oldToNewMap = [NSMutableArray arrayWithCapacity:[oldCollectionViewData numberOfItems]];
     NSMutableArray *newToOldMap = [NSMutableArray arrayWithCapacity:[_collectionViewData numberOfItems]];
-
+	
     for(NSInteger i=0; i < [oldCollectionViewData numberOfItems]; i++)
         [oldToNewMap addObject:@(NSNotFound)];
-
+	
     for(NSInteger i=0; i < [_collectionViewData numberOfItems]; i++)
         [newToOldMap addObject:@(NSNotFound)];
     
@@ -1630,9 +1629,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
                 newToOldMap[newGlobalIndex] = section[j];
         }
     }
-
+	
     _update = @{@"oldModel":oldCollectionViewData, @"newModel":_collectionViewData, @"oldToNewIndexMap":oldToNewMap, @"newToOldIndexMap":newToOldMap};
-
+	
     [self updateWithItems:someMutableArr1];
     
     _originalInsertItems = nil;
@@ -1679,7 +1678,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         BTRCollectionViewUpdateItem *updateItem =
         [[BTRCollectionViewUpdateItem alloc] initWithAction:updateAction
                                                forIndexPath:[NSIndexPath btr_indexPathForItem:NSNotFound
-                                                                                inSection:section]];
+																					inSection:section]];
         [updateActions addObject:updateItem];
     }];
     
