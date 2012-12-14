@@ -652,8 +652,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 					 animated:(BOOL)animated
 			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
-			   notifyDelegate:(BOOL)notifyDelegate {
-	
+			   notifyDelegate:(BOOL)notifyDelegate
+{
+	// Deselect everything else if only single selection is supported
     if (!self.allowsMultipleSelection) {
 		for (NSIndexPath *selectedIndexPath in [_indexPathsForSelectedItems copy]) {
 			if (![indexPath isEqual:selectedIndexPath]) {
@@ -684,7 +685,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 					 animated:(BOOL)animated
-			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition {
+			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
+{
     [self selectItemAtIndexPath:indexPath animated:animated scrollPosition:scrollPosition notifyDelegate:NO];
 }
 
@@ -693,7 +695,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[self deselectItemAtIndexPath:indexPath animated:animated notifyDelegate:NO];
 }
 
-- (BOOL)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notify {
+- (BOOL)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notify
+{
     if ([_indexPathsForSelectedItems containsObject:indexPath]) {
 		BOOL shouldDeselect = YES;
         if (notify && _collectionViewFlags.delegateShouldDeselectItemAtIndexPath) {
@@ -722,7 +725,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (BOOL)highlightItemAtIndexPath:(NSIndexPath *)indexPath
 						animated:(BOOL)animated
 				  scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
-				  notifyDelegate:(BOOL)notifyDelegate {
+				  notifyDelegate:(BOOL)notifyDelegate
+{
     BOOL shouldHighlight = YES;
     if (notifyDelegate && _collectionViewFlags.delegateShouldHighlightItemAtIndexPath) {
         shouldHighlight = [self.delegate collectionView:self shouldHighlightItemAtIndexPath:indexPath];
@@ -777,69 +781,68 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - Update Grid
 
-- (void)insertSections:(NSIndexSet *)sections {
+- (void)insertSections:(NSIndexSet *)sections
+{
     [self updateSections:sections updateAction:BTRCollectionUpdateActionInsert];
 }
 
-- (void)deleteSections:(NSIndexSet *)sections {
+- (void)deleteSections:(NSIndexSet *)sections
+{
     [self updateSections:sections updateAction:BTRCollectionUpdateActionInsert];
 }
 
-- (void)reloadSections:(NSIndexSet *)sections {
+- (void)reloadSections:(NSIndexSet *)sections
+{
     [self updateSections:sections updateAction:BTRCollectionUpdateActionReload];
 }
 
-- (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection {
+- (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection
+{
     NSMutableArray *moveUpdateItems = [self arrayForUpdateAction:BTRCollectionUpdateActionMove];
-    [moveUpdateItems addObject:
-     [[BTRCollectionViewUpdateItem alloc] initWithInitialIndexPath:[NSIndexPath btr_indexPathForItem:NSNotFound inSection:section]
-                                                    finalIndexPath:[NSIndexPath btr_indexPathForItem:NSNotFound inSection:newSection]
-                                                      updateAction:BTRCollectionUpdateActionMove]];
+	NSIndexPath *from = [NSIndexPath btr_indexPathForItem:NSNotFound inSection:section];
+	NSIndexPath *to = [NSIndexPath btr_indexPathForItem:NSNotFound inSection:newSection];
+	BTRCollectionViewUpdateItem *update = [[BTRCollectionViewUpdateItem alloc] initWithInitialIndexPath:from finalIndexPath:to updateAction:BTRCollectionUpdateActionMove];
+    [moveUpdateItems addObject:update];
     if(!_collectionViewFlags.updating) {
         [self setupCellAnimations];
         [self endItemAnimations];
     }
 }
 
-- (void)insertItemsAtIndexPaths:(NSArray *)indexPaths {
+- (void)insertItemsAtIndexPaths:(NSArray *)indexPaths
+{
     [self updateRowsAtIndexPaths:indexPaths updateAction:BTRCollectionUpdateActionInsert];
 }
 
-- (void)deleteItemsAtIndexPaths:(NSArray *)indexPaths {
+- (void)deleteItemsAtIndexPaths:(NSArray *)indexPaths
+{
     [self updateRowsAtIndexPaths:indexPaths updateAction:BTRCollectionUpdateActionDelete];
-	
 }
 
-- (void)reloadItemsAtIndexPaths:(NSArray *)indexPaths {
+- (void)reloadItemsAtIndexPaths:(NSArray *)indexPaths
+{
     [self updateRowsAtIndexPaths:indexPaths updateAction:BTRCollectionUpdateActionReload];
 }
 
 - (void)moveItemAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)newIndexPath {
-    NSMutableArray* moveUpdateItems = [self arrayForUpdateAction:BTRCollectionUpdateActionMove];
-    [moveUpdateItems addObject:
-     [[BTRCollectionViewUpdateItem alloc] initWithInitialIndexPath:indexPath
-                                                    finalIndexPath:newIndexPath
-                                                      updateAction:BTRCollectionUpdateActionMove]];
-    if(!_collectionViewFlags.updating) {
+    NSMutableArray *moveUpdateItems = [self arrayForUpdateAction:BTRCollectionUpdateActionMove];
+	BTRCollectionViewUpdateItem *update = [[BTRCollectionViewUpdateItem alloc] initWithInitialIndexPath:indexPath finalIndexPath:newIndexPath updateAction:BTRCollectionUpdateActionMove];
+    [moveUpdateItems addObject:update];
+    if (!_collectionViewFlags.updating) {
         [self setupCellAnimations];
         [self endItemAnimations];
-    }
-	
+    }	
 }
 
-- (void)performBatchUpdates:(void (^)(void))updates completion:(void (^)(void))completion {
-    if(!updates) return;
-    
+- (void)performBatchUpdates:(void (^)(void))updates completion:(void (^)(void))completion
+{
+    if (!updates) return;
     [self setupCellAnimations];
-	
     updates();
-    
     if(completion) _updateCompletionHandler = completion;
-	
     [self endItemAnimations];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Properties
 
 - (void)setBackgroundView:(NSView *)backgroundView {

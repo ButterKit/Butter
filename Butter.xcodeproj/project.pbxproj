@@ -247,7 +247,6 @@
 			children = (
 				03FA6F5616743D6000491A1D /* BTRCollectionView.h */,
 				03FA6F5716743D6000491A1D /* BTRCollectionView.m */,
-				03FA6F5816743D6000491A1D /* BTRGeometryAdditions.h */,
 				03FA6F5A16743D6000491A1D /* BTRCollectionViewFlowLayout.h */,
 				03FA6F5416743D6000491A1D /* BTRCollectionViewFlowLayout.m */,
 				03FA6F5B16743D6000491A1D /* BTRCollectionViewCommon.h */,
@@ -263,6 +262,7 @@
 		ABACCA35167AD439003EFDD6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				03FA6F5816743D6000491A1D /* BTRGeometryAdditions.h */,
 				ABACCA38167AD439003EFDD6 /* BTRClipView.h */,
 				ABACCA39167AD439003EFDD6 /* BTRClipView.m */,
 				ABACCA3A167AD439003EFDD6 /* BTRScrollView.h */,
