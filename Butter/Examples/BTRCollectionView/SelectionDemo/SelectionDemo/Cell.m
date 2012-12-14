@@ -54,4 +54,10 @@
 	} completion:NULL];
 }
 
+- (void)setSelected:(BOOL)selected
+{
+	[NSView btr_animateWithDuration:0.3 animations:^{
+		[super setSelected:selected];
+	} completion:NULL];
+}
 @end
