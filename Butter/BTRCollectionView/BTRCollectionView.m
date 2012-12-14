@@ -87,9 +87,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         unsigned int delegateDidEndDisplayingSupplementaryView : 1;
         unsigned int dataSourceNumberOfSections : 1;
         unsigned int dataSourceViewForSupplementaryElement : 1;
-		// Collection view options
-        unsigned int allowsSelection : 1;
-        unsigned int allowsMultipleSelection : 1;
 		// Tracks collection view state
         unsigned int updating : 1;
         unsigned int updatingLayout : 1;
@@ -1004,28 +1001,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     }
 }
 
-- (BOOL)allowsSelection {
-    return _collectionViewFlags.allowsSelection;
-}
-
-- (void)setAllowsSelection:(BOOL)allowsSelection {
-    _collectionViewFlags.allowsSelection = allowsSelection;
-}
-
-- (BOOL)allowsMultipleSelection {
-    return _collectionViewFlags.allowsMultipleSelection;
-}
-
 - (void)setAllowsMultipleSelection:(BOOL)allowsMultipleSelection {
-    _collectionViewFlags.allowsMultipleSelection = allowsMultipleSelection;
-
-    // Deselect all objects if allows multiple selection is false
-    if (!allowsMultipleSelection && _indexPathsForSelectedItems.count) {
-
-        // Note: Apple's implementation leaves a mostly random item selected. Presumably they
-        //       have a good reason for this, but I guess it's just skipping the last or first index.
-        for (NSIndexPath *selectedIndexPath in [_indexPathsForSelectedItems copy]) {
-            if (_indexPathsForSelectedItems.count == 1) continue;
+	if (_allowsMultipleSelection != allowsMultipleSelection) {
+		_allowsMultipleSelection = allowsMultipleSelection;
+        for (NSIndexPath *selectedIndexPath in [[_indexPathsForSelectedItems copy] reverseObjectEnumerator]) {
+            if (_indexPathsForSelectedItems.count == 1) break;
             [self deselectItemAtIndexPath:selectedIndexPath animated:YES notifyDelegate:YES];
         }
     }
