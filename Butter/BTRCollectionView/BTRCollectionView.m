@@ -615,7 +615,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 	_indexPathsForNewlyHighlightedItems = nil;
 	_indexPathsForNewlyUnhighlightedItems = nil;
-	[self unhighlightAllItems];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
