@@ -42,15 +42,4 @@
 // Defaults to NO.
 @property (nonatomic, assign, getter = isFlipped) BOOL flipped;
 
-// Determines when the backing layer's contents should be redrawn.
-//
-// If -drawRect: is not overridden, this defaults to
-// This defaults to NSViewLayerContentsRedrawDuringViewResize.
-//
-// For better performance, subclasses should set the contentsCenter property of
-// the backing layer to support scaling, and then change the value of this
-// property to NSViewLayerContentsRedrawBeforeViewResize or
-// NSViewLayerContentsRedrawOnSetNeedsDisplay.
-@property (nonatomic, assign) NSViewLayerContentsRedrawPolicy layerContentsRedrawPolicy;
-
 @end
