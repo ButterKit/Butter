@@ -60,6 +60,11 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	[self display];
 }
 
+- (void)setAnimateContents:(BOOL)animateContents {
+	drawFlag = animateContents;
+	_animateContents = animateContents;
+}
+
 - (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event {
 	if ([event isEqualToString:@"contents"] && self.animateContents) {
 		self.animateContents = drawFlag;
