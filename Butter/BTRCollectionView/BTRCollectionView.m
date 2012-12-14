@@ -104,8 +104,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 @property (nonatomic, strong) BTRCollectionViewData *collectionViewData;
 // Mapped to the ivar _allVisibleViewsDict (dictionary of all visible views)
 @property (nonatomic, readonly) NSDictionary *visibleViewsDict;
-// The total content size of the collection view, used to set the view's frame size
-@property (nonatomic, assign) CGSize contentSize;
 @end
 
 @implementation BTRCollectionView
@@ -192,9 +190,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     if (!_collectionViewFlags.updatingLayout) [self updateVisibleCellsNow:YES];
 	// Check if the content size needs to be reset
     CGSize contentSize = [_collectionViewData collectionViewContentRect].size;
-    if (!CGSizeEqualToSize(self.contentSize, contentSize)) {
+    if (!CGSizeEqualToSize([self frame].size, contentSize)) {
 		// Set the new content size and run layout again
-        self.contentSize = contentSize;
+        [self setFrameSize:contentSize];
         [_collectionViewData validateLayoutInRect:self.visibleRect];
         [self updateVisibleCellsNow:YES];
     }
@@ -219,10 +217,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 
 #pragma mark - Public
-
-////////////////////////////////////////////////////////////
-/// All of these public methods are documented in the header
-////////////////////////////////////////////////////////////
 
 - (void)registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier {
     NSParameterAssert(cellClass);
@@ -855,11 +849,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     }
 }
 
-- (void)setCollectionViewLayout:(BTRCollectionViewLayout *)layout animated:(BOOL)animated {
+- (void)setCollectionViewLayout:(BTRCollectionViewLayout *)layout animated:(BOOL)animated
+{
     if (layout == _layout) return;
-	
-    // not sure it was it original code, but here this prevents crash
-    // in case we switch layout before previous one was initially loaded
+	// If there's no current layout state then 
     if (CGRectIsEmpty(self.bounds) || !_collectionViewFlags.doneFirstLayout) {
         _layout.collectionView = nil;
         _collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
@@ -876,7 +869,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         NSArray *previouslySelectedIndexPaths = [self indexPathsForSelectedItems];
         NSMutableSet *selectedCellKeys = [NSMutableSet setWithCapacity:[previouslySelectedIndexPaths count]];
         
-        for(NSIndexPath *indexPath in previouslySelectedIndexPaths) {
+        for (NSIndexPath *indexPath in previouslySelectedIndexPaths) {
             [selectedCellKeys addObject:[BTRCollectionViewItemKey collectionItemKeyForCellWithIndexPath:indexPath]];
         }
         
@@ -887,11 +880,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         if ([selectedCellKeys intersectsSet:selectedCellKeys]) {
             [previouslyVisibleItemsKeysSetMutable intersectSet:previouslyVisibleItemsKeysSetMutable];
         }
-        
-		//  NSView *previouslyVisibleView = _allVisibleViewsDict[[previouslyVisibleItemsKeysSetMutable anyObject]];
-		//  [previouslyVisibleView removeFromSuperview];
-		//  [self addSubview:previouslyVisibleView positioned:NSWindowAbove relativeTo:nil];
-        
+
         CGRect rect = [_collectionViewData collectionViewContentRect];
         NSArray *newlyVisibleLayoutAttrs = [_collectionViewData layoutAttributesForElementsInRect:rect];
         
@@ -979,7 +968,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
         
         CGRect contentRect = [_collectionViewData collectionViewContentRect];
 		
-        [self setContentSize:contentRect.size];
+        [self setFrameSize:contentRect.size];
         [self scrollPoint:contentRect.origin];
         
         void (^applyNewLayoutBlock)(void) = ^{
@@ -1026,42 +1015,24 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 }
 
 - (void)setDelegate:(id<BTRCollectionViewDelegate>)delegate {
-	_delegate = delegate;
-	
-	//	Managing the Selected Cells
-	_collectionViewFlags.delegateShouldSelectItemAtIndexPath       = [self.delegate respondsToSelector:@selector(collectionView:shouldSelectItemAtIndexPath:)];
-	_collectionViewFlags.delegateDidSelectItemAtIndexPath          = [self.delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)];
-	_collectionViewFlags.delegateShouldDeselectItemAtIndexPath     = [self.delegate respondsToSelector:@selector(collectionView:shouldDeselectItemAtIndexPath:)];
-	_collectionViewFlags.delegateDidDeselectItemAtIndexPath        = [self.delegate respondsToSelector:@selector(collectionView:didDeselectItemAtIndexPath:)];
-	
-	//	Managing Cell Highlighting
-	_collectionViewFlags.delegateShouldHighlightItemAtIndexPath    = [self.delegate respondsToSelector:@selector(collectionView:shouldHighlightItemAtIndexPath:)];
-	_collectionViewFlags.delegateDidHighlightItemAtIndexPath       = [self.delegate respondsToSelector:@selector(collectionView:didHighlightItemAtIndexPath:)];
-	_collectionViewFlags.delegateDidUnhighlightItemAtIndexPath     = [self.delegate respondsToSelector:@selector(collectionView:didUnhighlightItemAtIndexPath:)];
-	
-	//	Tracking the Removal of Views
-	_collectionViewFlags.delegateDidEndDisplayingCell              = [self.delegate respondsToSelector:@selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:)];
-	_collectionViewFlags.delegateDidEndDisplayingSupplementaryView = [self.delegate respondsToSelector:@selector(collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:)];
-	
-	//	Managing Actions for Cells
-	_collectionViewFlags.delegateSupportsMenus                     = [self.delegate respondsToSelector:@selector(collectionView:shouldShowMenuForItemAtIndexPath:)];
-	
-	// These aren't present in the flags which is a little strange. Not adding them because thet will mess with byte alignment which will affect cross compatibility.
-	// The flag names are guesses and are there for documentation purposes.
-	//
-	// _collectionViewFlags.delegateCanPerformActionForItemAtIndexPath	= [self.delegate respondsToSelector:@selector(collectionView:canPerformAction:forItemAtIndexPath:withSender:)];
-	// _collectionViewFlags.delegatePerformActionForItemAtIndexPath		= [self.delegate respondsToSelector:@selector(collectionView:performAction:forItemAtIndexPath:withSender:)];
+	if (_delegate != delegate) {
+		_delegate = delegate;
+		_collectionViewFlags.delegateShouldSelectItemAtIndexPath = [_delegate respondsToSelector:@selector(collectionView:shouldSelectItemAtIndexPath:)];
+		_collectionViewFlags.delegateDidSelectItemAtIndexPath = [_delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)];
+		_collectionViewFlags.delegateShouldDeselectItemAtIndexPath = [_delegate respondsToSelector:@selector(collectionView:shouldDeselectItemAtIndexPath:)];
+		_collectionViewFlags.delegateDidDeselectItemAtIndexPath = [_delegate respondsToSelector:@selector(collectionView:didDeselectItemAtIndexPath:)];
+		_collectionViewFlags.delegateShouldHighlightItemAtIndexPath = [_delegate respondsToSelector:@selector(collectionView:shouldHighlightItemAtIndexPath:)];
+		_collectionViewFlags.delegateDidHighlightItemAtIndexPath = [_delegate respondsToSelector:@selector(collectionView:didHighlightItemAtIndexPath:)];
+		_collectionViewFlags.delegateDidUnhighlightItemAtIndexPath = [_delegate respondsToSelector:@selector(collectionView:didUnhighlightItemAtIndexPath:)];
+		_collectionViewFlags.delegateDidEndDisplayingCell = [_delegate respondsToSelector:@selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:)];
+		_collectionViewFlags.delegateDidEndDisplayingSupplementaryView = [_delegate respondsToSelector:@selector(collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:)];
+	}
 }
 
-// Might be overkill since two are required and two are handled by BTRCollectionViewData leaving only one flag we actually need to check for
 - (void)setDataSource:(id<BTRCollectionViewDataSource>)dataSource {
     if (dataSource != _dataSource) {
 		_dataSource = dataSource;
-		
-		//	Getting Item and Section Metrics
 		_collectionViewFlags.dataSourceNumberOfSections = [_dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)];
-		
-		//	Getting Views for Items
 		_collectionViewFlags.dataSourceViewForSupplementaryElement = [_dataSource respondsToSelector:@selector(collectionView:viewForSupplementaryElementOfKind:atIndexPath:)];
     }
 }
@@ -1073,13 +1044,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
             if (_indexPathsForSelectedItems.count == 1) break;
             [self deselectItemAtIndexPath:selectedIndexPath animated:YES notifyDelegate:YES];
         }
-    }
-}
-
-- (void)setContentSize:(CGSize)contentSize
-{
-    if (!CGSizeEqualToSize(_contentSize, contentSize)) {
-        [self setFrameSize:contentSize];
     }
 }
 

@@ -48,11 +48,4 @@
 
 - (void)collectionView:(BTRCollectionView *)collectionView didEndDisplayingCell:(BTRCollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)collectionView:(BTRCollectionView *)collectionView didEndDisplayingSupplementaryView:(BTRCollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath;
-
-// These methods provide support for copy/paste actions on cells.
-// All three should be implemented if any are.
-- (BOOL)collectionView:(BTRCollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (BOOL)collectionView:(BTRCollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
-- (void)collectionView:(BTRCollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
-
 @end
