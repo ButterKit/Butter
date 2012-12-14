@@ -388,7 +388,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     return [[self collectionViewLayout] layoutAttributesForSupplementaryViewOfKind:kind atIndexPath:indexPath];
 }
 
-// Iterate through the keys until a cell with a frame that contains the given point is found
 - (NSIndexPath *)indexPathForItemAtPoint:(CGPoint)point {
     __block NSIndexPath *indexPath = nil;
     [_allVisibleViewsDict enumerateKeysAndObjectsWithOptions:kNilOptions usingBlock:^(id key, id obj, BOOL *stop) {
@@ -404,7 +403,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     return indexPath;
 }
 
-// Iterate through the keys until a cell matching the given cell is found
 - (NSIndexPath *)indexPathForCell:(BTRCollectionViewCell *)cell {
     __block NSIndexPath *indexPath = nil;
     [_allVisibleViewsDict enumerateKeysAndObjectsWithOptions:kNilOptions usingBlock:^(id key, id obj, BOOL *stop) {
@@ -420,7 +418,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     return indexPath;
 }
 
-// Iterate through the keys until a cell with an index path matching the given index path is found
 - (BTRCollectionViewCell *)cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     __block BTRCollectionViewCell *cell = nil;
     [_allVisibleViewsDict enumerateKeysAndObjectsWithOptions:0 usingBlock:^(id key, id obj, BOOL *stop) {
@@ -435,7 +432,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
     return cell;
 }
 
-// Iterate the views and separate the cells out from the rest
 - (NSArray *)indexPathsForVisibleItems {
 	NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:[_allVisibleViewsDict count]];
 	
@@ -449,7 +445,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	return indexPaths;
 }
 
-// Returns nil or an array of selected index paths
 - (NSArray *)indexPathsForSelectedItems {
     return [_indexPathsForSelectedItems copy];
 }
@@ -533,16 +528,28 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	[super mouseDown:theEvent];
+	//
+	// A note about this whole "highlighted" state thing that seems somewhat confusing
+	// The highlighted state occurs on mouseDown:. It is the intermediary step to either
+	// selecting or deselecting an item. Items that are unhighlighted in this method are
+	// queued to be deselected in mouseUp:, and items that are selected are queued to be
+	// selected in mouseUp:
+	//
 	NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
     BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
     BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
 	BOOL shiftOrCommandDown  = commandKeyDown || shiftKeyDown;
+	
 	CGPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSIndexPath *indexPath = [self indexPathForItemAtPoint:location];
+	BOOL alreadySelected = [_indexPathsForSelectedItems containsObject:indexPath];
+	
+	// Unhighlights everything that's currently selected
 	void (^unhighlightAllBlock)(void) = ^{
-		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithArray:_indexPathsForHighlightedItems];
+		_indexPathsForNewlyUnhighlightedItems = [NSMutableSet setWithArray:_indexPathsForSelectedItems];
 		[self unhighlightAllItems];
 	};
+	// Convenience block for building the highlighted items array and highlighting an item
 	void (^highlightBlock)(NSIndexPath *) = ^(NSIndexPath *path){
 		if ([self highlightItemAtIndexPath:path
 								  animated:YES
@@ -555,11 +562,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			}
 		}
 	};
+	// If the background was clicked, unhighlight everything
 	if (!indexPath) {
 		unhighlightAllBlock();
 		return;
 	}
-	BOOL alreadySelected = [_indexPathsForSelectedItems containsObject:indexPath];
 	if (!shiftOrCommandDown && !alreadySelected)
 		unhighlightAllBlock();
 	if (shiftOrCommandDown && alreadySelected) {
@@ -725,7 +732,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Update Grid
 
 - (void)insertSections:(NSIndexSet *)sections {

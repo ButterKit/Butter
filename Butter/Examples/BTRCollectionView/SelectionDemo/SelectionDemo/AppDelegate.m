@@ -28,6 +28,7 @@
 	BTRCollectionViewFlowLayout *flowLayout = [[BTRCollectionViewFlowLayout alloc] init];
     self.collectionView = [[BTRCollectionView alloc] initWithFrame:scrollView.bounds collectionViewLayout:flowLayout];
     self.collectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+	self.collectionView.allowsMultipleSelection = YES;
 	[self.collectionView registerClass:[Cell class] forCellWithReuseIdentifier:@"MY_CELL"];
 	[self.collectionView setDataSource:self];
 	[self.collectionView setDelegate:self];
@@ -54,16 +55,13 @@
 }
 
 - (BOOL)collectionView:(BTRCollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"%s",__PRETTY_FUNCTION__);
 	return YES;
 }
 
 - (void)collectionView:(BTRCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 
 - (void)collectionView:(BTRCollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"%s",__PRETTY_FUNCTION__);
 	BTRCollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
 	[NSView btr_animateWithDuration:0.1 animationCurve:BTRViewAnimationCurveEaseInOut animations:^{
 		cell.layer.transform = CATransform3DConcat(CATransform3DMakeScale(0.9, 0.9, 0.0), CATransform3DMakeTranslation(9, 9, 0));
@@ -75,7 +73,6 @@
 }
 
 - (void)collectionView:(BTRCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 
 @end
