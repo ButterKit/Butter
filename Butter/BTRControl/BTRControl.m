@@ -82,6 +82,14 @@
 	[self addTrackingArea:self.trackingArea];
 }
 
+- (void)setNeedsTrackingArea:(BOOL)needsTrackingArea {
+	_needsTrackingArea = needsTrackingArea;
+	if (!needsTrackingArea && self.trackingArea != nil) {
+		[self removeTrackingArea:self.trackingArea];
+		self.trackingArea = nil;
+	}
+}
+
 - (void)mouseDown:(NSEvent *)event {
 	[super mouseDown:event];
 	[self handleMouseDown:event];
