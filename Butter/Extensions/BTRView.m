@@ -11,7 +11,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 @implementation BTRView {
-	BOOL btr_flipped;
 	BOOL drawFlag;
 }
 
@@ -19,15 +18,10 @@
 
 BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
-- (BOOL)isFlipped
-{
-	return btr_flipped;
-}
-
 - (void)setFlipped:(BOOL)flipped
 {
-	if (flipped != btr_flipped) {
-		btr_flipped = flipped;
+	if (_flipped != flipped) {
+		_flipped = flipped;
 		self.needsLayout = YES;
 		self.needsDisplay = YES;
 	}
