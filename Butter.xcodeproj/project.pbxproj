@@ -34,6 +34,8 @@
 		ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */; };
 		ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA3C167AD439003EFDD6 /* BTRView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3D167AD439003EFDD6 /* BTRView.m */; };
+		ABB9D743167BD73A00ECB31D /* BTRControl.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB9D741167BD73A00ECB31D /* BTRControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB9D742167BD73A00ECB31D /* BTRControl.m */; };
 		ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABE939381679942300A7A1B8 /* BTRImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE939391679942300A7A1B8 /* BTRImageView.m */; };
 /* End PBXBuildFile section */
@@ -52,6 +54,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 03594AA41671C9BF0025210A;
 			remoteInfo = BasicExample;
+		};
+		ABB9D773167BF0F200ECB31D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABB9D74F167BF0F100ECB31D;
+			remoteInfo = ControlEvents;
 		};
 		ABE938ED16792D6000A7A1B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -110,6 +119,9 @@
 		ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRScrollView.m; sourceTree = "<group>"; };
 		ABACCA3C167AD439003EFDD6 /* BTRView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRView.h; sourceTree = "<group>"; };
 		ABACCA3D167AD439003EFDD6 /* BTRView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRView.m; sourceTree = "<group>"; };
+		ABB9D741167BD73A00ECB31D /* BTRControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRControl.h; path = BTRControl/BTRControl.h; sourceTree = "<group>"; };
+		ABB9D742167BD73A00ECB31D /* BTRControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRControl.m; path = BTRControl/BTRControl.m; sourceTree = "<group>"; };
+		ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ControlEvents.xcodeproj; path = Butter/Examples/BTRControl/ControlEvents/ControlEvents.xcodeproj; sourceTree = "<group>"; };
 		ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SelectionDemo.xcodeproj; path = Butter/Examples/BTRCollectionView/SelectionDemo/SelectionDemo.xcodeproj; sourceTree = "<group>"; };
 		ABE939381679942300A7A1B8 /* BTRImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRImageView.h; path = BTRImageView/BTRImageView.h; sourceTree = "<group>"; };
 		ABE939391679942300A7A1B8 /* BTRImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRImageView.m; path = BTRImageView/BTRImageView.m; sourceTree = "<group>"; };
@@ -193,6 +205,7 @@
 				ABACCA35167AD439003EFDD6 /* Extensions */,
 				ABE93937167993DB00A7A1B8 /* BTRImageView */,
 				AB05CE1A1672E95900534E63 /* BTRCollectionView */,
+				ABB9D73D167BD6C800ECB31D /* BTRControl */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -214,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				03FA702816746A7500491A1D /* BTRCollectionView */,
+				ABB9D745167BF03600ECB31D /* BTRControl */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -276,6 +290,31 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		ABB9D73D167BD6C800ECB31D /* BTRControl */ = {
+			isa = PBXGroup;
+			children = (
+				ABB9D741167BD73A00ECB31D /* BTRControl.h */,
+				ABB9D742167BD73A00ECB31D /* BTRControl.m */,
+			);
+			name = BTRControl;
+			sourceTree = "<group>";
+		};
+		ABB9D745167BF03600ECB31D /* BTRControl */ = {
+			isa = PBXGroup;
+			children = (
+				ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */,
+			);
+			name = BTRControl;
+			sourceTree = "<group>";
+		};
+		ABB9D770167BF0F100ECB31D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABB9D774167BF0F200ECB31D /* ControlEvents.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ABE938E816792D6000A7A1B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +354,7 @@
 				ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */,
 				ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */,
 				03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */,
+				ABB9D743167BD73A00ECB31D /* BTRControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +410,10 @@
 					ProjectRef = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
 				},
 				{
+					ProductGroup = ABB9D770167BF0F100ECB31D /* Products */;
+					ProjectRef = ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */;
+				},
+				{
 					ProductGroup = ABE938E816792D6000A7A1B8 /* Products */;
 					ProjectRef = ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */;
 				},
@@ -394,6 +438,13 @@
 			fileType = wrapper.application;
 			path = BasicExample.app;
 			remoteRef = 03FA703B16746A7F00491A1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABB9D774167BF0F200ECB31D /* ControlEvents.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ControlEvents.app;
+			remoteRef = ABB9D773167BF0F200ECB31D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ABE938EE16792D6000A7A1B8 /* SelectionDemo.app */ = {
@@ -432,6 +483,7 @@
 				ABACCA41167AD439003EFDD6 /* BTRClipView.m in Sources */,
 				ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */,
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,
+				ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
