@@ -46,9 +46,9 @@
 
 - (BTRControlState)state {
 	BTRControlState state = BTRControlStateNormal;
-	state = (!self.highlighted) ?: (state | BTRControlStateHighlighted);
-	state = (!self.selected) ?: (state | BTRControlStateSelected);
-	state = (self.enabled) ?: (state | BTRControlStateDisabled);
+	if (self.highlighted) state = state | BTRControlStateHighlighted;
+	if (self.selected) state = state | BTRControlStateSelected;
+	if (!self.enabled) state = state | BTRControlStateDisabled;
 	return state;
 }
 
