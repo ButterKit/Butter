@@ -11,3 +11,4 @@
 #import <Butter/BTRCollectionViewLayout.h>
 #import <Butter/BTRCollectionViewFlowLayout.h>
 #import <Butter/BTRImageView.h>
+#import <Butter/BTRControl.h>
