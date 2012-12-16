@@ -112,8 +112,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - NSObject
 
-- (void)BTRCollectionViewCommonSetup
-{
+- (void)BTRCollectionViewCommonSetup {
 	// Allocate storage variables, configure default settings
 	self.allowsSelection = YES;
 	self.flipped = YES;
@@ -159,8 +158,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - NSView
 
-- (void)viewWillMoveToSuperview:(NSView *)newSuperview
-{
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview {
 	[super viewWillMoveToSuperview:newSuperview];
 	// The collection view should always be placed inside a scroll view
 	// Hence, it's superview should be an NSClipView
@@ -216,13 +214,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - NSResponder
 
-- (BOOL)acceptsFirstResponder
-{
+// Need to override these to receive keyboard events
+
+- (BOOL)acceptsFirstResponder {
 	return YES;
 }
 
-- (BOOL)canBecomeKeyView
-{
+- (BOOL)canBecomeKeyView {
 	return YES;
 }
 
@@ -473,8 +471,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 }
 
-- (CGRect)adjustRect:(CGRect)targetRect forScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
-{
+- (CGRect)adjustRect:(CGRect)targetRect forScrollPosition:(BTRCollectionViewScrollPosition)scrollPosition {
 	NSUInteger verticalPosition = scrollPosition & 0x07;   // 0000 0111
 	NSUInteger horizontalPosition = scrollPosition & 0x38; // 0011 1000
 	
@@ -530,8 +527,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - Mouse Event Handling
 
-- (void)mouseDown:(NSEvent *)theEvent
-{
+- (void)mouseDown:(NSEvent *)theEvent {
 	[super mouseDown:theEvent];
 	if (!self.allowsSelection) return;
 	//
@@ -629,8 +625,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	
 }
 
-- (void)mouseUp:(NSEvent *)theEvent
-{
+- (void)mouseUp:(NSEvent *)theEvent {
 	[super mouseUp:theEvent];
 	if (!self.allowsSelection) return;
 	// "Commit" all the changes by selecting/deselecting the highlight/unhighlighted cells
@@ -656,18 +651,17 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - Key Events
 
-- (void)keyDown:(NSEvent *)theEvent
-{
+// Stubs for keyboard event implementation
+
+- (void)keyDown:(NSEvent *)theEvent {
 	[self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
 }
 
-- (void)moveUp:(id)sender
-{
+- (void)moveUp:(id)sender {
 	
 }
 
-- (void)moveDown:(id)sender
-{
+- (void)moveDown:(id)sender {
 	
 }
 
@@ -676,8 +670,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 					 animated:(BOOL)animated
 			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
-			   notifyDelegate:(BOOL)notifyDelegate
-{
+			   notifyDelegate:(BOOL)notifyDelegate {
 	// Deselect everything else if only single selection is supported
 	if (!self.allowsMultipleSelection) {
 		for (NSIndexPath *selectedIndexPath in [_indexPathsForSelectedItems copy]) {
@@ -710,18 +703,15 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 					 animated:(BOOL)animated
-			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
-{
+			   scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition {
 	[self selectItemAtIndexPath:indexPath animated:animated scrollPosition:scrollPosition notifyDelegate:NO];
 }
 
-- (void)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated
-{
+- (void)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	[self deselectItemAtIndexPath:indexPath animated:animated notifyDelegate:NO];
 }
 
-- (BOOL)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notify
-{
+- (BOOL)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated notifyDelegate:(BOOL)notify {
 	if ([_indexPathsForSelectedItems containsObject:indexPath]) {
 		BOOL shouldDeselect = YES;
 		if (notify && _collectionViewFlags.delegateShouldDeselectItemAtIndexPath) {
@@ -750,8 +740,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (BOOL)highlightItemAtIndexPath:(NSIndexPath *)indexPath
 						animated:(BOOL)animated
 				  scrollPosition:(BTRCollectionViewScrollPosition)scrollPosition
-				  notifyDelegate:(BOOL)notifyDelegate
-{
+				  notifyDelegate:(BOOL)notifyDelegate {
 	BOOL shouldHighlight = YES;
 	if (notifyDelegate && _collectionViewFlags.delegateShouldHighlightItemAtIndexPath) {
 		shouldHighlight = [self.delegate collectionView:self shouldHighlightItemAtIndexPath:indexPath];
@@ -776,8 +765,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (void)unhighlightItemAtIndexPath:(NSIndexPath *)indexPath
 						  animated:(BOOL)animated
-					notifyDelegate:(BOOL)notifyDelegate
-{
+					notifyDelegate:(BOOL)notifyDelegate {
 	if ([_indexPathsForHighlightedItems containsObject:indexPath]) {
 		BTRCollectionViewCell *highlightedCell = [self cellForItemAtIndexPath:indexPath];
 		if (animated) {
@@ -794,15 +782,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 }
 
-- (void)unhighlightAllItems
-{
+- (void)unhighlightAllItems {
 	for (NSIndexPath *indexPath in [_indexPathsForHighlightedItems copy]) {
 		[self unhighlightItemAtIndexPath:indexPath animated:NO notifyDelegate:YES];
 	}
 }
 
-- (void)deselectAllItems
-{
+- (void)deselectAllItems {
 	for (NSIndexPath *indexPath in [_indexPathsForSelectedItems copy]) {
 		[self deselectItemAtIndexPath:indexPath animated:NO notifyDelegate:YES];
 	}
@@ -810,23 +796,19 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 #pragma mark - Update Grid
 
-- (void)insertSections:(NSIndexSet *)sections
-{
+- (void)insertSections:(NSIndexSet *)sections {
 	[self updateSections:sections updateAction:BTRCollectionUpdateActionInsert];
 }
 
-- (void)deleteSections:(NSIndexSet *)sections
-{
+- (void)deleteSections:(NSIndexSet *)sections {
 	[self updateSections:sections updateAction:BTRCollectionUpdateActionInsert];
 }
 
-- (void)reloadSections:(NSIndexSet *)sections
-{
+- (void)reloadSections:(NSIndexSet *)sections {
 	[self updateSections:sections updateAction:BTRCollectionUpdateActionReload];
 }
 
-- (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection
-{
+- (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection {
 	NSMutableArray *moveUpdateItems = [self arrayForUpdateAction:BTRCollectionUpdateActionMove];
 	NSIndexPath *from = [NSIndexPath btr_indexPathForItem:NSNotFound inSection:section];
 	NSIndexPath *to = [NSIndexPath btr_indexPathForItem:NSNotFound inSection:newSection];
@@ -838,18 +820,15 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 }
 
-- (void)insertItemsAtIndexPaths:(NSArray *)indexPaths
-{
+- (void)insertItemsAtIndexPaths:(NSArray *)indexPaths {
 	[self updateRowsAtIndexPaths:indexPaths updateAction:BTRCollectionUpdateActionInsert];
 }
 
-- (void)deleteItemsAtIndexPaths:(NSArray *)indexPaths
-{
+- (void)deleteItemsAtIndexPaths:(NSArray *)indexPaths {
 	[self updateRowsAtIndexPaths:indexPaths updateAction:BTRCollectionUpdateActionDelete];
 }
 
-- (void)reloadItemsAtIndexPaths:(NSArray *)indexPaths
-{
+- (void)reloadItemsAtIndexPaths:(NSArray *)indexPaths {
 	[self updateRowsAtIndexPaths:indexPaths updateAction:BTRCollectionUpdateActionReload];
 }
 
@@ -863,8 +842,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 }
 
-- (void)performBatchUpdates:(void (^)(void))updates completion:(void (^)(void))completion
-{
+- (void)performBatchUpdates:(void (^)(void))updates completion:(void (^)(void))completion {
 	if (!updates) return;
 	[self setupCellAnimations];
 	updates();
@@ -884,8 +862,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 }
 
-- (void)setCollectionViewLayout:(BTRCollectionViewLayout *)layout animated:(BOOL)animated
-{
+- (void)setCollectionViewLayout:(BTRCollectionViewLayout *)layout animated:(BOOL)animated {
 	if (layout == _layout) return;
 	// If there's no current layout state then
 	if (CGRectIsEmpty(self.bounds) || !_collectionViewFlags.doneFirstLayout) {
@@ -1089,8 +1066,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[self.collectionViewData invalidate];
 }
 
-- (void)updateVisibleCells
-{
+- (void)updateVisibleCells {
 	// Build an array of the items that need to be made visible
 	NSArray *layoutAttributesArray = [_collectionViewData layoutAttributesForElementsInRect:self.visibleRect];
 	NSMutableDictionary *itemKeysToAddDict = [NSMutableDictionary dictionary];
@@ -1759,26 +1735,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	NSInteger _numItems;
 	NSInteger _numSections;
 	NSInteger *_sectionItemCounts;
-	NSArray *_globalItems; // Apple uses id *_globalItems; - a C array?
-	
-	/*
-	 // At this point, I've no idea how _screenPageDict is structured. Looks like some optimization for layoutAttributesForElementsInRect.
-	 And why UICGPointKey? Isn't that doable with NSValue?
-	 
-	 "<UICGPointKey: 0x11432d40>" = "<NSMutableIndexSet: 0x11432c60>[number of indexes: 9 (in 1 ranges), indexes: (0-8)]";
-	 "<UICGPointKey: 0xb94bf60>" = "<NSMutableIndexSet: 0x18dea7e0>[number of indexes: 11 (in 2 ranges), indexes: (6-15 17)]";
-	 
-	 (lldb) p (CGPoint)[[[[[collectionView valueForKey:@"_collectionViewData"] valueForKey:@"_screenPageDict"] allKeys] objectAtIndex:0] point]
-	 (CGPoint) $11 = (x=15, y=159)
-	 (lldb) p (CGPoint)[[[[[collectionView valueForKey:@"_collectionViewData"] valueForKey:@"_screenPageDict"] allKeys] objectAtIndex:1] point]
-	 (CGPoint) $12 = (x=15, y=1128)
-	 
-	 // https://github.com/steipete/iOS6-Runtime-Headers/blob/master/UICGPointKey.h
-	 
-	 NSMutableDictionary *_screenPageDict;
-	 */
-	
-	// @steipete
+	NSArray *_globalItems;
 	NSArray *_cellLayoutAttributes;
 	
 	CGSize _contentSize;
