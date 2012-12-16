@@ -535,13 +535,15 @@ static char kBTRCachedItemRectsKey;
         CGPoint itemOffset = CGPointZero;
         if (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentRight) {
             itemOffset.x += leftOverSpace;
-        }else if(horizontalAlignment == BTRFlowLayoutHorizontalAlignmentCentered) {
+        }else if(horizontalAlignment == BTRFlowLayoutHorizontalAlignmentCentered ||
+                 (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentJustify && usedItemCount == 1)) {
+            // Special case one item row to split leftover space in half
             itemOffset.x += leftOverSpace/2;
         }
         
         // calculate the justified spacing among all items in a row if we are using
-        // the default BTRFlowLayoutHorizontalAlignmentJustify layout
-        CGFloat interSpacing = leftOverSpace/(CGFloat)(usedItemCount-1);
+        // the default PSTFlowLayoutHorizontalAlignmentJustify layout
+        CGFloat interSpacing = usedItemCount <= 1 ? 0 : leftOverSpace/(CGFloat)(usedItemCount-1);
 		
         // calculate row frame as union of all items
         CGRect frame = CGRectZero;
