@@ -1347,7 +1347,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		BTRCollectionViewLayoutAttributes* finalAttrs =
 		[_layout layoutAttributesForItemAtIndexPath:newIndexPath];
 		
-		[animations addObject:@{@"view":view, @"previousLayoutInfos": startAttrs, @"newLayoutInfos": finalAttrs}];
+		NSMutableDictionary *animation = [NSMutableDictionary dictionaryWithDictionary:@{@"view":view}];
+        if (startAttrs) [animation setObject:startAttrs forKey:@"previousLayoutInfos"];
+        if (finalAttrs) [animation setObject:finalAttrs forKey:@"newLayoutInfos"];
+		[animations addObject:animation];
 		BTRCollectionViewItemKey* newKey = [key copy];
 		[newKey setIndexPath:newIndexPath];
 		newAllVisibleView[newKey] = view;
