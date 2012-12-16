@@ -1218,7 +1218,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 }
 
 - (void)resumeReloads {
-	_reloadingSuspendedCount--;
+	if (_reloadingSuspendedCount > 0)
+		_reloadingSuspendedCount--;
 }
 
 -(NSMutableArray *)arrayForUpdateAction:(BTRCollectionUpdateAction)updateAction {
@@ -1728,7 +1729,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 - (void)updateSections:(NSIndexSet *)sections updateAction:(BTRCollectionUpdateAction)updateAction {
 	BOOL updating = _collectionViewFlags.updating;
-	if(updating) {
+	if (!updating) {
 		[self setupCellAnimations];
 	}
 	
