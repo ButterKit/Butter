@@ -31,6 +31,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 @property (nonatomic, strong) BTRCollectionViewData *collectionViewData;
 // Mapped to the ivar _allVisibleViewsDict (dictionary of all visible views)
 @property (nonatomic, readonly) NSDictionary *visibleViewsDict;
+// Stores the information associated with an update of the collection view's items
+@property (nonatomic, strong) NSDictionary *currentUpdate;
 @end
 
 @implementation BTRCollectionView {
@@ -58,8 +60,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	NSMutableDictionary *_allVisibleViewsDict;
 	// Container class that stores the layout data for the collection view
 	BTRCollectionViewData *_collectionViewData;
-	// Stores the information associated with an update of the collection view's items
-	NSDictionary *_update;
 	// Keeps track of state for item animations
 	NSInteger _updateCount;
 	// Temporary array of items that are inserted
@@ -1304,9 +1304,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}];
 	[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
 		BTRCollectionReusableView *view = _allVisibleViewsDict[key];
-		NSInteger oldGlobalIndex = [_update[@"oldModel"] globalIndexForItemAtIndexPath:key.indexPath];
-		NSInteger newGlobalIndex = [_update[@"oldToNewIndexMap"][oldGlobalIndex] intValue];
-		NSIndexPath *newIndexPath = [_update[@"newModel"] indexPathForItemAtGlobalIndex:newGlobalIndex];
+		NSInteger oldGlobalIndex = [_currentUpdate[@"oldModel"] globalIndexForItemAtIndexPath:key.indexPath];
+		NSInteger newGlobalIndex = [_currentUpdate[@"oldToNewIndexMap"][oldGlobalIndex] intValue];
+		NSIndexPath *newIndexPath = [_currentUpdate[@"newModel"] indexPathForItemAtGlobalIndex:newGlobalIndex];
 		
 		BTRCollectionViewLayoutAttributes* startAttrs =
 		[_layout initialLayoutAttributesForAppearingItemAtIndexPath:newIndexPath];
@@ -1389,128 +1389,107 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	_updateCount++;
 	BTRCollectionViewData *oldCollectionViewData = _collectionViewData;
 	_collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:_layout];
+	NSInteger oldNumberOfSections = [oldCollectionViewData numberOfSections];
+	NSInteger newNumberOfSections = [_collectionViewData numberOfSections];
 	
 	[_layout invalidateLayout];
 	[_collectionViewData prepareToLoadData];
 	
-	NSMutableArray *someMutableArr1 = [NSMutableArray new];
-	
 	NSArray *removeUpdateItems = [[self arrayForUpdateAction:BTRCollectionUpdateActionDelete]
 								  sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)];
-	
 	NSArray *insertUpdateItems = [[self arrayForUpdateAction:BTRCollectionUpdateActionInsert]
 								  sortedArrayUsingSelector:@selector(compareIndexPaths:)];
-	
 	NSMutableArray *sortedMutableReloadItems = [[_reloadItems sortedArrayUsingSelector:@selector(compareIndexPaths:)] mutableCopy];
 	NSMutableArray *sortedMutableMoveItems = [[_moveItems sortedArrayUsingSelector:@selector(compareIndexPaths:)] mutableCopy];
-	
 	_originalDeleteItems = [removeUpdateItems copy];
 	_originalInsertItems = [insertUpdateItems copy];
-	
-	NSMutableArray *someMutableArr2 = [NSMutableArray new];
-	NSMutableArray *someMutableArr3 =[NSMutableArray new];
-	NSMutableDictionary *operations = [NSMutableDictionary new];
+	NSMutableArray *removedReloadItems = [NSMutableArray array]; // someMutableArr2
+	NSMutableArray *insertedReloadItems = [NSMutableArray array]; // someMutableArr3
 	
 	[sortedMutableReloadItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *updateItem, NSUInteger idx, BOOL *stop) {
-		NSAssert(updateItem.indexPathBeforeUpdate.section < [oldCollectionViewData numberOfSections],
-				 @"attempt to reload item (%@) that doesn't exist (there are only %ld sections before update)",
-				 updateItem.indexPathBeforeUpdate, [oldCollectionViewData numberOfSections]);
-		NSAssert(updateItem.indexPathBeforeUpdate.item < [oldCollectionViewData numberOfItemsInSection:updateItem.indexPathBeforeUpdate.section],
-				 @"attempt to reload item (%@) that doesn't exist (there are only %ld items in section %ld before udpate)",
-				 updateItem.indexPathBeforeUpdate,
-				 [oldCollectionViewData numberOfItemsInSection:updateItem.indexPathBeforeUpdate.section],
-				 updateItem.indexPathBeforeUpdate.section);
 		
-		[someMutableArr2 addObject:[[BTRCollectionViewUpdateItem alloc] initWithAction:BTRCollectionUpdateActionDelete
-																		  forIndexPath:updateItem.indexPathBeforeUpdate]];
-		[someMutableArr3 addObject:[[BTRCollectionViewUpdateItem alloc] initWithAction:BTRCollectionUpdateActionInsert
-																		  forIndexPath:updateItem.indexPathAfterUpdate]];
+		NSAssert(updateItem.indexPathBeforeUpdate.section < oldNumberOfSections,
+				 @"Attempting to reload an item (%@) in a section that does not exist. The total number of sections is %ld.", updateItem.indexPathBeforeUpdate, oldNumberOfSections);
+		NSInteger numberOfItems = [oldCollectionViewData numberOfItemsInSection:updateItem.indexPathBeforeUpdate.section];
+		NSAssert(updateItem.indexPathBeforeUpdate.item < numberOfItems,
+				 @"Attempting to reload an item (%@) that does not exist. There are only %ld items in section %ld.",
+				 updateItem.indexPathBeforeUpdate, numberOfItems, updateItem.indexPathBeforeUpdate.section);
+		BTRCollectionViewUpdateItem *remove = [[BTRCollectionViewUpdateItem alloc] initWithAction:BTRCollectionUpdateActionDelete forIndexPath:updateItem.indexPathBeforeUpdate];
+		BTRCollectionViewUpdateItem *insert = [[BTRCollectionViewUpdateItem alloc] initWithAction:BTRCollectionUpdateActionInsert forIndexPath:updateItem.indexPathAfterUpdate];
+		[removedReloadItems addObject:remove];
+		[insertedReloadItems addObject:insert];
 	}];
 	
-	NSMutableArray *sortedDeletedMutableItems = [[_deleteItems sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)] mutableCopy];
-	NSMutableArray *sortedInsertMutableItems = [[_insertItems sortedArrayUsingSelector:@selector(compareIndexPaths:)] mutableCopy];
+	NSMutableArray *sortedMutableDeleteItems = [[_deleteItems sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)] mutableCopy];
+	NSMutableArray *sortedMutableInsertItems = [[_insertItems sortedArrayUsingSelector:@selector(compareIndexPaths:)] mutableCopy];
+	NSMutableDictionary *operations = [NSMutableDictionary dictionary];
 	
-	[sortedDeletedMutableItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *deleteItem, NSUInteger idx, BOOL *stop) {
-		if ([deleteItem isSectionOperation]) {
-			NSAssert(deleteItem.indexPathBeforeUpdate.section<[oldCollectionViewData numberOfSections],
-					 @"attempt to delete section (%ld) that doesn't exist (there are only %ld sections before update)",
-					 deleteItem.indexPathBeforeUpdate.section,
-					 [oldCollectionViewData numberOfSections]);
+	[sortedMutableDeleteItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *deleteItem, NSUInteger idx, BOOL *stop) {
+		if (deleteItem.isSectionOperation) {
+			NSAssert(deleteItem.indexPathBeforeUpdate.section < oldNumberOfSections,
+					 @"Attempting to delete a section (%ld) that does not exist. The total number of sections is %ld.",
+					 deleteItem.indexPathBeforeUpdate.section, oldNumberOfSections);
 			[sortedMutableMoveItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *moveItem, NSUInteger midx, BOOL *mstop) {
 				if (moveItem.indexPathBeforeUpdate.section == deleteItem.indexPathBeforeUpdate.section) {
-					if (moveItem.isSectionOperation)
-						NSAssert(NO, @"attempt to delete and move from the same section %ld", deleteItem.indexPathBeforeUpdate.section);
-					else
-						NSAssert(NO, @"attempt to delete and move from the same section (%@)", moveItem.indexPathBeforeUpdate);
+					if (moveItem.isSectionOperation) {
+						NSAssert(NO, @"Attempting to move and delete the same section (%ld)", deleteItem.indexPathBeforeUpdate.section);
+					} else {
+						NSAssert(NO, @"Attempting to move an item in a section that is also being deleted (%@)", moveItem.indexPathBeforeUpdate);
+					}
 				}
 			}];
 		} else {
-			NSAssert(deleteItem.indexPathBeforeUpdate.section<[oldCollectionViewData numberOfSections],
-					 @"attempt to delete item (%@) that doesn't exist (there are only %ld sections before update)",
-					 deleteItem.indexPathBeforeUpdate,
-					 [oldCollectionViewData numberOfSections]);
-			NSAssert(deleteItem.indexPathBeforeUpdate.item<[oldCollectionViewData numberOfItemsInSection:deleteItem.indexPathBeforeUpdate.section],
-					 @"attempt to delete item (%@) that doesn't exist (there are only %ld items in section %ld before update)",
-					 deleteItem.indexPathBeforeUpdate,
-					 [oldCollectionViewData numberOfItemsInSection:deleteItem.indexPathBeforeUpdate.section],
-					 deleteItem.indexPathBeforeUpdate.section);
+			NSAssert(deleteItem.indexPathBeforeUpdate.section < oldNumberOfSections,
+					 @"Attempting to delete an item (%@) in a section that does not exist. The total number of sections is %ld",
+					 deleteItem.indexPathBeforeUpdate, oldNumberOfSections);
+			NSInteger numberOfItems = [oldCollectionViewData numberOfItemsInSection:deleteItem.indexPathBeforeUpdate.section];
+			NSAssert(deleteItem.indexPathBeforeUpdate.item < numberOfItems,
+					 @"Attempting to reload an item (%@) that does not exist. There are only %ld items in section %ld.",
+					 deleteItem.indexPathBeforeUpdate, numberOfItems, deleteItem.indexPathBeforeUpdate.section);
 			[sortedMutableMoveItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *moveItem, NSUInteger midx, BOOL *mstop) {
 				NSAssert([deleteItem.indexPathBeforeUpdate isEqual:moveItem.indexPathBeforeUpdate],
-						 @"attempt to delete and move the same item (%@)", deleteItem.indexPathBeforeUpdate);
+						 @"Attempting to move and delete the same item (%@)", deleteItem.indexPathBeforeUpdate);
 			}];
 			
-			if (!operations[@(deleteItem.indexPathBeforeUpdate.section)])
-				operations[@(deleteItem.indexPathBeforeUpdate.section)] = [NSMutableDictionary dictionary];
-			
-			operations[@(deleteItem.indexPathBeforeUpdate.section)][@"deleted"] =
-			@([operations[@(deleteItem.indexPathBeforeUpdate.section)][@"deleted"] intValue]+1);
+			NSNumber *section = @(deleteItem.indexPathBeforeUpdate.section);
+			if (!operations[section])
+				operations[section] = [NSMutableDictionary dictionary];
+			// Used to track the number of deleted items in a particular section
+			operations[section][@"deleted"] =
+			@([operations[section][@"deleted"] intValue] + 1);
 		}
-
 	}];
 	
-	for (NSUInteger i = 0; i < [sortedInsertMutableItems count]; i++) {
-		BTRCollectionViewUpdateItem *insertItem = sortedInsertMutableItems[i];
+	for (NSUInteger i = 0; i < [sortedMutableInsertItems count]; i++) {
+		BTRCollectionViewUpdateItem *insertItem = sortedMutableInsertItems[i];
 		NSIndexPath *indexPath = insertItem.indexPathAfterUpdate;
 		
-		BOOL sectionOperation = [insertItem isSectionOperation];
-		if (sectionOperation) {
-			NSAssert([indexPath section]<[_collectionViewData numberOfSections],
-					 @"attempt to insert %ld but there are only %ld sections after update",
-					 [indexPath section], [_collectionViewData numberOfSections]);
-			
-			for (BTRCollectionViewUpdateItem *moveItem in sortedMutableMoveItems) {
-				if ([moveItem.indexPathAfterUpdate isEqual:indexPath]) {
-					if (moveItem.isSectionOperation)
-						NSAssert(NO, @"attempt to perform an insert and a move to the same section (%ld)",indexPath.section);
+		if (insertItem.isSectionOperation) {
+			NSAssert(indexPath.section < newNumberOfSections, @"Attempting to insert section %ld but the total number of sections is %ld.", indexPath.section, newNumberOfSections);
+			[sortedMutableMoveItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *moveItem, NSUInteger idx, BOOL *stop) {
+				if ([moveItem.indexPathAfterUpdate isEqual:indexPath] && moveItem.isSectionOperation) {
+					NSAssert(NO, @"Attempting to insert and move the same section (%ld)", indexPath.section);
 				}
-			}
-			
-			NSInteger j = i + 1;
-			while (j < [sortedInsertMutableItems count]) {
-				BTRCollectionViewUpdateItem *nextInsertItem = sortedInsertMutableItems[j];
-				
+			}];
+			// Enumerate the items in the inserted array that come after the current item
+			NSUInteger j = i + 1;
+			while (j < [sortedMutableInsertItems count]) {
+				BTRCollectionViewUpdateItem *nextInsertItem = sortedMutableInsertItems[j];
+				// We're looking for inserted items that will be inserted 
 				if (nextInsertItem.indexPathAfterUpdate.section == indexPath.section) {
-					NSAssert(nextInsertItem.indexPathAfterUpdate.item<[_collectionViewData numberOfItemsInSection:indexPath.section],
-							 @"attempt to insert item %ld into section %ld, but there are only %ld items in section %ld after the update",
-							 nextInsertItem.indexPathAfterUpdate.item,
-							 indexPath.section,
-							 [_collectionViewData numberOfItemsInSection:indexPath.section],
-							 indexPath.section);
-					[sortedInsertMutableItems removeObjectAtIndex:j];
-				}
-				else break;
+					NSInteger numberOfItems = [_collectionViewData numberOfItemsInSection:indexPath.section];
+					NSAssert(nextInsertItem.indexPathAfterUpdate.item < numberOfItems, @"Attempting to insert item %ld into section %ld but there are only %ld items in the section after the update.", nextInsertItem.indexPathAfterUpdate.item, indexPath.section, numberOfItems, indexPath.section);
+					[sortedMutableInsertItems removeObjectAtIndex:j];
+				} else break;
 			}
 		} else {
-			NSAssert(indexPath.item< [_collectionViewData numberOfItemsInSection:indexPath.section],
-					 @"attempt to insert item to (%@) but there are only %ld items in section %ld after update",
-					 indexPath,
-					 [_collectionViewData numberOfItemsInSection:indexPath.section],
-					 indexPath.section);
+			NSInteger numberOfItems = [_collectionViewData numberOfItemsInSection:indexPath.section];
+			NSAssert(indexPath.item < numberOfItems, @"Attempting to insert item at %@, but there are only %ld items total in section %ld after the update.", indexPath, numberOfItems, indexPath.section);
+			NSNumber *section = @(indexPath.section);
+			if (!operations[section])
+				operations[section] = [NSMutableDictionary dictionary];
 			
-			if (!operations[@(indexPath.section)])
-				operations[@(indexPath.section)] = [NSMutableDictionary dictionary];
-			
-			operations[@(indexPath.section)][@"inserted"] = @([operations[@(indexPath.section)][@"inserted"] intValue] + 1);
+			operations[section][@"inserted"] = @([operations[section][@"inserted"] intValue] + 1);
 		}
 	}
 	
@@ -1577,17 +1556,18 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}];
 #endif
 	
-	[someMutableArr2 addObjectsFromArray:sortedDeletedMutableItems];
-	[someMutableArr3 addObjectsFromArray:sortedInsertMutableItems];
-	[someMutableArr1 addObjectsFromArray:[someMutableArr2 sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)]];
-	[someMutableArr1 addObjectsFromArray:sortedMutableMoveItems];
-	[someMutableArr1 addObjectsFromArray:[someMutableArr3 sortedArrayUsingSelector:@selector(compareIndexPaths:)]];
+	[removedReloadItems addObjectsFromArray:sortedMutableDeleteItems];
+	[insertedReloadItems addObjectsFromArray:sortedMutableInsertItems];
+
+	NSMutableArray *items = [NSMutableArray array];
+	[items addObjectsFromArray:[removedReloadItems sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)]];
+	[items addObjectsFromArray:sortedMutableMoveItems];
+	[items addObjectsFromArray:[insertedReloadItems sortedArrayUsingSelector:@selector(compareIndexPaths:)]];
 	
 	NSMutableArray *layoutUpdateItems = [NSMutableArray new];
-	
-	[layoutUpdateItems addObjectsFromArray:sortedDeletedMutableItems];
+	[layoutUpdateItems addObjectsFromArray:sortedMutableDeleteItems];
 	[layoutUpdateItems addObjectsFromArray:sortedMutableMoveItems];
-	[layoutUpdateItems addObjectsFromArray:sortedInsertMutableItems];
+	[layoutUpdateItems addObjectsFromArray:sortedMutableInsertItems];
 	
 	
 	NSMutableArray* newModel = [NSMutableArray array];
@@ -1653,12 +1633,12 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		}
 	}
 	
-	_update = @{@"oldModel":oldCollectionViewData,
+	_currentUpdate = @{@"oldModel":oldCollectionViewData,
 			 @"newModel":_collectionViewData,
 			 @"oldToNewIndexMap":oldToNewMap,
 			 @"newToOldIndexMap":newToOldMap};
 	
-	[self updateWithItems:someMutableArr1];
+	[self updateWithItems:items];
 	
 	_originalInsertItems = nil;
 	_originalDeleteItems = nil;
@@ -1666,7 +1646,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	_deleteItems = nil;
 	_moveItems = nil;
 	_reloadItems = nil;
-	_update = nil;
+	_currentUpdate = nil;
 	_updateCount--;
 	_collectionViewFlags.updating = NO;
 	[self resumeReloads];

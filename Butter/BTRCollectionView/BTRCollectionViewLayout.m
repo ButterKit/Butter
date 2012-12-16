@@ -10,11 +10,10 @@
 #import "BTRGeometryAdditions.h"
 #import "NSIndexPath+BTRAdditions.h"
 
-@interface BTRCollectionView()
-- (id)currentUpdate;
+@interface BTRCollectionView ()
+- (NSDictionary *)currentUpdate;
 - (NSDictionary *)visibleViewsDict;
 - (BTRCollectionViewData *)collectionViewData;
-- (CGRect)visibleBoundRects; // visibleBounds is flagged as private API (wtf)
 @end
 
 @interface BTRCollectionReusableView()
@@ -272,7 +271,7 @@
 
     BTRCollectionViewData* collectionViewData = [_collectionView collectionViewData];
 
-    CGRect bounds = [_collectionView visibleBoundRects];
+    CGRect bounds = _collectionView.visibleRect;
 
     for (BTRCollectionViewLayoutAttributes* attr in [collectionViewData layoutAttributesForElementsInRect:bounds]) {
         NSInteger index = [collectionViewData globalIndexForItemAtIndexPath:attr.indexPath];
