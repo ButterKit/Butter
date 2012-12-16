@@ -1200,19 +1200,19 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	
 	switch (updateAction) {
 		case BTRCollectionUpdateActionInsert:
-			if (!_insertItems) _insertItems = [[NSMutableArray alloc] init];
+			if (!_insertItems) _insertItems = [NSMutableArray new];
 			ret = _insertItems;
 			break;
 		case BTRCollectionUpdateActionDelete:
-			if (!_deleteItems) _deleteItems = [[NSMutableArray alloc] init];
+			if (!_deleteItems) _deleteItems = [NSMutableArray new];
 			ret = _deleteItems;
 			break;
 		case BTRCollectionUpdateActionMove:
-			if (_moveItems) _moveItems = [[NSMutableArray alloc] init];
+			if (_moveItems) _moveItems = [NSMutableArray new];
 			ret = _moveItems;
 			break;
 		case BTRCollectionUpdateActionReload:
-			if (!_reloadItems) _reloadItems = [[NSMutableArray alloc] init];
+			if (!_reloadItems) _reloadItems = [NSMutableArray new];
 			ret = _reloadItems;
 			break;
 		default: break;
@@ -1222,7 +1222,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 
 - (void)prepareLayoutForUpdates {
-	NSMutableArray *arr = [[NSMutableArray alloc] init];
+	NSMutableArray *arr = [NSMutableArray new];
 	[arr addObjectsFromArray: [_originalDeleteItems sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)]];
 	[arr addObjectsFromArray:[_originalInsertItems sortedArrayUsingSelector:@selector(compareIndexPaths:)]];
 	[arr addObjectsFromArray:[_reloadItems sortedArrayUsingSelector:@selector(compareIndexPaths:)]];
@@ -1233,8 +1233,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)updateWithItems:(NSArray *) items {
 	[self prepareLayoutForUpdates];
 	
-	NSMutableArray *animations = [[NSMutableArray alloc] init];
-	NSMutableDictionary *newAllVisibleView = [[NSMutableDictionary alloc] init];
+	NSMutableArray *animations = [NSMutableArray new];
+	NSMutableDictionary *newAllVisibleView = [NSMutableDictionary new];
 	
 	[items enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *updateItem, NSUInteger idx, BOOL *stop) {
 		if (!updateItem.isSectionOperation) {
@@ -1394,7 +1394,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[_layout invalidateLayout];
 	[_collectionViewData prepareToLoadData];
 	
-	NSMutableArray *someMutableArr1 = [[NSMutableArray alloc] init];
+	NSMutableArray *someMutableArr1 = [NSMutableArray new];
 	
 	NSArray *removeUpdateItems = [[self arrayForUpdateAction:BTRCollectionUpdateActionDelete]
 								  sortedArrayUsingSelector:@selector(inverseCompareIndexPaths:)];
@@ -1408,9 +1408,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	_originalDeleteItems = [removeUpdateItems copy];
 	_originalInsertItems = [insertUpdateItems copy];
 	
-	NSMutableArray *someMutableArr2 = [[NSMutableArray alloc] init];
-	NSMutableArray *someMutableArr3 =[[NSMutableArray alloc] init];
-	NSMutableDictionary *operations = [[NSMutableDictionary alloc] init];
+	NSMutableArray *someMutableArr2 = [NSMutableArray new];
+	NSMutableArray *someMutableArr3 =[NSMutableArray new];
+	NSMutableDictionary *operations = [NSMutableDictionary new];
 	
 	[sortedMutableReloadItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *updateItem, NSUInteger idx, BOOL *stop) {
 		NSAssert(updateItem.indexPathBeforeUpdate.section < [oldCollectionViewData numberOfSections],
@@ -1584,7 +1584,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[someMutableArr1 addObjectsFromArray:sortedMutableMoveItems];
 	[someMutableArr1 addObjectsFromArray:[someMutableArr3 sortedArrayUsingSelector:@selector(compareIndexPaths:)]];
 	
-	NSMutableArray *layoutUpdateItems = [[NSMutableArray alloc] init];
+	NSMutableArray *layoutUpdateItems = [NSMutableArray new];
 	
 	[layoutUpdateItems addObjectsFromArray:sortedDeletedMutableItems];
 	[layoutUpdateItems addObjectsFromArray:sortedMutableMoveItems];
@@ -1611,7 +1611,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			} break;
 			case BTRCollectionUpdateActionInsert: {
 				if (updateItem.isSectionOperation) {
-					[newModel insertObject:[[NSMutableArray alloc] init] atIndex:updateItem.indexPathAfterUpdate.section];
+					[newModel insertObject:[NSMutableArray new] atIndex:updateItem.indexPathAfterUpdate.section];
 				} else {
 					[(NSMutableArray *)newModel[updateItem.indexPathAfterUpdate.section]
 					 insertObject:@(NSNotFound)
