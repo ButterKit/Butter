@@ -1183,7 +1183,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[self addSubview:subview];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Updating grid internal functionality
 
 - (void)suspendReloads {
@@ -1724,7 +1723,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	
 	CGSize _contentSize;
 	struct {
-	 	unsigned int contentSizeIsValid:1;
 	 	unsigned int itemCountsAreValid:1;
 	 	unsigned int layoutIsPrepared:1;
 	} _collectionViewDataFlags;
@@ -1735,7 +1733,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 @implementation BTRCollectionViewData
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
 - (id)initWithCollectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)layout {
@@ -1755,7 +1752,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	return [NSString stringWithFormat:@"<%@: %p numItems:%ld numSections:%ld globalItems:%@>", NSStringFromClass([self class]), self, self.numberOfItems, self.numberOfSections, _globalItems];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
 - (void)invalidate {
@@ -1830,7 +1826,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	_collectionViewDataFlags.layoutIsPrepared = layoutIsPrepared;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Fetch Layout Attributes
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
@@ -1838,7 +1833,6 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	return _cellLayoutAttributes;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private
 
 // ensure item count is valid and loaded
@@ -1903,7 +1897,6 @@ NSString *BTRCollectionViewItemTypeToString(BTRCollectionViewItemType type) {
 
 @implementation BTRCollectionViewItemKey
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Static
 
 + (id)collectionItemKeyForCellWithIndexPath:(NSIndexPath *)indexPath {
@@ -1939,8 +1932,6 @@ NSString *BTRCollectionViewItemTypeToString(BTRCollectionViewItemType type) {
 	return key;
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
 - (NSString *)description {
@@ -1963,7 +1954,6 @@ NSString *BTRCollectionViewItemTypeToString(BTRCollectionViewItemType type) {
 	return NO;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -1981,7 +1971,6 @@ NSString *BTRCollectionViewItemTypeToString(BTRCollectionViewItemType type) {
 	NSIndexPath *_initialIndexPath;
 	NSIndexPath *_finalIndexPath;
 	BTRCollectionUpdateAction _updateAction;
-	id _gap;
 }
 @end
 
@@ -2032,20 +2021,12 @@ NSString *BTRCollectionViewItemTypeToString(BTRCollectionViewItemType type) {
 	_finalIndexPath = indexPath;
 }
 
-- (void)setGap:(id)gap {
-	_gap = gap;
-}
-
 - (BOOL)isSectionOperation {
 	return (_initialIndexPath.item == NSNotFound || _finalIndexPath.item == NSNotFound);
 }
 
 - (NSIndexPath *)newIndexPath {
 	return _finalIndexPath;
-}
-
-- (id)gap {
-	return _gap;
 }
 
 - (BTRCollectionUpdateAction)action {
