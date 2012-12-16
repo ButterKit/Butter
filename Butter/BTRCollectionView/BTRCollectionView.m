@@ -205,11 +205,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 - (void)setFrame:(NSRect)frame {
 	if (!NSEqualRects(frame, self.frame)) {
 		// If the frame is different, check if the layout needs to be invalidated
-		if ([self.collectionViewLayout shouldInvalidateLayoutForBoundsChange:frame]) {
+		if ([self.collectionViewLayout shouldInvalidateLayoutForBoundsChange:(CGRect){.size=frame.size}]) {
 			[self invalidateLayout];
 		}
-		[super setFrame:frame];
 	}
+	[super setFrame:frame];
 }
 
 #pragma mark - NSResponder
@@ -999,10 +999,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		};
 		
 		if (animated) {
-			[NSView btr_animateWithDuration:.3 animations:^{
+			[NSView btr_animate:^{
 				_collectionViewFlags.updatingLayout = YES;
 				applyNewLayoutBlock();
-			} completion:^ {
+			} completion:^{
 				freeUnusedViews();
 				_collectionViewFlags.updatingLayout = NO;
 			}];
@@ -1345,14 +1345,14 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		[view applyLayoutAttributes:attr];
 	}];
 	
-	[NSView btr_animateWithDuration:.3 animations:^{
+	[NSView btr_animate:^{
 		_collectionViewFlags.updatingLayout = YES;
 		[animations enumerateObjectsUsingBlock:^(NSDictionary *animation, NSUInteger idx, BOOL *stop) {
 			BTRCollectionReusableView* view = animation[@"view"];
 			BTRCollectionViewLayoutAttributes* attrs = animation[@"newLayoutInfos"];
 			[view applyLayoutAttributes:attrs];
 		}];
-	} completion:^ {
+	} completion:^{
 		NSMutableSet *set = [NSMutableSet set];
 		NSArray *visibleItems = [_layout layoutAttributesForElementsInRect:self.visibleRect];
 		[visibleItems enumerateObjectsUsingBlock:^(BTRCollectionViewLayoutAttributes *attrs, NSUInteger idx, BOOL *stop) {
@@ -1375,7 +1375,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			_updateCompletionHandler = nil;
 		}
 	}];
-	
+
 	[_layout finalizeCollectionViewUpdates];
 }
 

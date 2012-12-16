@@ -29,6 +29,7 @@ static NSUInteger BTRAnimationContextCount = 0;
 	if ([self btr_isInAnimationContext]) {
 		NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
 		animations();
+		completion();
 		return;
 	}
 	
