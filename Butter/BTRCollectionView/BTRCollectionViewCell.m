@@ -24,33 +24,12 @@
 
 @implementation BTRCollectionReusableView
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
-
-- (void)BTRCollectionReusableViewCommonSetup
-{
-    self.backgroundColor = [NSColor greenColor];
-}
-
-- (id)initWithFrame:(CGRect)frame {
-    if ((self = [super initWithFrame:frame])) {
-        [self BTRCollectionReusableViewCommonSetup];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    if((self = [super initWithCoder:aDecoder])) {
-        [self BTRCollectionReusableViewCommonSetup];
-    }
-    return self;
-}
 
 - (void)awakeFromNib {
     self.reuseIdentifier = [self valueForKeyPath:@"reuseIdentifier"];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
 - (void)prepareForReuse {
@@ -105,17 +84,10 @@
     BOOL _highlighted;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
-
-- (void)BTRCollectionViewCellCommonSetup
-{
-    self.backgroundColor = [NSColor purpleColor];
-}
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
-        [self BTRCollectionReusableViewCommonSetup];
         _backgroundView = [[BTRView alloc] initWithFrame:self.bounds];
         _backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [self addSubview:_backgroundView];
@@ -130,7 +102,6 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if ((self = [super initWithCoder:aDecoder])) {
-        [self BTRCollectionReusableViewCommonSetup];
         if ([[self subviews] count] > 0) {
             _contentView = [self subviews][0];
         } else {
@@ -146,7 +117,6 @@
     return self;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
 - (void)prepareForReuse {

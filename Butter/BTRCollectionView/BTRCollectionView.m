@@ -123,8 +123,7 @@ static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedI
 	// Allocate storage variables, configure default settings
 	self.allowsSelection = YES;
 	self.flipped = YES;
-	self.backgroundColor = [NSColor blueColor];
-	
+
 	_indexPathsForSelectedItems = [NSMutableArray new];
 	_indexPathsForHighlightedItems = [NSMutableArray new];
 	_cellReuseQueues = [NSMutableDictionary new];
