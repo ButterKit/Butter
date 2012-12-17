@@ -3,7 +3,7 @@
 //
 //  Original Source: Copyright (c) 2012 Peter Steinberger. All rights reserved.
 //  AppKit Port: Copyright (c) 2012 Indragie Karunaratne and Jonathan Willing. All rights reserved.
-//
+//  Header documentation is from Apple's documentation for UICollectionView: Copyright (c) 2012 Apple Inc. All Rights Reserved
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <QuartzCore/QuartzCore.h>
