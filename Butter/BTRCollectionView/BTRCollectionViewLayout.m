@@ -57,10 +57,10 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 	return attributes;
 }
 
-+ (instancetype)layoutAttributesForDecorationViewWithReuseIdentifier:(NSString *)reuseIdentifier withIndexPath:(NSIndexPath *)indexPath {
++ (instancetype)layoutAttributesForDecorationViewOfKind:(NSString *)decorationViewKind withIndexPath:(NSIndexPath*)indexPath {
 	BTRCollectionViewLayoutAttributes *attributes = [self new];
 	attributes.elementKind = BTRCollectionElementKindDecorationView;
-	attributes.reuseIdentifier = reuseIdentifier;
+	attributes.reuseIdentifier = decorationViewKind;
 	attributes.indexPath = indexPath;
 	return attributes;
 }
@@ -200,7 +200,7 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
-	return YES;
+	return NO;
 }
 
 #pragma mark - Providing Layout Attributes
@@ -212,15 +212,15 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 	return nil;
 }
 
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (instancetype)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
 	return nil;
 }
 
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+- (instancetype)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	return nil;
 }
 
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForDecorationViewWithReuseIdentifier:(NSString*)identifier atIndexPath:(NSIndexPath *)indexPath {
++ (instancetype)layoutAttributesForDecorationViewOfKind:(NSString *)decorationViewKind withIndexPath:(NSIndexPath*)indexPath; {
 	return nil;
 }
 
@@ -314,11 +314,11 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 	
 }
 
-- (BTRCollectionViewLayoutAttributes *)initialLayoutAttributesForInsertedSupplementaryElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)elementIndexPath {
+- (BTRCollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingSupplementaryElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)elementIndexPath {
 	return nil;
 }
 
-- (BTRCollectionViewLayoutAttributes *)finalLayoutAttributesForDeletedSupplementaryElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)elementIndexPath {
+- (BTRCollectionViewLayoutAttributes *)finalLayoutAttributesForDisappearingSupplementaryElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)elementIndexPath {
 	return nil;
 }
 
@@ -331,10 +331,10 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 
 #pragma mark - Registering Decoration Views
 
-- (void)registerClass:(Class)viewClass forDecorationViewWithReuseIdentifier:(NSString *)identifier {
+- (void)registerClass:(Class)viewClass forDecorationViewOfKind:(NSString *)decorationViewKind {
 }
 
-- (void)registerNib:(NSNib *)nib forDecorationViewWithReuseIdentifier:(NSString *)identifier {
+- (void)registerNib:(NSNib *)nib forDecorationViewOfKind:(NSString *)decorationViewKind {
 }
 
 #pragma mark - Private
