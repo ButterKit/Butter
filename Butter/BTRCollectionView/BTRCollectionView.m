@@ -1305,7 +1305,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
 		BTRCollectionReusableView *view = _allVisibleViewsDict[key];
 		NSUInteger oldGlobalIndex = [_currentUpdate[@"oldModel"] globalIndexForItemAtIndexPath:key.indexPath];
-		NSUInteger newGlobalIndex = [_currentUpdate[@"oldToNewIndexMap"][oldGlobalIndex] intValue];
+		NSUInteger newGlobalIndex = [_currentUpdate[@"oldToNewIndexMap"][oldGlobalIndex] unsignedIntegerValue];
 		NSIndexPath *newIndexPath = [_currentUpdate[@"newModel"] indexPathForItemAtGlobalIndex:newGlobalIndex];
 		
 		BTRCollectionViewLayoutAttributes* startAttrs =
@@ -1456,7 +1456,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 				operations[section] = [NSMutableDictionary dictionary];
 			// Used to track the number of deleted items in a particular section
 			operations[section][@"deleted"] =
-			@([operations[section][@"deleted"] intValue] + 1);
+			@([operations[section][@"deleted"] unsignedIntegerValue] + 1);
 		}
 	}];
 	
@@ -1489,7 +1489,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			if (!operations[section])
 				operations[section] = [NSMutableDictionary dictionary];
 			
-			operations[section][@"inserted"] = @([operations[section][@"inserted"] intValue] + 1);
+			operations[section][@"inserted"] = @([operations[section][@"inserted"] unsignedIntegerValue] + 1);
 		}
 	}
 	
@@ -1530,10 +1530,10 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			operations[@(sortedItem.indexPathAfterUpdate.section)] = [NSMutableDictionary dictionary];
 		
 		operations[@(sortedItem.indexPathBeforeUpdate.section)][@"movedOut"] =
-		@([operations[@(sortedItem.indexPathBeforeUpdate.section)][@"movedOut"] intValue] + 1);
+		@([operations[@(sortedItem.indexPathBeforeUpdate.section)][@"movedOut"] unsignedIntegerValue] + 1);
 		
 		operations[@(sortedItem.indexPathAfterUpdate.section)][@"movedIn"] =
-		@([operations[@(sortedItem.indexPathAfterUpdate.section)][@"movedIn"] intValue] + 1);
+		@([operations[@(sortedItem.indexPathAfterUpdate.section)][@"movedIn"] unsignedIntegerValue] + 1);
 	}];
 	
 #if !defined  NS_BLOCK_ASSERTIONS

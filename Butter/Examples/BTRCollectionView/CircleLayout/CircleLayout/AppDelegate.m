@@ -95,7 +95,7 @@ static NSInteger count;
 }
 
 - (void)addCell:(id)sender {
-	[self.sections[0] addObject:@([[self.sections[0] lastObject] intValue] + 1)];
+	[self.sections[0] addObject:@([[self.sections[0] lastObject] unsignedIntegerValue] + 1)];
 	NSIndexPath *path = [NSIndexPath btr_indexPathForRow:[self.sections[0] count] - 1 inSection:0];
 	[self.collectionView insertItemsAtIndexPaths:@[path]];
 }

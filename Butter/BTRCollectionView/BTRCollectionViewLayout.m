@@ -258,9 +258,8 @@
 
         BTRCollectionViewData* oldModel = update[@"oldModel"];
         NSUInteger index = [oldModel globalIndexForItemAtIndexPath:[attr indexPath]];
-		NSLog(@"Index in old model %lu", index);
         if(index != NSNotFound) {
-            index = [update[@"oldToNewIndexMap"][index] intValue];
+            index = [update[@"oldToNewIndexMap"][index] unsignedIntegerValue];
             if(index != NSNotFound) {
                 [attr setIndexPath:[update[@"newModel"] indexPathForItemAtGlobalIndex:index]];
                 [_initialAnimationLayoutAttributesDict setObject:attr
@@ -276,8 +275,7 @@
     for (BTRCollectionViewLayoutAttributes* attr in [collectionViewData layoutAttributesForElementsInRect:bounds]) {
         NSUInteger index = [collectionViewData globalIndexForItemAtIndexPath:attr.indexPath];
 
-        index = [update[@"newToOldIndexMap"][index] intValue];
-		NSLog(@"Index in newtooldindexmap %lu", index);
+        index = [update[@"newToOldIndexMap"][index] unsignedIntegerValue];
         if(index != NSNotFound) {
             BTRCollectionViewLayoutAttributes* finalAttrs = [attr copy];
             [finalAttrs setIndexPath:[update[@"oldModel"] indexPathForItemAtGlobalIndex:index]];
