@@ -69,4 +69,16 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	return [super actionForLayer:layer forKey:event];
 }
 
+#pragma mark Drawing block
+
+//- (void)drawRect:(NSRect)dirtyRect {
+//	[super drawRect:dirtyRect];
+//	
+//	if (self.drawRectBlock != nil) {
+//		NSLog(@"%s",__PRETTY_FUNCTION__);
+//		CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+//		self.drawRectBlock(self, ctx);
+//	}
+//}
+
 @end

@@ -49,4 +49,6 @@
 // The animation can be customized by wrapping the call in a NSView animation.
 - (void)displayAnimated;
 
+@property (nonatomic, copy) void (^drawRectBlock)(BTRView *view, CGContextRef ctx);
+
 @end
