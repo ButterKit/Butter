@@ -297,11 +297,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CircleLayout/CircleLayout-Prefix.pch";
 				INFOPLIST_FILE = "CircleLayout/CircleLayout-Info.plist";
@@ -314,11 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Butter-gsrwsyoflfyankchtisbsdlqffce/Build/Products/Debug\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-bjfloiylqfftatgkatimtajxtelx/Build/Products/Debug\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CircleLayout/CircleLayout-Prefix.pch";
 				INFOPLIST_FILE = "CircleLayout/CircleLayout-Info.plist";
