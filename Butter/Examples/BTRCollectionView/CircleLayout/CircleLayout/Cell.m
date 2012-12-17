@@ -101,7 +101,9 @@
 @property (nonatomic, strong) NSTextField *titleLabel;
 @end
 
-@implementation Cell
+@implementation Cell {
+	__weak BTRCollectionViewLayout *_newLayout;
+}
 
 - (void)mouseUp:(NSEvent *)event {
 	if ([self mouse:[self convertPoint:event.locationInWindow fromView:nil] inRect:self.bounds]) {
@@ -134,18 +136,26 @@
 	return _label;
 }
 
+- (void)willTransitionFromLayout:(BTRCollectionViewLayout *)oldLayout toLayout:(BTRCollectionViewLayout *)newLayout
+{
+	[super willTransitionFromLayout:oldLayout toLayout:newLayout];
+	_newLayout = newLayout;
+}
+
 - (void)applyLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
 	[super applyLayoutAttributes:layoutAttributes];
-	
-	[NSView btr_animate:^{
-		if ([self.collectionView.collectionViewLayout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
-			self.contentView.cornerRadius = 5.f;
-			self.contentView.backgroundColor = [NSColor greenColor];
-		} else {
-			self.contentView.cornerRadius = 35.f;
-			self.contentView.backgroundColor = [NSColor purpleColor];
-		}
-	}];
+	if (_newLayout) {
+		[NSView btr_animate:^{
+			if ([_newLayout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
+				self.contentView.cornerRadius = 5.f;
+				self.contentView.backgroundColor = [NSColor greenColor];
+			} else {
+				self.contentView.cornerRadius = 35.f;
+				self.contentView.backgroundColor = [NSColor purpleColor];
+			}
+		}];
+		_newLayout = nil;
+	}
 }
 
 @end
