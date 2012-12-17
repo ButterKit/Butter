@@ -249,7 +249,7 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 			index = [oldToNewMap[index] unsignedIntegerValue];
 			if(index != NSNotFound) {
 				[attr setIndexPath:[newModel indexPathForItemAtGlobalIndex:index]];
-				[_initialAnimationLayoutAttributesDict setObject:attr forKey:[BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attr]];
+				_initialAnimationLayoutAttributesDict[[BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attr]] = attr;
 			}
 		}
 	}];
@@ -263,9 +263,8 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 			BTRCollectionViewLayoutAttributes* finalAttrs = [attr copy];
 			[finalAttrs setIndexPath:[oldModel indexPathForItemAtGlobalIndex:index]];
 			[finalAttrs setAlpha:0];
-			[_finalAnimationLayoutAttributesDict setObject:finalAttrs forKey:[BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:finalAttrs]];
+			_finalAnimationLayoutAttributesDict[[BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:finalAttrs]] = finalAttrs;
 		}
-		
 	}];
 	
 	[updateItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *updateItem, NSUInteger idx, BOOL *stop) {

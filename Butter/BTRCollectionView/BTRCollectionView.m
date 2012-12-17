@@ -1311,9 +1311,9 @@ static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedI
 	}];
 	[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
 		BTRCollectionReusableView *view = _allVisibleViewsDict[key];
-		NSUInteger oldGlobalIndex = [_currentUpdate[@"oldModel"] globalIndexForItemAtIndexPath:key.indexPath];
-		NSUInteger newGlobalIndex = [_currentUpdate[@"oldToNewIndexMap"][oldGlobalIndex] unsignedIntegerValue];
-		NSIndexPath *newIndexPath = [_currentUpdate[@"newModel"] indexPathForItemAtGlobalIndex:newGlobalIndex];
+		NSUInteger oldGlobalIndex = [_currentUpdate[BTRCollectionViewOldModelKey] globalIndexForItemAtIndexPath:key.indexPath];
+		NSUInteger newGlobalIndex = [_currentUpdate[BTRCollectionViewOldToNewIndexMapKey][oldGlobalIndex] unsignedIntegerValue];
+		NSIndexPath *newIndexPath = [_currentUpdate[BTRCollectionViewNewModelKey] indexPathForItemAtGlobalIndex:newGlobalIndex];
 		
 		BTRCollectionViewLayoutAttributes* startAttrs =
 		[_layout initialLayoutAttributesForAppearingItemAtIndexPath:newIndexPath];
