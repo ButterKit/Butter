@@ -12,6 +12,7 @@
 #import <QuartzCore/CAMediaTimingFunction.h>
 
 static NSUInteger BTRAnimationContextCount = 0;
+static CGFloat slowMotionMultiplier = 5.f;
 
 @implementation NSView (BTRAnimationAdditions)
 
@@ -34,6 +35,9 @@ static NSUInteger BTRAnimationContextCount = 0;
 	}
 	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+		if ([self btr_wantsSlowMotion])
+			NSAnimationContext.currentContext.duration *= slowMotionMultiplier;
+		
 		BTRAnimationContextCount++;
 		NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
 		animations();
@@ -50,7 +54,7 @@ static NSUInteger BTRAnimationContextCount = 0;
 
 + (void)btr_animateWithDuration:(NSTimeInterval)duration animationCurve:(BTRViewAnimationCurve)curve animations:(void (^)(void))animations completion:(void (^)(void))completion {
 	if (![self btr_isInAnimationContext])
-		NSAnimationContext.currentContext.timingFunction = [self timingFunctionWithCurve:curve];
+		NSAnimationContext.currentContext.timingFunction = [self btr_timingFunctionWithCurve:curve];
 	[self btr_animateWithDuration:duration animations:animations completion:completion];
 }
 
@@ -72,9 +76,9 @@ static NSUInteger BTRAnimationContextCount = 0;
 	}
 }
 
-#pragma mark Timing functions
+#pragma mark Timing
 
-+ (CAMediaTimingFunction *)timingFunctionWithCurve:(BTRViewAnimationCurve)curve {
++ (CAMediaTimingFunction *)btr_timingFunctionWithCurve:(BTRViewAnimationCurve)curve {
 	switch (curve) {
 		case BTRViewAnimationCurveEaseInOut:
 			return [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -92,6 +96,12 @@ static NSUInteger BTRAnimationContextCount = 0;
 			break;
 	}
 	return nil;
+}
+
+#pragma mark Slow motion
+
++ (BOOL)btr_wantsSlowMotion {
+	return (([NSApp currentEvent].modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
 }
 
 @end
