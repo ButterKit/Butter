@@ -941,7 +941,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			if (!cell) {
 				cell = [self createPreparedCellForItemAtIndexPath:key.indexPath withLayoutAttributes:layoutInterchangeData[key][BTRCollectionViewPreviousLayoutInfoKey]];
 				_allVisibleViewsDict[key] = cell;
-				[self addControlledSubview:cell];
+				[self addSubview:cell];
 			} else {
 				[cell applyLayoutAttributes:layoutInterchangeData[key][BTRCollectionViewPreviousLayoutInfoKey]];
 			}
@@ -1093,7 +1093,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			}
 			if (view) {
 				_allVisibleViewsDict[itemKey] = view;
-				[self addControlledSubview:view];
+				[self addSubview:view];
 			}
 		}else {
 			[view applyLayoutAttributes:layoutAttributes];
@@ -1144,10 +1144,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 
 - (void)reuseSupplementaryView:(BTRCollectionReusableView *)supplementaryView {
 	[self queueReusableView:supplementaryView inQueue:_supplementaryViewReuseQueues];
-}
-
-- (void)addControlledSubview:(BTRCollectionReusableView *)subview {
-	[self addSubview:subview];
 }
 
 #pragma mark - Updating grid internal functionality
@@ -1235,7 +1231,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 				
 				if (CGRectIntersectsRect(self.visibleRect, startRect) || CGRectIntersectsRect(self.visibleRect, finalRect)) {
 					BTRCollectionReusableView *view = [self createPreparedCellForItemAtIndexPath:indexPath withLayoutAttributes:startAttrs];
-					[self addControlledSubview:view];
+					[self addSubview:view];
 					
 					newAllVisibleView[key] = view;
 					[animations addObject:@{BTRCollectionViewViewKey : view, BTRCollectionViewPreviousLayoutInfoKey : startAttrs ?: finalAttrs, BTRCollectionViewNewLayoutInfoKey: finalAttrs}];
@@ -1259,7 +1255,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 					startAttrs = [finalAttrs copy];
 					startAttrs.alpha = 0;
 					view = [self createPreparedCellForItemAtIndexPath:indexPathAfter withLayoutAttributes:startAttrs];
-					[self addControlledSubview:view];
+					[self addSubview:view];
 					newAllVisibleView[keyAfter] = view;
 				}
 				[animations addObject:@{BTRCollectionViewViewKey : view, BTRCollectionViewPreviousLayoutInfoKey : startAttrs, BTRCollectionViewNewLayoutInfoKey : finalAttrs}];
