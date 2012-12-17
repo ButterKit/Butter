@@ -155,21 +155,15 @@
 			self.contentView.backgroundColor = [NSColor purpleColor];
 		};
 		if ([layout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
-			if (self.superview) {
-				[NSView btr_animate:^{
-					flowLayoutBlock();
-				}];
-			} else {
+			if (self.superview)
+				[NSView btr_animate:flowLayoutBlock];
+			else
 				flowLayoutBlock();
-			}
 		} else {
-			if (self.superview) {
-				[NSView btr_animate:^{
-					circleLayoutBlock();
-				}];
-			} else {
+			if (self.superview)
+				[NSView btr_animate:circleLayoutBlock];
+			else
 				circleLayoutBlock();
-			}
 		}
 		_newLayout = nil;
 	}
