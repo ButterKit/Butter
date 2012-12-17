@@ -18,6 +18,13 @@
 NSString *const BTRCollectionElementKindCell = @"BTRCollectionElementKindCell";
 NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementKindDecorationView";
 
+#pragma mark Internal Constants
+
+static NSString* const BTRCollectionViewDeletedItemsCount = @"BTRCollectionViewDeletedItemsCount";
+static NSString* const BTRCollectionViewInsertedItemsCount = @"BTRCollectionViewInsertedItemsCount";
+static NSString* const BTRCollectionViewMovedOutCount = @"BTRCollectionViewMovedOutCount";
+static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedInCount";
+
 @interface BTRCollectionViewLayout (Internal)
 @property (nonatomic, unsafe_unretained) BTRCollectionView *collectionView;
 @end
@@ -1455,8 +1462,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			if (!operations[section])
 				operations[section] = [NSMutableDictionary dictionary];
 			// Used to track the number of deleted items in a particular section
-			operations[section][@"deleted"] =
-			@([operations[section][@"deleted"] unsignedIntegerValue] + 1);
+			operations[section][BTRCollectionViewDeletedItemsCount] =
+			@([operations[section][BTRCollectionViewDeletedItemsCount] unsignedIntegerValue] + 1);
 		}
 	}];
 	
@@ -1489,70 +1496,60 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			if (!operations[section])
 				operations[section] = [NSMutableDictionary dictionary];
 			
-			operations[section][@"inserted"] = @([operations[section][@"inserted"] unsignedIntegerValue] + 1);
+			operations[section][BTRCollectionViewInsertedItemsCount] = @([operations[section][BTRCollectionViewInsertedItemsCount] unsignedIntegerValue] + 1);
 		}
 	}
 	
 	[sortedMutableMoveItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *sortedItem, NSUInteger idx, BOOL *stop) {
 		if (sortedItem.isSectionOperation) {
-			NSAssert(sortedItem.indexPathBeforeUpdate.section < [oldCollectionViewData numberOfSections],
-					 @"attempt to move section (%ld) that doesn't exist (%ld sections before update)",
-					 sortedItem.indexPathBeforeUpdate.section,
-					 [oldCollectionViewData numberOfSections]);
-			NSAssert(sortedItem.indexPathAfterUpdate.section < [_collectionViewData numberOfSections],
-					 @"attempt to move section to %ld but there are only %ld sections after update",
-					 sortedItem.indexPathAfterUpdate.section,
-					 [_collectionViewData numberOfSections]);
+			NSAssert(sortedItem.indexPathBeforeUpdate.section < oldNumberOfSections,
+					 @"Attempting to move a section (%ld) but the total number of sections before update is %ld",
+					 sortedItem.indexPathBeforeUpdate.section, oldNumberOfSections);
+			NSAssert(sortedItem.indexPathAfterUpdate.section < newNumberOfSections,
+					 @"Attempting to move a section to %ld but there are only %ld sections after update",
+					 sortedItem.indexPathAfterUpdate.section, newNumberOfSections);
 		} else {
-			NSAssert(sortedItem.indexPathBeforeUpdate.section < [oldCollectionViewData numberOfSections],
-					 @"attempt to move item (%@) that doesn't exist (%ld sections before update)",
-					 sortedItem, [oldCollectionViewData numberOfSections]);
-			NSAssert(sortedItem.indexPathBeforeUpdate.item < [oldCollectionViewData numberOfItemsInSection:sortedItem.indexPathBeforeUpdate.section],
-					 @"attempt to move item (%@) that doesn't exist (%ld items in section %ld before update)",
-					 sortedItem,
-					 [oldCollectionViewData numberOfItemsInSection:sortedItem.indexPathBeforeUpdate.section],
-					 sortedItem.indexPathBeforeUpdate.section);
-			
-			NSAssert(sortedItem.indexPathAfterUpdate.section < [_collectionViewData numberOfSections],
-					 @"attempt to move item to (%@) but there are only %ld sections after update",
-					 sortedItem.indexPathAfterUpdate,
-					 [_collectionViewData numberOfSections]);
-			NSAssert(sortedItem.indexPathAfterUpdate.item < [_collectionViewData numberOfItemsInSection:sortedItem.indexPathAfterUpdate.section],
-					 @"attempt to move item to (%@) but there are only %ld items in section %ld after update",
-					 sortedItem,
-					 [_collectionViewData numberOfItemsInSection:sortedItem.indexPathAfterUpdate.section],
-					 sortedItem.indexPathAfterUpdate.section);
+			NSAssert(sortedItem.indexPathBeforeUpdate.section < oldNumberOfSections,
+					 @"Attempting to move an item (%@) that doesn't exist. The total number of sections before updating is %ld.", sortedItem, oldNumberOfSections);
+			NSInteger numberOfItemsBefore = [oldCollectionViewData numberOfItemsInSection:sortedItem.indexPathBeforeUpdate.section];
+			NSAssert(sortedItem.indexPathBeforeUpdate.item < numberOfItemsBefore,
+					 @"Attempting to move an item (%@) that doesn't exist. There are %ld items in section %ld before update.",
+					 sortedItem, numberOfItemsBefore, sortedItem.indexPathBeforeUpdate.section);
+			NSAssert(sortedItem.indexPathAfterUpdate.section < newNumberOfSections,
+					 @"Attempting to move an item to (%@) but there are only %ld sections after update.", sortedItem.indexPathAfterUpdate, newNumberOfSections);
+			NSInteger numberOfItemsAfter = [_collectionViewData numberOfItemsInSection:sortedItem.indexPathAfterUpdate.section];
+			NSAssert(sortedItem.indexPathAfterUpdate.item < numberOfItemsAfter,
+					 @"Attempting to move an item to (%@) but there are only %ld items in section %ld after update.",
+					 sortedItem, numberOfItemsAfter, sortedItem.indexPathAfterUpdate.section);
 		}
 		
-		if (!operations[@(sortedItem.indexPathBeforeUpdate.section)])
-			operations[@(sortedItem.indexPathBeforeUpdate.section)] = [NSMutableDictionary dictionary];
-		if (!operations[@(sortedItem.indexPathAfterUpdate.section)])
-			operations[@(sortedItem.indexPathAfterUpdate.section)] = [NSMutableDictionary dictionary];
+		NSNumber *beforeSection = @(sortedItem.indexPathBeforeUpdate.section);
+		NSNumber *afterSection = @(sortedItem.indexPathAfterUpdate.section);
+		if (!operations[beforeSection])
+			operations[beforeSection] = [NSMutableDictionary dictionary];
+		if (!operations[afterSection])
+			operations[afterSection] = [NSMutableDictionary dictionary];
 		
-		operations[@(sortedItem.indexPathBeforeUpdate.section)][@"movedOut"] =
-		@([operations[@(sortedItem.indexPathBeforeUpdate.section)][@"movedOut"] unsignedIntegerValue] + 1);
+		operations[beforeSection][BTRCollectionViewMovedOutCount] =
+		@([operations[beforeSection][BTRCollectionViewMovedOutCount] unsignedIntegerValue] + 1);
 		
-		operations[@(sortedItem.indexPathAfterUpdate.section)][@"movedIn"] =
-		@([operations[@(sortedItem.indexPathAfterUpdate.section)][@"movedIn"] unsignedIntegerValue] + 1);
+		operations[afterSection][BTRCollectionViewMovedInCount] =
+		@([operations[afterSection][BTRCollectionViewMovedInCount] unsignedIntegerValue] + 1);
 	}];
 	
 #if !defined  NS_BLOCK_ASSERTIONS
 	[operations enumerateKeysAndObjectsUsingBlock:^(NSNumber *sectionKey, id obj, BOOL *stop) {
 		NSUInteger section = [sectionKey unsignedIntegerValue];
 		
-		NSUInteger insertedCount = [operations[sectionKey][@"inserted"] unsignedIntegerValue];
-		NSUInteger deletedCount = [operations[sectionKey][@"deleted"] unsignedIntegerValue];
-		NSUInteger movedInCount = [operations[sectionKey][@"movedIn"] unsignedIntegerValue];
-		NSUInteger movedOutCount = [operations[sectionKey][@"movedOut"] unsignedIntegerValue];
+		NSUInteger insertedCount = [operations[sectionKey][BTRCollectionViewInsertedItemsCount] unsignedIntegerValue];
+		NSUInteger deletedCount = [operations[sectionKey][BTRCollectionViewDeletedItemsCount] unsignedIntegerValue];
+		NSUInteger movedInCount = [operations[sectionKey][BTRCollectionViewMovedInCount] unsignedIntegerValue];
+		NSUInteger movedOutCount = [operations[sectionKey][BTRCollectionViewMovedOutCount] unsignedIntegerValue];
 		
-		NSAssert([oldCollectionViewData numberOfItemsInSection:section]+insertedCount-deletedCount+movedInCount-movedOutCount ==
-				 [_collectionViewData numberOfItemsInSection:section],
-				 @"invalide update in section %ld: number of items after update (%ld) should be equal to the number of items before update (%ld) "\
-				 "plus count of inserted items (%ld), minus count of deleted items (%ld), plus count of items moved in (%ld), minus count of items moved out (%ld)",
-				 section,
-				 [_collectionViewData numberOfItemsInSection:section],
-				 [oldCollectionViewData numberOfItemsInSection:section],
-				 insertedCount,deletedCount,movedInCount, movedOutCount);
+		NSUInteger newNumberOfItems = [_collectionViewData numberOfItemsInSection:section];
+		NSUInteger oldNumberOfItems = [oldCollectionViewData numberOfItemsInSection:section];
+		NSAssert([oldCollectionViewData numberOfItemsInSection:section] + insertedCount - deletedCount + movedInCount -movedOutCount == newNumberOfItems, @"Invalid update in section %ld: number of items after update (%ld) should be equal to the number of items before update (%ld) plus the count of inserted items (%ld), minus the count of deleted items (%ld), plus the count of items moved in (%ld), minus the count of items moved out (%ld)",
+				 section, newNumberOfItems, oldNumberOfItems, insertedCount, deletedCount, movedInCount, movedOutCount);
 	}];
 #endif
 	
@@ -1569,32 +1566,28 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[layoutUpdateItems addObjectsFromArray:sortedMutableMoveItems];
 	[layoutUpdateItems addObjectsFromArray:sortedMutableInsertItems];
 	
-	
-	NSMutableArray* newModel = [NSMutableArray array];
-	for (NSUInteger i = 0; i < [oldCollectionViewData numberOfSections]; i++) {
+	NSMutableArray *newModel = [NSMutableArray array];
+	for (NSUInteger i = 0; i < oldNumberOfSections; i++) {
 		NSMutableArray *sectionArr = [NSMutableArray array];
 		for (NSUInteger j = 0; j < [oldCollectionViewData numberOfItemsInSection:i]; j++)
 			[sectionArr addObject:@([oldCollectionViewData globalIndexForItemAtIndexPath:[NSIndexPath btr_indexPathForItem:j inSection:i]])];
 		[newModel addObject:sectionArr];
 	}
 	
-
 	[layoutUpdateItems enumerateObjectsUsingBlock:^(BTRCollectionViewUpdateItem *updateItem, NSUInteger idx, BOOL *stop) {
 		switch (updateItem.updateAction) {
 			case BTRCollectionUpdateActionDelete: {
 				if (updateItem.isSectionOperation) {
 					[newModel removeObjectAtIndex:updateItem.indexPathBeforeUpdate.section];
 				} else {
-					[(NSMutableArray*)newModel[updateItem.indexPathBeforeUpdate.section] removeObjectAtIndex:updateItem.indexPathBeforeUpdate.item];
+					[newModel[updateItem.indexPathBeforeUpdate.section] removeObjectAtIndex:updateItem.indexPathBeforeUpdate.item];
 				}
 			} break;
 			case BTRCollectionUpdateActionInsert: {
 				if (updateItem.isSectionOperation) {
 					[newModel insertObject:[NSMutableArray new] atIndex:updateItem.indexPathAfterUpdate.section];
 				} else {
-					[(NSMutableArray *)newModel[updateItem.indexPathAfterUpdate.section]
-					 insertObject:@(NSNotFound)
-					 atIndex:updateItem.indexPathAfterUpdate.item];
+					[newModel[updateItem.indexPathAfterUpdate.section] insertObject:@(NSNotFound) atIndex:updateItem.indexPathAfterUpdate.item];
 				}
 			} break;
 			case BTRCollectionUpdateActionMove: {
@@ -1604,8 +1597,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 				} else {
 					id object = newModel[updateItem.indexPathBeforeUpdate.section][updateItem.indexPathBeforeUpdate.item];
 					[newModel[updateItem.indexPathBeforeUpdate.section] removeObjectAtIndex:updateItem.indexPathBeforeUpdate.item];
-					[newModel[updateItem.indexPathAfterUpdate.section] insertObject:object
-																			atIndex:updateItem.indexPathAfterUpdate.item];
+					[newModel[updateItem.indexPathAfterUpdate.section] insertObject:object atIndex:updateItem.indexPathAfterUpdate.item];
 				}
 			} break;
 			default: break;

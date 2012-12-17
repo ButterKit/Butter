@@ -65,15 +65,11 @@ static NSInteger count;
 
 - (void)cellClicked:(Cell *)cell {
 	NSIndexPath *tappedCellPath = [self.collectionView indexPathForCell:cell];
-	if (tappedCellPath != nil)
-	{
+	if (tappedCellPath != nil) {
 		[self.sections[tappedCellPath.section] removeObjectAtIndex:tappedCellPath.item];
 		[self.collectionView performBatchUpdates:^{
 			[self.collectionView deleteItemsAtIndexPaths:@[tappedCellPath]];
-		} completion:^
-		 {
-			 NSLog(@"delete finished");
-		 }];
+		} completion:nil];
 	}
 }
 
