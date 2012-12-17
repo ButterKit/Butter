@@ -136,7 +136,7 @@ static char kBTRCachedItemRectsKey;
                 if (CGRectIntersectsRect(normalizedRowFrame, rect)) {
                     // TODO be more fine-graind for items
 
-                    for (NSInteger itemIndex = 0; itemIndex < row.itemCount; itemIndex++) {
+                    for (NSUInteger itemIndex = 0; itemIndex < row.itemCount; itemIndex++) {
                         BTRCollectionViewLayoutAttributes *layoutAttributes;
                         NSUInteger sectionItemIndex;
                         CGRect itemFrame;
@@ -173,12 +173,12 @@ static char kBTRCachedItemRectsKey;
     BTRGridLayoutRow *row = nil;
     CGRect itemFrame = CGRectZero;
 
-    if (section.fixedItemSize && indexPath.item / section.itemsByRowCount < (NSInteger)[section.rows count]) {
+    if (section.fixedItemSize && indexPath.item / section.itemsByRowCount < [section.rows count]) {
         row = section.rows[indexPath.item / section.itemsByRowCount];
         NSUInteger itemIndex = indexPath.item % section.itemsByRowCount;
         NSArray *itemRects = [row itemRects];
         itemFrame = [itemRects[itemIndex] btr_CGRectValue];
-    } else if (indexPath.item < (NSInteger)[section.items count]) {
+    } else if (indexPath.item < [section.items count]) {
         BTRGridLayoutItem *item = section.items[indexPath.item];
         row = item.rowObject;
         itemFrame = item.itemFrame;
@@ -497,7 +497,7 @@ static char kBTRCachedItemRectsKey;
         // So we need to calculate the "usedItemCount" with using the last item as a reference size.
         // This allows us to correctly justify-place the items in the grid.
         NSUInteger usedItemCount = 0;
-        NSInteger itemIndex = 0;
+        NSUInteger itemIndex = 0;
         CGFloat spacing = isHorizontal ? self.section.verticalInterstice : self.section.horizontalInterstice;
         // the last row should justify as if it is filled with more (invisible) items so that the whole
         // UICollectionView feels more like a grid than a random line of blocks
@@ -605,7 +605,7 @@ static char kBTRCachedItemRectsKey;
     return nil; // ???
 }
 
-- (NSInteger)itemCount {
+- (NSUInteger)itemCount {
     if(self.fixedItemSize) {
         return _itemCount;
     }else {
@@ -650,9 +650,9 @@ static char kBTRCachedItemRectsKey;
 		
         // iterate over all items, turning them into rows.
         CGSize sectionSize = CGSizeZero;
-        NSInteger rowIndex = 0;
-        NSInteger itemIndex = 0;
-        NSInteger itemsByRowCount = 0;
+        NSUInteger rowIndex = 0;
+        NSUInteger itemIndex = 0;
+        NSUInteger itemsByRowCount = 0;
         CGFloat dimensionLeft = 0;
         BTRGridLayoutRow *row = nil;
         // get dimension and compensate for section margin
@@ -793,7 +793,7 @@ static char kBTRCachedItemRectsKey;
     return snapshotSection;
 }
 
-- (NSInteger)itemsCount {
+- (NSUInteger)itemsCount {
     return self.fixedItemSize ? _itemsCount : [self.items count];
 }
 

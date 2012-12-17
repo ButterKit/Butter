@@ -257,8 +257,8 @@
         BTRCollectionViewLayoutAttributes *attr = [view.layoutAttributes copy];
 
         BTRCollectionViewData* oldModel = update[@"oldModel"];
-        NSInteger index = [oldModel globalIndexForItemAtIndexPath:[attr indexPath]];
-
+        NSUInteger index = [oldModel globalIndexForItemAtIndexPath:[attr indexPath]];
+		NSLog(@"Index in old model %lu", index);
         if(index != NSNotFound) {
             index = [update[@"oldToNewIndexMap"][index] intValue];
             if(index != NSNotFound) {
@@ -274,9 +274,10 @@
     CGRect bounds = _collectionView.visibleRect;
 
     for (BTRCollectionViewLayoutAttributes* attr in [collectionViewData layoutAttributesForElementsInRect:bounds]) {
-        NSInteger index = [collectionViewData globalIndexForItemAtIndexPath:attr.indexPath];
+        NSUInteger index = [collectionViewData globalIndexForItemAtIndexPath:attr.indexPath];
 
         index = [update[@"newToOldIndexMap"][index] intValue];
+		NSLog(@"Index in newtooldindexmap %lu", index);
         if(index != NSNotFound) {
             BTRCollectionViewLayoutAttributes* finalAttrs = [attr copy];
             [finalAttrs setIndexPath:[update[@"oldModel"] indexPathForItemAtGlobalIndex:index]];

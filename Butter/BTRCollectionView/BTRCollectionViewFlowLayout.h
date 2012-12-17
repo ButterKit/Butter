@@ -21,11 +21,11 @@ typedef NS_ENUM(NSInteger, BTRCollectionViewScrollDirection) {
 @optional
 
 - (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (BTREdgeInsets)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section;
-- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section;
-- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section;
-- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section;
-- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section;
+- (BTREdgeInsets)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSUInteger)section;
+- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSUInteger)section;
+- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSUInteger)section;
+- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSUInteger)section;
+- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSUInteger)section;
 
 @end
 
@@ -69,54 +69,6 @@ typedef NS_ENUM(NSInteger, BTRFlowLayoutHorizontalAlignment) {
 };
 // TODO: settings for UIFlowLayoutRowVerticalAlignmentKey
 
-
-/*
-@interface BTRCollectionViewFlowLayout (Private)
-
-- (CGSize)synchronizeLayout;
-
-// For items being inserted or deleted, the collection view calls some different methods, which you should override to provide the appropriate layout information.
-- (BTRCollectionViewLayoutAttributes *)initialLayoutAttributesForFooterInInsertedSection:(NSInteger)section;
-- (BTRCollectionViewLayoutAttributes *)initialLayoutAttributesForHeaderInInsertedSection:(NSInteger)section;
-- (BTRCollectionViewLayoutAttributes *)initialLayoutAttributesForInsertedItemAtIndexPath:(NSIndexPath *)indexPath;
-- (BTRCollectionViewLayoutAttributes *)finalLayoutAttributesForFooterInDeletedSection:(NSInteger)section;
-- (BTRCollectionViewLayoutAttributes *)finalLayoutAttributesForHeaderInDeletedSection:(NSInteger)section;
-- (BTRCollectionViewLayoutAttributes *)finalLayoutAttributesForDeletedItemAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)_updateItemsLayout;
-- (void)_getSizingInfos;
-- (void)_updateDelegateFlags;
-
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForFooterInSection:(NSInteger)section;
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForHeaderInSection:(NSInteger)section;
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath usingData:(id)data;
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForFooterInSection:(NSInteger)section usingData:(id)data;
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForHeaderInSection:(NSInteger)section usingData:(id)data;
-
-- (id)indexesForSectionFootersInRect:(CGRect)rect;
-- (id)indexesForSectionHeadersInRect:(CGRect)rect;
-- (id)indexPathsForItemsInRect:(CGRect)rect usingData:(id)arg2;
-- (id)indexesForSectionFootersInRect:(CGRect)rect usingData:(id)arg2;
-- (id)indexesForSectionHeadersInRect:(CGRect)arg1 usingData:(id)arg2;
-- (CGRect)_frameForItemAtSection:(int)arg1 andRow:(int)arg2 usingData:(id)arg3;
-- (CGRect)_frameForFooterInSection:(int)arg1 usingData:(id)arg2;
-- (CGRect)_frameForHeaderInSection:(int)arg1 usingData:(id)arg2;
-- (void)_invalidateLayout;
-- (NSIndexPath *)indexPathForItemAtPoint:(CGPoint)arg1;
-- (BTRCollectionViewLayoutAttributes *)_layoutAttributesForItemsInRect:(CGRect)arg1;
-- (CGSize)collectionViewContentSize;
-- (void)finalizeCollectionViewUpdates;
-- (BTRCollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
-- (void)_invalidateButKeepDelegateInfo;
-- (void)_invalidateButKeepAllInfo;
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)arg1;
-- (id)layoutAttributesForElementsInRect:(CGRect)arg1;
-- (void)invalidateLayout;
-- (id)layoutAttributesForItemAtIndexPath:(id)arg1;
-
-@end
-*/
-
 // Represents a single grid item; only created for non-uniform-sized grids.
 @class BTRGridLayoutItem, BTRGridLayoutRow, BTRGridLayoutSection;
 @interface BTRGridLayoutRow : NSObject
@@ -125,12 +77,12 @@ typedef NS_ENUM(NSInteger, BTRFlowLayoutHorizontalAlignment) {
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, assign) CGSize rowSize;
 @property (nonatomic, assign) CGRect rowFrame;
-@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, assign) BOOL complete;
 @property (nonatomic, assign) BOOL fixedItemSize;
 
 // @steipete addition for row-fastPath
-@property (nonatomic, assign) NSInteger itemCount;
+@property (nonatomic, assign) NSUInteger itemCount;
 
 //- (BTRGridLayoutRow *)copyFromSection:(BTRGridLayoutSection *)section; // ???
 
@@ -161,7 +113,7 @@ typedef NS_ENUM(NSInteger, BTRFlowLayoutHorizontalAlignment) {
 @property (nonatomic, assign) BOOL fixedItemSize;
 @property (nonatomic, assign) CGSize itemSize;
 // depending on fixedItemSize, this either is a _ivar or queries items.
-@property (nonatomic, assign) NSInteger itemsCount;
+@property (nonatomic, assign) NSUInteger itemsCount;
 
 @property (nonatomic, assign) CGFloat verticalInterstice;
 @property (nonatomic, assign) CGFloat horizontalInterstice;
@@ -183,8 +135,8 @@ typedef NS_ENUM(NSInteger, BTRFlowLayoutHorizontalAlignment) {
 @property (nonatomic, assign) CGFloat lastRowEndMargin;
 @property (nonatomic, assign) CGFloat lastRowActualGap;
 @property (nonatomic, assign) BOOL lastRowIncomplete;
-@property (nonatomic, assign) NSInteger itemsByRowCount;
-@property (nonatomic, assign) NSInteger indexOfImcompleteRow; // typo as of iOS6B3
+@property (nonatomic, assign) NSUInteger itemsByRowCount;
+@property (nonatomic, assign) NSUInteger indexOfImcompleteRow; // typo as of iOS6B3
 
 //- (BTRGridLayoutSection *)copyFromLayoutInfo:(BTRGridLayoutInfo *)layoutInfo;
 
