@@ -84,8 +84,6 @@ typedef NS_ENUM(NSInteger, BTRFlowLayoutHorizontalAlignment) {
 // @steipete addition for row-fastPath
 @property (nonatomic, assign) NSUInteger itemCount;
 
-//- (BTRGridLayoutRow *)copyFromSection:(BTRGridLayoutSection *)section; // ???
-
 // Add new item to items array.
 - (void)addItem:(BTRGridLayoutItem *)item;
 

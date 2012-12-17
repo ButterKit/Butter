@@ -14,14 +14,11 @@
 
 NSString *const BTRCollectionElementKindSectionHeader = @"BTRCollectionElementKindSectionHeader";
 NSString *const BTRCollectionElementKindSectionFooter = @"BTRCollectionElementKindSectionFooter";
-
-// this is not exposed in UICollectionViewFlowLayout
 NSString *const BTRFlowLayoutCommonRowHorizontalAlignmentKey = @"BTRFlowLayoutCommonRowHorizontalAlignmentKey";
 NSString *const BTRFlowLayoutLastRowHorizontalAlignmentKey = @"BTRFlowLayoutLastRowHorizontalAlignmentKey";
 NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVerticalAlignmentKey";
 
 @implementation BTRCollectionViewFlowLayout {
-    // class needs to have same iVar layout as UICollectionViewLayout
     struct {
         unsigned int delegateSizeForItem : 1;
         unsigned int delegateReferenceSizeForHeader : 1;
@@ -30,17 +27,8 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
         unsigned int delegateInteritemSpacingForSection : 1;
         unsigned int delegateLineSpacingForSection : 1;
         unsigned int delegateAlignmentOptions : 1;
-        unsigned int keepDelegateInfoWhileInvalidating : 1;
-        unsigned int keepAllDataWhileInvalidating : 1;
-        unsigned int layoutDataIsValid : 1;
-        unsigned int delegateInfoIsValid : 1;
     } _gridLayoutFlags;
-    CGFloat _interitemSpacing;
-    CGFloat _lineSpacing;
     CGSize _itemSize;
-    CGSize _headerReferenceSize;
-    CGSize _footerReferenceSize;
-    BTREdgeInsets _sectionInset;
     BTRGridLayoutInfo *_data;
     CGSize _currentLayoutSize;
     NSMutableDictionary *_insertedItemsAttributesDict;
@@ -49,69 +37,41 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
     NSMutableDictionary *_deletedItemsAttributesDict;
     NSMutableDictionary *_deletedSectionHeadersAttributesDict;
     NSMutableDictionary *_deletedSectionFootersAttributesDict;
+	NSMutableDictionary *_cachedItemRects;
     BTRCollectionViewScrollDirection _scrollDirection;
     NSDictionary *_rowAlignmentsOptionsDictionary;
-    CGRect _visibleBounds;
 }
 
 @synthesize rowAlignmentOptions = _rowAlignmentsOptionsDictionary;
-@synthesize minimumLineSpacing = _lineSpacing;
-@synthesize minimumInteritemSpacing = _interitemSpacing;
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
-- (void)commonInit {
-    _itemSize = CGSizeMake(50.f, 50.f);
-    _lineSpacing = 10.f;
-    _interitemSpacing = 10.f;
-    _sectionInset = BTREdgeInsetsZero;
-    _scrollDirection = BTRCollectionViewScrollDirectionVertical;
-    _headerReferenceSize = CGSizeZero;
-    _footerReferenceSize = CGSizeZero;
-}
-
 - (id)init {
-    if((self = [super init])) {
-        [self commonInit];
-
-        // set default values for row alignment.
+    if ((self = [super init])) {
+        _itemSize = CGSizeMake(50.f, 50.f);
+		_minimumLineSpacing = 10.f;
+		_minimumInteritemSpacing = 10.f;
+		_sectionInset = BTREdgeInsetsZero;
+		_scrollDirection = BTRCollectionViewScrollDirectionVertical;
+		_headerReferenceSize = CGSizeZero;
+		_footerReferenceSize = CGSizeZero;
+		_cachedItemRects = [NSMutableDictionary dictionary];
         _rowAlignmentsOptionsDictionary = @{
         BTRFlowLayoutCommonRowHorizontalAlignmentKey : @(BTRFlowLayoutHorizontalAlignmentJustify),
         BTRFlowLayoutLastRowHorizontalAlignmentKey : @(BTRFlowLayoutHorizontalAlignmentJustify),
-        // TODO: those values are some enum. find out what what is.
         BTRFlowLayoutRowVerticalAlignmentKey : @(1),
         };
-
-        // custom ivars
-        objc_setAssociatedObject(self, &kBTRCachedItemRectsKey, [NSMutableDictionary dictionary], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
-    if ((self = [super initWithCoder:decoder])) {
-        [self commonInit];
-    }
-    return self;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - BTRCollectionViewLayout
 
-static char kBTRCachedItemRectsKey;
-
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
-    // Apple calls _layoutAttributesForItemsInRect
-
     NSMutableArray *layoutAttributesArray = [NSMutableArray array];
     for (BTRGridLayoutSection *section in _data.sections) {
         if (CGRectIntersectsRect(section.frame, rect)) {
-
-            // if we have fixed size, calculate item frames only once.
-            // this also uses the default BTRFlowLayoutCommonRowHorizontalAlignmentKey alignment
-            // for the last row. (we want this effect!)
-            NSMutableDictionary *rectCache = objc_getAssociatedObject(self, &kBTRCachedItemRectsKey);
+			// Calculate item sizes only once for fixed sizing using BTRFlowLayoutCommonRowHorizontalAlignmentKey alignment
             NSUInteger sectionIndex = [_data.sections indexOfObjectIdenticalTo:section];
 
 			CGRect normalizedHeaderFrame = section.headerFrame;
@@ -123,10 +83,10 @@ static char kBTRCachedItemRectsKey;
 				[layoutAttributesArray addObject:layoutAttributes];
 			}
 
-            NSArray *itemRects = rectCache[@(sectionIndex)];
+            NSArray *itemRects = _cachedItemRects[@(sectionIndex)];
             if (!itemRects && section.fixedItemSize && [section.rows count]) {
                 itemRects = [(section.rows)[0] itemRects];
-                if(itemRects) rectCache[@(sectionIndex)] = itemRects;
+                if (itemRects) _cachedItemRects[@(sectionIndex)] = itemRects;
             }
 
 			for (BTRGridLayoutRow *row in section.rows) {
@@ -134,8 +94,6 @@ static char kBTRCachedItemRectsKey;
                 normalizedRowFrame.origin.x += section.frame.origin.x;
                 normalizedRowFrame.origin.y += section.frame.origin.y;
                 if (CGRectIntersectsRect(normalizedRowFrame, rect)) {
-                    // TODO be more fine-graind for items
-
                     for (NSUInteger itemIndex = 0; itemIndex < row.itemCount; itemIndex++) {
                         BTRCollectionViewLayoutAttributes *layoutAttributes;
                         NSUInteger sectionItemIndex;
@@ -185,8 +143,6 @@ static char kBTRCachedItemRectsKey;
     }
 
     BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-
-    // calculate item rect
     CGRect normalizedRowFrame = row.rowFrame;
     normalizedRowFrame.origin.x += section.frame.origin.x;
     normalizedRowFrame.origin.y += section.frame.origin.y;
@@ -221,28 +177,25 @@ static char kBTRCachedItemRectsKey;
 }
 
 - (CGSize)collectionViewContentSize {
-    //    return _currentLayoutSize;
     return _data.contentSize;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Invalidating the Layout
 
 - (void)invalidateLayout {
-    objc_setAssociatedObject(self, &kBTRCachedItemRectsKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    _cachedItemRects = nil;
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
     return !CGSizeEqualToSize(self.collectionView.bounds.size, newBounds.size);
 }
 
-// return a point at which to rest after scrolling - for layouts that want snap-to-point scrolling behavior
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity {
     return proposedContentOffset;
 }
 
 - (void)prepareLayout {
-    _data = [BTRGridLayoutInfo new]; // clear old layout data
+    _data = [BTRGridLayoutInfo new];
     _data.horizontal = self.scrollDirection == BTRCollectionViewScrollDirectionHorizontal;
     CGSize collectionViewSize = self.collectionView.enclosingScrollView.bounds.size;
     _data.dimension = _data.horizontal ? collectionViewSize.height : collectionViewSize.width;
@@ -250,7 +203,6 @@ static char kBTRCachedItemRectsKey;
     [self fetchItemsInfo];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private
 
 - (void)fetchItemsInfo {
@@ -258,7 +210,6 @@ static char kBTRCachedItemRectsKey;
     [self updateItemsLayout];
 }
 
-// get size of all items (if delegate is implemented)
 - (void)getSizingInfos {
     NSAssert([_data.sections count] == 0, @"Grid layout is already populated?");
 
@@ -284,7 +235,7 @@ static char kBTRCachedItemRectsKey;
             CGFloat minimumLineSpacing = [flowDataSource collectionView:self.collectionView layout:self minimumLineSpacingForSectionAtIndex:section];
             if (_data.horizontal) {
                 layoutSection.horizontalInterstice = minimumLineSpacing;
-            }else {
+            } else {
                 layoutSection.verticalInterstice = minimumLineSpacing;
             }
         }
@@ -293,7 +244,7 @@ static char kBTRCachedItemRectsKey;
             CGFloat minimumInterimSpacing = [flowDataSource collectionView:self.collectionView layout:self minimumInteritemSpacingForSectionAtIndex:section];
             if (_data.horizontal) {
                 layoutSection.verticalInterstice = minimumInterimSpacing;
-            }else {
+            } else {
                 layoutSection.horizontalInterstice = minimumInterimSpacing;
             }
         }
@@ -315,8 +266,6 @@ static char kBTRCachedItemRectsKey;
 		layoutSection.footerDimension = _data.horizontal ? footerReferenceSize.width : footerReferenceSize.height;
 
         NSUInteger numberOfItems = [self.collectionView numberOfItemsInSection:section];
-
-        // if delegate implements size delegate, query it for all items
         if (implementsSizeDelegate) {
             for (NSUInteger item = 0; item < numberOfItems; item++) {
                 NSIndexPath *indexPath = [NSIndexPath btr_indexPathForItem:item inSection:section];
@@ -325,7 +274,6 @@ static char kBTRCachedItemRectsKey;
                 BTRGridLayoutItem *layoutItem = [layoutSection addItem];
                 layoutItem.itemFrame = (CGRect){.size=itemSize};
             }
-            // if not, go the fast path
         }else {
             layoutSection.fixedItemSize = YES;
             layoutSection.itemSize = self.itemSize;
@@ -338,8 +286,6 @@ static char kBTRCachedItemRectsKey;
     CGSize contentSize = CGSizeZero;
     for (BTRGridLayoutSection *section in _data.sections) {
         [section computeLayout];
-
-        // update section offset to make frame absolute (section only calculates relative)
         CGRect sectionFrame = section.frame;
         if (_data.horizontal) {
             sectionFrame.origin.x += contentSize.width;
@@ -367,12 +313,9 @@ static char kBTRCachedItemRectsKey;
 
 @implementation BTRGridLayoutInfo {
     NSMutableArray *_sections;
-    CGRect _visibleBounds;
-    CGSize _layoutSize;
     BOOL _isValid;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
 - (id)init {
@@ -386,7 +329,6 @@ static char kBTRCachedItemRectsKey;
     return [NSString stringWithFormat:@"<%@: %p dimension:%.1f horizontal:%d contentSize:%@ sections:%@>", NSStringFromClass([self class]), self, self.dimension, self.horizontal, BTRNSStringFromCGSize(self.contentSize), self.sections];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
 - (BTRGridLayoutInfo *)snapshot {
@@ -429,7 +371,6 @@ static char kBTRCachedItemRectsKey;
 
 @implementation BTRGridLayoutItem
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
 - (NSString *)description {
@@ -441,11 +382,8 @@ static char kBTRCachedItemRectsKey;
 @implementation BTRGridLayoutRow {
 	NSMutableArray *_items;
     BOOL _isValid;
-    int _verticalAlignement;
-    int _horizontalAlignement;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
 - (id)init {
@@ -459,7 +397,6 @@ static char kBTRCachedItemRectsKey;
     return [NSString stringWithFormat:@"<%@: %p frame:%@ index:%ld items:%@>", NSStringFromClass([self class]), self, BTRNSStringFromCGRect(self.rowFrame), self.index, self.items];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
 - (void)invalidate {
@@ -479,73 +416,69 @@ static char kBTRCachedItemRectsKey;
 - (NSArray *)layoutRowAndGenerateRectArray:(BOOL)generateRectArray {
     NSMutableArray *rects = generateRectArray ? [NSMutableArray array] : nil;
     if (!_isValid || generateRectArray) {
-        // properties for aligning
+        // Properties for alignment (not public in UICollectionView)
         BOOL isHorizontal = self.section.layoutInfo.horizontal;
         BOOL isLastRow = self.section.indexOfImcompleteRow == self.index;
         BTRFlowLayoutHorizontalAlignment horizontalAlignment = [self.section.rowAlignmentOptions[isLastRow ? BTRFlowLayoutLastRowHorizontalAlignmentKey : BTRFlowLayoutCommonRowHorizontalAlignmentKey] integerValue];
 		
-        // calculate space that's left over if we would align it from left to right.
+        // Calculate space that's left over if we would align it from left to right.
         CGFloat leftOverSpace = self.section.layoutInfo.dimension;
         if (isHorizontal) {
             leftOverSpace -= self.section.sectionMargins.top + self.section.sectionMargins.bottom;
-        }else {
+        } else {
             leftOverSpace -= self.section.sectionMargins.left + self.section.sectionMargins.right;
         }
 		
-        // calculate the space that we have left after counting all items.
+        // Calculate the space that we have left after counting all items.
         // UICollectionView is smart and lays out items like they would have been placed on a full row
         // So we need to calculate the "usedItemCount" with using the last item as a reference size.
         // This allows us to correctly justify-place the items in the grid.
         NSUInteger usedItemCount = 0;
         NSUInteger itemIndex = 0;
         CGFloat spacing = isHorizontal ? self.section.verticalInterstice : self.section.horizontalInterstice;
-        // the last row should justify as if it is filled with more (invisible) items so that the whole
+        // The last row should justify as if it is filled with more (invisible) items so that the whole
         // UICollectionView feels more like a grid than a random line of blocks
         while (itemIndex < self.itemCount || isLastRow) {
             CGFloat nextItemSize;
-            // first we need to find the size (width/height) of the next item to fit
+            // First we need to find the size (width/height) of the next item to fit
             if (!self.fixedItemSize) {
-                BTRGridLayoutItem *item = self.items[MIN(itemIndex, self.itemCount-1)];
+                BTRGridLayoutItem *item = self.items[MIN(itemIndex, self.itemCount - 1)];
                 nextItemSize = isHorizontal ? item.itemFrame.size.height : item.itemFrame.size.width;
-            }else {
+            } else {
                 nextItemSize = isHorizontal ? self.section.itemSize.height : self.section.itemSize.width;
             }
-            
-            // the first item does not add a separator spacing,
-            // every one afterwards in the same row will need this spacing constant
+            // The first item does not add a separator spacing,
+            // Every one afterwards in the same row will need this spacing constant
             if (itemIndex > 0) {
                 nextItemSize += spacing;
             }
-            
-            // check to see if we can at least fit an item (+separator if necessary)
+            // Check to see if we can at least fit an item (+separator if necessary)
             if (leftOverSpace < nextItemSize) {
                 break;
             }
-            
-            // we need to maintain the leftover space after the maximum amount of items have
+            // We need to maintain the leftover space after the maximum amount of items have
             // occupied, so we know how to adjust equal spacing among all the items in a row
             leftOverSpace -= nextItemSize;
             
             itemIndex++;
             usedItemCount = itemIndex;
         }
-		
-        // push everything to the right if right-aligning and divide in half for centered
-        // currently there is no public API supporting this behavior
+        // Push everything to the right if right-aligning and divide in half for centered
+        // Currently there is no public API supporting this behavior
         CGPoint itemOffset = CGPointZero;
         if (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentRight) {
             itemOffset.x += leftOverSpace;
-        }else if(horizontalAlignment == BTRFlowLayoutHorizontalAlignmentCentered ||
+        } else if (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentCentered ||
                  (horizontalAlignment == BTRFlowLayoutHorizontalAlignmentJustify && usedItemCount == 1)) {
             // Special case one item row to split leftover space in half
             itemOffset.x += leftOverSpace/2;
         }
         
-        // calculate the justified spacing among all items in a row if we are using
-        // the default PSTFlowLayoutHorizontalAlignmentJustify layout
+        // Calculate the justified spacing among all items in a row if we are using
+        // the default BTRFlowLayoutHorizontalAlignmentJustify layout
         CGFloat interSpacing = usedItemCount <= 1 ? 0 : leftOverSpace/(CGFloat)(usedItemCount-1);
 		
-        // calculate row frame as union of all items
+        // Calculate row frame as union of all items
         CGRect frame = CGRectZero;
         CGRect itemFrame = (CGRect){.size=self.section.itemSize};
         for (itemIndex = 0; itemIndex < self.itemCount; itemIndex++) {
@@ -576,7 +509,6 @@ static char kBTRCachedItemRectsKey;
             frame = CGRectUnion(frame, itemFrame);
         }
         _rowSize = frame.size;
-        //        _rowFrame = frame; // set externally
         _isValid = YES;
     }
     return rects;
@@ -601,16 +533,11 @@ static char kBTRCachedItemRectsKey;
     return snapshotRow;
 }
 
-- (BTRGridLayoutRow *)copyFromSection:(BTRGridLayoutSection *)section {
-    return nil; // ???
-}
-
 - (NSUInteger)itemCount {
-    if(self.fixedItemSize) {
+    if (self.fixedItemSize)
         return _itemCount;
-    }else {
+    else
         return [self.items count];
-    }
 }
 
 @end
@@ -621,7 +548,6 @@ static char kBTRCachedItemRectsKey;
     BOOL _isValid;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
 - (id)init {
@@ -636,7 +562,6 @@ static char kBTRCachedItemRectsKey;
     return [NSString stringWithFormat:@"<%@: %p itemCount:%ld frame:%@ rows:%@>", NSStringFromClass([self class]), self, self.itemsCount, BTRNSStringFromCGRect(self.frame), self.rows];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
 - (void)invalidate {
@@ -648,14 +573,14 @@ static char kBTRCachedItemRectsKey;
     if (!_isValid) {
         NSAssert([self.rows count] == 0, @"No rows shall be at this point.");
 		
-        // iterate over all items, turning them into rows.
+        // Iterate over all items, turning them into rows.
         CGSize sectionSize = CGSizeZero;
         NSUInteger rowIndex = 0;
         NSUInteger itemIndex = 0;
         NSUInteger itemsByRowCount = 0;
         CGFloat dimensionLeft = 0;
         BTRGridLayoutRow *row = nil;
-        // get dimension and compensate for section margin
+        // Get dimension and compensate for section margin
 		CGFloat headerFooterDimension = self.layoutInfo.dimension;
         CGFloat dimension = headerFooterDimension;
 		
@@ -679,16 +604,15 @@ static char kBTRCachedItemRectsKey;
 			
             CGSize itemSize = self.fixedItemSize ? self.itemSize : item.itemFrame.size;
             CGFloat itemDimension = self.layoutInfo.horizontal ? itemSize.height : itemSize.width;
-            // first item of each row does not add spacing
+            // First item of each row does not add spacing
             if (itemsByRowCount > 0) itemDimension += spacing;
             if (dimensionLeft < itemDimension || finishCycle) {
-                // finish current row
                 if (row) {
-                    // compensate last row
+                    // Compensate last row
                     self.itemsByRowCount = fmaxf(itemsByRowCount, self.itemsByRowCount);
                     row.itemCount = itemsByRowCount;
 					
-                    // if current row is done but there are still items left, increase the incomplete row counter
+                    // If current row is done but there are still items left, increase the incomplete row counter
                     if (!finishCycle) self.indexOfImcompleteRow = rowIndex;
 					
                     [row layoutRow];
@@ -703,16 +627,16 @@ static char kBTRCachedItemRectsKey;
                         sectionSize.width = fmaxf(row.rowSize.width, sectionSize.width);
                     }
                 }
-                // add new rows until the section is fully layouted
+                // Add new rows until the section is fully layouted
                 if (!finishCycle) {
-                    // create new row
-                    row.complete = YES; // finish up current row
+                    // Create new row
+                    row.complete = YES;
                     row = [self addRow];
                     row.fixedItemSize = self.fixedItemSize;
                     row.index = rowIndex;
                     self.indexOfImcompleteRow = rowIndex;
                     rowIndex++;
-                    // convert an item from previous row to current, remove spacing for first item
+                    // Convert an item from previous row to current, remove spacing for first item
                     if (itemsByRowCount > 0) itemDimension -= spacing;
                     dimensionLeft = dimension - itemDimension;
                     itemsByRowCount = 0;
@@ -721,12 +645,12 @@ static char kBTRCachedItemRectsKey;
                 dimensionLeft -= itemDimension;
             }
 			
-            // add item on slow path
+            // Add item on slow path
             if (item) [row addItem:item];
 			
             itemIndex++;
             itemsByRowCount++;
-        }while (itemIndex <= self.itemsCount); // cycle once more to finish last row
+        } while (itemIndex <= self.itemsCount); // Cycle once more to finish last row
 		
         if (self.layoutInfo.horizontal) {
 			sectionSize.width += self.sectionMargins.right;
