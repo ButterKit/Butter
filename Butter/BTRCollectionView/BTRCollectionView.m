@@ -24,6 +24,8 @@ static NSString* const BTRCollectionViewDeletedItemsCount = @"BTRCollectionViewD
 static NSString* const BTRCollectionViewInsertedItemsCount = @"BTRCollectionViewInsertedItemsCount";
 static NSString* const BTRCollectionViewMovedOutCount = @"BTRCollectionViewMovedOutCount";
 static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedInCount";
+static NSString* const BTRCollectionViewPreviousLayoutInfoKey = @"BTRCollectionViewPreviousLayoutInfoKey";
+static NSString* const BTRCollectionViewNewLayoutInfoKey = @"BTRCollectionViewNewLayoutInfoKey";
 
 @interface BTRCollectionViewLayout (Internal)
 @property (nonatomic, unsafe_unretained) BTRCollectionView *collectionView;
@@ -872,154 +874,127 @@ static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedI
 
 - (void)setCollectionViewLayout:(BTRCollectionViewLayout *)layout animated:(BOOL)animated {
 	if (layout == _layout) return;
-	// If there's no current layout state then
-	if (CGRectIsEmpty(self.bounds) || !_collectionViewFlags.doneFirstLayout) {
-		_layout.collectionView = nil;
-		_collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
-		layout.collectionView = self;
-		_layout = layout;
-		//TODO: Call -will/didTransitionFromLayout:toLayout: with a nil fromLayout.
-		[self setNeedsDisplay:YES];
-	} else {
-		layout.collectionView = self;
-		
-		_collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
-		[_collectionViewData prepareToLoadData];
-		
-		NSArray *previouslySelectedIndexPaths = [self indexPathsForSelectedItems];
-		NSMutableSet *selectedCellKeys = [NSMutableSet setWithCapacity:[previouslySelectedIndexPaths count]];
-		
-		[previouslySelectedIndexPaths enumerateObjectsUsingBlock:^(NSIndexPath *indexPath, NSUInteger idx, BOOL *stop) {
-			[selectedCellKeys addObject:[BTRCollectionViewItemKey collectionItemKeyForCellWithIndexPath:indexPath]];
-		}];
-		
-		NSArray *previouslyVisibleItemsKeys = [_allVisibleViewsDict allKeys];
-		NSSet *previouslyVisibleItemsKeysSet = [NSSet setWithArray:previouslyVisibleItemsKeys];
-		NSMutableSet *previouslyVisibleItemsKeysSetMutable = [NSMutableSet setWithArray:previouslyVisibleItemsKeys];
-		
-		if ([selectedCellKeys intersectsSet:selectedCellKeys]) {
-			[previouslyVisibleItemsKeysSetMutable intersectSet:previouslyVisibleItemsKeysSetMutable];
-		}
-		
-		CGRect rect = [_collectionViewData collectionViewContentRect];
-		NSArray *newlyVisibleLayoutAttrs = [_collectionViewData layoutAttributesForElementsInRect:rect];
-		
-		NSMutableDictionary *layoutInterchangeData = [NSMutableDictionary dictionaryWithCapacity:
-													  [newlyVisibleLayoutAttrs count] + [previouslyVisibleItemsKeysSet count]];
-		
-		NSMutableSet *newlyVisibleItemsKeys = [NSMutableSet set];
-		[newlyVisibleLayoutAttrs enumerateObjectsUsingBlock:^(BTRCollectionViewLayoutAttributes *attr, NSUInteger idx, BOOL *stop) {
-			BTRCollectionViewItemKey *newKey = [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attr];
-			[newlyVisibleItemsKeys addObject:newKey];
-			
-			BTRCollectionViewLayoutAttributes *prevAttr = nil;
-			BTRCollectionViewLayoutAttributes *newAttr = nil;
-			
-			if (newKey.type == BTRCollectionViewItemTypeDecorationView) {
-				prevAttr = [self.collectionViewLayout layoutAttributesForDecorationViewWithReuseIdentifier:attr.representedElementKind
-																							   atIndexPath:newKey.indexPath];
-				newAttr = [layout layoutAttributesForDecorationViewWithReuseIdentifier:attr.representedElementKind
-																		   atIndexPath:newKey.indexPath];
-			} else if (newKey.type == BTRCollectionViewItemTypeCell) {
-				prevAttr = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:newKey.indexPath];
-				newAttr = [layout layoutAttributesForItemAtIndexPath:newKey.indexPath];
-			} else {
-				prevAttr = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:attr.representedElementKind
-																					 atIndexPath:newKey.indexPath];
-				newAttr = [layout layoutAttributesForSupplementaryViewOfKind:attr.representedElementKind
-																 atIndexPath:newKey.indexPath];
-			}
-			layoutInterchangeData[newKey] = [NSDictionary dictionaryWithObjects:@[prevAttr,newAttr]
-																		forKeys:@[@"previousLayoutInfos", @"newLayoutInfos"]];
-		}];
-		
-		[previouslyVisibleItemsKeysSet enumerateObjectsUsingBlock:^(BTRCollectionViewItemKey *key, BOOL *stop) {
-			BTRCollectionViewLayoutAttributes *prevAttr = nil;
-			BTRCollectionViewLayoutAttributes *newAttr = nil;
-			
-			if (key.type == BTRCollectionViewItemTypeDecorationView) {
-				BTRCollectionReusableView *decorView = _allVisibleViewsDict[key];
-				prevAttr = [self.collectionViewLayout layoutAttributesForDecorationViewWithReuseIdentifier:decorView.reuseIdentifier
-																							   atIndexPath:key.indexPath];
-				newAttr = [layout layoutAttributesForDecorationViewWithReuseIdentifier:decorView.reuseIdentifier
-																		   atIndexPath:key.indexPath];
-			} else if (key.type == BTRCollectionViewItemTypeCell) {
-				prevAttr = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:key.indexPath];
-				newAttr = [layout layoutAttributesForItemAtIndexPath:key.indexPath];
-			} else {
-				BTRCollectionReusableView* suuplView = _allVisibleViewsDict[key];
-				prevAttr = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:suuplView.layoutAttributes.representedElementKind
-																					 atIndexPath:key.indexPath];
-				newAttr = [layout layoutAttributesForSupplementaryViewOfKind:suuplView.layoutAttributes.representedElementKind
-																 atIndexPath:key.indexPath];
-			}
-			layoutInterchangeData[key] = [NSDictionary dictionaryWithObjects:@[prevAttr,newAttr]
-																	 forKeys:@[@"previousLayoutInfos", @"newLayoutInfos"]];
-		}];
-		
-		[layoutInterchangeData enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
-			if (key.type == BTRCollectionViewItemTypeCell) {
-				BTRCollectionViewCell* cell = _allVisibleViewsDict[key];
-				if (!cell) {
-					cell = [self createPreparedCellForItemAtIndexPath:key.indexPath
-												 withLayoutAttributes:layoutInterchangeData[key][@"previousLayoutInfos"]];
-					_allVisibleViewsDict[key] = cell;
-					[self addControlledSubview:cell];
-				} else {
-					[cell applyLayoutAttributes:layoutInterchangeData[key][@"previousLayoutInfos"]];
-				}
-			} else if (key.type == BTRCollectionViewItemTypeSupplementaryView) {
-				BTRCollectionReusableView *view = _allVisibleViewsDict[key];
-				if (!view) {
-					BTRCollectionViewLayoutAttributes *attrs = layoutInterchangeData[key][@"previousLayoutInfos"];
-					view = [self createPreparedSupplementaryViewForElementOfKind:attrs.representedElementKind
-																	 atIndexPath:attrs.indexPath
-															withLayoutAttributes:attrs];
-				}
-			}
-		}];
-		
-		CGRect contentRect = [_collectionViewData collectionViewContentRect];
-		
-		[self setFrameSize:contentRect.size];
-		[self scrollPoint:contentRect.origin];
-		
-		void (^applyNewLayoutBlock)(void) = ^{
-			[layoutInterchangeData enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
-				BTRCollectionViewCell *cell = (BTRCollectionViewCell *)_allVisibleViewsDict[key];
-				[cell willTransitionFromLayout:_layout toLayout:layout];
-				[cell applyLayoutAttributes:layoutInterchangeData[key][@"newLayoutInfos"]];
-				[cell didTransitionFromLayout:_layout toLayout:layout];
-			}];
-		};
-		
-		void (^freeUnusedViews)(void) = ^ {
-			[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
-				if (![newlyVisibleItemsKeys containsObject:key]) {
-					if (key.type == BTRCollectionViewItemTypeCell)
-						[self reuseCell:_allVisibleViewsDict[key]];
-					else if (key.type == BTRCollectionViewItemTypeSupplementaryView)
-						[self reuseSupplementaryView:_allVisibleViewsDict[key]];
-				}
-			}];
-		};
-		
-		if (animated) {
-			[NSView btr_animate:^{
-				_collectionViewFlags.updatingLayout = YES;
-				applyNewLayoutBlock();
-			} completion:^{
-				freeUnusedViews();
-				_collectionViewFlags.updatingLayout = NO;
-			}];
-		} else {
-			applyNewLayoutBlock();
-			freeUnusedViews();
-		}
-		
-		_layout.collectionView = nil;
-		_layout = layout;
+	layout.collectionView = self;
+	
+	_collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
+	[_collectionViewData prepareToLoadData];
+	
+	NSArray *previouslySelectedIndexPaths = [self indexPathsForSelectedItems];
+	NSMutableSet *selectedCellKeys = [NSMutableSet setWithCapacity:[previouslySelectedIndexPaths count]];
+	[previouslySelectedIndexPaths enumerateObjectsUsingBlock:^(NSIndexPath *indexPath, NSUInteger idx, BOOL *stop) {
+		[selectedCellKeys addObject:[BTRCollectionViewItemKey collectionItemKeyForCellWithIndexPath:indexPath]];
+	}];
+	NSArray *previouslyVisibleItemsKeys = [_allVisibleViewsDict allKeys];
+	NSSet *previouslyVisibleItemsKeysSet = [NSSet setWithArray:previouslyVisibleItemsKeys];
+	NSMutableSet *previouslyVisibleItemsKeysSetMutable = [NSMutableSet setWithArray:previouslyVisibleItemsKeys];
+	if ([selectedCellKeys intersectsSet:selectedCellKeys]) {
+		[previouslyVisibleItemsKeysSetMutable intersectSet:previouslyVisibleItemsKeysSetMutable];
 	}
+	
+	CGRect rect = [_collectionViewData collectionViewContentRect];
+	NSArray *newlyVisibleLayoutAttrs = [_collectionViewData layoutAttributesForElementsInRect:rect];
+	NSMutableDictionary *layoutInterchangeData = [NSMutableDictionary dictionaryWithCapacity:[newlyVisibleLayoutAttrs count] + [previouslyVisibleItemsKeysSet count]];
+	
+	NSMutableSet *newlyVisibleItemsKeys = [NSMutableSet set];
+	[newlyVisibleLayoutAttrs enumerateObjectsUsingBlock:^(BTRCollectionViewLayoutAttributes *attr, NSUInteger idx, BOOL *stop) {
+		BTRCollectionViewItemKey *newKey = [BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:attr];
+		[newlyVisibleItemsKeys addObject:newKey];
+		
+		BTRCollectionViewLayoutAttributes *prevAttr = nil;
+		BTRCollectionViewLayoutAttributes *newAttr = nil;
+		if (newKey.type == BTRCollectionViewItemTypeDecorationView) {
+			prevAttr = [self.collectionViewLayout layoutAttributesForDecorationViewWithReuseIdentifier:attr.representedElementKind atIndexPath:newKey.indexPath];
+			newAttr = [layout layoutAttributesForDecorationViewWithReuseIdentifier:attr.representedElementKind atIndexPath:newKey.indexPath];
+		} else if (newKey.type == BTRCollectionViewItemTypeCell) {
+			prevAttr = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:newKey.indexPath];
+			newAttr = [layout layoutAttributesForItemAtIndexPath:newKey.indexPath];
+		} else {
+			prevAttr = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:attr.representedElementKind atIndexPath:newKey.indexPath];
+			newAttr = [layout layoutAttributesForSupplementaryViewOfKind:attr.representedElementKind atIndexPath:newKey.indexPath];
+		}
+		layoutInterchangeData[newKey] = [NSDictionary dictionaryWithObjects:@[prevAttr, newAttr] forKeys:@[BTRCollectionViewPreviousLayoutInfoKey, BTRCollectionViewNewLayoutInfoKey]];
+	}];
+	
+	[previouslyVisibleItemsKeysSet enumerateObjectsUsingBlock:^(BTRCollectionViewItemKey *key, BOOL *stop) {
+		BTRCollectionViewLayoutAttributes *prevAttr = nil;
+		BTRCollectionViewLayoutAttributes *newAttr = nil;
+		
+		if (key.type == BTRCollectionViewItemTypeDecorationView) {
+			BTRCollectionReusableView *decorView = _allVisibleViewsDict[key];
+			prevAttr = [self.collectionViewLayout layoutAttributesForDecorationViewWithReuseIdentifier:decorView.reuseIdentifier atIndexPath:key.indexPath];
+			newAttr = [layout layoutAttributesForDecorationViewWithReuseIdentifier:decorView.reuseIdentifier atIndexPath:key.indexPath];
+		} else if (key.type == BTRCollectionViewItemTypeCell) {
+			prevAttr = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:key.indexPath];
+			newAttr = [layout layoutAttributesForItemAtIndexPath:key.indexPath];
+		} else {
+			BTRCollectionReusableView *supplView = _allVisibleViewsDict[key];
+			prevAttr = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:supplView.layoutAttributes.representedElementKind atIndexPath:key.indexPath];
+			newAttr = [layout layoutAttributesForSupplementaryViewOfKind:supplView.layoutAttributes.representedElementKind atIndexPath:key.indexPath];
+		}
+		layoutInterchangeData[key] = [NSDictionary dictionaryWithObjects:@[prevAttr, newAttr] forKeys:@[BTRCollectionViewPreviousLayoutInfoKey, BTRCollectionViewNewLayoutInfoKey]];
+	}];
+	
+	[layoutInterchangeData enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
+		if (key.type == BTRCollectionViewItemTypeCell) {
+			BTRCollectionViewCell* cell = _allVisibleViewsDict[key];
+			if (!cell) {
+				cell = [self createPreparedCellForItemAtIndexPath:key.indexPath withLayoutAttributes:layoutInterchangeData[key][BTRCollectionViewPreviousLayoutInfoKey]];
+				_allVisibleViewsDict[key] = cell;
+				[self addControlledSubview:cell];
+			} else {
+				[cell applyLayoutAttributes:layoutInterchangeData[key][BTRCollectionViewPreviousLayoutInfoKey]];
+			}
+		} else if (key.type == BTRCollectionViewItemTypeSupplementaryView) {
+			BTRCollectionReusableView *view = _allVisibleViewsDict[key];
+			if (!view) {
+				BTRCollectionViewLayoutAttributes *attrs = layoutInterchangeData[key][BTRCollectionViewPreviousLayoutInfoKey];
+				view = [self createPreparedSupplementaryViewForElementOfKind:attrs.representedElementKind
+																 atIndexPath:attrs.indexPath
+														withLayoutAttributes:attrs];
+			}
+		}
+	}];
+	
+	CGRect contentRect = [_collectionViewData collectionViewContentRect];
+	
+	[self setFrameSize:contentRect.size];
+	[self scrollPoint:contentRect.origin];
+	
+	void (^applyNewLayoutBlock)(void) = ^{
+		[layoutInterchangeData enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
+			BTRCollectionViewCell *cell = (BTRCollectionViewCell *)_allVisibleViewsDict[key];
+			[cell willTransitionFromLayout:_layout toLayout:layout];
+			[cell applyLayoutAttributes:layoutInterchangeData[key][BTRCollectionViewNewLayoutInfoKey]];
+			[cell didTransitionFromLayout:_layout toLayout:layout];
+		}];
+	};
+	
+	void (^freeUnusedViews)(void) = ^ {
+		[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
+			if (![newlyVisibleItemsKeys containsObject:key]) {
+				if (key.type == BTRCollectionViewItemTypeCell)
+					[self reuseCell:_allVisibleViewsDict[key]];
+				else if (key.type == BTRCollectionViewItemTypeSupplementaryView)
+					[self reuseSupplementaryView:_allVisibleViewsDict[key]];
+			}
+		}];
+	};
+	
+	if (animated) {
+		[NSView btr_animate:^{
+			_collectionViewFlags.updatingLayout = YES;
+			applyNewLayoutBlock();
+		} completion:^{
+			freeUnusedViews();
+			_collectionViewFlags.updatingLayout = NO;
+		}];
+	} else {
+		applyNewLayoutBlock();
+		freeUnusedViews();
+	}
+	
+	_layout.collectionView = nil;
+	_layout = layout;
 }
 
 - (void)setCollectionViewLayout:(BTRCollectionViewLayout *)layout {
