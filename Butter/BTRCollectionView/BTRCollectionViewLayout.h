@@ -110,3 +110,8 @@ typedef NS_ENUM(NSUInteger, BTRCollectionViewItemType) {
 @interface BTRCollectionViewLayout (Private)
 - (void)setCollectionViewBoundsSize:(CGSize)size;
 @end
+
+extern NSString* const BTRCollectionViewOldModelKey;
+extern NSString* const BTRCollectionViewNewModelKey;
+extern NSString *const BTRCollectionViewOldToNewIndexMapKey;
+extern NSString* const BTRCollectionViewNewToOldIndexMapKey;

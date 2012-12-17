@@ -1511,13 +1511,13 @@ static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedI
 		} else {
 			NSAssert(sortedItem.indexPathBeforeUpdate.section < oldNumberOfSections,
 					 @"Attempting to move an item (%@) that doesn't exist. The total number of sections before updating is %ld.", sortedItem, oldNumberOfSections);
-			NSInteger numberOfItemsBefore = [oldCollectionViewData numberOfItemsInSection:sortedItem.indexPathBeforeUpdate.section];
+			NSUInteger numberOfItemsBefore = [oldCollectionViewData numberOfItemsInSection:sortedItem.indexPathBeforeUpdate.section];
 			NSAssert(sortedItem.indexPathBeforeUpdate.item < numberOfItemsBefore,
 					 @"Attempting to move an item (%@) that doesn't exist. There are %ld items in section %ld before update.",
 					 sortedItem, numberOfItemsBefore, sortedItem.indexPathBeforeUpdate.section);
 			NSAssert(sortedItem.indexPathAfterUpdate.section < newNumberOfSections,
 					 @"Attempting to move an item to (%@) but there are only %ld sections after update.", sortedItem.indexPathAfterUpdate, newNumberOfSections);
-			NSInteger numberOfItemsAfter = [_collectionViewData numberOfItemsInSection:sortedItem.indexPathAfterUpdate.section];
+			NSUInteger numberOfItemsAfter = [_collectionViewData numberOfItemsInSection:sortedItem.indexPathAfterUpdate.section];
 			NSAssert(sortedItem.indexPathAfterUpdate.item < numberOfItemsAfter,
 					 @"Attempting to move an item to (%@) but there are only %ld items in section %ld after update.",
 					 sortedItem, numberOfItemsAfter, sortedItem.indexPathAfterUpdate.section);
@@ -1625,10 +1625,10 @@ static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedI
 		}
 	}
 	
-	_currentUpdate = @{@"oldModel":oldCollectionViewData,
-			 @"newModel":_collectionViewData,
-			 @"oldToNewIndexMap":oldToNewMap,
-			 @"newToOldIndexMap":newToOldMap};
+	_currentUpdate = @{BTRCollectionViewOldModelKey : oldCollectionViewData,
+			 BTRCollectionViewNewModelKey : _collectionViewData,
+			 BTRCollectionViewOldToNewIndexMapKey : oldToNewMap,
+			 BTRCollectionViewNewToOldIndexMapKey : newToOldMap};
 	
 	[self updateWithItems:items];
 	
