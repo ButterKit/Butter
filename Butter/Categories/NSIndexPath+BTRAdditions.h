@@ -17,7 +17,7 @@
  @param section An index number identifying a section in a UICollectionView object.
  @return An NSIndexPath object or nil if the object could not be created.
  */
-+ (NSIndexPath *)btr_indexPathForItem:(NSInteger)item inSection:(NSInteger)section;
++ (NSIndexPath *)btr_indexPathForItem:(NSUInteger)item inSection:(NSUInteger)section;
 
 /**
  Returns an index-path object initialized with the indexes of a specific row and section in a table view.
@@ -25,22 +25,22 @@
  @param section An index number identifying a section in a UITableView object.
  @return An NSIndexPath object or nil if the object could not be created.
  */
-+ (NSIndexPath *)btr_indexPathForRow:(NSInteger)row inSection:(NSInteger)section;
++ (NSIndexPath *)btr_indexPathForRow:(NSUInteger)row inSection:(NSUInteger)section;
 
 /**
  An index number identifying an item in a section of a collection view. (read-only)
  @discussion The section the item is in is identified by the value of section.
  */
-@property (nonatomic, assign, readonly) NSInteger item;
+@property (nonatomic, assign, readonly) NSUInteger item;
 
 /**
  An index number identifying a row in a section of a table view. (read-only)
  @discussion The section the row is in is identified by the value of section.
  */
-@property (nonatomic, assign, readonly) NSInteger row;
+@property (nonatomic, assign, readonly) NSUInteger row;
 
 /**
  An index number identifying a section in a table view or collection view. (read-only)
  */
-@property (nonatomic, assign, readonly) NSInteger section;
+@property (nonatomic, assign, readonly) NSUInteger section;
 @end

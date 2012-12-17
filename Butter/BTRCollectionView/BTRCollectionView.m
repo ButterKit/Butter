@@ -374,11 +374,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 
 // A bunch of methods that query the collection view's layout for information
 
-- (NSInteger)numberOfSections {
+- (NSUInteger)numberOfSections {
 	return [_collectionViewData numberOfSections];
 }
 
-- (NSInteger)numberOfItemsInSection:(NSInteger)section {
+- (NSUInteger)numberOfItemsInSection:(NSUInteger)section {
 	return [_collectionViewData numberOfItemsInSection:section];
 }
 
@@ -810,7 +810,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	[self updateSections:sections updateAction:BTRCollectionUpdateActionReload];
 }
 
-- (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection {
+- (void)moveSection:(NSUInteger)section toSection:(NSUInteger)newSection {
 	NSMutableArray *moveUpdateItems = [self arrayForUpdateAction:BTRCollectionUpdateActionMove];
 	NSIndexPath *from = [NSIndexPath btr_indexPathForItem:NSNotFound inSection:section];
 	NSIndexPath *to = [NSIndexPath btr_indexPathForItem:NSNotFound inSection:newSection];
@@ -1304,8 +1304,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}];
 	[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
 		BTRCollectionReusableView *view = _allVisibleViewsDict[key];
-		NSInteger oldGlobalIndex = [_currentUpdate[@"oldModel"] globalIndexForItemAtIndexPath:key.indexPath];
-		NSInteger newGlobalIndex = [_currentUpdate[@"oldToNewIndexMap"][oldGlobalIndex] intValue];
+		NSUInteger oldGlobalIndex = [_currentUpdate[@"oldModel"] globalIndexForItemAtIndexPath:key.indexPath];
+		NSUInteger newGlobalIndex = [_currentUpdate[@"oldToNewIndexMap"][oldGlobalIndex] intValue];
 		NSIndexPath *newIndexPath = [_currentUpdate[@"newModel"] indexPathForItemAtGlobalIndex:newGlobalIndex];
 		
 		BTRCollectionViewLayoutAttributes* startAttrs =
@@ -1389,8 +1389,8 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	_updateCount++;
 	BTRCollectionViewData *oldCollectionViewData = _collectionViewData;
 	_collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:_layout];
-	NSInteger oldNumberOfSections = [oldCollectionViewData numberOfSections];
-	NSInteger newNumberOfSections = [_collectionViewData numberOfSections];
+	NSUInteger oldNumberOfSections = [oldCollectionViewData numberOfSections];
+	NSUInteger newNumberOfSections = [_collectionViewData numberOfSections];
 	
 	[_layout invalidateLayout];
 	[_collectionViewData prepareToLoadData];
@@ -1410,7 +1410,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 		
 		NSAssert(updateItem.indexPathBeforeUpdate.section < oldNumberOfSections,
 				 @"Attempting to reload an item (%@) in a section that does not exist. The total number of sections is %ld.", updateItem.indexPathBeforeUpdate, oldNumberOfSections);
-		NSInteger numberOfItems = [oldCollectionViewData numberOfItemsInSection:updateItem.indexPathBeforeUpdate.section];
+		NSUInteger numberOfItems = [oldCollectionViewData numberOfItemsInSection:updateItem.indexPathBeforeUpdate.section];
 		NSAssert(updateItem.indexPathBeforeUpdate.item < numberOfItems,
 				 @"Attempting to reload an item (%@) that does not exist. There are only %ld items in section %ld.",
 				 updateItem.indexPathBeforeUpdate, numberOfItems, updateItem.indexPathBeforeUpdate.section);
@@ -1442,7 +1442,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 			NSAssert(deleteItem.indexPathBeforeUpdate.section < oldNumberOfSections,
 					 @"Attempting to delete an item (%@) in a section that does not exist. The total number of sections is %ld",
 					 deleteItem.indexPathBeforeUpdate, oldNumberOfSections);
-			NSInteger numberOfItems = [oldCollectionViewData numberOfItemsInSection:deleteItem.indexPathBeforeUpdate.section];
+			NSUInteger numberOfItems = [oldCollectionViewData numberOfItemsInSection:deleteItem.indexPathBeforeUpdate.section];
 			NSAssert(deleteItem.indexPathBeforeUpdate.item < numberOfItems,
 					 @"Attempting to reload an item (%@) that does not exist. There are only %ld items in section %ld.",
 					 deleteItem.indexPathBeforeUpdate, numberOfItems, deleteItem.indexPathBeforeUpdate.section);
@@ -1477,13 +1477,13 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 				BTRCollectionViewUpdateItem *nextInsertItem = sortedMutableInsertItems[j];
 				// We're looking for inserted items that will be inserted 
 				if (nextInsertItem.indexPathAfterUpdate.section == indexPath.section) {
-					NSInteger numberOfItems = [_collectionViewData numberOfItemsInSection:indexPath.section];
+					NSUInteger numberOfItems = [_collectionViewData numberOfItemsInSection:indexPath.section];
 					NSAssert(nextInsertItem.indexPathAfterUpdate.item < numberOfItems, @"Attempting to insert item %ld into section %ld but there are only %ld items in the section after the update.", nextInsertItem.indexPathAfterUpdate.item, indexPath.section, numberOfItems, indexPath.section);
 					[sortedMutableInsertItems removeObjectAtIndex:j];
 				} else break;
 			}
 		} else {
-			NSInteger numberOfItems = [_collectionViewData numberOfItemsInSection:indexPath.section];
+			NSUInteger numberOfItems = [_collectionViewData numberOfItemsInSection:indexPath.section];
 			NSAssert(indexPath.item < numberOfItems, @"Attempting to insert item at %@, but there are only %ld items total in section %ld after the update.", indexPath, numberOfItems, indexPath.section);
 			NSNumber *section = @(indexPath.section);
 			if (!operations[section])
@@ -1538,12 +1538,12 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	
 #if !defined  NS_BLOCK_ASSERTIONS
 	[operations enumerateKeysAndObjectsUsingBlock:^(NSNumber *sectionKey, id obj, BOOL *stop) {
-		NSInteger section = [sectionKey intValue];
+		NSUInteger section = [sectionKey unsignedIntegerValue];
 		
-		NSInteger insertedCount = [operations[sectionKey][@"inserted"] intValue];
-		NSInteger deletedCount = [operations[sectionKey][@"deleted"] intValue];
-		NSInteger movedInCount = [operations[sectionKey][@"movedIn"] intValue];
-		NSInteger movedOutCount = [operations[sectionKey][@"movedOut"] intValue];
+		NSUInteger insertedCount = [operations[sectionKey][@"inserted"] unsignedIntegerValue];
+		NSUInteger deletedCount = [operations[sectionKey][@"deleted"] unsignedIntegerValue];
+		NSUInteger movedInCount = [operations[sectionKey][@"movedIn"] unsignedIntegerValue];
+		NSUInteger movedOutCount = [operations[sectionKey][@"movedOut"] unsignedIntegerValue];
 		
 		NSAssert([oldCollectionViewData numberOfItemsInSection:section]+insertedCount-deletedCount+movedInCount-movedOutCount ==
 				 [_collectionViewData numberOfItemsInSection:section],
@@ -1625,9 +1625,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	for (NSUInteger i = 0; i < [newModel count]; i++) {
 		NSMutableArray *section = newModel[i];
 		for (NSUInteger j = 0; j < [section count]; j++) {
-			NSInteger newGlobalIndex = [_collectionViewData globalIndexForItemAtIndexPath:[NSIndexPath btr_indexPathForItem:j inSection:i]];
-			if ([section[j] integerValue] != NSNotFound)
-				oldToNewMap[[section[j] intValue]] = @(newGlobalIndex);
+			NSUInteger newGlobalIndex = [_collectionViewData globalIndexForItemAtIndexPath:[NSIndexPath btr_indexPathForItem:j inSection:i]];
+			if ([section[j] unsignedIntegerValue] != NSNotFound)
+				oldToNewMap[[section[j] unsignedIntegerValue]] = @(newGlobalIndex);
 			if (newGlobalIndex != NSNotFound)
 				newToOldMap[newGlobalIndex] = section[j];
 		}
@@ -1676,7 +1676,7 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 	
 	NSMutableArray *updateActions = [self arrayForUpdateAction:updateAction];
-	NSInteger section = [sections firstIndex];
+	NSUInteger section = [sections firstIndex];
 	
 	[sections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
 		BTRCollectionViewUpdateItem *updateItem =
@@ -1695,9 +1695,9 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 @interface BTRCollectionViewData () {
 	CGRect _validLayoutRect;
 	
-	NSInteger _numItems;
-	NSInteger _numSections;
-	NSInteger *_sectionItemCounts;
+	NSUInteger _numItems;
+	NSUInteger _numSections;
+	NSUInteger *_sectionItemCounts;
 	NSArray *_globalItems;
 	NSArray *_cellLayoutAttributes;
 	
@@ -1759,29 +1759,25 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 }
 
-- (NSInteger)numberOfItems {
+- (NSUInteger)numberOfItems {
 	[self validateItemCounts];
 	return _numItems;
 }
 
-- (NSInteger)numberOfItemsBeforeSection:(NSInteger)section {
-	return [self numberOfItemsInSection:section-1]; // ???
-}
-
-- (NSInteger)numberOfItemsInSection:(NSInteger)section {
+- (NSUInteger)numberOfItemsInSection:(NSUInteger)section {
 	[self validateItemCounts];
-	if (section > _numSections || section < 0) {
+	if (section > _numSections) {
 		@throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Section %ld out of range: 0...%ld", section, _numSections] userInfo:nil];
 	}
 	
-	NSInteger numberOfItemsInSection = 0;
+	NSUInteger numberOfItemsInSection = 0;
 	if (_sectionItemCounts) {
 		numberOfItemsInSection = _sectionItemCounts[section];
 	}
 	return numberOfItemsInSection;
 }
 
-- (NSInteger)numberOfSections {
+- (NSUInteger)numberOfSections {
 	[self validateItemCounts];
 	return _numSections;
 }
@@ -1790,11 +1786,11 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	return CGRectZero;
 }
 
-- (NSIndexPath *)indexPathForItemAtGlobalIndex:(NSInteger)index {
+- (NSIndexPath *)indexPathForItemAtGlobalIndex:(NSUInteger)index {
 	return _globalItems[index];
 }
 
-- (NSInteger)globalIndexForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (NSUInteger)globalIndexForItemAtIndexPath:(NSIndexPath *)indexPath {
 	return [_globalItems indexOfObject:indexPath];
 }
 
@@ -1836,15 +1832,15 @@ NSString *const BTRCollectionElementKindDecorationView = @"BTRCollectionElementK
 	}
 	// allocate space
 	if (!_sectionItemCounts) {
-		_sectionItemCounts = malloc(_numSections * sizeof(NSInteger));
+		_sectionItemCounts = malloc(_numSections * sizeof(NSUInteger));
 	}else {
-		_sectionItemCounts = realloc(_sectionItemCounts, _numSections * sizeof(NSInteger));
+		_sectionItemCounts = realloc(_sectionItemCounts, _numSections * sizeof(NSUInteger));
 	}
 	
 	// query cells per section
 	_numItems = 0;
 	for (NSUInteger i = 0; i <_numSections; i++) {
-		NSInteger cellCount = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:i];
+		NSUInteger cellCount = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:i];
 		_sectionItemCounts[i] = cellCount;
 		_numItems += cellCount;
 	}

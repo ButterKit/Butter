@@ -55,12 +55,12 @@ static NSString *footerViewIdentifier = @"Test Footer View";
 	self.data = @[ @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9"], @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9"], @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9"], @[@"1", @"2", @"3"] ];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(BTRCollectionView *)collectionView {
+- (NSUInteger)numberOfSectionsInCollectionView:(BTRCollectionView *)collectionView {
     return [self.data count];
 }
 
 
-- (NSInteger)collectionView:(BTRCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSUInteger)collectionView:(BTRCollectionView *)collectionView numberOfItemsInSection:(NSUInteger)section {
     return [[self.data objectAtIndex:section] count];
 }
 

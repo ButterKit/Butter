@@ -16,3 +16,4 @@ DerivedData
 *.xcworkspace
 !default.xcworkspace
 xcuserdata
+*.xcuserdatad

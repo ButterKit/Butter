@@ -45,12 +45,12 @@ static NSInteger count;
 	[view addSubview:scrollView positioned:NSWindowBelow relativeTo:self.toggleButton];
 }
 
--(NSInteger)numberOfSectionsInCollectionView:(BTRCollectionView *)collectionView
+-(NSUInteger)numberOfSectionsInCollectionView:(BTRCollectionView *)collectionView
 {
     return [self.sections count];
 }
 
-- (NSInteger)collectionView:(BTRCollectionView *)view numberOfItemsInSection:(NSInteger)section;
+- (NSUInteger)collectionView:(BTRCollectionView *)view numberOfItemsInSection:(NSUInteger)section;
 {
     return [self.sections[section] count];
 }

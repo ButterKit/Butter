@@ -51,7 +51,7 @@
     return CGSizeMake(180, 140);
 }
 
-- (NSInteger)collectionView:(BTRCollectionViewCell *)view numberOfItemsInSection:(NSInteger)section {
+- (NSUInteger)collectionView:(BTRCollectionViewCell *)view numberOfItemsInSection:(NSUInteger)section {
     return 5000;
 }
 

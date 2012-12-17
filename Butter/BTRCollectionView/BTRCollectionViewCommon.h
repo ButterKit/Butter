@@ -10,14 +10,14 @@
 @protocol BTRCollectionViewDataSource <NSObject>
 @required
 
-- (NSInteger)collectionView:(BTRCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
+- (NSUInteger)collectionView:(BTRCollectionView *)collectionView numberOfItemsInSection:(NSUInteger)section;
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (BTRCollectionViewCell *)collectionView:(BTRCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @optional
 
-- (NSInteger)numberOfSectionsInCollectionView:(BTRCollectionView *)collectionView;
+- (NSUInteger)numberOfSectionsInCollectionView:(BTRCollectionView *)collectionView;
 
 // The view that is returned must be retrieved from a call to -dequeueReusableSupplementaryViewOfKind:withReuseIdentifier:forIndexPath:
 - (BTRCollectionReusableView *)collectionView:(BTRCollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;

@@ -205,14 +205,14 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
  Returns the number of sections displayed by the collection view.
  @return The number of sections in the collection view.
  */
-- (NSInteger)numberOfSections;
+- (NSUInteger)numberOfSections;
 
 /**
  Returns the number of items in the specified section.
  @param section The index of the section for which you want a count of the items.
  @return The number of items in the specified section.
  */
-- (NSInteger)numberOfItemsInSection:(NSInteger)section;
+- (NSUInteger)numberOfItemsInSection:(NSUInteger)section;
 
 /** 
  Returns an array of visible cells currently displayed by the collection view.
@@ -270,7 +270,7 @@ typedef NS_OPTIONS(NSUInteger, BTRCollectionViewScrollPosition) {
  
  You can also call this method from a block passed to the `performBatchUpdates:completion:` method when you want to animate multiple separate changes into place at the same time. See the description of that method for more information.
  */
-- (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection;
+- (void)moveSection:(NSUInteger)section toSection:(NSUInteger)newSection;
 
 /**
  Deletes the sections at the specified indexes.
@@ -412,17 +412,16 @@ extern NSString *const BTRCollectionElementKindDecorationView;
 // Ensure data is valid. may fetches items from dataSource and layout.
 - (void)validateLayoutInRect:(CGRect)rect;
 - (CGRect)rectForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (NSInteger)globalIndexForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (NSIndexPath *)indexPathForItemAtGlobalIndex:(NSInteger)index;
+- (NSUInteger)globalIndexForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (NSIndexPath *)indexPathForItemAtGlobalIndex:(NSUInteger)index;
 // Fetch layout attributes
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect;
 // Make data to re-evaluate dataSources.
 - (void)invalidate;
 // Access cached item data
-- (NSInteger)numberOfItemsBeforeSection:(NSInteger)section;
-- (NSInteger)numberOfItemsInSection:(NSInteger)section;
-- (NSInteger)numberOfItems;
-- (NSInteger)numberOfSections;
+- (NSUInteger)numberOfItemsInSection:(NSUInteger)section;
+- (NSUInteger)numberOfItems;
+- (NSUInteger)numberOfSections;
 // Total size of the content.
 - (CGRect)collectionViewContentRect;
 @property (readonly) BOOL layoutIsPrepared;

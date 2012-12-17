@@ -8,28 +8,28 @@
 #import "NSIndexPath+BTRAdditions.h"
 
 @implementation NSIndexPath (BTRAdditions)
-+ (NSIndexPath *)btr_indexPathForItem:(NSInteger)item inSection:(NSInteger)section
++ (NSIndexPath *)btr_indexPathForItem:(NSUInteger)item inSection:(NSUInteger)section
 {
     NSUInteger indexes[2] = {section, item};
     return [NSIndexPath indexPathWithIndexes:indexes length:2];
 }
 
-+ (NSIndexPath *)btr_indexPathForRow:(NSInteger)row inSection:(NSInteger)section
++ (NSIndexPath *)btr_indexPathForRow:(NSUInteger)row inSection:(NSUInteger)section
 {
 	return [self btr_indexPathForItem:row inSection:section];
 }
 
-- (NSInteger)item
+- (NSUInteger)item
 {
     return [self indexAtPosition:1];
 }
 
-- (NSInteger)row
+- (NSUInteger)row
 {
 	return self.item;
 }
 
-- (NSInteger)section
+- (NSUInteger)section
 {
     return [self indexAtPosition:0];
 }
