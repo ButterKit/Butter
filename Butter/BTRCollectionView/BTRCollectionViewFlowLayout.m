@@ -299,7 +299,7 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
 #pragma mark - Invalidating the Layout
 
 - (void)invalidateLayout {
-    _cachedItemRects = nil;
+    _cachedItemRects = [NSMutableDictionary dictionary];
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
