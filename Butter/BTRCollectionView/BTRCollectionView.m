@@ -529,7 +529,7 @@ static NSString* const BTRCollectionViewMovedInCount = @"BTRCollectionViewMovedI
 			adjustedRect = CGRectMake(calculateX, adjustedRect.origin.y, frame.size.width, adjustedRect.size.height);
 			break;
 	}
-	return targetRect;
+	return adjustedRect;
 }
 
 #pragma mark - Mouse Event Handling
