@@ -1102,7 +1102,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 }
 
 - (BTRCollectionViewCell *)createPreparedCellForItemAtIndexPath:(NSIndexPath *)indexPath withLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
-	
 	BTRCollectionViewCell *cell = [self.dataSource collectionView:self cellForItemAtIndexPath:indexPath];
 	[cell setHighlighted:[_indexPathsForHighlightedItems containsObject:indexPath]];
 	[cell setSelected:[_indexPathsForSelectedItems containsObject:indexPath]];

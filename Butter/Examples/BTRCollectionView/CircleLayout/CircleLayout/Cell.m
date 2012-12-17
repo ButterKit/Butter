@@ -144,18 +144,34 @@
 
 - (void)applyLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
 	[super applyLayoutAttributes:layoutAttributes];
-	if (_newLayout) {
-		[NSView btr_animate:^{
-			if ([_newLayout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
-				self.contentView.cornerRadius = 5.f;
-				self.contentView.backgroundColor = [NSColor greenColor];
+	if (_newLayout || !self.superview) {
+		BTRCollectionViewLayout *layout = _newLayout ?: self.collectionView.collectionViewLayout;
+		void (^flowLayoutBlock)(void) = ^{
+			self.contentView.cornerRadius = 5.f;
+			self.contentView.backgroundColor = [NSColor greenColor];
+		};
+		void (^circleLayoutBlock)(void) = ^{
+			self.contentView.cornerRadius = 35.f;
+			self.contentView.backgroundColor = [NSColor purpleColor];
+		};
+		if ([layout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
+			if (self.superview) {
+				[NSView btr_animate:^{
+					flowLayoutBlock();
+				}];
 			} else {
-				self.contentView.cornerRadius = 35.f;
-				self.contentView.backgroundColor = [NSColor purpleColor];
+				flowLayoutBlock();
 			}
-		}];
+		} else {
+			if (self.superview) {
+				[NSView btr_animate:^{
+					circleLayoutBlock();
+				}];
+			} else {
+				circleLayoutBlock();
+			}
+		}
 		_newLayout = nil;
 	}
 }
-
 @end
