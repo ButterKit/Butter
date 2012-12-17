@@ -37,7 +37,6 @@ const CGFloat borderOffset = 10.f;
 		[_label setEditable:NO];
 		[_label setAlignment:NSCenterTextAlignment];
 		[_label setSelectable:NO];
-		[_label.layer setOpaque:YES];
 	}
 	return _label;
 }
