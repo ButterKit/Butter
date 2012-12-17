@@ -564,6 +564,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Butter/Butter-Prefix.pch";
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Butter/Butter-Info.plist";
 				INSTALL_PATH = "@rpath";
@@ -584,6 +585,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Butter/Butter-Prefix.pch";
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Butter/Butter-Info.plist";
 				INSTALL_PATH = "@rpath";

@@ -1291,7 +1291,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			[_layout initialLayoutAttributesForAppearingItemAtIndexPath:attrs.indexPath];
 			BTRCollectionReusableView *view = [self createPreparedCellForItemAtIndexPath:attrs.indexPath
 																	withLayoutAttributes:startAttrs];
-			[self addControlledSubview:view];
+			[self addSubview:view];
 			newAllVisibleView[key] = view;
 			[animations addObject:@{BTRCollectionViewViewKey : view, BTRCollectionViewPreviousLayoutInfoKey : startAttrs?startAttrs:attrs, BTRCollectionViewNewLayoutInfoKey : attrs}];
 		}
