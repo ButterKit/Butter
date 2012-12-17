@@ -436,23 +436,19 @@ typedef NS_ENUM(NSInteger, BTRCollectionUpdateAction) {
 };
 
 @interface BTRCollectionViewUpdateItem : NSObject
-@property (nonatomic, readonly, strong) NSIndexPath *indexPathBeforeUpdate; // nil for BTRCollectionUpdateActionInsert
-@property (nonatomic, readonly, strong) NSIndexPath *indexPathAfterUpdate;  // nil for BTRCollectionUpdateActionDelete
+@property (nonatomic, readonly, strong) NSIndexPath *indexPathBeforeUpdate;
+@property (nonatomic, readonly, strong) NSIndexPath *indexPathAfterUpdate;
 @property (nonatomic, readonly, assign) BTRCollectionUpdateAction updateAction;
-- (id)initWithInitialIndexPath:(NSIndexPath*)arg1
-                finalIndexPath:(NSIndexPath*)arg2
-                  updateAction:(BTRCollectionUpdateAction)arg3;
-- (id)initWithAction:(BTRCollectionUpdateAction)arg1
-        forIndexPath:(NSIndexPath*)indexPath;
-- (id)initWithOldIndexPath:(NSIndexPath*)arg1 newIndexPath:(NSIndexPath*)arg2;
-- (BTRCollectionUpdateAction)updateAction;
+- (id)initWithInitialIndexPath:(NSIndexPath *)initialIndexPath
+                finalIndexPath:(NSIndexPath *)finalIndexPath
+                  updateAction:(BTRCollectionUpdateAction)updateAction;
+- (id)initWithAction:(BTRCollectionUpdateAction)updateAction
+        forIndexPath:(NSIndexPath *)indexPath;
 - (NSComparisonResult)compareIndexPaths:(BTRCollectionViewUpdateItem*) otherItem;
 - (NSComparisonResult)inverseCompareIndexPaths:(BTRCollectionViewUpdateItem*) otherItem;
-- (NSIndexPath *)indexPath;
 - (BOOL)isSectionOperation;
 @end
 
-// Used in NSDictionaries
 @interface BTRCollectionViewItemKey : NSObject <NSCopying>
 + (id)collectionItemKeyForLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes;
 + (id)collectionItemKeyForDecorationViewOfKind:(NSString *)elementKind andIndexPath:(NSIndexPath *)indexPath;
@@ -462,4 +458,3 @@ typedef NS_ENUM(NSInteger, BTRCollectionUpdateAction) {
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) NSString *identifier;
 @end
-
