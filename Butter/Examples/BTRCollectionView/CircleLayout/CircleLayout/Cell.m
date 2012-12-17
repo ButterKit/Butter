@@ -94,6 +94,7 @@
 
 #import "Cell.h"
 #import <QuartzCore/QuartzCore.h>
+#import <Butter/NSView+BTRAdditions.h>
 
 @interface BTRCollectionViewCell()
 - (void)_setLayoutAttributes:(BTRCollectionViewLayoutAttributes*)attrs;
@@ -133,20 +134,18 @@
 	return _label;
 }
 
-- (void)willTransitionFromLayout:(BTRCollectionViewLayout *)oldLayout toLayout:(BTRCollectionViewLayout *)newLayout {
-	if ([newLayout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
-		self.contentView.cornerRadius = 5.f;
-		self.contentView.backgroundColor = [NSColor greenColor];
-
-	} else {
-		self.contentView.cornerRadius = 35.f;
-		self.contentView.backgroundColor = [NSColor purpleColor];
-	}
+- (void)applyLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
+	[super applyLayoutAttributes:layoutAttributes];
+	
+	[NSView btr_animate:^{
+		if ([self.collectionView.collectionViewLayout isKindOfClass:BTRCollectionViewFlowLayout.class]) {
+			self.contentView.cornerRadius = 5.f;
+			self.contentView.backgroundColor = [NSColor greenColor];
+		} else {
+			self.contentView.cornerRadius = 35.f;
+			self.contentView.backgroundColor = [NSColor purpleColor];
+		}
+	}];
 }
-
-//- (void)applyLayoutAttributes:(BTRCollectionViewLayoutAttributes *)layoutAttributes {
-//	[super applyLayoutAttributes:layoutAttributes];
-//	NSLog(@"%s",__PRETTY_FUNCTION__);
-//}
 
 @end
