@@ -18,6 +18,122 @@ NSString *const BTRFlowLayoutCommonRowHorizontalAlignmentKey = @"BTRFlowLayoutCo
 NSString *const BTRFlowLayoutLastRowHorizontalAlignmentKey = @"BTRFlowLayoutLastRowHorizontalAlignmentKey";
 NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVerticalAlignmentKey";
 
+// Represents a single grid item; only created for non-uniform-sized grids.
+@class BTRGridLayoutItem, BTRGridLayoutRow, BTRGridLayoutSection;
+@interface BTRGridLayoutRow : NSObject
+
+@property (nonatomic, unsafe_unretained) BTRGridLayoutSection *section;
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, assign) CGSize rowSize;
+@property (nonatomic, assign) CGRect rowFrame;
+@property (nonatomic, assign) NSUInteger index;
+@property (nonatomic, assign) BOOL complete;
+@property (nonatomic, assign) BOOL fixedItemSize;
+@property (nonatomic, assign) NSUInteger itemCount;
+
+// Add new item to items array.
+- (void)addItem:(BTRGridLayoutItem *)item;
+
+// Layout current row (if invalid)
+- (void)layoutRow;
+
+// Returns the item rects when fixedItemSize is enabled.
+- (NSArray *)itemRects;
+
+//  Set current row frame invalid.
+- (void)invalidate;
+
+// Copy a snapshot of the current row data
+- (BTRGridLayoutRow *)snapshot;
+@end
+
+@interface BTRGridLayoutSection : NSObject
+
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSArray *rows;
+
+// Triggers fast layout for equal sized items
+@property (nonatomic, assign) BOOL fixedItemSize;
+@property (nonatomic, assign) CGSize itemSize;
+@property (nonatomic, assign) NSUInteger itemsCount;
+
+@property (nonatomic, assign) CGFloat verticalInterstice;
+@property (nonatomic, assign) CGFloat horizontalInterstice;
+@property (nonatomic, assign) BTREdgeInsets sectionMargins;
+
+@property (nonatomic, assign) CGRect frame;
+@property (nonatomic, assign) CGRect headerFrame;
+@property (nonatomic, assign) CGRect footerFrame;
+@property (nonatomic, assign) CGFloat headerDimension;
+@property (nonatomic, assign) CGFloat footerDimension;
+@property (nonatomic, unsafe_unretained) BTRGridLayoutInfo *layoutInfo;
+@property (nonatomic, strong) NSDictionary *rowAlignmentOptions;
+
+@property (nonatomic, assign) CGFloat otherMargin;
+@property (nonatomic, assign) CGFloat beginMargin;
+@property (nonatomic, assign) CGFloat endMargin;
+@property (nonatomic, assign) CGFloat actualGap;
+@property (nonatomic, assign) CGFloat lastRowBeginMargin;
+@property (nonatomic, assign) CGFloat lastRowEndMargin;
+@property (nonatomic, assign) CGFloat lastRowActualGap;
+@property (nonatomic, assign) BOOL lastRowIncomplete;
+@property (nonatomic, assign) NSUInteger itemsByRowCount;
+@property (nonatomic, assign) NSUInteger indexOfImcompleteRow; // typo as of iOS6B3
+
+// Faster variant of invalidate/compute
+- (void)recomputeFromIndex:(NSInteger)index;
+
+// Invalidate layout. Destroys rows.
+- (void)invalidate;
+
+// Compute layout. Creates rows.
+- (void)computeLayout;
+
+- (BTRGridLayoutItem *)addItem;
+- (BTRGridLayoutRow *)addRow;
+
+// Copy snapshot of current object
+- (BTRGridLayoutSection *)snapshot;
+
+@end
+
+@interface BTRGridLayoutItem : NSObject
+
+@property (nonatomic, unsafe_unretained) BTRGridLayoutSection *section;
+@property (nonatomic, unsafe_unretained) BTRGridLayoutRow *rowObject;
+@property (nonatomic, assign) CGRect itemFrame;
+
+@end
+
+@interface BTRGridLayoutInfo : NSObject
+
+@property (nonatomic, strong) NSMutableArray *sections;
+@property (nonatomic, strong) NSDictionary *rowAlignmentOptions;
+@property (nonatomic, assign) BOOL usesFloatingHeaderFooter;
+
+// Vertical/horizontal dimension (depending on horizontal)
+// Used to create row objects
+@property (nonatomic, assign) CGFloat dimension;
+
+@property (nonatomic, assign) BOOL horizontal;
+@property (nonatomic, assign) BOOL leftToRight;
+@property (nonatomic, assign) CGSize contentSize;
+
+// Frame for specific BTRGridLayoutItem.
+- (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath;
+
+// Add new section. Invalidates layout.
+- (BTRGridLayoutSection *)addSection;
+
+// forces the layout to recompute on next access
+// TODO; what's the parameter for?
+- (void)invalidate:(BOOL)arg;
+
+// Make a copy of the current state.
+- (BTRGridLayoutInfo *)snapshot;
+
+@end
+
 @implementation BTRCollectionViewFlowLayout {
     struct {
         unsigned int delegateSizeForItem : 1;
