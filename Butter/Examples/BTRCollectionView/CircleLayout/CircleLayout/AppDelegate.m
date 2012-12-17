@@ -64,15 +64,12 @@ static NSInteger count;
 }
 
 - (void)cellClicked:(Cell *)cell {
-	//TODO: Deletion is broken. Layout is not updated automatically.
 	NSIndexPath *tappedCellPath = [self.collectionView indexPathForCell:cell];
-	NSLog(@"%@",self.sections[tappedCellPath.section][tappedCellPath.item]);
 	if (tappedCellPath != nil)
 	{
 		[self.sections[tappedCellPath.section] removeObjectAtIndex:tappedCellPath.item];
 		[self.collectionView performBatchUpdates:^{
 			[self.collectionView deleteItemsAtIndexPaths:@[tappedCellPath]];
-			[self.collectionView setNeedsLayout:YES];
 		} completion:^
 		 {
 			 NSLog(@"delete finished");
