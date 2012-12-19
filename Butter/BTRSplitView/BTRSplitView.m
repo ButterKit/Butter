@@ -7,6 +7,7 @@
 //
 
 #import "BTRSplitView.h"
+#import "NSView+BTRAdditions.h"
 
 static CGFloat const kBTRSplitViewAnimationDuration = .25;
 
@@ -51,8 +52,7 @@ static CGFloat const kBTRSplitViewAnimationDuration = .25;
 	}
 }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
+- (void)drawRect:(NSRect)dirtyRect {
 	[self adjustSubviews];
 	[super drawRect:dirtyRect];
 }
@@ -63,8 +63,8 @@ static CGFloat const kBTRSplitViewAnimationDuration = .25;
 	[self setPosition:position ofDividerAtIndex:dividerIndex animated:NO];
 }
 
-- (void)setPosition:(CGFloat)endValue ofDividerAtIndex:(NSInteger)dividerIndex animated:(BOOL)animate
-{
+//Borrowed from DMSplitView
+- (void)setPosition:(CGFloat)endValue ofDividerAtIndex:(NSInteger)dividerIndex animated:(BOOL)animate {
 	//No animation, no problem!
 	if (!animate) {
 		return [super setPosition:endValue ofDividerAtIndex:dividerIndex];
@@ -89,22 +89,20 @@ static CGFloat const kBTRSplitViewAnimationDuration = .25;
 	}
 	
 	//Because of our Core Animation backing layer, this should use Core Animation... theoretically.
-	[NSAnimationContext beginGrouping];
-	[[NSAnimationContext currentContext] setDuration:kBTRSplitViewAnimationDuration];
-	[[NSAnimationContext currentContext]setCompletionHandler:^{
+	[NSView btr_animate:^{
+		[resizingSubview setFrame:endingFrame];
+	}completion:^{
 		if (endValue == 0) {
 			//If the end value is zero, we're gonna go ahead and assume a collapse, which
 			//means hiding the subview
 			[resizingSubview setHidden:YES];
 		}
 	}];
-	[[resizingSubview animator] setFrame: endingFrame];
-	[NSAnimationContext endGrouping];
 }
 
 - (CGFloat)positionOfDividerAtIndex:(NSInteger)dividerIndex
 {
-	if(dividerIndex > [[self subviews] count]){
+	if(dividerIndex > [[self subviews] count]) {
 		return 0;
 	}
 	
@@ -141,6 +139,5 @@ static CGFloat const kBTRSplitViewAnimationDuration = .25;
 	}
 	return result;
 }
-
 
 @end
