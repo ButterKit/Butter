@@ -16,22 +16,22 @@ static CGFloat const kBTRSplitViewAnimationDuration = .25;
 	self = [super init];
 	if (self == nil) return nil;
 	[self commonInit];
-    return self;
+	return self;
 }
 
 - (id)initWithFrame:(NSRect)frame
 {
-    self = [super initWithFrame:frame];
+	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	[self commonInit];
-    return self;
+	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
-    if (self == nil) return nil;
+	if (self == nil) return nil;
 	[self commonInit];
-    return self;
+	return self;
 }
 
 -(void)commonInit {
@@ -66,9 +66,9 @@ static CGFloat const kBTRSplitViewAnimationDuration = .25;
 - (void)setPosition:(CGFloat)endValue ofDividerAtIndex:(NSInteger)dividerIndex animated:(BOOL)animate
 {
 	//No animation, no problem!
-    if (!animate) {
-        return [super setPosition:endValue ofDividerAtIndex:dividerIndex];
-    }
+	if (!animate) {
+		return [super setPosition:endValue ofDividerAtIndex:dividerIndex];
+	}
 	//Imply that the subview we want to animate is also the index of the divider we want to animate
 	//Considering dividers are always (subviews-1), we don't have to subtract that one ourselves.
 	//We can also ssume that the starting value if the width of said subview
