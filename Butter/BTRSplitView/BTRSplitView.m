@@ -42,12 +42,12 @@ static CGFloat const kBTRSplitViewAnimationDuration = .25;
 #pragma mark - Drawing
 
 -(void)drawDividerInRect:(NSRect)rect {
-	if (self.dividerDrawBlock) {
+	if (self.dividerDrawBlock == nil) {
+		return [super drawDividerInRect:rect];
+	} else {
 		CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 		__weak __block BTRSplitView *weakSelf = self;
 		self.dividerDrawBlock(weakSelf, ctx ,rect, [self _dividerIndexFromRect:rect]);
-	} else {
-		[super drawDividerInRect:rect];
 	}
 }
 
