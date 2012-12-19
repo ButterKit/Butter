@@ -55,6 +55,6 @@ typedef void(^BTRSplitViewDrawDividerBlock)(BTRSplitView *splitview, CGContextRe
    a Core Animation layer.  Resize is subject to the constraints outlined in your delegate, so animation reserves the
    right to adjust the frames of adjacent subviews to ensure the position request is satisfied.
    */
-- (void)setPosition:(CGFloat)position ofDividerAtIndex:(NSInteger)dividerIndex withAnimation:(BOOL)animate;
+- (void)setPosition:(CGFloat)position ofDividerAtIndex:(NSInteger)dividerIndex animated:(BOOL)animate;
 
 @end
