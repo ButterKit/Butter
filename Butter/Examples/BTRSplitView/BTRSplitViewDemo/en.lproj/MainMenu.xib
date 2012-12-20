@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12D38</string>
+		<string key="IBDocument.SystemVersion">12C3006</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3081</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">3081</string>
@@ -1303,7 +1303,7 @@
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{335, 390}, {480, 360}}</string>
+				<string key="NSWindowRect">{{335, 390}, {739, 402}}</string>
 				<int key="NSWTFlags">1954021376</int>
 				<string key="NSWindowTitle">BTRSplitViewDemo</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -1320,61 +1320,75 @@
 								<object class="NSCustomView" id="504562059">
 									<reference key="NSNextResponder" ref="608799533"/>
 									<int key="NSvFlags">268</int>
-									<string key="NSFrameSize">{118, 360}</string>
+									<string key="NSFrameSize">{186, 402}</string>
 									<reference key="NSSuperview" ref="608799533"/>
 									<reference key="NSNextKeyView" ref="643053099"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
-									<string key="NSClassName">NSView</string>
+									<string key="NSClassName">BTRView</string>
 								</object>
 								<object class="NSCustomView" id="643053099">
 									<reference key="NSNextResponder" ref="608799533"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{128, 0}, {110, 360}}</string>
+									<string key="NSFrame">{{196, 0}, {176, 402}}</string>
 									<reference key="NSSuperview" ref="608799533"/>
 									<reference key="NSNextKeyView" ref="627668337"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<string key="NSReuseIdentifierKey">_NS:11</string>
-									<string key="NSClassName">NSView</string>
+									<string key="NSClassName">BTRView</string>
 								</object>
 								<object class="NSCustomView" id="627668337">
 									<reference key="NSNextResponder" ref="608799533"/>
 									<int key="NSvFlags">256</int>
 									<array class="NSMutableArray" key="NSSubviews"/>
-									<string key="NSFrame">{{248, 0}, {122, 360}}</string>
+									<string key="NSFrame">{{382, 0}, {190, 402}}</string>
 									<reference key="NSSuperview" ref="608799533"/>
 									<reference key="NSNextKeyView" ref="946288535"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<string key="NSReuseIdentifierKey">_NS:13</string>
-									<string key="NSClassName">NSView</string>
+									<string key="NSClassName">BTRView</string>
 								</object>
 								<object class="NSCustomView" id="946288535">
 									<reference key="NSNextResponder" ref="608799533"/>
 									<int key="NSvFlags">268</int>
 									<array class="NSMutableArray" key="NSSubviews"/>
-									<string key="NSFrame">{{380, 0}, {100, 360}}</string>
+									<string key="NSFrame">{{582, 0}, {157, 402}}</string>
 									<reference key="NSSuperview" ref="608799533"/>
-									<reference key="NSNextKeyView"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
-									<string key="NSClassName">NSView</string>
+									<string key="NSClassName">BTRView</string>
 								</object>
 							</array>
-							<string key="NSFrameSize">{480, 360}</string>
+							<string key="NSFrameSize">{739, 402}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSNextKeyView" ref="504562059"/>
 							<bool key="NSViewIsLayerTreeHost">YES</bool>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSIsVertical">YES</bool>
 							<int key="NSDividerStyle">3</int>
+							<object class="NSMutableDictionary" key="NSHoldingPriorities">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<array key="dict.sortedKeys">
+									<integer value="0"/>
+									<integer value="1"/>
+									<integer value="2"/>
+									<integer value="3"/>
+								</array>
+								<array key="dict.values">
+									<real value="250"/>
+									<real value="250"/>
+									<real value="250"/>
+									<real value="250"/>
+								</array>
+							</object>
 						</object>
 					</array>
-					<string key="NSFrameSize">{480, 360}</string>
+					<string key="NSFrameSize">{739, 402}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="608799533"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -2083,6 +2097,38 @@
 					</object>
 					<int key="connectionID">566</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">firstView</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="504562059"/>
+					</object>
+					<int key="connectionID">567</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">secondView</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="643053099"/>
+					</object>
+					<int key="connectionID">568</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">thirdView</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="627668337"/>
+					</object>
+					<int key="connectionID">569</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">fourthView</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="946288535"/>
+					</object>
+					<int key="connectionID">570</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -2588,22 +2634,6 @@
 						<reference key="parent" ref="698887838"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">371</int>
-						<reference key="object" ref="972006081"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="439893737"/>
-						</array>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">372</int>
-						<reference key="object" ref="439893737"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="608799533"/>
-						</array>
-						<reference key="parent" ref="972006081"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">375</int>
 						<reference key="object" ref="302598603"/>
 						<array class="NSMutableArray" key="children">
@@ -3077,39 +3107,6 @@
 						<reference key="parent" ref="963351320"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">536</int>
-						<reference key="object" ref="608799533"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="643053099"/>
-							<reference ref="627668337"/>
-							<reference ref="946288535"/>
-							<reference ref="504562059"/>
-						</array>
-						<reference key="parent" ref="439893737"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">537</int>
-						<reference key="object" ref="643053099"/>
-						<reference key="parent" ref="608799533"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">538</int>
-						<reference key="object" ref="627668337"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="608799533"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">551</int>
-						<reference key="object" ref="946288535"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="608799533"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">557</int>
-						<reference key="object" ref="504562059"/>
-						<reference key="parent" ref="608799533"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">558</int>
 						<reference key="object" ref="1038270150"/>
 						<reference key="parent" ref="466310130"/>
@@ -3123,6 +3120,53 @@
 						<int key="objectID">562</int>
 						<reference key="object" ref="143601651"/>
 						<reference key="parent" ref="466310130"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">371</int>
+						<reference key="object" ref="972006081"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="439893737"/>
+						</array>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">372</int>
+						<reference key="object" ref="439893737"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="608799533"/>
+						</array>
+						<reference key="parent" ref="972006081"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">536</int>
+						<reference key="object" ref="608799533"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="643053099"/>
+							<reference ref="627668337"/>
+							<reference ref="946288535"/>
+							<reference ref="504562059"/>
+						</array>
+						<reference key="parent" ref="439893737"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">557</int>
+						<reference key="object" ref="504562059"/>
+						<reference key="parent" ref="608799533"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">551</int>
+						<reference key="object" ref="946288535"/>
+						<reference key="parent" ref="608799533"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">538</int>
+						<reference key="object" ref="627668337"/>
+						<reference key="parent" ref="608799533"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">537</int>
+						<reference key="object" ref="643053099"/>
+						<reference key="parent" ref="608799533"/>
 					</object>
 				</array>
 			</object>
@@ -3300,9 +3344,89 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">566</int>
+			<int key="maxID">570</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">BTRAppDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="animateFirstDivider:">id</string>
+						<string key="animateSecondDivider:">id</string>
+						<string key="animateThirdDivider:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="animateFirstDivider:">
+							<string key="name">animateFirstDivider:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="animateSecondDivider:">
+							<string key="name">animateSecondDivider:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="animateThirdDivider:">
+							<string key="name">animateThirdDivider:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="firstView">BTRView</string>
+						<string key="fourthView">BTRView</string>
+						<string key="secondView">BTRView</string>
+						<string key="splitView">BTRSplitView</string>
+						<string key="thirdView">BTRView</string>
+						<string key="window">NSWindow</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="firstView">
+							<string key="name">firstView</string>
+							<string key="candidateClassName">BTRView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="fourthView">
+							<string key="name">fourthView</string>
+							<string key="candidateClassName">BTRView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="secondView">
+							<string key="name">secondView</string>
+							<string key="candidateClassName">BTRView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="splitView">
+							<string key="name">splitView</string>
+							<string key="candidateClassName">BTRSplitView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="thirdView">
+							<string key="name">thirdView</string>
+							<string key="candidateClassName">BTRView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="window">
+							<string key="name">window</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/BTRAppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">BTRSplitView</string>
+					<string key="superclassName">NSSplitView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/BTRSplitView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">BTRView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/BTRView.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

@@ -10,7 +10,7 @@
 
 @class BTRSplitView;
 
-typedef void(^BTRSplitViewDrawDividerBlock)(BTRSplitView *splitview, CGContextRef ctx, CGRect rect, NSUInteger index);
+typedef void(^BTRSplitViewDrawRectDividerBlock)(BTRSplitView *splitview, CGContextRef ctx, CGRect rect, NSUInteger index);
 
 @interface BTRSplitView : NSSplitView
 
@@ -27,7 +27,7 @@ typedef void(^BTRSplitViewDrawDividerBlock)(BTRSplitView *splitview, CGContextRe
  added as subviews.
 */
 
-@property (nonatomic, copy) BTRSplitViewDrawDividerBlock dividerDrawBlock;
+@property (nonatomic, copy) BTRSplitViewDrawRectDividerBlock dividerDrawRectBlock;
 
 /** @name Positioning the Panes of a Split View */
 
