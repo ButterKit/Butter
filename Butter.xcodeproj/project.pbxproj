@@ -59,6 +59,13 @@
 			remoteGlobalIDString = 03594AA41671C9BF0025210A;
 			remoteInfo = BasicExample;
 		};
+		844FFFCD16825DC500B67ECC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84C12A6816741F930089A98A;
+			remoteInfo = BTRSplitViewDemo;
+		};
 		ABB9D773167BF0F200ECB31D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */;
@@ -117,6 +124,7 @@
 		03FA703316746A7F00491A1D /* BasicExample.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BasicExample.xcodeproj; path = Butter/Examples/BTRCollectionView/BasicExample/BasicExample.xcodeproj; sourceTree = "<group>"; };
 		844FFF951682509400B67ECC /* BTRSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRSplitView.h; path = BTRSplitView/BTRSplitView.h; sourceTree = "<group>"; };
 		844FFF961682509400B67ECC /* BTRSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRSplitView.m; path = BTRSplitView/BTRSplitView.m; sourceTree = "<group>"; };
+		844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BTRSplitViewDemo.xcodeproj; path = Butter/Examples/BTRSplitView/BTRSplitViewDemo.xcodeproj; sourceTree = "<group>"; };
 		ABAB86DC167EEEEC003DC0CD /* BTRCollectionViewListLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRCollectionViewListLayout.h; path = Butter/BTRCollectionView/BTRCollectionViewListLayout.h; sourceTree = SOURCE_ROOT; };
 		ABAB86DD167EEEEC003DC0CD /* BTRCollectionViewListLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRCollectionViewListLayout.m; path = Butter/BTRCollectionView/BTRCollectionViewListLayout.m; sourceTree = SOURCE_ROOT; };
 		ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BTRAdditions.h"; path = "Extensions/NSView+BTRAdditions.h"; sourceTree = "<group>"; };
@@ -237,6 +245,7 @@
 			children = (
 				03FA702816746A7500491A1D /* BTRCollectionView */,
 				ABB9D745167BF03600ECB31D /* BTRControl */,
+				844FFFC416825D6000B67ECC /* BTRSplitView */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -274,6 +283,22 @@
 				844FFF961682509400B67ECC /* BTRSplitView.m */,
 			);
 			name = BTRSplitView;
+			sourceTree = "<group>";
+		};
+		844FFFC416825D6000B67ECC /* BTRSplitView */ = {
+			isa = PBXGroup;
+			children = (
+				844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */,
+			);
+			name = BTRSplitView;
+			sourceTree = "<group>";
+		};
+		844FFFCA16825DC500B67ECC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				844FFFCE16825DC500B67ECC /* BTRSplitViewDemo.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AB05CE1A1672E95900534E63 /* BTRCollectionView */ = {
@@ -428,6 +453,10 @@
 					ProjectRef = 03FA703316746A7F00491A1D /* BasicExample.xcodeproj */;
 				},
 				{
+					ProductGroup = 844FFFCA16825DC500B67ECC /* Products */;
+					ProjectRef = 844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */;
+				},
+				{
 					ProductGroup = 03FA702A16746A7900491A1D /* Products */;
 					ProjectRef = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
 				},
@@ -460,6 +489,13 @@
 			fileType = wrapper.application;
 			path = BasicExample.app;
 			remoteRef = 03FA703B16746A7F00491A1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		844FFFCE16825DC500B67ECC /* BTRSplitViewDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = BTRSplitViewDemo.app;
+			remoteRef = 844FFFCD16825DC500B67ECC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ABB9D774167BF0F200ECB31D /* ControlEvents.app */ = {
