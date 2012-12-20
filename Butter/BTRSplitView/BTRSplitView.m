@@ -4,7 +4,7 @@
 //
 //  Created by Robert Widmann on 12/8/12.
 //  Copyright (c) 2012 CodaFi. All rights reserved.
-//
+//  Thanks to http://jhaberstro.blogspot.com/2012/05/animating-nssplitview.html
 
 #import "BTRSplitView.h"
 #import "NSView+BTRAdditions.h"
