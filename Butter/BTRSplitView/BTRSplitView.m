@@ -36,7 +36,7 @@ static NSString * const kBTRSplitViewDividerPositionKey = @"dividerPosition";
 
 #pragma mark - Drawing
 
--(void)drawDividerInRect:(NSRect)rect {
+- (void)drawDividerInRect:(NSRect)rect {
 	if (self.dividerDrawRectBlock == nil) {
 		return [super drawDividerInRect:rect];
 	} else {
@@ -47,7 +47,7 @@ static NSString * const kBTRSplitViewDividerPositionKey = @"dividerPosition";
 
 #pragma mark - Position
 
--(void)setPosition:(CGFloat)position ofDividerAtIndex:(NSInteger)dividerIndex {
+- (void)setPosition:(CGFloat)position ofDividerAtIndex:(NSInteger)dividerIndex {
 	[self setPosition:position ofDividerAtIndex:dividerIndex animated:NO];
 }
 
@@ -96,8 +96,8 @@ static NSString * const kBTRSplitViewDividerPositionKey = @"dividerPosition";
 }
 
 - (CGFloat)positionOfDividerAtIndex:(NSInteger)dividerIndex {
-	if(dividerIndex > self.subviews.count) {
-		return 0;
+	if (dividerIndex > self.subviews.count) {
+	 	return 0;
 	}
 	
 	NSView *subview = self.subviews[dividerIndex];
@@ -112,20 +112,20 @@ static NSString * const kBTRSplitViewDividerPositionKey = @"dividerPosition";
 
 #pragma mark - Private
 
--(NSInteger)_dividerIndexFromRect:(NSRect)rect {
+- (NSInteger)_dividerIndexFromRect:(NSRect)rect {
 	NSInteger result = 0;
 	if (self.subviews.count == 2) {
 		return result;
 	}
-	//Adjust the passed in rect by it's divider thickness so we can try to ping
-	//the subview adjacent to it.  (either to the left, or above it).
+	// Adjust the passed in rect by it's divider thickness so we can try to ping
+	// the subview adjacent to it.  (either to the left, or above it).
 	NSRect adjustedRect = rect;
 	if (self.isVertical) {
 		adjustedRect.origin.x -= 1; //Left one pixel
 	} else {
 		adjustedRect.origin.y += self.dividerThickness + 1; //Up the divider's thickness plus some padding
 	}
-	//Loop through our subviews to get the index of the view adjacent to the divider.
+	// Loop through our subviews to get the index of the view adjacent to the divider.
 	for (int i = 0; i < self.subviews.count; i++) {
 		NSView *subview = [self.subviews objectAtIndex:i];
 		if (!CGRectIntersectsRect(subview.frame, adjustedRect)) continue;
