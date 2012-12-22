@@ -40,6 +40,8 @@
 		ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB9D742167BD73A00ECB31D /* BTRControl.m */; };
 		ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABE939381679942300A7A1B8 /* BTRImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE939391679942300A7A1B8 /* BTRImageView.m */; };
+		ABECF0671685393100BED126 /* BTRButton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABECF0651685393100BED126 /* BTRButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ABECF0681685393100BED126 /* BTRButton.m in Sources */ = {isa = PBXBuildFile; fileRef = ABECF0661685393100BED126 /* BTRButton.m */; };
 		ABECF07116855FCA00BED126 /* BTRTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = ABECF06F16855FCA00BED126 /* BTRTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABECF07216855FCA00BED126 /* BTRTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = ABECF07016855FCA00BED126 /* BTRTextField.m */; };
 		ABECF07516855FD800BED126 /* BTRLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = ABECF07316855FD800BED126 /* BTRLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -133,6 +135,8 @@
 		ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SelectionDemo.xcodeproj; path = Butter/Examples/BTRCollectionView/SelectionDemo/SelectionDemo.xcodeproj; sourceTree = "<group>"; };
 		ABE939381679942300A7A1B8 /* BTRImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRImageView.h; path = BTRImageView/BTRImageView.h; sourceTree = "<group>"; };
 		ABE939391679942300A7A1B8 /* BTRImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRImageView.m; path = BTRImageView/BTRImageView.m; sourceTree = "<group>"; };
+		ABECF0651685393100BED126 /* BTRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRButton.h; path = BTRButton/BTRButton.h; sourceTree = "<group>"; };
+		ABECF0661685393100BED126 /* BTRButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRButton.m; path = BTRButton/BTRButton.m; sourceTree = "<group>"; };
 		ABECF06F16855FCA00BED126 /* BTRTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRTextField.h; path = BTRTextField/BTRTextField.h; sourceTree = "<group>"; };
 		ABECF07016855FCA00BED126 /* BTRTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRTextField.m; path = BTRTextField/BTRTextField.m; sourceTree = "<group>"; };
 		ABECF07316855FD800BED126 /* BTRLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRLabel.h; path = BTRLabel/BTRLabel.h; sourceTree = "<group>"; };
@@ -218,6 +222,7 @@
 				ABE93937167993DB00A7A1B8 /* BTRImageView */,
 				AB05CE1A1672E95900534E63 /* BTRCollectionView */,
 				ABB9D73D167BD6C800ECB31D /* BTRControl */,
+				ABECF05C1685390500BED126 /* BTRButton */,
 				ABECF06D16855FA400BED126 /* BTRTextField */,
 				ABECF06E16855FB000BED126 /* BTRLabel */,
 			);
@@ -240,6 +245,7 @@
 		03FA702616746A6600491A1D /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				ABECF0771685636200BED126 /* BTRButton */,
 				03FA702816746A7500491A1D /* BTRCollectionView */,
 				ABB9D745167BF03600ECB31D /* BTRControl */,
 			);
@@ -348,6 +354,15 @@
 			name = BTRImageView;
 			sourceTree = "<group>";
 		};
+		ABECF05C1685390500BED126 /* BTRButton */ = {
+			isa = PBXGroup;
+			children = (
+				ABECF0651685393100BED126 /* BTRButton.h */,
+				ABECF0661685393100BED126 /* BTRButton.m */,
+			);
+			name = BTRButton;
+			sourceTree = "<group>";
+		};
 		ABECF06D16855FA400BED126 /* BTRTextField */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,6 +379,14 @@
 				ABECF07416855FD800BED126 /* BTRLabel.m */,
 			);
 			name = BTRLabel;
+			sourceTree = "<group>";
+		};
+		ABECF0771685636200BED126 /* BTRButton */ = {
+			isa = PBXGroup;
+			children = (
+				ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */,
+			);
+			name = BTRButton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -390,6 +413,7 @@
 				03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */,
 				ABB9D743167BD73A00ECB31D /* BTRControl.h in Headers */,
 				ABAB86DE167EEEEC003DC0CD /* BTRCollectionViewListLayout.h in Headers */,
+				ABECF0671685393100BED126 /* BTRButton.h in Headers */,
 				ABECF07116855FCA00BED126 /* BTRTextField.h in Headers */,
 				ABECF07516855FD800BED126 /* BTRLabel.h in Headers */,
 			);
@@ -522,6 +546,7 @@
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,
 				ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */,
 				ABAB86DF167EEEEC003DC0CD /* BTRCollectionViewListLayout.m in Sources */,
+				ABECF0681685393100BED126 /* BTRButton.m in Sources */,
 				ABECF07216855FCA00BED126 /* BTRTextField.m in Sources */,
 				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,
 			);
