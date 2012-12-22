@@ -13,22 +13,19 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self == nil) return nil;
-	[self initializeLayer];
-    
+	[self commonInit];
     return self;
 }
 
 - (id)initWithImage:(NSImage *)image {
 	self = [super initWithFrame:CGRectZero];
 	if (self == nil) return nil;
-	
 	self.image = image;
-	[self initializeLayer];
-	
+	[self commonInit];
 	return self;
 }
 
-- (void)initializeLayer {
+- (void)commonInit {
 	self.layer = [CALayer layer];
 	self.wantsLayer = YES;
 	//self.layer.contentsGravity = kCAGravityResizeAspect;
@@ -37,6 +34,9 @@
 }
 
 - (void)setImage:(NSImage *)image {
+	if (_image == image)
+		return;
+	
 	_image = image;
 	self.layer.contents = image;
 }
