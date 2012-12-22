@@ -11,8 +11,8 @@
 @implementation BTRLabel
 
 - (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self == nil) return nil;
+	self = [super initWithFrame:frame];
+	if (self == nil) return nil;
 	
 	self.bezeled = NO;
 	self.editable = NO;
@@ -20,7 +20,7 @@
 	self.selectable = NO;
 	self.drawsBackground = NO;
 
-    return self;
+	return self;
 }
 
 @end

@@ -33,14 +33,14 @@
 @implementation BTRControl
 
 - (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
+	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	self.enabled = YES;
 	//TODO: If this isn't enabled, then subclasses might not get mouse events
 	// when they need them if they don't add event handlers. Figure out a better
 	// way to detect whether we need it or not. Alternatively, always use it?
 	self.needsTrackingArea = YES;
-    return self;
+	return self;
 }
 
 - (NSMutableArray *)actions {
