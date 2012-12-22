@@ -11,10 +11,10 @@
 @implementation BTRTextField
 
 - (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self == nil) return nil;
+	self = [super initWithFrame:frame];
+	if (self == nil) return nil;
 	self.wantsLayer = YES;
-    return self;
+	return self;
 }
 
 // It appears that on some layer-backed view heirarchies that are

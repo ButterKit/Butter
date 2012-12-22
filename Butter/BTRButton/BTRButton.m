@@ -114,18 +114,18 @@
 
 // TODO: Ideally we'll have a good default style that can be drawn here.
 - (NSImage *)defaultBackgroundImageForControlState:(BTRControlState)state {
-		return [NSImage imageWithSize:self.bounds.size flipped:NO drawingHandler:^BOOL(NSRect rect) {
-
-			if (state == BTRControlStateNormal) {
-				[NSColor.redColor set];
-			} else if (state & BTRControlStateHighlighted) {
-				[NSColor.blueColor set];
-			}
-			
-			NSRectFill(rect);
-			
-			return YES;
-		}];
+	return [NSImage imageWithSize:self.bounds.size flipped:NO drawingHandler:^BOOL(NSRect rect) {
+		
+		if (state == BTRControlStateNormal) {
+			[NSColor.redColor set];
+		} else if (state & BTRControlStateHighlighted) {
+			[NSColor.blueColor set];
+		}
+		
+		NSRectFill(rect);
+		
+		return YES;
+	}];
 }
 
 @end
