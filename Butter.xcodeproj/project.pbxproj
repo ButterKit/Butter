@@ -77,6 +77,13 @@
 			remoteGlobalIDString = ABE938C716792D5200A7A1B8;
 			remoteInfo = SelectionDemo;
 		};
+		ABECF0A5168563CC00BED126 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABECF081168563CB00BED126;
+			remoteInfo = ButtonDemo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -141,6 +148,7 @@
 		ABECF07016855FCA00BED126 /* BTRTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRTextField.m; path = BTRTextField/BTRTextField.m; sourceTree = "<group>"; };
 		ABECF07316855FD800BED126 /* BTRLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRLabel.h; path = BTRLabel/BTRLabel.h; sourceTree = "<group>"; };
 		ABECF07416855FD800BED126 /* BTRLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRLabel.m; path = BTRLabel/BTRLabel.m; sourceTree = "<group>"; };
+		ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ButtonDemo.xcodeproj; path = Butter/Examples/BTRButton/ButtonDemo/ButtonDemo.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +397,14 @@
 			name = BTRButton;
 			sourceTree = "<group>";
 		};
+		ABECF0A2168563CB00BED126 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABECF0A6168563CC00BED126 /* ButtonDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -467,6 +483,10 @@
 					ProjectRef = 03FA703316746A7F00491A1D /* BasicExample.xcodeproj */;
 				},
 				{
+					ProductGroup = ABECF0A2168563CB00BED126 /* Products */;
+					ProjectRef = ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */;
+				},
+				{
 					ProductGroup = 03FA702A16746A7900491A1D /* Products */;
 					ProjectRef = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
 				},
@@ -513,6 +533,13 @@
 			fileType = wrapper.application;
 			path = SelectionDemo.app;
 			remoteRef = ABE938ED16792D6000A7A1B8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABECF0A6168563CC00BED126 /* ButtonDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ButtonDemo.app;
+			remoteRef = ABECF0A5168563CC00BED126 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
