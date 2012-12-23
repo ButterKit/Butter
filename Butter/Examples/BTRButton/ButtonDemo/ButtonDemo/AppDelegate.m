@@ -13,6 +13,8 @@
 - (void)awakeFromNib {
 	[self.button setTitle:@"Standard" forControlState:BTRControlStateNormal];
 	[self.button setTitle:@"Highlighted" forControlState:BTRControlStateHighlighted];
+	
+	self.button.animatesContents = YES;
 }
 
 @end
