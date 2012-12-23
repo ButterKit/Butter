@@ -113,7 +113,7 @@ static NSString * const kBTRSplitViewDividerPositionKey = @"dividerPosition";
 #pragma mark - Private
 
 - (NSInteger)_dividerIndexFromRect:(NSRect)rect {
-	NSInteger result = 0;
+	__block NSInteger result = 0;
 	if (self.subviews.count == 2) {
 		return result;
 	}
@@ -126,11 +126,12 @@ static NSString * const kBTRSplitViewDividerPositionKey = @"dividerPosition";
 		adjustedRect.origin.y += self.dividerThickness + 1; //Up the divider's thickness plus some padding
 	}
 	// Loop through our subviews to get the index of the view adjacent to the divider.
-	for (int i = 0; i < self.subviews.count; i++) {
-		NSView *subview = [self.subviews objectAtIndex:i];
-		if (!CGRectIntersectsRect(subview.frame, adjustedRect)) continue;
-		result = i;
-	}
+	[self.subviews enumerateObjectsUsingBlock:^(NSView *v, NSUInteger idx, BOOL *stop) {
+		if (CGRectIntersectsRect(v.frame, adjustedRect)) {
+			*stop = YES;
+			result = idx;
+		}
+	}];
 	return result;
 }
 
