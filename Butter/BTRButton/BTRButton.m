@@ -92,10 +92,10 @@
 
 - (void)updateState {
 	NSString *title = [self titleForControlState:self.state];
-	self.titleLabel.stringValue = (title != nil) ? title : @"";
+	self.titleLabel.stringValue = title?: @"";
 	
 	NSImage *backgroundImage = [self backgroundImageForControlState:self.state];
-	self.backgroundImageView.image = (backgroundImage != nil) ? backgroundImage : [self defaultBackgroundImageForControlState:self.state];
+	self.backgroundImageView.image = backgroundImage?: [self defaultBackgroundImageForControlState:self.state];
 }
 
 
