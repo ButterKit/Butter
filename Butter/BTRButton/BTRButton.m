@@ -101,13 +101,16 @@
 
 #pragma mark Drawing
 
-- (BOOL)wantsUpdateLayer {
-	return YES;
-}
+//- (BOOL)wantsUpdateLayer {
+//	return YES;
+//}
+//
+//- (void)updateLayer {
+//	[super updateLayer];
+//}
 
-- (void)updateLayer {
-	[super updateLayer];
-	
+- (void)layout {
+	[super layout];
 	self.backgroundImageView.frame = self.bounds;
 	self.titleLabel.frame = self.bounds;
 }
