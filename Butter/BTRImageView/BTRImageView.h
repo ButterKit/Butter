@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 ButterKit. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Butter/BTRView.h>
 
 //typedef NS_ENUM(NSInteger, BTRViewContentMode) {
 
-@interface BTRImageView : NSView
+@interface BTRImageView : BTRView
 
 - (id)initWithImage:(NSImage *)image;
 
