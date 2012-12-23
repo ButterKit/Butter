@@ -28,7 +28,6 @@
 - (void)commonInit {
 	//self.layer.contentsGravity = kCAGravityResizeAspect;
 	self.layer.masksToBounds = YES;
-	//self.layer.actions = @{ @"contents": [NSNull null], @"onOrderIn": [NSNull null] };
 }
 
 // Let super (BTRView) handle the contents, in case -animtesContents is set to YES.
