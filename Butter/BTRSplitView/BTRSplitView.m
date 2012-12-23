@@ -78,12 +78,12 @@ static NSString * const kBTRSplitViewDividerPositionKey = @"dividerPosition";
 }
 
 - (id)animationForKey:(NSString *)key {
-    if ([key rangeOfString:kBTRSplitViewDividerPositionKey].location != NSNotFound) {
+	if ([key rangeOfString:kBTRSplitViewDividerPositionKey].location != NSNotFound) {
 		CABasicAnimation *animation = [CABasicAnimation animation];
 		return animation;
-    }
+	}
 	
-    return [super animationForKey:key];
+	return [super animationForKey:key];
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
