@@ -16,6 +16,8 @@
 @property (nonatomic) BOOL needsTrackingArea;
 @property (nonatomic) BOOL mouseInside;
 @property (nonatomic) BOOL mouseDown;
+
+- (void)handleStateChange;
 @end
 
 @interface BTRControlAction : NSObject
@@ -31,10 +33,14 @@
 @implementation BTRControl
 
 - (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
+	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	self.enabled = YES;
-    return self;
+	//TODO: If this isn't enabled, then subclasses might not get mouse events
+	// when they need them if they don't add event handlers. Figure out a better
+	// way to detect whether we need it or not. Alternatively, always use it?
+	self.needsTrackingArea = YES;
+	return self;
 }
 
 - (NSMutableArray *)actions {
@@ -44,12 +50,39 @@
 	return _actions;
 }
 
+
+#pragma mark State
+
 - (BTRControlState)state {
 	BTRControlState state = BTRControlStateNormal;
 	if (self.highlighted) state |= BTRControlStateHighlighted;
 	if (self.selected) state |= BTRControlStateSelected;
 	if (!self.enabled) state |= BTRControlStateDisabled;
 	return state;
+}
+
+- (void)setEnabled:(BOOL)enabled {
+	[self updateStateWithOld:&_enabled new:enabled];
+}
+
+- (void)setSelected:(BOOL)selected {
+	[self updateStateWithOld:&_selected new:selected];
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+	[self updateStateWithOld:&_highlighted new:highlighted];
+}
+
+- (void)updateStateWithOld:(BOOL *)old new:(BOOL)new {
+	BOOL o = *old;
+	*old = new;
+	if (o != new) {
+		[self handleStateChange];
+	}
+}
+
+- (void)handleStateChange {
+	// Implemented by subclasses
 }
 
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
@@ -76,8 +109,9 @@
 	}
 	
 	// TODO: Figure out correct tracking to implement mouse drag
+	NSUInteger options = (NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways | NSTrackingEnabledDuringMouseDrag);
 	self.trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
-													 options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways | NSTrackingEnabledDuringMouseDrag
+													 options:options
 													   owner:self userInfo:nil];
 	[self addTrackingArea:self.trackingArea];
 }
@@ -114,12 +148,15 @@
 	[super mouseEntered:event];
 	self.mouseInside = YES;
 	[self sendActionsForControlEvents:BTRControlEventMouseEntered];
+	if (self.mouseDown)
+		self.highlighted = YES;
 }
 
 - (void)mouseExited:(NSEvent *)event {
 	[super mouseExited:event];
 	self.mouseInside = NO;
 	[self sendActionsForControlEvents:BTRControlEventMouseExited];
+	self.highlighted = NO;
 }
 
 //- (void)mouseDragged:(NSEvent *)theEvent {
@@ -142,9 +179,13 @@
 	events |= BTRControlEventMouseDownInside;
 	
 	[self sendActionsForControlEvents:events];
+	
+	self.highlighted = YES;
 }
 
 - (void)handleMouseUp:(NSEvent *)event {
+	self.mouseDown = NO;
+	
 	BTRControlEvents events = 1;
 	if (self.clickCount > 1) {
 		events |= BTRControlEventClickRepeat;
@@ -162,6 +203,8 @@
 	}
 	
 	[self sendActionsForControlEvents:events];
+	
+	self.highlighted = NO;
 }
 
 - (void)sendActionsForControlEvents:(BTRControlEvents)events {

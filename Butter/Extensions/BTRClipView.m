@@ -39,8 +39,7 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 #pragma mark - NSView
 
-- (void)viewWillMoveToWindow:(NSWindow *)newWindow
-{
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	if (self.window) {
 		[nc removeObserver:self name:NSWindowDidChangeScreenNotification object:self.window];
@@ -78,16 +77,12 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 #pragma mark Scrolling
 
-- (void)scrollToPoint:(NSPoint)newOrigin {	
-	if (self.animate) {
+- (void)scrollToPoint:(NSPoint)newOrigin {
+	if (self.animate && (self.window.currentEvent.type != NSScrollWheel)) {
 		self.destination = newOrigin;
-		if (!self.isScrolling) {
-			[self beginScrolling];
-		}
+		[self beginScrolling];
 	} else {
-		if (self.isScrolling) {
-			[self endScrolling];
-		}
+		[self endScrolling];
 		[super scrollToPoint:newOrigin];
 	}
 }
@@ -98,10 +93,16 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 }
 
 - (void)beginScrolling {
+	if (self.isScrolling)
+		return;
+
 	CVDisplayLinkStart(self.displayLink);
 }
 
 - (void)endScrolling {
+	if (!self.isScrolling)
+		return;
+	
 	CVDisplayLinkStop(self.displayLink);
 	self.animate = NO;
 }
@@ -132,8 +133,7 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	return kCVReturnSuccess;
 }
 
-- (void)updateCVDisplay
-{
+- (void)updateCVDisplay {
 	NSScreen *screen = self.window.screen;
 	if (screen) {
 		NSDictionary* screenDictionary = [[NSScreen mainScreen] deviceDescription];

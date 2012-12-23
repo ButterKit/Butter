@@ -29,15 +29,23 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 #pragma mark Lifecycle
 
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
 	self = [super initWithFrame:frame];
-	if (self == nil) return nil;
-
+	
+	if (hostsLayer) {
+		self.layer = [CALayer layer];
+		self.layer.delegate = self;
+	}
+	
 	self.wantsLayer = YES;
 	self.layerContentsPlacement = NSViewLayerContentsPlacementScaleAxesIndependently;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	return self;
+}
+
+- (id)initWithFrame:(NSRect)frame {
+	return [self initWithFrame:frame layerHosted:NO];
 }
 
 #pragma mark NSObject
@@ -49,19 +57,22 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 #pragma mark Drawing and actions
 
 - (void)displayAnimated {
-	drawFlag = self.animateContents;
-	self.animateContents = YES;
+	drawFlag = self.animatesContents;
+	self.animatesContents = YES;
 	[self display];
 }
 
-- (void)setAnimateContents:(BOOL)animateContents {
-	drawFlag = animateContents;
-	_animateContents = animateContents;
+- (void)setAnimatesContents:(BOOL)animate {
+	drawFlag = animate;
+	_animatesContents = animate;
 }
 
 - (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event {
-	if ([event isEqualToString:@"contents"] && self.animateContents) {
-		self.animateContents = drawFlag;
+	if ([event isEqualToString:@"contents"]) {
+		if (!self.animatesContents) {
+			return (id<CAAction>)[NSNull null];
+		}
+		self.animatesContents = drawFlag;
 		CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"contents"];
 		return animation;
 	}
