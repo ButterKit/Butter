@@ -128,4 +128,9 @@
 	}];
 }
 
+- (void)setAnimatesContents:(BOOL)animatesContents {
+	[super setAnimatesContents:animatesContents];
+	self.backgroundImageView.animatesContents = animatesContents;
+}
+
 @end
