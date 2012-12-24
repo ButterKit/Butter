@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ButterKit. All rights reserved.
 
 // This class is heavily inspired by UIKit and TwUI.
-#import <Butter/BTRView.h>
+#import <Butter/Butter.h>
 
 typedef NS_OPTIONS(NSUInteger, BTRControlEvents) {
 	// TODO: UNIMPLEMENTED
@@ -42,14 +42,10 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 
 @property (nonatomic, readonly) NSInteger clickCount;
 
+// TODO: These are not implemented properly
 @property (nonatomic, readonly) BTRControlState state;
 @property (nonatomic, getter = isEnabled) BOOL enabled;
-// TODO: Selected is not implemented.
 @property (nonatomic, getter = isSelected) BOOL selected;
 @property (nonatomic, getter = isHighlighted) BOOL highlighted;
-
-// Implemented by subclasses. Useful for reacting to state changes caused either by
-// mouse events, or by changing the state properties above.
-- (void)handleStateChange;
 
 @end

@@ -11,37 +11,32 @@
 @implementation BTRImageView
 
 - (id)initWithFrame:(NSRect)frame {
-	self = [super initWithFrame:frame layerHosted:YES];
-	if (self == nil) return nil;
-	[self commonInit];
-	return self;
+    self = [super initWithFrame:frame];
+    if (self == nil) return nil;
+	[self initializeLayer];
+    
+    return self;
 }
 
 - (id)initWithImage:(NSImage *)image {
-	self = [super initWithFrame:CGRectZero layerHosted:YES];
+	self = [super initWithFrame:CGRectZero];
 	if (self == nil) return nil;
+	
 	self.image = image;
-	[self commonInit];
+	[self initializeLayer];
+	
 	return self;
 }
 
-- (void)commonInit {
+- (void)initializeLayer {
+	self.layer = [CALayer layer];
+	self.wantsLayer = YES;
 	//self.layer.contentsGravity = kCAGravityResizeAspect;
 	self.layer.masksToBounds = YES;
-}
-
-// Let super (BTRView) handle the contents, in case -animtesContents is set to YES.
-// Otherwise we don't want any animations on our layer.
-- (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event {
-	if ([event isEqualToString:@"contents"])
-		return [super actionForLayer:layer forKey:event];
-	
-	return (id<CAAction>)[NSNull null];
+	self.layer.actions = @{ @"contents": [NSNull null], @"onOrderIn": [NSNull null] };
 }
 
 - (void)setImage:(NSImage *)image {
-	if (_image == image)
-		return;
 	_image = image;
 	self.layer.contents = image;
 }

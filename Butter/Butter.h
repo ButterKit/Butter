@@ -13,6 +13,3 @@
 #import <Butter/BTRImageView.h>
 #import <Butter/BTRControl.h>
 #import <Butter/BTRSplitView.h>
-#import <Butter/BTRButton.h>
-#import <Butter/BTRTextField.h>
-#import <Butter/BTRLabel.h>

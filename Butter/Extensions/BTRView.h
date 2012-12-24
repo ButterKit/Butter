@@ -8,12 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-// A base class for layer-backed views.
+// A base class for saner, more full-featured layer-backed views.
 @interface BTRView : NSView
-
-// Optional initializer which opts to provide the option to create a
-// layer-hosted view instead of a layer-backed view.
-- (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer;
 
 // A background color for the view, or nil if none has been set.
 @property (nonatomic, strong) NSColor *backgroundColor;
@@ -45,7 +41,7 @@
 // Whether the content is redrawn with a default animation applied.
 //
 // Defaults to NO.
-@property (nonatomic) BOOL animatesContents;
+@property (nonatomic) BOOL animateContents;
 
 // A wrapper around -layout that enables the animation on view redrawing,
 // draws the view, and changes back to default content animation setting.
@@ -53,7 +49,6 @@
 // The animation can be customized by wrapping the call in a NSView animation.
 - (void)displayAnimated;
 
-// TODO: This is not implemented fully.
 @property (nonatomic, copy) void (^drawRectBlock)(BTRView *view, CGContextRef ctx);
 
 @end
