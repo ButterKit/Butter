@@ -523,14 +523,16 @@
 					ProjectRef = 03FA703316746A7F00491A1D /* BasicExample.xcodeproj */;
 				},
 				{
-	ProductGroup = 844FFFCA16825DC500B67ECC /* Products */;
+<<<<<<< HEAD
+					ProductGroup = 844FFFCA16825DC500B67ECC /* Products */;
 					ProjectRef = 844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */;
-				},
-{
+=======
 					ProductGroup = ABECF0A2168563CB00BED126 /* Products */;
 					ProjectRef = ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */;
+>>>>>>> master
 				},
-{					ProductGroup = 03FA702A16746A7900491A1D /* Products */;
+				{
+					ProductGroup = 03FA702A16746A7900491A1D /* Products */;
 					ProjectRef = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
 				},
 				{
@@ -623,9 +625,14 @@
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,
 				ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */,
 				ABAB86DF167EEEEC003DC0CD /* BTRCollectionViewListLayout.m in Sources */,
-ABECF0681685393100BED126 /* BTRButton.m in Sources */,
+<<<<<<< HEAD
+				844FFF981682509400B67ECC /* BTRSplitView.m in Sources */,
+=======
+				ABECF0681685393100BED126 /* BTRButton.m in Sources */,
 				ABECF07216855FCA00BED126 /* BTRTextField.m in Sources */,
-				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,844FFF981682509400B67ECC /* BTRSplitView.m in Sources */,			);
+				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,
+>>>>>>> master
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */

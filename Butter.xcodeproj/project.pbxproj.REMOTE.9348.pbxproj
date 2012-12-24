@@ -26,8 +26,6 @@
 		03FA6F6C16743D6000491A1D /* BTRCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5C16743D6000491A1D /* BTRCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6D16743D6000491A1D /* BTRCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5D16743D6000491A1D /* BTRCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6E16743D6000491A1D /* BTRCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */; };
-		844FFF971682509400B67ECC /* BTRSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 844FFF951682509400B67ECC /* BTRSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		844FFF981682509400B67ECC /* BTRSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 844FFF961682509400B67ECC /* BTRSplitView.m */; };
 		ABAB86DE167EEEEC003DC0CD /* BTRCollectionViewListLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = ABAB86DC167EEEEC003DC0CD /* BTRCollectionViewListLayout.h */; };
 		ABAB86DF167EEEEC003DC0CD /* BTRCollectionViewListLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAB86DD167EEEEC003DC0CD /* BTRCollectionViewListLayout.m */; };
 		ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,13 +62,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 03594AA41671C9BF0025210A;
 			remoteInfo = BasicExample;
-		};
-		844FFFCD16825DC500B67ECC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 84C12A6816741F930089A98A;
-			remoteInfo = BTRSplitViewDemo;
 		};
 		ABB9D773167BF0F200ECB31D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -135,9 +126,6 @@
 		03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRCollectionViewCell.m; path = Butter/BTRCollectionView/BTRCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
 		03FA702916746A7900491A1D /* CircleLayout.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CircleLayout.xcodeproj; path = Butter/Examples/BTRCollectionView/CircleLayout/CircleLayout.xcodeproj; sourceTree = "<group>"; };
 		03FA703316746A7F00491A1D /* BasicExample.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BasicExample.xcodeproj; path = Butter/Examples/BTRCollectionView/BasicExample/BasicExample.xcodeproj; sourceTree = "<group>"; };
-		844FFF951682509400B67ECC /* BTRSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRSplitView.h; path = BTRSplitView/BTRSplitView.h; sourceTree = "<group>"; };
-		844FFF961682509400B67ECC /* BTRSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRSplitView.m; path = BTRSplitView/BTRSplitView.m; sourceTree = "<group>"; };
-		844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BTRSplitViewDemo.xcodeproj; path = Butter/Examples/BTRSplitView/BTRSplitViewDemo.xcodeproj; sourceTree = "<group>"; };
 		ABAB86DC167EEEEC003DC0CD /* BTRCollectionViewListLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRCollectionViewListLayout.h; path = Butter/BTRCollectionView/BTRCollectionViewListLayout.h; sourceTree = SOURCE_ROOT; };
 		ABAB86DD167EEEEC003DC0CD /* BTRCollectionViewListLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRCollectionViewListLayout.m; path = Butter/BTRCollectionView/BTRCollectionViewListLayout.m; sourceTree = SOURCE_ROOT; };
 		ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BTRAdditions.h"; path = "Extensions/NSView+BTRAdditions.h"; sourceTree = "<group>"; };
@@ -239,7 +227,6 @@
 			isa = PBXGroup;
 			children = (
 				ABACCA35167AD439003EFDD6 /* Extensions */,
-				844FFF901682507300B67ECC /* BTRSplitView */,
 				ABE93937167993DB00A7A1B8 /* BTRImageView */,
 				AB05CE1A1672E95900534E63 /* BTRCollectionView */,
 				ABB9D73D167BD6C800ECB31D /* BTRControl */,
@@ -269,7 +256,6 @@
 				ABECF0771685636200BED126 /* BTRButton */,
 				03FA702816746A7500491A1D /* BTRCollectionView */,
 				ABB9D745167BF03600ECB31D /* BTRControl */,
-				844FFFC416825D6000B67ECC /* BTRSplitView */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -296,31 +282,6 @@
 			isa = PBXGroup;
 			children = (
 				03FA703C16746A7F00491A1D /* BasicExample.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		844FFF901682507300B67ECC /* BTRSplitView */ = {
-			isa = PBXGroup;
-			children = (
-				844FFF951682509400B67ECC /* BTRSplitView.h */,
-				844FFF961682509400B67ECC /* BTRSplitView.m */,
-			);
-			name = BTRSplitView;
-			sourceTree = "<group>";
-		};
-		844FFFC416825D6000B67ECC /* BTRSplitView */ = {
-			isa = PBXGroup;
-			children = (
-				844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */,
-			);
-			name = BTRSplitView;
-			sourceTree = "<group>";
-		};
-		844FFFCA16825DC500B67ECC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				844FFFCE16825DC500B67ECC /* BTRSplitViewDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -465,7 +426,6 @@
 				ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */,
 				ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */,
 				ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */,
-				844FFF971682509400B67ECC /* BTRSplitView.h in Headers */,
 				03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */,
 				ABB9D743167BD73A00ECB31D /* BTRControl.h in Headers */,
 				ABAB86DE167EEEEC003DC0CD /* BTRCollectionViewListLayout.h in Headers */,
@@ -523,14 +483,11 @@
 					ProjectRef = 03FA703316746A7F00491A1D /* BasicExample.xcodeproj */;
 				},
 				{
-	ProductGroup = 844FFFCA16825DC500B67ECC /* Products */;
-					ProjectRef = 844FFFC916825DC500B67ECC /* BTRSplitViewDemo.xcodeproj */;
-				},
-{
 					ProductGroup = ABECF0A2168563CB00BED126 /* Products */;
 					ProjectRef = ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */;
 				},
-{					ProductGroup = 03FA702A16746A7900491A1D /* Products */;
+				{
+					ProductGroup = 03FA702A16746A7900491A1D /* Products */;
 					ProjectRef = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
 				},
 				{
@@ -562,13 +519,6 @@
 			fileType = wrapper.application;
 			path = BasicExample.app;
 			remoteRef = 03FA703B16746A7F00491A1D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		844FFFCE16825DC500B67ECC /* BTRSplitViewDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = BTRSplitViewDemo.app;
-			remoteRef = 844FFFCD16825DC500B67ECC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ABB9D774167BF0F200ECB31D /* ControlEvents.app */ = {
@@ -623,9 +573,10 @@
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,
 				ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */,
 				ABAB86DF167EEEEC003DC0CD /* BTRCollectionViewListLayout.m in Sources */,
-ABECF0681685393100BED126 /* BTRButton.m in Sources */,
+				ABECF0681685393100BED126 /* BTRButton.m in Sources */,
 				ABECF07216855FCA00BED126 /* BTRTextField.m in Sources */,
-				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,844FFF981682509400B67ECC /* BTRSplitView.m in Sources */,			);
+				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
