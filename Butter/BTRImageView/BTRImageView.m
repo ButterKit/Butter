@@ -8,6 +8,10 @@
 
 #import "BTRImageView.h"
 
+@interface BTRImageView()
+@property (nonatomic, strong) CALayer *imageLayer;
+@end
+
 @implementation BTRImageView
 
 - (id)initWithFrame:(NSRect)frame {
@@ -28,13 +32,23 @@
 - (void)commonInit {
 	//self.layer.contentsGravity = kCAGravityResizeAspect;
 	self.layer.masksToBounds = YES;
+	
+	self.imageLayer = [CALayer layer];
+	self.imageLayer.delegate = self;
+	[self.layer addSublayer:self.imageLayer];
+}
+
+- (void)layout {
+	[super layout];
+	self.imageLayer.frame = self.bounds;
 }
 
 // Let super (BTRView) handle the contents, in case -animtesContents is set to YES.
 // Otherwise we don't want any animations on our layer.
 - (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event {
-	if ([event isEqualToString:@"contents"])
+	if ([event isEqualToString:@"contents"] && layer == self.imageLayer) {
 		return [super actionForLayer:layer forKey:event];
+	}
 	
 	return (id<CAAction>)[NSNull null];
 }
@@ -43,7 +57,7 @@
 	if (_image == image)
 		return;
 	_image = image;
-	self.layer.contents = image;
+	self.imageLayer.contents = image;
 }
 
 @end
