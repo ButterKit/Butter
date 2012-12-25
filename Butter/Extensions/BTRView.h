@@ -45,7 +45,7 @@
 // Whether the content is redrawn with a default animation applied.
 //
 // Defaults to NO.
-@property (nonatomic) BOOL animatesContents;
+@property (nonatomic, assign) BOOL animatesContents;
 
 // A wrapper around -layout that enables the animation on view redrawing,
 // draws the view, and changes back to default content animation setting.
