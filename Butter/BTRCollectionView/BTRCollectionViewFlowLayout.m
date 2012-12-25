@@ -12,8 +12,6 @@
 #import "NSValue+BTRAdditions.h"
 #import <objc/runtime.h>
 
-NSString *const BTRCollectionElementKindSectionHeader = @"BTRCollectionElementKindSectionHeader";
-NSString *const BTRCollectionElementKindSectionFooter = @"BTRCollectionElementKindSectionFooter";
 NSString *const BTRFlowLayoutCommonRowHorizontalAlignmentKey = @"BTRFlowLayoutCommonRowHorizontalAlignmentKey";
 NSString *const BTRFlowLayoutLastRowHorizontalAlignmentKey = @"BTRFlowLayoutLastRowHorizontalAlignmentKey";
 NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVerticalAlignmentKey";
@@ -42,9 +40,6 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
 
 //  Set current row frame invalid.
 - (void)invalidate;
-
-// Copy a snapshot of the current row data
-- (BTRGridLayoutRow *)snapshot;
 @end
 
 @interface BTRGridLayoutSection : NSObject
@@ -91,10 +86,6 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
 
 - (BTRGridLayoutItem *)addItem;
 - (BTRGridLayoutRow *)addRow;
-
-// Copy snapshot of current object
-- (BTRGridLayoutSection *)snapshot;
-
 @end
 
 @interface BTRGridLayoutItem : NSObject
@@ -128,10 +119,6 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
 // forces the layout to recompute on next access
 // TODO; what's the parameter for?
 - (void)invalidate:(BOOL)arg;
-
-// Make a copy of the current state.
-- (BTRGridLayoutInfo *)snapshot;
-
 @end
 
 @implementation BTRCollectionViewFlowLayout {
@@ -447,18 +434,6 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
 
 #pragma mark - Public
 
-- (BTRGridLayoutInfo *)snapshot {
-    BTRGridLayoutInfo *layoutInfo = [[self class] new];
-    layoutInfo.sections = self.sections;
-    layoutInfo.rowAlignmentOptions = self.rowAlignmentOptions;
-    layoutInfo.usesFloatingHeaderFooter = self.usesFloatingHeaderFooter;
-    layoutInfo.dimension = self.dimension;
-    layoutInfo.horizontal = self.horizontal;
-    layoutInfo.leftToRight = self.leftToRight;
-    layoutInfo.contentSize = self.contentSize;
-    return layoutInfo;
-}
-
 - (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath {
     BTRGridLayoutSection *section = self.sections[indexPath.section];
     CGRect itemFrame;
@@ -636,19 +611,6 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
     [self invalidate];
 }
 
-- (BTRGridLayoutRow *)snapshot {
-    BTRGridLayoutRow *snapshotRow = [[self class] new];
-    snapshotRow.section = self.section;
-    snapshotRow.items = self.items;
-    snapshotRow.rowSize = self.rowSize;
-    snapshotRow.rowFrame = self.rowFrame;
-    snapshotRow.index = self.index;
-    snapshotRow.complete = self.complete;
-    snapshotRow.fixedItemSize = self.fixedItemSize;
-    snapshotRow.itemCount = self.itemCount;
-    return snapshotRow;
-}
-
 - (NSUInteger)itemCount {
     if (self.fixedItemSize)
         return _itemCount;
@@ -801,36 +763,6 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
     row.section = self;
     [_rows addObject:row];
     return row;
-}
-
-- (BTRGridLayoutSection *)snapshot {
-    BTRGridLayoutSection *snapshotSection = [BTRGridLayoutSection new];
-    snapshotSection.items = [self.items copy];
-    snapshotSection.rows = [self.items copy];
-    snapshotSection.verticalInterstice = self.verticalInterstice;
-    snapshotSection.horizontalInterstice = self.horizontalInterstice;
-    snapshotSection.sectionMargins = self.sectionMargins;
-    snapshotSection.frame = self.frame;
-    snapshotSection.headerFrame = self.headerFrame;
-    snapshotSection.footerFrame = self.footerFrame;
-    snapshotSection.headerDimension = self.headerDimension;
-    snapshotSection.footerDimension = self.footerDimension;
-    snapshotSection.layoutInfo = self.layoutInfo;
-    snapshotSection.rowAlignmentOptions = self.rowAlignmentOptions;
-    snapshotSection.fixedItemSize = self.fixedItemSize;
-    snapshotSection.itemSize = self.itemSize;
-    snapshotSection.itemsCount = self.itemsCount;
-    snapshotSection.otherMargin = self.otherMargin;
-    snapshotSection.beginMargin = self.beginMargin;
-    snapshotSection.endMargin = self.endMargin;
-    snapshotSection.actualGap = self.actualGap;
-    snapshotSection.lastRowBeginMargin = self.lastRowBeginMargin;
-    snapshotSection.lastRowEndMargin = self.lastRowEndMargin;
-    snapshotSection.lastRowActualGap = self.lastRowActualGap;
-    snapshotSection.lastRowIncomplete = self.lastRowIncomplete;
-    snapshotSection.itemsByRowCount = self.itemsByRowCount;
-    snapshotSection.indexOfImcompleteRow = self.indexOfImcompleteRow;
-    return snapshotSection;
 }
 
 - (NSUInteger)itemsCount {

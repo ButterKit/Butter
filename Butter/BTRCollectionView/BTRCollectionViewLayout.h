@@ -8,6 +8,9 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <QuartzCore/QuartzCore.h>
 
+extern NSString *const BTRCollectionElementKindSectionHeader;
+extern NSString *const BTRCollectionElementKindSectionFooter;
+
 typedef NS_ENUM(NSUInteger, BTRCollectionViewItemType) {
     BTRCollectionViewItemTypeCell,
     BTRCollectionViewItemTypeSupplementaryView,

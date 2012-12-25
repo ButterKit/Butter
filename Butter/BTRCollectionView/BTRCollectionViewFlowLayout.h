@@ -9,9 +9,6 @@
 #import "BTRGeometryAdditions.h"
 #import "BTRCollectionViewCommon.h"
 
-extern NSString *const BTRCollectionElementKindSectionHeader;
-extern NSString *const BTRCollectionElementKindSectionFooter;
-
 typedef NS_ENUM(NSInteger, BTRCollectionViewScrollDirection) {
     BTRCollectionViewScrollDirectionVertical,
     BTRCollectionViewScrollDirectionHorizontal
@@ -19,14 +16,12 @@ typedef NS_ENUM(NSInteger, BTRCollectionViewScrollDirection) {
 
 @protocol BTRCollectionViewDelegateFlowLayout <BTRCollectionViewDelegate>
 @optional
-
-- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (BTREdgeInsets)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSUInteger)section;
-- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSUInteger)section;
-- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSUInteger)section;
-- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSUInteger)section;
-- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSUInteger)section;
-
+- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (BTREdgeInsets)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSUInteger)section;
+- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSUInteger)section;
+- (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSUInteger)section;
+- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSUInteger)section;
+- (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSUInteger)section;
 @end
 
 @class BTRGridLayoutInfo;

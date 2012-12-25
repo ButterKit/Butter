@@ -10,6 +10,9 @@
 #import "BTRGeometryAdditions.h"
 #import "NSIndexPath+BTRAdditions.h"
 
+NSString *const BTRCollectionElementKindSectionHeader = @"BTRCollectionElementKindSectionHeader";
+NSString *const BTRCollectionElementKindSectionFooter = @"BTRCollectionElementKindSectionFooter";
+
 NSString* const BTRCollectionViewOldModelKey = @"BTRCollectionViewOldModelKey";
 NSString* const BTRCollectionViewNewModelKey = @"BTRCollectionViewNewModelKey";
 NSString *const BTRCollectionViewOldToNewIndexMapKey = @"BTRCollectionViewOldToNewIndexMapKey";
