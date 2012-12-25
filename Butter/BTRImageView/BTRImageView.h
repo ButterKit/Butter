@@ -8,7 +8,8 @@
 
 #import <Butter/BTRView.h>
 
-// Very similar to UIView
+// Equivalent to UIViewContentMode. See "Providing CALayer Content"
+// in the Core Animation guide for more information about the modes.
 typedef NS_ENUM(NSInteger, BTRViewContentMode) {
     BTRViewContentModeScaleToFill,
     BTRViewContentModeScaleAspectFit,
