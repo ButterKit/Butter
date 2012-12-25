@@ -8,7 +8,6 @@
 
 #import "BTRButton.h"
 #import "BTRLabel.h"
-#import "BTRImageView.h"
 
 @interface BTRButtonContent : NSObject
 @property (nonatomic, copy) NSString *title;
@@ -134,6 +133,17 @@
 - (void)setAnimatesContents:(BOOL)animatesContents {
 	[super setAnimatesContents:animatesContents];
 	self.backgroundImageView.animatesContents = animatesContents;
+}
+
+
+#pragma mark Content mode
+
+- (void)setContentMode:(BTRViewContentMode)contentMode {
+	self.backgroundImageView.contentMode = contentMode;
+}
+
+- (BTRViewContentMode)contentMode {
+	return self.backgroundImageView.contentMode;
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Butter/BTRControl.h>
+#import <Butter/BTRImageView.h>
 
 @interface BTRButton : BTRControl
 
@@ -15,5 +16,8 @@
 
 - (NSString *)titleForControlState:(BTRControlState)state;
 - (void)setTitle:(NSString *)title forControlState:(BTRControlState)state;
+
+// Modifies the contentMode on the image view of the button.
+@property (nonatomic, assign) BTRViewContentMode contentMode;
 
 @end

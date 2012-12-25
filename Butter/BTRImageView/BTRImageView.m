@@ -30,12 +30,13 @@
 }
 
 - (void)commonInit {
-	//self.layer.contentsGravity = kCAGravityResizeAspect;
 	self.layer.masksToBounds = YES;
 	
 	self.imageLayer = [CALayer layer];
 	self.imageLayer.delegate = self;
 	[self.layer addSublayer:self.imageLayer];
+	
+	self.contentMode = BTRViewContentModeScaleToFill;
 }
 
 - (void)layout {
@@ -58,6 +59,60 @@
 		return;
 	_image = image;
 	self.imageLayer.contents = image;
+}
+
+#pragma mark Content mode
+
+- (void)setContentMode:(BTRViewContentMode)contentMode {
+	_contentMode = contentMode;
+	self.imageLayer.contentsGravity = [self contentsGravityFromContentMode:contentMode];
+}
+
+- (NSString *)contentsGravityFromContentMode:(BTRViewContentMode)contentMode {
+	switch (contentMode) {
+		case BTRViewContentModeScaleToFill:
+			return kCAGravityResize;
+			break;
+		case BTRViewContentModeScaleAspectFit:
+			return kCAGravityResizeAspect;
+			break;
+		case BTRViewContentModeScaleAspectFill:
+			return kCAGravityResizeAspectFill;
+			break;
+		//TODO: Implement BTRViewContentModeRedraw. Possibly remove?
+		//case BTRViewContentModeRedraw:
+		//	return 0;
+		//	break;
+		case BTRViewContentModeCenter:
+			return kCAGravityCenter;
+			break;
+		case BTRViewContentModeTop:
+			return kCAGravityTop;
+			break;
+		case BTRViewContentModeBottom:
+			return kCAGravityBottom;
+			break;
+		case BTRViewContentModeLeft:
+			return kCAGravityLeft;
+			break;
+		case BTRViewContentModeRight:
+			return kCAGravityRight;
+			break;
+		case BTRViewContentModeTopLeft:
+			return kCAGravityTopLeft;
+			break;
+		case BTRViewContentModeTopRight:
+			return kCAGravityTopRight;
+			break;
+		case BTRViewContentModeBottomLeft:
+			return kCAGravityBottomLeft;
+			break;
+		case BTRViewContentModeBottomRight:
+			return kCAGravityBottomRight;
+			break;
+		default:
+			break;
+	}
 }
 
 @end
