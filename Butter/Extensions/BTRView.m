@@ -27,6 +27,7 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	}
 }
 
+
 #pragma mark Lifecycle
 
 - (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
@@ -48,11 +49,13 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	return [self initWithFrame:frame layerHosted:NO];
 }
 
+
 #pragma mark NSObject
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<%@: %p>{ frame = %@, layer = <%@: %p> }", self.class, self, NSStringFromRect(self.frame), self.layer.class, self.layer];
 }
+
 
 #pragma mark Drawing and actions
 
@@ -79,6 +82,7 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	
 	return [super actionForLayer:layer forKey:event];
 }
+
 
 #pragma mark Drawing block
 
