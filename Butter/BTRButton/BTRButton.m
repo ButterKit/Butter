@@ -130,9 +130,12 @@
 	}];
 }
 
-- (void)setAnimatesContents:(BOOL)animatesContents {
-	[super setAnimatesContents:animatesContents];
-	self.backgroundImageView.animatesContents = animatesContents;
+// When a button is clicked, the initial state change shouldn't animate
+// or it will appear to be laggy. However, if the user has opted to animate
+// the contents, we animate the transition back out.
+- (void)setHighlighted:(BOOL)highlighted {
+	self.backgroundImageView.animatesContents = (!highlighted && self.animatesContents);
+	[super setHighlighted:highlighted];
 }
 
 
