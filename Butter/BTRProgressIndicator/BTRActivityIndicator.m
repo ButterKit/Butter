@@ -66,19 +66,6 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 	self.layer.opacity = 0.f;
 	[self.layer addAnimation:fadeOut forKey:nil];
 	[CATransaction commit];
-//	
-//	
-//	
-//	
-//	[CATransaction begin];
-//	[CATransaction setAnimationDuration:0.4];
-//	[CATransaction setDisableActions:NO];
-//	[CATransaction setCompletionBlock:^{
-//		[self.progressShapeLayer removeAnimationForKey:BTRActivityIndicatorAnimationKey];
-//	}];
-//	self.layer.opacity = 0.f;
-//	[CATransaction commit];
-
 }
 
 
