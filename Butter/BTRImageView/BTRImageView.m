@@ -29,6 +29,16 @@
 	return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	self = [super initWithCoder:aDecoder];
+	if (self == nil) return nil;
+	self.layer = [CALayer layer];
+	self.wantsLayer = YES;
+	[self commonInit];
+	return self;
+}
+
 - (void)commonInit {
 	self.layer.masksToBounds = YES;
 	
