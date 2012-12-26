@@ -252,8 +252,14 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 - (void)registerNib:(NSNib *)nib forCellWithReuseIdentifier:(NSString *)identifier {
 	NSArray *topLevelObjects = nil;
 	[nib instantiateWithOwner:nil topLevelObjects:&topLevelObjects];
-	// Check to make sure that the NIB's only top level object is the cell view
-	NSAssert(topLevelObjects.count == 1 && [topLevelObjects[0] isKindOfClass:BTRCollectionViewCell.class], @"must contain exactly 1 top level object which is a BTRCollectionViewCell");
+	__block BOOL containsCell = NO;
+	[topLevelObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj isKindOfClass:[BTRCollectionViewCell class]]) {
+			containsCell = YES;
+			*stop = YES;
+		}
+	}];
+	NSAssert(containsCell, @"must contain a BTRCollectionViewCell object");
 	
 	_cellNibDict[identifier] = nib;
 }
@@ -261,8 +267,14 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 - (void)registerNib:(NSNib *)nib forSupplementaryViewOfKind:(NSString *)kind withReuseIdentifier:(NSString *)identifier {
 	NSArray *topLevelObjects = nil;
 	[nib instantiateWithOwner:nil topLevelObjects:&topLevelObjects];
-	// Check to make sure that the NIB's only top level object is the supplementary view
-	NSAssert(topLevelObjects.count == 1 && [topLevelObjects[0] isKindOfClass:BTRCollectionReusableView.class], @"must contain exactly 1 top level object which is a BTRCollectionReusableView");
+	__block BOOL containsView = NO;
+	[topLevelObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj isKindOfClass:[BTRCollectionReusableView class]]) {
+			containsView = YES;
+			*stop = YES;
+		}
+	}];
+	NSAssert(containsView, @"must contain a BTRCollectionReusableView object");
 	
 	NSString *kindAndIdentifier = [NSString stringWithFormat:@"%@/%@", kind, identifier];
 	_supplementaryViewNibDict[kindAndIdentifier] = nib;
@@ -271,7 +283,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 - (id)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath {
 	// Check to see if there is already a reusable cell in the reuse queue
 	NSMutableArray *reusableCells = _cellReuseQueues[identifier];
-	BTRCollectionViewCell *cell = [reusableCells lastObject];
+	__block BTRCollectionViewCell *cell = [reusableCells lastObject];
 	if (cell) {
 		[reusableCells removeObjectAtIndex:[reusableCells count]-1];
 	}else {
@@ -281,7 +293,12 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			NSNib *cellNib = _cellNibDict[identifier];
 			NSArray *topLevelObjects = nil;
 			[cellNib instantiateWithOwner:self topLevelObjects:&topLevelObjects];
-			cell = topLevelObjects[0];
+			[topLevelObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				if ([obj isKindOfClass:[BTRCollectionViewCell class]]) {
+					cell = obj;
+					*stop = YES;
+				}
+			}];
 		} else {
 			// Otherwise, attempt to create a new cell view from a registered class
 			Class cellClass = _cellClassDict[identifier];
@@ -307,7 +324,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	// Check to see if there's already a supplementary view of the desired type in the reuse queue
 	NSString *kindAndIdentifier = [NSString stringWithFormat:@"%@/%@", elementKind, identifier];
 	NSMutableArray *reusableViews = _supplementaryViewReuseQueues[kindAndIdentifier];
-	BTRCollectionReusableView *view = [reusableViews lastObject];
+	__block BTRCollectionReusableView *view = [reusableViews lastObject];
 	if (view) {
 		[reusableViews removeObjectAtIndex:reusableViews.count - 1];
 	} else {
@@ -318,7 +335,12 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			NSNib *supplementaryViewNib = _supplementaryViewNibDict[kindAndIdentifier];
 			NSArray *topLevelObjects = nil;
 			[supplementaryViewNib instantiateWithOwner:self topLevelObjects:&topLevelObjects];
-			view = topLevelObjects[0];
+			[topLevelObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				if ([obj isKindOfClass:[BTRCollectionReusableView class]]) {
+					view = obj;
+					*stop = YES;
+				}
+			}];
 		} else {
 			// Check to see if a class was registered for the view
 			Class viewClass = _supplementaryViewClassDict[kindAndIdentifier];

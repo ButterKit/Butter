@@ -26,7 +26,7 @@
 		03FA6F6C16743D6000491A1D /* BTRCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5C16743D6000491A1D /* BTRCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6D16743D6000491A1D /* BTRCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5D16743D6000491A1D /* BTRCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6E16743D6000491A1D /* BTRCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */; };
-		ABAB86DE167EEEEC003DC0CD /* BTRCollectionViewListLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = ABAB86DC167EEEEC003DC0CD /* BTRCollectionViewListLayout.h */; };
+		ABAB86DE167EEEEC003DC0CD /* BTRCollectionViewListLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = ABAB86DC167EEEEC003DC0CD /* BTRCollectionViewListLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABAB86DF167EEEEC003DC0CD /* BTRCollectionViewListLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAB86DD167EEEEC003DC0CD /* BTRCollectionViewListLayout.m */; };
 		ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */; };
@@ -49,6 +49,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0338B8DF168A68A400A1D2BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0338B8D8168A68A300A1D2BB /* ContactsListDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0338B8B8168A68A300A1D2BB;
+			remoteInfo = ContactsListDemo;
+		};
 		03FA703116746A7A00491A1D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
@@ -109,6 +116,7 @@
 		03239EC11672E6D6004263D7 /* Butter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Butter-Prefix.pch"; sourceTree = "<group>"; };
 		03239F6A1672E712004263D7 /* Butter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Butter.h; sourceTree = "<group>"; };
 		03239F7E1672E7C8004263D7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0338B8D8168A68A300A1D2BB /* ContactsListDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ContactsListDemo.xcodeproj; path = Butter/Examples/BTRCollectionView/ContactsListDemo/ContactsListDemo.xcodeproj; sourceTree = "<group>"; };
 		03E41480167B03D800EACE0F /* BTRCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRCommon.h; sourceTree = "<group>"; };
 		03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSValue+BTRAdditions.m"; path = "Categories/NSValue+BTRAdditions.m"; sourceTree = "<group>"; };
 		03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+BTRAdditions.h"; path = "Categories/NSValue+BTRAdditions.h"; sourceTree = "<group>"; };
@@ -237,6 +245,14 @@
 			name = Components;
 			sourceTree = "<group>";
 		};
+		0338B8D9168A68A300A1D2BB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0338B8E0168A68A400A1D2BB /* ContactsListDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		03FA6EFB1674393400491A1D /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +279,7 @@
 		03FA702816746A7500491A1D /* BTRCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				0338B8D8168A68A300A1D2BB /* ContactsListDemo.xcodeproj */,
 				03FA703316746A7F00491A1D /* BasicExample.xcodeproj */,
 				03FA702916746A7900491A1D /* CircleLayout.xcodeproj */,
 				ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */,
@@ -491,6 +508,10 @@
 					ProjectRef = 03FA702916746A7900491A1D /* CircleLayout.xcodeproj */;
 				},
 				{
+					ProductGroup = 0338B8D9168A68A300A1D2BB /* Products */;
+					ProjectRef = 0338B8D8168A68A300A1D2BB /* ContactsListDemo.xcodeproj */;
+				},
+				{
 					ProductGroup = ABB9D770167BF0F100ECB31D /* Products */;
 					ProjectRef = ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */;
 				},
@@ -507,6 +528,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		0338B8E0168A68A400A1D2BB /* ContactsListDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ContactsListDemo.app;
+			remoteRef = 0338B8DF168A68A400A1D2BB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		03FA703216746A7A00491A1D /* CircleLayout.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;

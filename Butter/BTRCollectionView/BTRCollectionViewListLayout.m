@@ -74,6 +74,7 @@
 }
 
 - (BTRCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+	if (!_sections) [self recomputeLayout];
 	BTRListSection *section = _sections[indexPath.section];
 	BTRListRow *row = section.rows[indexPath.item];
 	BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
@@ -83,6 +84,7 @@
 
 - (BTRCollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
+	if (!_sections) [self recomputeLayout];
 	BTRListSection *section = _sections[indexPath.section];
 	if ([kind isEqualToString:BTRCollectionElementKindSectionHeader]) {
 		BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withIndexPath:indexPath];
@@ -108,6 +110,8 @@
 	CGSize collectionViewContentSize;
 	collectionViewContentSize.width = CGRectGetWidth([self.collectionView.enclosingScrollView bounds]);
 	CGRect lastSectionFrame = CGRectZero;
+	//NSLog(@"Reloading data with collection view size of %@", NSStringFromSize(collectionViewContentSize));
+	//NSLog(@"Found %lu sections", numberOfSections);
 	for (NSUInteger section = 0; section < numberOfSections; section++) {
 		BTRListSection *listSection = [BTRListSection new];
 		listSection.index = section;
@@ -120,6 +124,7 @@
 		CGPoint sectionOrigin = CGPointMake(CGRectGetMinX(lastSectionFrame), CGRectGetMaxY(lastSectionFrame));
 		listSection.headerFrame = (CGRect){.origin = sectionOrigin, .size=CGSizeMake(sectionSize.width, headerHeight)};
 		sectionOrigin.y += headerHeight;
+		//NSLog(@"Header frame for section %lu: %@", section, NSStringFromRect(listSection.headerFrame));
 		NSUInteger numberOfItems = [self.collectionView numberOfItemsInSection:section];
 		NSMutableArray *rows = [NSMutableArray arrayWithCapacity:numberOfItems];
 		for (NSUInteger item = 0; item < numberOfItems; item++) {
@@ -134,6 +139,7 @@
 			sectionOrigin.y += rowHeight;
 			sectionSize.height += rowHeight;
 			[rows addObject:row];
+			//NSLog(@"Frame for item %lu of section %lu: %@", item, section, NSStringFromRect(row.frame));
 		}
 		CGFloat footerHeight = self.footerReferenceHeight;
 		if (implementsFooterHeightDelegate) {
@@ -150,4 +156,10 @@
 	_contentsSize = collectionViewContentSize;
 }
 
+@end
+
+@implementation BTRListRow
+@end
+
+@implementation BTRListSection
 @end
