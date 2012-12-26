@@ -2,9 +2,8 @@
 //  BTRProgressIndicator.h
 //  Butter
 //
-//  Created by Indragie Karunaratne on 2012-12-25.
+//  Created by Jonathan Willing on 12/25/12.
 //  Copyright (c) 2012 ButterKit. All rights reserved.
-//
 
 #import <Butter/Butter.h>
 
