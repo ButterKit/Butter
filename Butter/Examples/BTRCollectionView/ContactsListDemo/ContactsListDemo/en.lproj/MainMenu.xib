@@ -1294,7 +1294,7 @@
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{335, 390}, {480, 360}}</string>
+				<string key="NSWindowRect">{{335, 390}, {283, 435}}</string>
 				<int key="NSWTFlags">1954021376</int>
 				<string key="NSWindowTitle">ContactsListDemo</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -1315,14 +1315,14 @@
 										<object class="NSView" id="729060007">
 											<reference key="NSNextResponder" ref="419418973"/>
 											<int key="NSvFlags">274</int>
-											<string key="NSFrameSize">{482, 362}</string>
+											<string key="NSFrameSize">{283, 435}</string>
 											<reference key="NSSuperview" ref="419418973"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="322764056"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
-									<string key="NSFrameSize">{482, 362}</string>
+									<string key="NSFrameSize">{283, 435}</string>
 									<reference key="NSSuperview" ref="18436713"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="729060007"/>
@@ -1362,7 +1362,7 @@
 									<double key="NSPercent">0.50602412223815918</double>
 								</object>
 							</array>
-							<string key="NSFrame">{{-1, -1}, {482, 362}}</string>
+							<string key="NSFrameSize">{283, 435}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="419418973"/>
@@ -1376,7 +1376,7 @@
 							<double key="NSMagnification">1</double>
 						</object>
 					</array>
-					<string key="NSFrameSize">{480, 360}</string>
+					<string key="NSFrameSize">{283, 435}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="18436713"/>

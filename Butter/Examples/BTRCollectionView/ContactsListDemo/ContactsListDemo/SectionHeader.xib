@@ -40,10 +40,9 @@
 					<object class="NSTextField" id="113225044">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">260</int>
-						<string key="NSFrame">{{7, 0}, {229, 23}}</string>
+						<string key="NSFrame">{{7, -1}, {229, 23}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSShadow" key="NSViewShadow">
 							<double key="NSShadowVert">1</double>
 							<object class="NSColor" key="NSShadowColor" id="450085244">
@@ -58,7 +57,7 @@
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">A</string>
 							<object class="NSFont" key="NSSupport">
-								<string key="NSName">Avenir-Medium</string>
+								<string key="NSName">HelveticaNeue-Medium</string>
 								<double key="NSSize">13</double>
 								<int key="NSfFlags">16</int>
 							</object>
@@ -174,6 +173,14 @@
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
+					<string key="className">BTRCollectionReusableView</string>
+					<string key="superclassName">BTRView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/BTRCollectionReusableView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">BTRTextField</string>
 					<string key="superclassName">NSTextField</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -191,7 +198,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">SectionHeader</string>
-					<string key="superclassName">BTRView</string>
+					<string key="superclassName">BTRCollectionReusableView</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">textField</string>
 						<string key="NS.object.0">BTRTextField</string>

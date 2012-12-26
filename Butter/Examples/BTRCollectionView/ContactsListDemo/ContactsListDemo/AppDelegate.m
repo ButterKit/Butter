@@ -43,7 +43,6 @@
 	[self.collectionView setCollectionViewLayout:layout animated:NO];
 	[self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"Row" bundle:nil] forCellWithReuseIdentifier:@"Row"];
 	[self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"SectionHeader" bundle:nil] forSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withReuseIdentifier:@"SectionHeader"];
-	[self.collectionView reloadData];
 }
 
 #pragma mark - BTRCollectionViewDataSource

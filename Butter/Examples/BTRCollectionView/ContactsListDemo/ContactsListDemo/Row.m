@@ -8,7 +8,7 @@
 
 #import "Row.h"
 
-#define kBorderColor [NSColor colorWithDeviceRed:0.73 green:0.73 blue:0.73 alpha:1.0]
+#define kBorderColor [NSColor colorWithDeviceRed:0.850 green:0.848 blue:0.867 alpha:1.000]
 
 @implementation Row
 

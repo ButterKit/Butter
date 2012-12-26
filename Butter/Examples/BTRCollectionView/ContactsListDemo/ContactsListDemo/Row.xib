@@ -40,10 +40,9 @@
 					<object class="NSTextField" id="56056227">
 						<reference key="NSNextResponder" ref="570196411"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{6, -1}, {238, 31}}</string>
+						<string key="NSFrame">{{6, 7}, {236, 17}}</string>
 						<reference key="NSSuperview" ref="570196411"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:1535</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="899166663">
@@ -51,9 +50,9 @@
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">Indragie Karunaratne</string>
 							<object class="NSFont" key="NSSupport">
-								<string key="NSName">Avenir-Roman</string>
-								<double key="NSSize">16</double>
-								<int key="NSfFlags">16</int>
+								<string key="NSName">LucidaGrande</string>
+								<double key="NSSize">13</double>
+								<int key="NSfFlags">1044</int>
 							</object>
 							<string key="NSCellIdentifier">_NS:1535</string>
 							<reference key="NSControlView" ref="56056227"/>
