@@ -16,6 +16,7 @@
 @property (nonatomic) BOOL needsTrackingArea;
 @property (nonatomic) BOOL mouseInside;
 @property (nonatomic) BOOL mouseDown;
+@property (nonatomic) BOOL mouseHover;
 
 - (void)handleStateChange;
 @end
@@ -58,6 +59,7 @@
 	if (self.highlighted) state |= BTRControlStateHighlighted;
 	if (self.selected) state |= BTRControlStateSelected;
 	if (!self.enabled) state |= BTRControlStateDisabled;
+	if (self.mouseHover && !self.highlighted) state |= BTRControlStateHover;
 	return state;
 }
 
@@ -71,6 +73,10 @@
 
 - (void)setHighlighted:(BOOL)highlighted {
 	[self updateStateWithOld:&_highlighted new:highlighted];
+}
+
+- (void)setMouseHover:(BOOL)mouseHover {
+	[self updateStateWithOld:&_mouseHover new:mouseHover];
 }
 
 - (void)updateStateWithOld:(BOOL *)old new:(BOOL)new {
@@ -147,6 +153,7 @@
 - (void)mouseEntered:(NSEvent *)event {
 	[super mouseEntered:event];
 	self.mouseInside = YES;
+	self.mouseHover = YES;
 	[self sendActionsForControlEvents:BTRControlEventMouseEntered];
 	if (self.mouseDown)
 		self.highlighted = YES;
@@ -155,6 +162,7 @@
 - (void)mouseExited:(NSEvent *)event {
 	[super mouseExited:event];
 	self.mouseInside = NO;
+	self.mouseHover = NO;
 	[self sendActionsForControlEvents:BTRControlEventMouseExited];
 	self.highlighted = NO;
 }

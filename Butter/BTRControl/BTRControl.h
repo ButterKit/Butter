@@ -33,7 +33,8 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 	BTRControlStateNormal		= 0,
 	BTRControlStateHighlighted	= 1 << 0,
 	BTRControlStateDisabled		= 1 << 1,
-	BTRControlStateSelected		= 1 << 2
+	BTRControlStateSelected		= 1 << 2,
+	BTRControlStateHover		= 1 << 3
 };
 
 @interface BTRControl : BTRView
