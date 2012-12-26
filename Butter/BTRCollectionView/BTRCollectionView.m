@@ -934,7 +934,9 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			prevAttr = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:attr.representedElementKind atIndexPath:newKey.indexPath];
 			newAttr = [layout layoutAttributesForSupplementaryViewOfKind:attr.representedElementKind atIndexPath:newKey.indexPath];
 		}
-		layoutInterchangeData[newKey] = [NSDictionary dictionaryWithObjects:@[prevAttr, newAttr] forKeys:@[BTRCollectionViewPreviousLayoutInfoKey, BTRCollectionViewNewLayoutInfoKey]];
+		if (prevAttr && newAttr) {
+			layoutInterchangeData[newKey] = [NSDictionary dictionaryWithObjects:@[prevAttr, newAttr] forKeys:@[BTRCollectionViewPreviousLayoutInfoKey, BTRCollectionViewNewLayoutInfoKey]];
+		}
 	}];
 	
 	[previouslyVisibleItemsKeysSet enumerateObjectsUsingBlock:^(BTRCollectionViewItemKey *key, BOOL *stop) {

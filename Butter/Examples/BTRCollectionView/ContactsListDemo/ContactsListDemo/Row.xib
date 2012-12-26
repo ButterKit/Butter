@@ -46,7 +46,7 @@
 						<string key="NSReuseIdentifierKey">_NS:1535</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="899166663">
-							<int key="NSCellFlags">68157504</int>
+							<int key="NSCellFlags">70254657</int>
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">Indragie Karunaratne</string>
 							<object class="NSFont" key="NSSupport">

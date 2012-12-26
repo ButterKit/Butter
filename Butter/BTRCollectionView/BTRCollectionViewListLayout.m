@@ -36,6 +36,11 @@
 
 #pragma mark - UICollectionViewLayout
 
+- (void)prepareLayout
+{
+	[self recomputeLayout];
+}
+
 - (CGSize)collectionViewContentSize {
 	return _contentsSize;
 }
@@ -49,7 +54,6 @@
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
-	if (!_sections) [self recomputeLayout];
 	NSMutableArray *attributes = [NSMutableArray array];
 	[_sections enumerateObjectsUsingBlock:^(BTRListSection *section, NSUInteger idx, BOOL *stop) {
 		if (CGRectIntersectsRect(section.frame, rect)) {
@@ -76,7 +80,6 @@
 }
 
 - (BTRCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (!_sections) [self recomputeLayout];
 	BTRListSection *section = _sections[indexPath.section];
 	BTRListRow *row = section.rows[indexPath.item];
 	BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
@@ -86,7 +89,6 @@
 
 - (BTRCollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-	if (!_sections) [self recomputeLayout];
 	BTRListSection *section = _sections[indexPath.section];
 	if ([kind isEqualToString:BTRCollectionElementKindSectionHeader]) {
 		BTRCollectionViewLayoutAttributes *layoutAttributes = [BTRCollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withIndexPath:indexPath];
