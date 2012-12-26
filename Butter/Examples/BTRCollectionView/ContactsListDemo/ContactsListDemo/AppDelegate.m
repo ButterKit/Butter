@@ -17,13 +17,6 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	BTRCollectionViewListLayout *layout = [BTRCollectionViewListLayout new];
-	layout.headerReferenceHeight = 20.f;
-	layout.rowHeight = 30.f;
-	[self.collectionView setCollectionViewLayout:layout animated:NO];
-	[self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"Row" bundle:nil] forCellWithReuseIdentifier:@"Row"];
-	[self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"SectionHeader" bundle:nil] forSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withReuseIdentifier:@"SectionHeader"];
-	
 	ABAddressBook *addressBook = [ABAddressBook sharedAddressBook];
 	NSArray *people = [addressBook people];
 	NSMutableDictionary *sectionsDictionary = [NSMutableDictionary dictionary];
@@ -44,6 +37,12 @@
 		[sections addObject:sectionsDictionary[obj]];
 	}];
 	_sections = sections;
+	BTRCollectionViewListLayout *layout = [BTRCollectionViewListLayout new];
+	layout.headerReferenceHeight = 20.f;
+	layout.rowHeight = 30.f;
+	[self.collectionView setCollectionViewLayout:layout animated:NO];
+	[self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"Row" bundle:nil] forCellWithReuseIdentifier:@"Row"];
+	[self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"SectionHeader" bundle:nil] forSupplementaryViewOfKind:BTRCollectionElementKindSectionHeader withReuseIdentifier:@"SectionHeader"];
 	[self.collectionView reloadData];
 }
 
@@ -56,9 +55,7 @@
 
 - (BTRCollectionViewCell *)collectionView:(BTRCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog(@"CALLED CELL");
 	Row *row = [collectionView dequeueReusableCellWithReuseIdentifier:@"Row" forIndexPath:indexPath];
-	NSLog(@"CELL: %@", row);
 	row.textField.stringValue = _sections[indexPath.section][indexPath.row];
 	return row;
 }

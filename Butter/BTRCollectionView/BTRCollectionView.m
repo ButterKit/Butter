@@ -901,7 +901,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	
 	_collectionViewData = [[BTRCollectionViewData alloc] initWithCollectionView:self layout:layout];
 	[_collectionViewData prepareToLoadData];
-	
 	NSArray *previouslySelectedIndexPaths = [self indexPathsForSelectedItems];
 	NSMutableSet *selectedCellKeys = [NSMutableSet setWithCapacity:[previouslySelectedIndexPaths count]];
 	[previouslySelectedIndexPaths enumerateObjectsUsingBlock:^(NSIndexPath *indexPath, NSUInteger idx, BOOL *stop) {
