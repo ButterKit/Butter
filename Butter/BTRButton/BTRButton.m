@@ -94,7 +94,11 @@
 	self.titleLabel.stringValue = title?: @"";
 	
 	NSImage *backgroundImage = [self backgroundImageForControlState:self.state];
-	self.backgroundImageView.image = backgroundImage?: ([self backgroundImageForControlState:BTRControlStateNormal] ?: [self defaultBackgroundImageForControlState:self.state]);
+	if (backgroundImage == nil) {
+		// If we can't find a control state for the current state, we to the normal control state image.
+		// If the normal state image can't be found, revert back to the default image for the current state.
+		backgroundImage = ([self backgroundImageForControlState:BTRControlStateNormal] ?: [self defaultBackgroundImageForControlState:self.state]);
+	}
 }
 
 
