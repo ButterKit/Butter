@@ -11,10 +11,11 @@
 @interface BTRActivityIndicator()
 @property (nonatomic, strong) CAReplicatorLayer *replicatorLayer;
 @property (nonatomic, readonly) CABasicAnimation *progressShapeLayerFadeOutAnimation;
+@property (nonatomic, assign, readwrite) BOOL animating;
 @end
 
 static const CGFloat BTRActivityIndicatorDefaultFrameLength = 24.f;
-static const CGFloat BTRActivityIndicatorFadeInOutDuration = 0.4f;
+static const CGFloat BTRActivityIndicatorFadeInOutDuration = 0.2f;
 static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicatorFadeOut";
 
 @implementation BTRActivityIndicator
@@ -44,17 +45,20 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 	_progressAnimationDuration = 1.f;
 	
 	[self.layer addSublayer:self.replicatorLayer];
+	self.progressShapeLayer.opacity = 0.f;
 	
 	return self;
 }
 
+- (void)setActivityIndicatorStyle:(BTRActivityIndicatorStyle)style {
+	self.progressShapeColor = (style == BTRActivityIndicatorStyleGray ? [NSColor grayColor] : [NSColor whiteColor]);
+}
+
 - (void)startAnimating {
-	CABasicAnimation *fadeIn = [self animationFromOpacity:0 toOpacity:1 withDuration:BTRActivityIndicatorFadeInOutDuration];
 	self.layer.opacity = 1.f;
-	[self.layer addAnimation:fadeIn forKey:nil];
-	
 	self.progressShapeLayer.opacity = 0.f;
 	[self.progressShapeLayer addAnimation:self.progressShapeLayerFadeOutAnimation forKey:BTRActivityIndicatorAnimationKey];
+	self.animating = YES;
 }
 
 - (void)stopAnimating {
@@ -65,6 +69,7 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 	CABasicAnimation *fadeOut = [self animationFromOpacity:1 toOpacity:0 withDuration:BTRActivityIndicatorFadeInOutDuration];
 	self.layer.opacity = 0.f;
 	[self.layer addAnimation:fadeOut forKey:nil];
+	self.animating = NO;
 	[CATransaction commit];
 }
 
@@ -106,19 +111,19 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 		_replicatorLayer.anchorPoint = CGPointMake(0.5f, 0.5f);
 		_replicatorLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 		
-		CGFloat angle = (2.f * M_PI) / self.progressShapeCount;
-		CATransform3D rotation = CATransform3DMakeRotation(angle, 0.f, 0.f, -1.f);
-		_replicatorLayer.instanceCount = self.progressShapeCount;
-		_replicatorLayer.instanceTransform = rotation;
 		[_replicatorLayer addSublayer:self.progressShapeLayer];
 		
-		[self updateReplicatorInstanceDelay];
+		[self updateReplicatorSettings];
 	}
 	return _replicatorLayer;
 }
 
-- (void)updateReplicatorInstanceDelay {
+- (void)updateReplicatorSettings {
 	self.replicatorLayer.instanceDelay = self.progressAnimationDuration / self.progressShapeCount;
+	CGFloat angle = (2.f * M_PI) / self.progressShapeCount;
+	CATransform3D rotation = CATransform3DMakeRotation(angle, 0.f, 0.f, -1.f);
+	_replicatorLayer.instanceTransform = rotation;
+	_replicatorLayer.instanceCount = self.progressShapeCount;
 }
 
 - (CGPoint)progressShapeLayerPosition {
@@ -135,7 +140,7 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 
 - (void)setProgressShapeCount:(NSUInteger)progressShapeCount {
 	_progressShapeCount = progressShapeCount;
-	[self updateReplicatorInstanceDelay];
+	[self updateReplicatorSettings];
 }
 
 - (void)setProgressShapeThickness:(CGFloat)progressShapeThickness {
@@ -155,7 +160,7 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 
 - (void)setProgressAnimationDuration:(CGFloat)progressAnimationDuration {
 	_progressAnimationDuration = progressAnimationDuration;
-	[self updateReplicatorInstanceDelay];
+	[self updateReplicatorSettings];
 	
 	if ([self.progressShapeLayer animationForKey:BTRActivityIndicatorAnimationKey]) {
 		[self.progressShapeLayer removeAnimationForKey:BTRActivityIndicatorAnimationKey];
