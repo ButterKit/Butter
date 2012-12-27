@@ -11,9 +11,9 @@ typedef NS_ENUM(NSInteger, BTRActivityIndicatorStyle) {
     BTRActivityIndicatorStyleGray
 };
 
-// An indeterminate activity indicator.
 #import <Butter/Butter.h>
 
+// An indeterminate activity indicator.
 @interface BTRActivityIndicator : BTRView
 
 // Returns an activity indicator sized to the default indicator size.
@@ -27,6 +27,9 @@ typedef NS_ENUM(NSInteger, BTRActivityIndicatorStyle) {
 // Starts and ends the animation of the activity indicator.
 - (void)startAnimating;
 - (void)stopAnimating;
+
+// Whether the activity indicator is currently animating.
+@property (nonatomic, assign, readonly) BOOL animating;
 
 // Change the style of the activity indicator.
 @property (nonatomic, assign) BTRActivityIndicatorStyle activityIndicatorStyle;
