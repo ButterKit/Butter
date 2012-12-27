@@ -39,11 +39,10 @@
 	return self;
 }
 
-- (void)commonInit {
-	self.layer.masksToBounds = YES;
-	
+- (void)commonInit {	
 	self.imageLayer = [CALayer layer];
 	self.imageLayer.delegate = self;
+	self.imageLayer.masksToBounds = YES;
 	[self.layer addSublayer:self.imageLayer];
 	
 	self.contentMode = BTRViewContentModeScaleToFill;
@@ -70,6 +69,18 @@
 	_image = image;
 	self.imageLayer.contents = image;
 }
+
+
+#pragma mark Layer properties
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+	self.imageLayer.cornerRadius = cornerRadius;
+}
+
+- (CGFloat)cornerRadius {
+	return self.imageLayer.cornerRadius;
+}
+
 
 #pragma mark Content mode
 
