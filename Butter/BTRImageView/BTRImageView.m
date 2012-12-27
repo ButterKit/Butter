@@ -89,10 +89,6 @@
 		case BTRViewContentModeScaleAspectFill:
 			return kCAGravityResizeAspectFill;
 			break;
-		//TODO: Implement BTRViewContentModeRedraw. Possibly remove?
-		//case BTRViewContentModeRedraw:
-		//	return 0;
-		//	break;
 		case BTRViewContentModeCenter:
 			return kCAGravityCenter;
 			break;

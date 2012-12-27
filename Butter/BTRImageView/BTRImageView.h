@@ -14,7 +14,6 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
     BTRViewContentModeScaleToFill,
     BTRViewContentModeScaleAspectFit,
     BTRViewContentModeScaleAspectFill,
-    //BTRViewContentModeRedraw, UNIMPLEMENTED.
     BTRViewContentModeCenter,
     BTRViewContentModeTop,
     BTRViewContentModeBottom,
