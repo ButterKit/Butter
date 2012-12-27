@@ -143,6 +143,14 @@
 	[super setHighlighted:highlighted];
 }
 
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+	self.backgroundImageView.cornerRadius = cornerRadius;
+}
+
+- (CGFloat)cornerRadius {
+	return self.backgroundImageView.cornerRadius;
+}
+
 
 #pragma mark Content mode
 
