@@ -99,6 +99,7 @@
 		// If the normal state image can't be found, revert back to the default image for the current state.
 		backgroundImage = ([self backgroundImageForControlState:BTRControlStateNormal] ?: [self defaultBackgroundImageForControlState:self.state]);
 	}
+	self.backgroundImageView.image = backgroundImage;
 }
 
 
