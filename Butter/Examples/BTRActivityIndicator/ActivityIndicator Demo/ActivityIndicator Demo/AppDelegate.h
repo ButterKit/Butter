@@ -12,6 +12,10 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (nonatomic, assign) IBOutlet NSWindow *window;
-@property (nonatomic, assign) IBOutlet BTRActivityIndicator *activityIndicator;
+@property (nonatomic, assign) IBOutlet BTRActivityIndicator *defaultIndicator;
+@property (nonatomic, assign) IBOutlet BTRActivityIndicator *customizedIndicatorOne;
+@property (nonatomic, assign) IBOutlet BTRActivityIndicator *customizedIndicatorTwo;
+
+- (IBAction)toggleAnimation:(id)sender;
 
 @end

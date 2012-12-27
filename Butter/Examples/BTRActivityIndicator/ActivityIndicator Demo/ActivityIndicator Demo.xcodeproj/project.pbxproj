@@ -52,8 +52,6 @@
 		ABA67746168AC94A006DD644 = {
 			isa = PBXGroup;
 			children = (
-				ABA67777168AEB15006DD644 /* QuartzCore.framework */,
-				ABA67775168AC950006DD644 /* Butter.framework */,
 				ABA67758168AC94A006DD644 /* ActivityIndicator Demo */,
 				ABA67751168AC94A006DD644 /* Frameworks */,
 				ABA67750168AC94A006DD644 /* Products */,
@@ -71,6 +69,8 @@
 		ABA67751168AC94A006DD644 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ABA67777168AEB15006DD644 /* QuartzCore.framework */,
+				ABA67775168AC950006DD644 /* Butter.framework */,
 				ABA67752168AC94A006DD644 /* Cocoa.framework */,
 				ABA67754168AC94A006DD644 /* Other Frameworks */,
 			);
@@ -319,6 +319,7 @@
 				ABA6776E168AC94A006DD644 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
