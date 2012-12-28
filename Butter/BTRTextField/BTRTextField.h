@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+// BTRTextField should *not* be layer backed in Interface Builder
+// This leads to a bug that causes an additional shadow to be shown
+// underneath the field
 @interface BTRTextField : NSTextField
 
 @end
