@@ -80,7 +80,7 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 #pragma mark Drawing
 
 - (void)drawRect:(NSRect)dirtyRect {
-	if (!_btrDrawsBackground) {
+	if (!self.drawsBackground) {
 		[super drawRect:dirtyRect];
 		return;
 	}
