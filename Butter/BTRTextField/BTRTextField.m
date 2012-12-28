@@ -163,6 +163,13 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	[super textDidEndEditing:notification];
 }
 
+#pragma mark - Bounds
+
+- (NSRect)drawingRectForBounds:(NSRect)theRect
+{
+	return NSInsetRect(theRect, 2.f, 0.f);
+}
+
 @end
 
 // Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
