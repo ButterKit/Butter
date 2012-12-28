@@ -18,9 +18,12 @@
 	self.editable = NO;
 	self.alignment = NSCenterTextAlignment;
 	self.selectable = NO;
-	self.drawsBackground = NO;
 
 	return self;
 }
 
+- (BOOL)drawsBackground
+{
+	return NO;
+}
 @end
