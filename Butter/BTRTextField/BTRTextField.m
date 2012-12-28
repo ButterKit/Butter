@@ -16,8 +16,15 @@
 @interface BTRTextFieldCell : NSTextFieldCell
 @end
 
-const CGFloat BTRTextFieldCornerRadius = 3.f;
-const CGFloat BTRTextFieldInnerRadius = 2.f;
+static const CGFloat BTRTextFieldCornerRadius = 3.f;
+static const CGFloat BTRTextFieldInnerRadius = 2.f;
+static CGFloat const BTRTextFieldXInset = 2.f;
+#define BTRTextFieldBorderColor [NSColor colorWithDeviceWhite:1.f alpha:0.6f]
+#define BTRTextFieldActiveGradientStartingColor [NSColor colorWithCalibratedRed:0.114 green:0.364 blue:0.689 alpha:1.000] 
+#define BTRTextFieldActiveGradientEndingColor [NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1]
+#define BTRTextFieldInactiveGradientStartingColor [NSColor colorWithDeviceWhite:0.6 alpha:1.0]
+#define BTRTextFieldInactiveGradientEndingColor [NSColor colorWithDeviceWhite:0.7 alpha:1.0]
+#define BTRTextFieldFillColor [NSColor whiteColor] 
 
 @implementation BTRTextField {
 	BOOL _btrDrawsBackground;
@@ -114,7 +121,7 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 		[super drawRect:dirtyRect];
 		return;
 	}
-	[[NSColor colorWithDeviceWhite:1.f alpha:0.6f] set];
+	[BTRTextFieldBorderColor set];
 	if (![self isFirstResponder])
 		[[NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] fill];
 	
@@ -122,13 +129,13 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	CGRect borderRect = self.bounds;
 	borderRect.size.height -= 1, borderRect.origin.y += 1;
 	if([self isFirstResponder]) {
-		gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedRed:0.114 green:0.364 blue:0.689 alpha:1.000] endingColor:[NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1]];
+		gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldActiveGradientStartingColor endingColor:BTRTextFieldActiveGradientStartingColor];
 	} else {
-		gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.6 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.7 alpha:1.0]];
+		gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldInactiveGradientStartingColor endingColor:BTRTextFieldInactiveGradientEndingColor];
 	}
 	[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:borderRect xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] angle:-90];
 	
-	[[NSColor whiteColor] set];
+	[BTRTextFieldFillColor set];
 	CGRect innerRect = NSInsetRect(self.bounds, 1, 2);
 	innerRect.size.height += 1;
 	[[NSBezierPath bezierPathWithRoundedRect:innerRect xRadius:BTRTextFieldInnerRadius yRadius:BTRTextFieldInnerRadius] fill];
@@ -162,14 +169,6 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	self.layer.shadowOpacity = 0.f;
 	[super textDidEndEditing:notification];
 }
-
-#pragma mark - Bounds
-
-- (NSRect)drawingRectForBounds:(NSRect)theRect
-{
-	return NSInsetRect(theRect, 2.f, 0.f);
-}
-
 @end
 
 // Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
@@ -202,7 +201,7 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 			newRect.origin.y += (heightDelta / 2);
 		}
 	}
-	
+	newRect = NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
 	return newRect;
 }
 
