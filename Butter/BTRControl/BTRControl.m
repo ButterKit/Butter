@@ -38,14 +38,6 @@
 	return self;
 }
 
-- (NSMutableArray *)actions {
-	if (!_actions) {
-		_actions = [@[] mutableCopy];
-	}
-	return _actions;
-}
-
-
 #pragma mark State
 
 - (BTRControlState)state {
