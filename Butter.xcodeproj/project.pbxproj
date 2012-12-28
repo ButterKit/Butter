@@ -26,7 +26,7 @@
 		03FA6F6C16743D6000491A1D /* BTRCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5C16743D6000491A1D /* BTRCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6D16743D6000491A1D /* BTRCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6F5D16743D6000491A1D /* BTRCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03FA6F6E16743D6000491A1D /* BTRCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */; };
-		ABA67798168C03FA006DD644 /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */; };
+		ABA67798168C03FA006DD644 /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABA67799168C03FA006DD644 /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA67797168C03FA006DD644 /* BTRActivityIndicator.m */; };
 		ABAB86DE167EEEEC003DC0CD /* BTRCollectionViewListLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = ABAB86DC167EEEEC003DC0CD /* BTRCollectionViewListLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABAB86DF167EEEEC003DC0CD /* BTRCollectionViewListLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAB86DD167EEEEC003DC0CD /* BTRCollectionViewListLayout.m */; };
