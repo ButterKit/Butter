@@ -13,6 +13,9 @@
 @property (nonatomic, readonly, getter = isFirstResponder) BOOL firstResponder;
 @end
 
+@interface BTRTextFieldCell : NSTextFieldCell
+@end
+
 const CGFloat BTRTextFieldCornerRadius = 3.f;
 const CGFloat BTRTextFieldInnerRadius = 2.f;
 
@@ -40,6 +43,10 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	super.drawsBackground = NO;
 	self.drawsBackground = YES;
 	self.bezeled = NO;
+	NSTextFieldCell *oldCell = self.cell;
+	BTRTextFieldCell *newCell = [[BTRTextFieldCell alloc] initTextCell:self.stringValue];
+	newCell.placeholderString = oldCell.placeholderString;
+	self.cell = newCell;
 	
 	// Set up the layer styles used to draw a focus ring.
 	self.layer.shadowColor = [NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1].CGColor;
@@ -60,6 +67,11 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 // TODO: Investigate this more.
 - (void)viewDidMoveToWindow {
 	[self setNeedsDisplay:YES];
+}
+
++ (Class)cellClass
+{
+	return [BTRTextFieldCell class];
 }
 
 #pragma mark - Accessors
@@ -131,6 +143,58 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
 	self.layer.shadowOpacity = 0.f;
 	[super textDidEndEditing:notification];
+}
+
+@end
+
+// Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
+// Licensed under MIT
+// <http://www.red-sweater.com/blog/148/what-a-difference-a-cell-makes>
+@implementation BTRTextFieldCell {
+	BOOL _isEditingOrSelecting;
+}
+
+- (NSRect)drawingRectForBounds:(NSRect)theRect
+{
+	// Get the parent's idea of where we should draw
+	NSRect newRect = [super drawingRectForBounds:theRect];
+	
+	// When the text field is being
+	// edited or selected, we have to turn off the magic because it screws up
+	// the configuration of the field editor.  We sneak around this by
+	// intercepting selectWithFrame and editWithFrame and sneaking a
+	// reduced, centered rect in at the last minute.
+	if (_isEditingOrSelecting == NO)
+	{
+		// Get our ideal size for current text
+		NSSize textSize = [self cellSizeForBounds:theRect];
+		
+		// Center that in the proposed rect
+		float heightDelta = newRect.size.height - textSize.height;
+		if (heightDelta > 0)
+		{
+			newRect.size.height -= heightDelta;
+			newRect.origin.y += (heightDelta / 2);
+		}
+	}
+	
+	return newRect;
+}
+
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
+{
+	aRect = [self drawingRectForBounds:aRect];
+	_isEditingOrSelecting = YES;
+	[super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
+	_isEditingOrSelecting = NO;
+}
+
+- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
+{
+	aRect = [self drawingRectForBounds:aRect];
+	_isEditingOrSelecting = YES;
+	[super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
+	_isEditingOrSelecting = NO;
 }
 
 @end
