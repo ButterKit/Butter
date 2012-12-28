@@ -17,3 +17,6 @@
 #import <Butter/BTRTextField.h>
 #import <Butter/BTRSecureTextField.h>
 #import <Butter/BTRLabel.h>
+#import <Butter/NSView+BTRAdditions.h>
+#import <Butter/NSImage+RBLResizableImageAdditions.h>
+#import <Butter/RBLResizableImage.h>
