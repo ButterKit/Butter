@@ -16,7 +16,9 @@
 const CGFloat BTRTextFieldCornerRadius = 3.f;
 const CGFloat BTRTextFieldInnerRadius = 2.f;
 
-@implementation BTRTextField
+@implementation BTRTextField {
+	BOOL _btrDrawsBackground;
+}
 
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
@@ -35,7 +37,8 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 - (void)commonInit {
 	self.wantsLayer = YES;
 	self.focusRingType = NSFocusRingTypeNone;
-	self.drawsBackground = NO;
+	super.drawsBackground = NO;
+	self.drawsBackground = YES;
 	self.bezeled = NO;
 	
 	// Set up the layer styles used to draw a focus ring.
@@ -59,10 +62,28 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	[self setNeedsDisplay:YES];
 }
 
+#pragma mark - Accessors
+
+- (void)setDrawsBackground:(BOOL)flag
+{
+	if (_btrDrawsBackground != flag) {
+		_btrDrawsBackground = flag;
+		[self setNeedsDisplay:YES];
+	}
+}
+
+- (BOOL)drawsBackground
+{
+	return _btrDrawsBackground;
+}
 
 #pragma mark Drawing
 
 - (void)drawRect:(NSRect)dirtyRect {
+	if (!_btrDrawsBackground) {
+		[super drawRect:dirtyRect];
+		return;
+	}
 	[[NSColor whiteColor] set];
 	if (![self isFirstResponder])
 		[[NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] fill];
