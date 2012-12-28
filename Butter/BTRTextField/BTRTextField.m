@@ -86,7 +86,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	super.drawsBackground = NO;
 	self.drawsBackground = YES;
 	self.bezeled = NO;
-	self.enabled = YES;
 	
 	// Set up the layer styles used to draw a focus ring.
 	self.layer.shadowColor = BTRTextFieldShadowColor.CGColor;
