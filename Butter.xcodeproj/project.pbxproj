@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03034054168D89B100697D51 /* BTRSecureTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034052168D89B100697D51 /* BTRSecureTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03034055168D89B100697D51 /* BTRSecureTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034053168D89B100697D51 /* BTRSecureTextField.m */; };
 		03239EB61672E6D6004263D7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239EB51672E6D6004263D7 /* Cocoa.framework */; };
 		03239EC01672E6D6004263D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03239EBE1672E6D6004263D7 /* InfoPlist.strings */; };
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -123,6 +125,8 @@
 
 /* Begin PBXFileReference section */
 		0303403D168D880B00697D51 /* TextFieldDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TextFieldDemo.xcodeproj; path = Butter/Examples/BTRTextField/TextFieldDemo/TextFieldDemo.xcodeproj; sourceTree = "<group>"; };
+		03034052168D89B100697D51 /* BTRSecureTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRSecureTextField.h; path = BTRSecureTextField/BTRSecureTextField.h; sourceTree = "<group>"; };
+		03034053168D89B100697D51 /* BTRSecureTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRSecureTextField.m; path = BTRSecureTextField/BTRSecureTextField.m; sourceTree = "<group>"; };
 		03239EB21672E6D6004263D7 /* Butter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Butter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03239EB51672E6D6004263D7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		03239EB81672E6D6004263D7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -208,6 +212,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		03034051168D896300697D51 /* BTRSecureTextField */ = {
+			isa = PBXGroup;
+			children = (
+				03034052168D89B100697D51 /* BTRSecureTextField.h */,
+				03034053168D89B100697D51 /* BTRSecureTextField.m */,
+			);
+			name = BTRSecureTextField;
+			sourceTree = "<group>";
+		};
 		03239EA61672E6D6004263D7 = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +290,7 @@
 				ABB9D73D167BD6C800ECB31D /* BTRControl */,
 				ABECF05C1685390500BED126 /* BTRButton */,
 				ABECF06D16855FA400BED126 /* BTRTextField */,
+				03034051168D896300697D51 /* BTRSecureTextField */,
 				ABECF06E16855FB000BED126 /* BTRLabel */,
 			);
 			name = Components;
@@ -514,6 +528,7 @@
 				ABECF07116855FCA00BED126 /* BTRTextField.h in Headers */,
 				ABECF07516855FD800BED126 /* BTRLabel.h in Headers */,
 				ABA67798168C03FA006DD644 /* BTRActivityIndicator.h in Headers */,
+				03034054168D89B100697D51 /* BTRSecureTextField.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,6 +707,7 @@
 				ABECF07216855FCA00BED126 /* BTRTextField.m in Sources */,
 				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,
 				ABA67799168C03FA006DD644 /* BTRActivityIndicator.m in Sources */,
+				03034055168D89B100697D51 /* BTRSecureTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

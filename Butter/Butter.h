@@ -15,4 +15,5 @@
 #import <Butter/BTRControl.h>
 #import <Butter/BTRButton.h>
 #import <Butter/BTRTextField.h>
+#import <Butter/BTRSecureTextField.h>
 #import <Butter/BTRLabel.h>
