@@ -57,13 +57,13 @@
 
 // Let super (BTRView) handle the contents, in case -animtesContents is set to YES.
 // Otherwise we don't want any animations on our layer.
-- (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event {
+/*- (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event {
 	if ([event isEqualToString:@"contents"] && layer == self.imageLayer) {
 		return [super actionForLayer:layer forKey:event];
 	}
 	
 	return (id<CAAction>)[NSNull null];
-}
+}*/
 
 - (void)setImage:(NSImage *)image {
 	if (_image == image)
