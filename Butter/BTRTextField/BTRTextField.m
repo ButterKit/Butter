@@ -35,10 +35,10 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 #define BTRTextFieldInactiveGradientStartingColor [NSColor colorWithDeviceWhite:0.6 alpha:1.0]
 #define BTRTextFieldInactiveGradientEndingColor [NSColor colorWithDeviceWhite:0.7 alpha:1.0]
 #define BTRTextFieldFillColor [NSColor whiteColor] 
+#define BTRTextFieldShadowColor [NSColor colorWithDeviceRed:0.19 green:0.51 blue:0.81 alpha:1.0]
 
 @implementation BTRTextField {
 	BOOL _btrDrawsBackground;
-	BOOL _btrIsFirstResponder;
 }
 
 - (id)initWithFrame:(NSRect)frame {
@@ -89,7 +89,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.enabled = YES;
 	
 	// Set up the layer styles used to draw a focus ring.
-	self.layer.shadowColor = [NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1].CGColor;
+	self.layer.shadowColor = BTRTextFieldShadowColor.CGColor;
 	self.layer.shadowOffset = CGSizeZero;
 	self.layer.shadowRadius = 2.f;
 }
