@@ -43,9 +43,25 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	super.drawsBackground = NO;
 	self.drawsBackground = YES;
 	self.bezeled = NO;
+	
+	// Copy over *all* the attributes to the new cell
+	// There really is no other easy way to do this :(
 	NSTextFieldCell *oldCell = self.cell;
 	BTRTextFieldCell *newCell = [[BTRTextFieldCell alloc] initTextCell:self.stringValue];
 	newCell.placeholderString = oldCell.placeholderString;
+	newCell.textColor = oldCell.textColor;
+	newCell.font = oldCell.font;
+	newCell.alignment = oldCell.alignment;
+	newCell.lineBreakMode = oldCell.lineBreakMode;
+	newCell.truncatesLastVisibleLine = oldCell.truncatesLastVisibleLine;
+	newCell.wraps = oldCell.wraps;
+	newCell.baseWritingDirection = oldCell.baseWritingDirection;
+	newCell.attributedStringValue = oldCell.attributedStringValue;
+	newCell.allowsEditingTextAttributes = oldCell.allowsEditingTextAttributes;
+	newCell.action = oldCell.action;
+	newCell.target = oldCell.target;
+	[newCell setEditable:[oldCell isEditable]];
+	[newCell setSelectable:[oldCell isSelectable]];
 	self.cell = newCell;
 	
 	// Set up the layer styles used to draw a focus ring.
