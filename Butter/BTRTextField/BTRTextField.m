@@ -201,8 +201,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 			newRect.origin.y += (heightDelta / 2);
 		}
 	}
-	newRect = NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
-	return newRect;
+	return NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
