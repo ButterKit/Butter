@@ -54,3 +54,12 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 - (void)handleStateChange;
 
 @end
+
+#pragma mark - Private Interface
+
+@interface BTRControlAction : NSObject
+@property (nonatomic, weak) id target;
+@property (nonatomic, assign) SEL action;
+@property (nonatomic, copy) void(^block)(BTRControlEvents events);
+@property (nonatomic, assign) BTRControlEvents events;
+@end

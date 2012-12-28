@@ -21,13 +21,6 @@
 - (void)handleStateChange;
 @end
 
-@interface BTRControlAction : NSObject
-@property (nonatomic, weak) id target;
-@property (nonatomic, assign) SEL action;
-@property (nonatomic, copy) void(^block)(BTRControlEvents events);
-@property (nonatomic, assign) BTRControlEvents events;
-@end
-
 @implementation BTRControlAction
 @end
 
@@ -41,6 +34,7 @@
 	// when they need them if they don't add event handlers. Figure out a better
 	// way to detect whether we need it or not. Alternatively, always use it?
 	self.needsTrackingArea = YES;
+	self.actions = [NSMutableArray array];
 	return self;
 }
 
