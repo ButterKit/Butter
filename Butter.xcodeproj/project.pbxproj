@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		03034054168D89B100697D51 /* BTRSecureTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034052168D89B100697D51 /* BTRSecureTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03034055168D89B100697D51 /* BTRSecureTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034053168D89B100697D51 /* BTRSecureTextField.m */; };
+		03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */; };
+		0303406B168D8E4500697D51 /* RBLResizableImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034067168D8E4500697D51 /* RBLResizableImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0303406C168D8E4500697D51 /* RBLResizableImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034068168D8E4500697D51 /* RBLResizableImage.m */; };
 		03239EB61672E6D6004263D7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239EB51672E6D6004263D7 /* Cocoa.framework */; };
 		03239EC01672E6D6004263D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03239EBE1672E6D6004263D7 /* InfoPlist.strings */; };
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -127,6 +131,10 @@
 		0303403D168D880B00697D51 /* TextFieldDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TextFieldDemo.xcodeproj; path = Butter/Examples/BTRTextField/TextFieldDemo/TextFieldDemo.xcodeproj; sourceTree = "<group>"; };
 		03034052168D89B100697D51 /* BTRSecureTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRSecureTextField.h; path = BTRSecureTextField/BTRSecureTextField.h; sourceTree = "<group>"; };
 		03034053168D89B100697D51 /* BTRSecureTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRSecureTextField.m; path = BTRSecureTextField/BTRSecureTextField.m; sourceTree = "<group>"; };
+		03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+RBLResizableImageAdditions.h"; sourceTree = "<group>"; };
+		03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+RBLResizableImageAdditions.m"; sourceTree = "<group>"; };
+		03034067168D8E4500697D51 /* RBLResizableImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBLResizableImage.h; sourceTree = "<group>"; };
+		03034068168D8E4500697D51 /* RBLResizableImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBLResizableImage.m; sourceTree = "<group>"; };
 		03239EB21672E6D6004263D7 /* Butter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Butter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03239EB51672E6D6004263D7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		03239EB81672E6D6004263D7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -411,6 +419,10 @@
 				ABACCA3C167AD439003EFDD6 /* BTRView.h */,
 				ABACCA3D167AD439003EFDD6 /* BTRView.m */,
 				03E41480167B03D800EACE0F /* BTRCommon.h */,
+				03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */,
+				03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */,
+				03034067168D8E4500697D51 /* RBLResizableImage.h */,
+				03034068168D8E4500697D51 /* RBLResizableImage.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -529,6 +541,8 @@
 				ABECF07516855FD800BED126 /* BTRLabel.h in Headers */,
 				ABA67798168C03FA006DD644 /* BTRActivityIndicator.h in Headers */,
 				03034054168D89B100697D51 /* BTRSecureTextField.h in Headers */,
+				03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */,
+				0303406B168D8E4500697D51 /* RBLResizableImage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +722,8 @@
 				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,
 				ABA67799168C03FA006DD644 /* BTRActivityIndicator.m in Sources */,
 				03034055168D89B100697D51 /* BTRSecureTextField.m in Sources */,
+				0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */,
+				0303406C168D8E4500697D51 /* RBLResizableImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

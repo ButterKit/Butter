@@ -54,7 +54,7 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
 
 @property (nonatomic, assign) CGFloat verticalInterstice;
 @property (nonatomic, assign) CGFloat horizontalInterstice;
-@property (nonatomic, assign) BTREdgeInsets sectionMargins;
+@property (nonatomic, assign) NSEdgeInsets sectionMargins;
 
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, assign) CGRect headerFrame;
@@ -154,7 +154,7 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
         _itemSize = CGSizeMake(50.f, 50.f);
 		_minimumLineSpacing = 10.f;
 		_minimumInteritemSpacing = 10.f;
-		_sectionInset = BTREdgeInsetsZero;
+		_sectionInset = BTRNSEdgeInsetsZero;
 		_scrollDirection = BTRCollectionViewScrollDirectionVertical;
 		_headerReferenceSize = CGSizeZero;
 		_footerReferenceSize = CGSizeZero;

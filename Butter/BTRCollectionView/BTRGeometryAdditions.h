@@ -10,14 +10,15 @@
 
 // Reimplementation of UIEdgeInsets
 
-typedef struct {
-    CGFloat top, left, bottom, right;
-} BTREdgeInsets;
+#define BTRNSEdgeInsetsZero (NSEdgeInsets){0, 0, 0, 0}
 
-#define BTREdgeInsetsZero (BTREdgeInsets){0, 0, 0, 0}
-
-NS_INLINE BTREdgeInsets BTREdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right) {
-    return (BTREdgeInsets){top, left, bottom, right};
+NS_INLINE CGRect BTRNSEdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets) {
+	CGRect newRect = rect;
+	newRect.origin.x += insets.left;
+	newRect.size.width -= insets.right + insets.left;
+	newRect.origin.y += insets.top;
+	newRect.size.height -= insets.top + insets.bottom;
+	return newRect;
 }
 
 // NSString to Data type conversions

@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, BTRCollectionViewScrollDirection) {
 @protocol BTRCollectionViewDelegateFlowLayout <BTRCollectionViewDelegate>
 @optional
 - (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (BTREdgeInsets)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSUInteger)section;
+- (NSEdgeInsets)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSUInteger)section;
 - (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSUInteger)section;
 - (CGFloat)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSUInteger)section;
 - (CGSize)collectionView:(BTRCollectionView *)collectionView layout:(BTRCollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSUInteger)section;
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, BTRCollectionViewScrollDirection) {
 @property (nonatomic) CGSize headerReferenceSize;
 @property (nonatomic) CGSize footerReferenceSize;
 
-@property (nonatomic) BTREdgeInsets sectionInset;
+@property (nonatomic) NSEdgeInsets sectionInset;
 @property (nonatomic, strong) NSDictionary *rowAlignmentOptions;
 
 @end
