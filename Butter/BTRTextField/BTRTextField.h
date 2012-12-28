@@ -23,9 +23,7 @@
 
 // Reimplementation of BTRControl API
 @property (nonatomic, readonly) BTRControlState state;
-@property (nonatomic, getter = isEnabled) BOOL enabled;
 @property (nonatomic, getter = isHighlighted) BOOL highlighted;
-@property (nonatomic, getter = isSelected) BOOL selected;
 @property (nonatomic, readonly) NSInteger clickCount;
 
 - (void)addBlock:(void (^)(BTRControlEvents events))block forControlEvents:(BTRControlEvents)events;

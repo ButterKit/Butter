@@ -38,6 +38,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 @implementation BTRTextField {
 	BOOL _btrDrawsBackground;
+	BOOL _btrIsFirstResponder;
 }
 
 - (id)initWithFrame:(NSRect)frame {
@@ -79,12 +80,13 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.cell = newCell;
 	self.backgroundImages = [NSMutableDictionary dictionary];
 	self.actions = [NSMutableArray array];
-	self.needsTrackingArea = YES;
+	self.needsTrackingArea = NO;
 	
 	self.focusRingType = NSFocusRingTypeNone;
 	super.drawsBackground = NO;
 	self.drawsBackground = YES;
 	self.bezeled = NO;
+	self.enabled = YES;
 	
 	// Set up the layer styles used to draw a focus ring.
 	self.layer.shadowColor = [NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1].CGColor;
@@ -135,7 +137,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (BTRControlState)state {
 	BTRControlState state = BTRControlStateNormal;
 	if (self.highlighted) state |= BTRControlStateHighlighted;
-	if (!self.enabled) state |= BTRControlStateDisabled;
+	if (![self isEnabled]) state |= BTRControlStateDisabled;
 	if (self.mouseHover && !self.highlighted) state |= BTRControlStateHover;
 	return state;
 }
@@ -153,14 +155,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	[super setEnabled:enabled];
 	[self handleStateChange];
 }
-
-// NSTextField does not support a selected state
-
-- (BOOL)isSelected {
-	return NO;
-}
-
-- (void)setSelected:(BOOL)selected {}
 
 #pragma mark Drawing
 
@@ -204,13 +198,11 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 #pragma mark - Public API
 
-- (NSImage *)backgroundImageForControlState:(BTRControlState)state
-{
+- (NSImage *)backgroundImageForControlState:(BTRControlState)state {
 	return _backgroundImages[@(state)];
 }
 
-- (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state
-{
+- (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state {
 	_backgroundImages[@(state)] = image;
 	[self updateState];
 }
@@ -245,6 +237,10 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 - (void)setMouseHover:(BOOL)mouseHover {
 	[self updateStateWithOld:&_mouseHover new:mouseHover];
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+	[self updateStateWithOld:&_highlighted new:highlighted];
 }
 
 - (void)updateStateWithOld:(BOOL *)old new:(BOOL)new {
@@ -377,9 +373,8 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
 	self.layer.shadowOpacity = 1.f;
 	self.backgroundImageView.animatesContents = NO;
-	BOOL become = [super becomeFirstResponder];
-	[self handleStateChange];
-	return become;
+	self.highlighted = YES;
+	return [super becomeFirstResponder];
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification {
@@ -387,7 +382,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.layer.shadowOpacity = 0.f;
 	self.backgroundImageView.animatesContents = self.animatesContents;
 	[super textDidEndEditing:notification];
-	[self handleStateChange];
+	self.highlighted = NO;
 }
 @end
 
