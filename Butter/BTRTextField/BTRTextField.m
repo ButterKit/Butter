@@ -39,10 +39,6 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 
 - (void)commonInit {
 	self.wantsLayer = YES;
-	self.focusRingType = NSFocusRingTypeNone;
-	super.drawsBackground = NO;
-	self.drawsBackground = YES;
-	self.bezeled = NO;
 	
 	// Copy over *all* the attributes to the new cell
 	// There really is no other easy way to do this :(
@@ -60,9 +56,15 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 	newCell.allowsEditingTextAttributes = oldCell.allowsEditingTextAttributes;
 	newCell.action = oldCell.action;
 	newCell.target = oldCell.target;
+	newCell.focusRingType = oldCell.focusRingType;
 	[newCell setEditable:[oldCell isEditable]];
 	[newCell setSelectable:[oldCell isSelectable]];
 	self.cell = newCell;
+	
+	self.focusRingType = NSFocusRingTypeNone;
+	super.drawsBackground = NO;
+	self.drawsBackground = YES;
+	self.bezeled = NO;
 	
 	// Set up the layer styles used to draw a focus ring.
 	self.layer.shadowColor = [NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1].CGColor;
@@ -112,7 +114,7 @@ const CGFloat BTRTextFieldInnerRadius = 2.f;
 		[super drawRect:dirtyRect];
 		return;
 	}
-	[[NSColor whiteColor] set];
+	[[NSColor colorWithDeviceWhite:1.f alpha:0.6f] set];
 	if (![self isFirstResponder])
 		[[NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] fill];
 	
