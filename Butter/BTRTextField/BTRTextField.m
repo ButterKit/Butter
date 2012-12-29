@@ -417,7 +417,8 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 		if (heightDelta > 0)
 		{
 			newRect.size.height -= heightDelta;
-			newRect.origin.y += (heightDelta / 2);
+			// Need to add a pixel on because otherwise it isn't properly vertically centered
+			newRect.origin.y += ceilf(heightDelta / 2) + 1.f;
 		}
 	}
 	return NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
