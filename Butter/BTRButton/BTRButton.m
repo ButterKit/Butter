@@ -11,17 +11,71 @@
 
 @interface BTRButtonContent : NSObject
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSAttributedString *attributedTitle;
+@property (nonatomic, strong) NSColor *titleColor;
+@property (nonatomic, strong) NSShadow *titleShadow;
+@property (nonatomic, strong) NSFont *titleFont;
 @property (nonatomic, strong) NSImage *backgroundImage;
 @end
-@implementation BTRButtonContent
+@implementation BTRButtonContent {
+	NSMutableAttributedString *_attributedTitle;
+}
+@synthesize attributedTitle = _attributedTitle;
+
+- (NSString *)title {
+	return [self.attributedTitle string];
+}
+
+- (void)setTitle:(NSString *)title {
+	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+	style.alignment = NSCenterTextAlignment;
+	style.lineBreakMode = NSLineBreakByTruncatingTail;
+	NSMutableDictionary *attributes = @{NSParagraphStyleAttributeName: style}.mutableCopy;
+	if (self.titleColor) attributes[NSForegroundColorAttributeName] = self.titleColor;
+	if (self.titleShadow) attributes[NSShadowAttributeName] = self.titleShadow;
+	self.attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:@{NSParagraphStyleAttributeName : style}];
+}
+
+- (void)setAttributedTitle:(NSAttributedString *)attributedTitle {
+	_attributedTitle = [attributedTitle mutableCopy];
+}
+
+- (void)setTitleColor:(NSColor *)titleColor {
+	if (titleColor) {
+		[_attributedTitle addAttribute:NSForegroundColorAttributeName value:titleColor range:[self entireStringRange]];
+	} else {
+		[_attributedTitle removeAttribute:NSForegroundColorAttributeName range:[self entireStringRange]];
+	}
+	_titleColor = titleColor;
+}
+
+- (void)setTitleShadow:(NSShadow *)titleShadow {
+	if (titleShadow) {
+		[_attributedTitle addAttribute:NSShadowAttributeName value:titleShadow range:[self entireStringRange]];
+	} else {
+		[_attributedTitle removeAttribute:NSShadowAttributeName range:[self entireStringRange]];
+	}
+	_titleShadow = titleShadow;
+}
+
+- (void)setTitleFont:(NSFont *)titleFont {
+	if (titleFont) {
+		[_attributedTitle addAttribute:NSFontAttributeName value:titleFont range:[self entireStringRange]];
+	} else {
+		[_attributedTitle removeAttribute:NSFontAttributeName range:[self entireStringRange]];
+	}
+	_titleFont = titleFont;
+}
+
+- (NSRange)entireStringRange {
+	return NSMakeRange(0, [_attributedTitle length]);
+}
 @end
 
 @interface BTRButton()
 @property (nonatomic, strong) NSMutableDictionary *content;
-
-@property (nonatomic, strong) BTRLabel *titleLabel;
-@property (nonatomic, strong) BTRImageView *backgroundImageView;
-
+@property (nonatomic, strong, readwrite) BTRLabel *titleLabel;
+@property (nonatomic, strong, readwrite) BTRImageView *imageView;
 - (void)updateState;
 @end
 
@@ -54,14 +108,13 @@
 	[self updateState];
 }
 
-- (BTRImageView *)backgroundImageView {
-	if (!_backgroundImageView) {
-		_backgroundImageView = [[BTRImageView alloc] initWithFrame:self.bounds];
-		[self addSubview:_backgroundImageView];
+- (BTRImageView *)imageView {
+	if (!_imageView) {
+		_imageView = [[BTRImageView alloc] initWithFrame:self.bounds];
+		[self addSubview:_imageView];
 	}
-	return _backgroundImageView;
+	return _imageView;
 }
-
 
 #pragma mark Titles
 
@@ -74,14 +127,74 @@
 	[self updateState];
 }
 
+- (NSAttributedString *)attributedTitleForState:(BTRControlState)state {
+	return [self contentForControlState:state].attributedTitle;
+}
+
+- (void)setAttributedTitle:(NSAttributedString *)title forState:(BTRControlState)state {
+	[self contentForControlState:state].attributedTitle = title;
+	[self updateState];
+}
+
+- (NSColor *)titleColorForState:(BTRControlState)state {
+	return [self contentForControlState:state].titleColor;
+}
+
+- (void)setTitleColor:(NSColor *)color forState:(BTRControlState)state {
+	[self contentForControlState:state].titleColor = color;
+	[self updateState];
+}
+
+- (NSShadow *)titleShadowForState:(BTRControlState)state {
+	return [self contentForControlState:state].titleShadow;
+}
+
+- (void)setTitleShadow:(NSShadow *)shadow forState:(BTRControlState)state {
+	[self contentForControlState:state].titleShadow = shadow;
+	[self updateState];
+}
+
+- (NSFont *)titleFontForState:(BTRControlState)state {
+	return [self contentForControlState:state].titleFont;
+}
+
+- (void)setTitleFont:(NSFont *)font forState:(BTRControlState)state
+{
+	[self contentForControlState:state].titleFont = font;
+	[self updateState];
+}
+
+- (NSString *)currentTitle {
+	return [self contentForControlState:self.state].title;
+}
+
+- (NSAttributedString *)currentAttributedTitle {
+	return [self contentForControlState:self.state].attributedTitle;
+}
+
+- (NSImage *)currentBackgroundImage {
+	return [self contentForControlState:self.state].backgroundImage;
+}
+
+- (NSColor *)currentTitleColor {
+	return [self contentForControlState:self.state].titleColor;
+}
+
+- (NSShadow *)currentTitleShadow {
+	return [self contentForControlState:self.state].titleShadow;
+}
+
+- (NSFont *)currentTitleFont {
+	return [self contentForControlState:self.state].titleFont;
+}
+
 - (BTRLabel *)titleLabel {
 	if (!_titleLabel) {
 		_titleLabel = [[BTRLabel alloc] initWithFrame:self.bounds];
-		[self addSubview:_titleLabel positioned:NSWindowAbove relativeTo:self.backgroundImageView];
+		[self addSubview:_titleLabel positioned:NSWindowAbove relativeTo:self.imageView];
 	}
 	return _titleLabel;
 }
-
 
 #pragma mark State
 
@@ -99,7 +212,7 @@
 		// If the normal state image can't be found, revert back to the default image for the current state.
 		backgroundImage = ([self backgroundImageForControlState:BTRControlStateNormal] ?: [self defaultBackgroundImageForControlState:self.state]);
 	}
-	self.backgroundImageView.image = backgroundImage;
+	self.imageView.image = backgroundImage;
 }
 
 
@@ -115,7 +228,7 @@
 
 - (void)layout {
 	[super layout];
-	self.backgroundImageView.frame = self.bounds;
+	self.imageView.frame = self.bounds;
 	self.titleLabel.frame = self.bounds;
 }
 
@@ -139,27 +252,27 @@
 // or it will appear to be laggy. However, if the user has opted to animate
 // the contents, we animate the transition back out.
 - (void)setHighlighted:(BOOL)highlighted {
-	self.backgroundImageView.animatesContents = (!highlighted && self.animatesContents);
+	self.imageView.animatesContents = (!highlighted && self.animatesContents);
 	[super setHighlighted:highlighted];
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
-	self.backgroundImageView.cornerRadius = cornerRadius;
+	self.imageView.cornerRadius = cornerRadius;
 }
 
 - (CGFloat)cornerRadius {
-	return self.backgroundImageView.cornerRadius;
+	return self.imageView.cornerRadius;
 }
 
 
 #pragma mark Content mode
 
 - (void)setContentMode:(BTRViewContentMode)contentMode {
-	self.backgroundImageView.contentMode = contentMode;
+	self.imageView.contentMode = contentMode;
 }
 
 - (BTRViewContentMode)contentMode {
-	return self.backgroundImageView.contentMode;
+	return self.imageView.contentMode;
 }
 
 @end
