@@ -38,7 +38,7 @@
 		ABAB86DF167EEEEC003DC0CD /* BTRCollectionViewListLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAB86DD167EEEEC003DC0CD /* BTRCollectionViewListLayout.m */; };
 		ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */; };
-		ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA38167AD439003EFDD6 /* BTRClipView.h */; settings = {ATTRIBUTES = (); }; };
+		ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA38167AD439003EFDD6 /* BTRClipView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA41167AD439003EFDD6 /* BTRClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA39167AD439003EFDD6 /* BTRClipView.m */; };
 		ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA3A167AD439003EFDD6 /* BTRScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */; };
