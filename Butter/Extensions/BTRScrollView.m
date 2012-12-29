@@ -36,6 +36,7 @@
 	self.wantsLayer = YES;
 	id documentView = self.documentView;
 	BTRClipView *clipView = [[BTRClipView alloc] initWithFrame:self.contentView.frame];
+	clipView.backgroundColor = [self.contentView backgroundColor];
 	self.contentView = clipView;
 	self.documentView = documentView;
 }
