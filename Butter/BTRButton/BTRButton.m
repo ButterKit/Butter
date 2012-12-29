@@ -33,7 +33,8 @@
 	NSMutableDictionary *attributes = @{NSParagraphStyleAttributeName: style}.mutableCopy;
 	if (self.titleColor) attributes[NSForegroundColorAttributeName] = self.titleColor;
 	if (self.titleShadow) attributes[NSShadowAttributeName] = self.titleShadow;
-	self.attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:@{NSParagraphStyleAttributeName : style}];
+	if (self.titleFont) attributes[NSFontAttributeName] = self.titleFont;
+	self.attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributes];
 }
 
 - (void)setAttributedTitle:(NSAttributedString *)attributedTitle {
