@@ -166,27 +166,27 @@
 }
 
 - (NSString *)currentTitle {
-	return [self contentForControlState:self.state].title;
+	return [self contentForControlState:self.state].title ?: [self contentForControlState:BTRControlStateNormal].title;
 }
 
 - (NSAttributedString *)currentAttributedTitle {
-	return [self contentForControlState:self.state].attributedTitle;
+	return [self contentForControlState:self.state].attributedTitle ?: [self contentForControlState:BTRControlStateNormal].attributedTitle;
 }
 
 - (NSImage *)currentBackgroundImage {
-	return [self contentForControlState:self.state].backgroundImage;
+	return [self contentForControlState:self.state].backgroundImage ?: [self contentForControlState:BTRControlStateNormal].backgroundImage;
 }
 
 - (NSColor *)currentTitleColor {
-	return [self contentForControlState:self.state].titleColor;
+	return [self contentForControlState:self.state].titleColor ?: [self contentForControlState:BTRControlStateNormal].titleColor;
 }
 
 - (NSShadow *)currentTitleShadow {
-	return [self contentForControlState:self.state].titleShadow;
+	return [self contentForControlState:self.state].titleShadow ?: [self contentForControlState:BTRControlStateNormal].titleShadow;
 }
 
 - (NSFont *)currentTitleFont {
-	return [self contentForControlState:self.state].titleFont;
+	return [self contentForControlState:self.state].titleFont ?: [self contentForControlState:BTRControlStateNormal].titleFont;
 }
 
 - (BTRLabel *)titleLabel {
@@ -204,14 +204,13 @@
 }
 
 - (void)updateState {
-	NSString *title = [self titleForControlState:self.state];
-	self.titleLabel.stringValue = title?: @"";
+	self.titleLabel.attributedStringValue = self.currentAttributedTitle;
 	
-	NSImage *backgroundImage = [self backgroundImageForControlState:self.state];
+	NSImage *backgroundImage = self.currentBackgroundImage;
 	if (backgroundImage == nil) {
 		// If we can't find a control state for the current state, we to the normal control state image.
 		// If the normal state image can't be found, revert back to the default image for the current state.
-		backgroundImage = ([self backgroundImageForControlState:BTRControlStateNormal] ?: [self defaultBackgroundImageForControlState:self.state]);
+		backgroundImage = [self defaultBackgroundImageForControlState:self.state];
 	}
 	self.imageView.image = backgroundImage;
 }
