@@ -10,20 +10,28 @@
 
 @implementation BTRLabel
 
+- (void)commonInitForBTRLabel {
+	self.bezeled = NO;
+	self.editable = NO;
+	self.layer.shadowRadius = 0.f;
+	self.selectable = NO;
+}
+
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-	
-	self.bezeled = NO;
-	self.editable = NO;
-	self.alignment = NSCenterTextAlignment;
-	self.selectable = NO;
-
+	[self commonInitForBTRLabel];
 	return self;
 }
 
-- (BOOL)drawsBackground
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self == nil) return nil;
+	[self commonInitForBTRLabel];
+	return self;
+}
+
+- (BOOL)drawsBackground {
 	return NO;
 }
 @end
