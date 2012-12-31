@@ -122,6 +122,7 @@
 	if (_selectedItem != selectedItem) {
 		_selectedItem.state = NSOffState;
 		_selectedItem = selectedItem;
+		_selectedItem.state = NSOnState;
 		[self handleStateChange];
 		[self setNeedsLayout:YES];
 	}
@@ -171,7 +172,6 @@
 
 - (IBAction)popUpMenuSelectedItem:(id)sender {
 	self.selectedItem = sender;
-	[sender setState:NSOnState];
 	[self sendActionsForControlEvents:BTRControlEventValueChanged];
 }
 @end
