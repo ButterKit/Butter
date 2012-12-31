@@ -22,8 +22,13 @@
 - (void)setArrowImage:(NSImage *)image forControlState:(BTRControlState)state;
 
 // Can be overriden by subclasses to customize layout
+// The frame of the image view 
 - (NSRect)imageFrame;
+// The frame of the text label
 - (NSRect)labelFrame;
+// The frame of the arrow image view
 - (NSRect)arrowFrame;
+// The padding between each element (between image and label, and label and arrow)
+- (CGFloat)interElementSpacing;
 @property (nonatomic, strong, readonly) NSImage *currentArrowImage;
 @end

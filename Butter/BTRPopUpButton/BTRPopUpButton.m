@@ -21,8 +21,6 @@
 @property (nonatomic, strong, readwrite) NSMenuItem *selectedItem;
 @end
 
-static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
-
 @implementation BTRPopUpButton
 
 #pragma mark - Initialization
@@ -145,8 +143,8 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 - (NSRect)labelFrame {
 	NSRect imageFrame = [self imageFrame];
 	NSRect arrowFrame = [self arrowFrame];
-	CGFloat xOrigin = NSMaxX(imageFrame) + BTRPopUpButtonElementSpacing;
-	return NSMakeRect(xOrigin, 0.f, NSMinX(arrowFrame) - xOrigin - BTRPopUpButtonElementSpacing, NSHeight(self.bounds));
+	CGFloat xOrigin = NSMaxX(imageFrame) + [self interElementSpacing];
+	return NSMakeRect(xOrigin, 0.f, NSMinX(arrowFrame) - xOrigin - [self interElementSpacing], NSHeight(self.bounds));
 }
 
 - (NSRect)arrowFrame {
@@ -154,6 +152,10 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 	return NSMakeRect(NSMaxX(self.bounds) - arrowWidth, 0.f, arrowWidth, NSHeight(self.bounds));
 }
 
+- (CGFloat)interElementSpacing
+{
+	return 3.f;
+}
 #pragma mark - Mouse Events
 
 - (void)mouseDown:(NSEvent *)theEvent {
