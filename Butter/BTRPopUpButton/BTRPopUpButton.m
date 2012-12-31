@@ -17,10 +17,6 @@
 @property (nonatomic, strong) NSImage *arrowImage;
 @end
 
-@interface BTRPopUpButton ()
-@property (nonatomic, strong, readwrite) NSMenuItem *selectedItem;
-@end
-
 @implementation BTRPopUpButton
 
 #pragma mark - Initialization
@@ -99,6 +95,11 @@
 	return [self popUpButtonContentForState:self.state].arrowImage ?: [self popUpButtonContentForState:BTRControlStateNormal].arrowImage;
 }
 
+- (void)selectItemAtIndex:(NSUInteger)index
+{
+	self.selectedItem = [self.menu itemAtIndex:index];
+}
+
 #pragma mark - Accessors
 
 - (void)setMenu:(NSMenu *)menu {
@@ -152,8 +153,7 @@
 	return NSMakeRect(NSMaxX(self.bounds) - arrowWidth, 0.f, arrowWidth, NSHeight(self.bounds));
 }
 
-- (CGFloat)interElementSpacing
-{
+- (CGFloat)interElementSpacing {
 	return 3.f;
 }
 #pragma mark - Mouse Events
@@ -172,6 +172,7 @@
 - (IBAction)popUpMenuSelectedItem:(id)sender {
 	self.selectedItem = sender;
 	[sender setState:NSOnState];
+	[self sendActionsForControlEvents:BTRControlEventValueChanged];
 }
 @end
 

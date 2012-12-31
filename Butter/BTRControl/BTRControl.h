@@ -54,6 +54,9 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 // mouse events, or by changing the state properties above.
 - (void)handleStateChange;
 
+// This method should be called by subclasses
+- (void)sendActionsForControlEvents:(BTRControlEvents)events;
+
 // Implemented by subclasses. Use it to return a subclass of BTRControlContent that
 // contains additional content properties pertaining to the specific control.
 + (Class)controlContentClass;

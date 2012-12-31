@@ -16,7 +16,9 @@
 @property (nonatomic, strong, readonly) BTRImageView *arrowImageView;
 
 @property (nonatomic, copy) IBOutlet NSMenu *menu;
-@property (nonatomic, strong, readonly) NSMenuItem *selectedItem;
+@property (nonatomic, strong) NSMenuItem *selectedItem;
+
+- (void)selectItemAtIndex:(NSUInteger)index;
 
 - (NSImage *)arrowImageForControlState:(BTRControlState)state;
 - (void)setArrowImage:(NSImage *)image forControlState:(BTRControlState)state;
