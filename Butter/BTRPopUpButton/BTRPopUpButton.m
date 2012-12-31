@@ -30,13 +30,14 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 - (void)commonInitForBTRPopUpButton
 {
 	_label = [[BTRPopUpButtonLabel alloc] initWithFrame:NSZeroRect];
-	_label.layer.backgroundColor = [NSColor blueColor].CGColor;
+	//_label.layer.backgroundColor = [NSColor blueColor].CGColor;
 	_imageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
 	_imageView.contentMode = BTRViewContentModeCenter;
-	_imageView.layer.backgroundColor = [NSColor redColor].CGColor;
+	//_imageView.layer.backgroundColor = [NSColor redColor].CGColor;
 	_arrowImageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
 	_arrowImageView.contentMode = BTRViewContentModeCenter;
 	_backgroundImageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
+	self.layer.masksToBounds = YES;
 	[self addSubview:_backgroundImageView];
 	[self addSubview:_imageView];
 	[self addSubview:_label];
@@ -104,7 +105,6 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 
 - (void)setMenu:(NSMenu *)menu {
 	if (_menu != menu) {
-		self.selectedItem.state = NSOffState;
 		self.selectedItem = nil;
 		_menu = [menu copy];
 		_menu.autoenablesItems = YES;
@@ -121,6 +121,7 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 
 - (void)setSelectedItem:(NSMenuItem *)selectedItem {
 	if (_selectedItem != selectedItem) {
+		_selectedItem.state = NSOffState;
 		_selectedItem = selectedItem;
 		[self handleStateChange];
 		[self setNeedsLayout:YES];

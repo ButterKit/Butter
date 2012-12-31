@@ -329,6 +329,13 @@
 }
 @synthesize attributedTitle = _attributedTitle;
 
+- (void)setBackgroundImage:(NSImage *)backgroundImage {
+	if (_backgroundImage != backgroundImage) {
+		_backgroundImage = backgroundImage;
+		[self controlContentChanged];
+	}
+}
+
 - (NSString *)title {
 	return [self.attributedTitle string];
 }
@@ -383,17 +390,15 @@
 	return NSMakeRange(0, [_attributedTitle length]);
 }
 
-+ (NSDictionary *)defaultTitleAttributes
-{
++ (NSDictionary *)defaultTitleAttributes {
 	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
 	style.alignment = NSCenterTextAlignment;
 	style.lineBreakMode = NSLineBreakByTruncatingTail;
 	return @{NSParagraphStyleAttributeName: style};
 }
 
-- (void)controlContentChanged
-{
-	if (self.control.state & self.state) {
+- (void)controlContentChanged {
+	if ((self.control.state & self.state) == self.state) {
 		[self.control handleStateChange];
 	}
 }
