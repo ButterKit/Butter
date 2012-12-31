@@ -88,7 +88,6 @@
 	}
 }
 
-
 #pragma mark Layer properties
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
@@ -98,7 +97,6 @@
 - (CGFloat)cornerRadius {
 	return self.imageLayer.cornerRadius;
 }
-
 
 #pragma mark Content mode
 

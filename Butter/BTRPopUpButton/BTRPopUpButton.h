@@ -12,7 +12,10 @@
 @property (nonatomic, strong, readonly) BTRImageView *imageView;
 @property (nonatomic, strong, readonly) BTRLabel *label;
 @property (nonatomic, strong, readonly) BTRImageView *arrowImageView;
+@property (nonatomic, strong) NSMenu *menu;
+@property (nonatomic, strong, readonly) NSMenuItem *selectedItem;
 
 - (NSImage *)arrowImageForControlState:(BTRControlState)state;
 - (void)setArrowImage:(NSImage *)image forControlState:(BTRControlState)state;
+@property (nonatomic, strong, readonly) NSImage *currentArrowImage;
 @end
