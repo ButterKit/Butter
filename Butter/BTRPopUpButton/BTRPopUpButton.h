@@ -11,8 +11,11 @@
 @interface BTRPopUpButton : BTRControl
 @property (nonatomic, strong, readonly) BTRImageView *imageView;
 @property (nonatomic, strong, readonly) BTRLabel *label;
+
+@property (nonatomic, strong, readonly) BTRImageView *backgroundImageView;
 @property (nonatomic, strong, readonly) BTRImageView *arrowImageView;
-@property (nonatomic, strong) NSMenu *menu;
+
+@property (nonatomic, copy) IBOutlet NSMenu *menu;
 @property (nonatomic, strong, readonly) NSMenuItem *selectedItem;
 
 - (NSImage *)arrowImageForControlState:(BTRControlState)state;

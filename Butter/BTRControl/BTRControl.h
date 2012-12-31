@@ -106,7 +106,7 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 
 // Subclasses can use this to return text attributes that the
 // attributedTitle should use by default
-- (NSDictionary *)defaultTitleAttributes;
++ (NSDictionary *)defaultTitleAttributes;
 @end
 
 #pragma mark - Private Interface

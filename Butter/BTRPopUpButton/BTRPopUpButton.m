@@ -17,6 +17,10 @@
 @property (nonatomic, strong) NSImage *arrowImage;
 @end
 
+@interface BTRPopUpButton ()
+@property (nonatomic, strong, readwrite) NSMenuItem *selectedItem;
+@end
+
 static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 
 @implementation BTRPopUpButton
@@ -26,10 +30,17 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 - (void)commonInitForBTRPopUpButton
 {
 	_label = [[BTRPopUpButtonLabel alloc] initWithFrame:NSZeroRect];
+	_label.layer.backgroundColor = [NSColor blueColor].CGColor;
 	_imageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
 	_imageView.contentMode = BTRViewContentModeCenter;
+	_imageView.layer.backgroundColor = [NSColor redColor].CGColor;
 	_arrowImageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
 	_arrowImageView.contentMode = BTRViewContentModeCenter;
+	_backgroundImageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
+	[self addSubview:_backgroundImageView];
+	[self addSubview:_imageView];
+	[self addSubview:_label];
+	[self addSubview:_arrowImageView];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -56,11 +67,23 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 	return (BTRPopUpButtonContent *)[self contentForControlState:state];
 }
 
-- (void)handleStateChange
-{
-	self.label.attributedStringValue = self.currentAttributedTitle;
+- (void)handleStateChange {
+	NSString *title = self.selectedItem.title;
+	if (title) {
+		NSMutableDictionary *textAttributes = [BTRPopUpButtonContent defaultTitleAttributes].mutableCopy;
+		NSColor *textColor = self.currentTitleColor;
+		NSShadow *textShadow = self.currentTitleShadow;
+		NSFont *textFont = self.currentTitleFont;
+		if (textColor) textAttributes[NSForegroundColorAttributeName] = textColor;
+		if (textShadow) textAttributes[NSShadowAttributeName] = textShadow;
+		if (textFont) textAttributes[NSFontAttributeName] = textFont;
+		self.label.attributedStringValue = [[NSAttributedString alloc] initWithString:title attributes:textAttributes];
+	} else {
+		self.label.attributedStringValue = nil;
+	}
 	self.arrowImageView.image = self.currentArrowImage;
-	self.imageView.image = self.currentBackgroundImage;
+	self.backgroundImageView.image = self.currentBackgroundImage;
+	self.imageView.image = self.selectedItem.image;
 }
 
 #pragma mark - Public Methods
@@ -77,12 +100,39 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 	return [self popUpButtonContentForState:self.state].arrowImage ?: [self popUpButtonContentForState:BTRControlStateNormal].arrowImage;
 }
 
+#pragma mark - Accessors
+
+- (void)setMenu:(NSMenu *)menu {
+	if (_menu != menu) {
+		self.selectedItem.state = NSOffState;
+		self.selectedItem = nil;
+		_menu = [menu copy];
+		_menu.autoenablesItems = YES;
+		[_menu.itemArray enumerateObjectsUsingBlock:^(NSMenuItem *item, NSUInteger idx, BOOL *stop) {
+			item.target = self;
+			item.action = @selector(popUpMenuSelectedItem:);
+		}];
+		if ([menu numberOfItems]) {
+			self.selectedItem = [menu itemAtIndex:0];
+			self.selectedItem.state = NSOnState;
+		}
+	}
+}
+
+- (void)setSelectedItem:(NSMenuItem *)selectedItem {
+	if (_selectedItem != selectedItem) {
+		_selectedItem = selectedItem;
+		[self handleStateChange];
+		[self setNeedsLayout:YES];
+	}
+}
+
 #pragma mark - NSView
 
 - (void)layout {
 	[super layout];
 	NSRect imageFrame, titleFrame, arrowFrame;
-	NSDivideRect(self.bounds, &imageFrame, &titleFrame, self.currentBackgroundImage.size.width, NSMinXEdge);
+	NSDivideRect(self.bounds, &imageFrame, &titleFrame, self.selectedItem.image.size.width, NSMinXEdge);
 	titleFrame.origin.x += BTRPopUpButtonElementSpacing;
 	titleFrame.size.width -= BTRPopUpButtonElementSpacing;
 	NSDivideRect(titleFrame, &arrowFrame, &titleFrame, self.currentArrowImage.size.width, NSMaxXEdge);
@@ -90,24 +140,40 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 	self.imageView.frame = imageFrame;
 	self.label.frame = titleFrame;
 	self.arrowImageView.frame = arrowFrame;
+	self.backgroundImageView.frame = self.bounds;
 }
 
 #pragma mark - Mouse Events
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	[super mouseDown:theEvent];
-	if (self.menu)
-		[NSMenu popUpContextMenu:self.menu withEvent:theEvent forView:self];
+	if (self.menu) {
+		NSPoint location = [self convertPoint:self.bounds.origin toView:nil];
+		NSEvent *synthesizedEvent = [NSEvent mouseEventWithType:theEvent.type location:location modifierFlags:theEvent.modifierFlags timestamp:theEvent.timestamp windowNumber:theEvent.windowNumber context:theEvent.context eventNumber:theEvent.eventNumber clickCount:theEvent.clickCount pressure:theEvent.pressure];
+		[NSMenu popUpContextMenu:self.menu withEvent:synthesizedEvent forView:self];
+	}
+}
+
+#pragma mark - Menu Events
+
+- (IBAction)popUpMenuSelectedItem:(id)sender {
+	self.selectedItem = sender;
+	[sender setState:NSOnState];
 }
 @end
 
 @implementation BTRPopUpButtonContent
-- (void)setArrowImage:(NSImage *)arrowImage
-{
+- (void)setArrowImage:(NSImage *)arrowImage {
 	if (_arrowImage != arrowImage) {
 		_arrowImage = arrowImage;
 		[self controlContentChanged];
 	}
+}
+
++ (NSDictionary *)defaultTitleAttributes {
+	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+	style.lineBreakMode = NSLineBreakByTruncatingTail;
+	return @{NSParagraphStyleAttributeName: style};
 }
 @end
 

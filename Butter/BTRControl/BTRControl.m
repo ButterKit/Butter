@@ -337,7 +337,7 @@
 	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
 	style.alignment = NSCenterTextAlignment;
 	style.lineBreakMode = NSLineBreakByTruncatingTail;
-	NSMutableDictionary *attributes = [self defaultTitleAttributes].mutableCopy;
+	NSMutableDictionary *attributes = [self.class defaultTitleAttributes].mutableCopy;
 	if (self.titleColor) attributes[NSForegroundColorAttributeName] = self.titleColor;
 	if (self.titleShadow) attributes[NSShadowAttributeName] = self.titleShadow;
 	if (self.titleFont) attributes[NSFontAttributeName] = self.titleFont;
@@ -383,7 +383,7 @@
 	return NSMakeRange(0, [_attributedTitle length]);
 }
 
-- (NSDictionary *)defaultTitleAttributes
++ (NSDictionary *)defaultTitleAttributes
 {
 	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
 	style.alignment = NSCenterTextAlignment;
