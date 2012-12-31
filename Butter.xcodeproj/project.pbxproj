@@ -17,7 +17,7 @@
 		03239EC01672E6D6004263D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03239EBE1672E6D6004263D7 /* InfoPlist.strings */; };
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
-		036E245A169123CE00376C68 /* BTRPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 036E2458169123CE00376C68 /* BTRPopUpButton.h */; };
+		036E245A169123CE00376C68 /* BTRPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 036E2458169123CE00376C68 /* BTRPopUpButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		036E245B169123CE00376C68 /* BTRPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 036E2459169123CE00376C68 /* BTRPopUpButton.m */; };
 		03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E41480167B03D800EACE0F /* BTRCommon.h */; };
 		03FA6F0016743BD700491A1D /* NSValue+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */; };
