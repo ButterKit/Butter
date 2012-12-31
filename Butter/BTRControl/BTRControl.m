@@ -306,7 +306,6 @@
 	}
 	
 	[self sendActionsForControlEvents:events];
-	
 	self.highlighted = NO;
 }
 

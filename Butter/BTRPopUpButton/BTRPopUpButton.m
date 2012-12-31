@@ -142,7 +142,7 @@
 }
 
 - (NSRect)imageFrame {
-	return NSMakeRect(0.f, 0.f, self.selectedItem.image.size.width, NSHeight(self.bounds));
+	return NSMakeRect([self edgeInset], 0.f, self.selectedItem.image.size.width, NSHeight(self.bounds));
 }
 
 - (NSRect)labelFrame {
@@ -154,16 +154,31 @@
 
 - (NSRect)arrowFrame {
 	CGFloat arrowWidth = self.currentArrowImage.size.width;
-	return NSMakeRect(NSMaxX(self.bounds) - arrowWidth, 0.f, arrowWidth, NSHeight(self.bounds));
+	return NSMakeRect(NSMaxX(self.bounds) - arrowWidth - [self edgeInset], 0.f, arrowWidth, NSHeight(self.bounds));
 }
 
 - (CGFloat)interElementSpacing {
 	return 3.f;
 }
+
+- (CGFloat)edgeInset {
+	return 6.f;
+}
+
+- (CGFloat)widthToFit {
+	return  self.selectedItem.image.size.width + self.label.attributedStringValue.size.width + self.currentArrowImage.size.width + (2.f * [self edgeInset]) + (2.f * [self interElementSpacing]);
+}
+
+- (void)sizeToFit {
+	NSRect newFrame = self.frame;
+	newFrame.size.width = [self widthToFit];
+	self.frame = newFrame;
+}
+
 #pragma mark - Mouse Events
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	[super mouseDown:theEvent];
+	//[super mouseDown:theEvent];
 	if (self.menu) {
 		NSPoint location = [self convertPoint:self.bounds.origin toView:nil];
 		NSEvent *synthesizedEvent = [NSEvent mouseEventWithType:theEvent.type location:location modifierFlags:theEvent.modifierFlags timestamp:theEvent.timestamp windowNumber:theEvent.windowNumber context:theEvent.context eventNumber:theEvent.eventNumber clickCount:theEvent.clickCount pressure:theEvent.pressure];
@@ -176,6 +191,7 @@
 - (IBAction)popUpMenuSelectedItem:(id)sender {
 	self.selectedItem = sender;
 	[self sendActionsForControlEvents:BTRControlEventValueChanged];
+	[self handleStateChange];
 }
 @end
 
