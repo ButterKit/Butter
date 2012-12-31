@@ -178,7 +178,7 @@
 #pragma mark - Mouse Events
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	//[super mouseDown:theEvent];
+	[super mouseDown:theEvent];
 	if (self.menu) {
 		NSPoint location = [self convertPoint:self.bounds.origin toView:nil];
 		NSEvent *synthesizedEvent = [NSEvent mouseEventWithType:theEvent.type location:location modifierFlags:theEvent.modifierFlags timestamp:theEvent.timestamp windowNumber:theEvent.windowNumber context:theEvent.context eventNumber:theEvent.eventNumber clickCount:theEvent.clickCount pressure:theEvent.pressure];
@@ -192,6 +192,10 @@
 	self.selectedItem = sender;
 	[self sendActionsForControlEvents:BTRControlEventValueChanged];
 	[self handleStateChange];
+	// When the menu closes, neither mouseUp or mouseEntered are called.
+	// Call them manually to display the proper state
+	[self mouseUp:nil];
+	[self mouseExited:nil];
 }
 @end
 

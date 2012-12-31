@@ -250,8 +250,6 @@
 	self.mouseInside = YES;
 	self.mouseHover = YES;
 	[self sendActionsForControlEvents:BTRControlEventMouseEntered];
-	if (self.mouseDown)
-		self.highlighted = YES;
 }
 
 - (void)mouseExited:(NSEvent *)event {
@@ -259,7 +257,6 @@
 	self.mouseInside = NO;
 	self.mouseHover = NO;
 	[self sendActionsForControlEvents:BTRControlEventMouseExited];
-	self.highlighted = NO;
 }
 
 //- (void)mouseDragged:(NSEvent *)theEvent {
