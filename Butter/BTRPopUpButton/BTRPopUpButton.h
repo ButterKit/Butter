@@ -20,5 +20,10 @@
 
 - (NSImage *)arrowImageForControlState:(BTRControlState)state;
 - (void)setArrowImage:(NSImage *)image forControlState:(BTRControlState)state;
+
+// Can be overriden by subclasses to customize layout
+- (NSRect)imageFrame;
+- (NSRect)labelFrame;
+- (NSRect)arrowFrame;
 @property (nonatomic, strong, readonly) NSImage *currentArrowImage;
 @end

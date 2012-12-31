@@ -132,16 +132,26 @@ static CGFloat const BTRPopUpButtonElementSpacing = 5.f;
 
 - (void)layout {
 	[super layout];
-	NSRect imageFrame, titleFrame, arrowFrame;
-	NSDivideRect(self.bounds, &imageFrame, &titleFrame, self.selectedItem.image.size.width, NSMinXEdge);
-	titleFrame.origin.x += BTRPopUpButtonElementSpacing;
-	titleFrame.size.width -= BTRPopUpButtonElementSpacing;
-	NSDivideRect(titleFrame, &arrowFrame, &titleFrame, self.currentArrowImage.size.width, NSMaxXEdge);
-	titleFrame.size.width -= BTRPopUpButtonElementSpacing;
-	self.imageView.frame = imageFrame;
-	self.label.frame = titleFrame;
-	self.arrowImageView.frame = arrowFrame;
+	self.imageView.frame = [self imageFrame];
+	self.label.frame = [self labelFrame];
+	self.arrowImageView.frame = [self arrowFrame];
 	self.backgroundImageView.frame = self.bounds;
+}
+
+- (NSRect)imageFrame {
+	return NSMakeRect(0.f, 0.f, self.selectedItem.image.size.width, NSHeight(self.bounds));
+}
+
+- (NSRect)labelFrame {
+	NSRect imageFrame = [self imageFrame];
+	NSRect arrowFrame = [self arrowFrame];
+	CGFloat xOrigin = NSMaxX(imageFrame) + BTRPopUpButtonElementSpacing;
+	return NSMakeRect(xOrigin, 0.f, NSMinX(arrowFrame) - xOrigin - BTRPopUpButtonElementSpacing, NSHeight(self.bounds));
+}
+
+- (NSRect)arrowFrame {
+	CGFloat arrowWidth = self.currentArrowImage.size.width;
+	return NSMakeRect(NSMaxX(self.bounds) - arrowWidth, 0.f, arrowWidth, NSHeight(self.bounds));
 }
 
 #pragma mark - Mouse Events
