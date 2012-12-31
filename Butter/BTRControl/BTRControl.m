@@ -11,6 +11,7 @@
 @interface BTRControl()
 @property (nonatomic, strong) NSMutableArray *actions;
 @property (nonatomic, strong) NSTrackingArea *trackingArea;
+@property (nonatomic, strong) NSMutableDictionary *content;
 
 @property (nonatomic, readwrite) NSInteger clickCount;
 @property (nonatomic) BOOL needsTrackingArea;
@@ -21,23 +22,131 @@
 - (void)handleStateChange;
 @end
 
+@interface BTRControlContent ()
+@property (nonatomic, assign) BTRControlState state;
+@property (nonatomic, weak) BTRControl *control;
+@end
+
 @implementation BTRControlAction
 @end
 
 @implementation BTRControl
 
-- (id)initWithFrame:(NSRect)frame {
-	self = [super initWithFrame:frame];
-	if (self == nil) return nil;
+- (void)commonInitForBTRControl {
 	self.enabled = YES;
 	//TODO: If this isn't enabled, then subclasses might not get mouse events
 	// when they need them if they don't add event handlers. Figure out a better
 	// way to detect whether we need it or not. Alternatively, always use it?
 	self.needsTrackingArea = YES;
 	self.actions = [NSMutableArray array];
+	self.content = [NSMutableDictionary dictionary];
+}
+
+- (id)initWithFrame:(NSRect)frame {
+	self = [super initWithFrame:frame];
+	if (self == nil) return nil;
+	[self commonInitForBTRControl];
 	return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self == nil) return nil;
+	[self commonInitForBTRControl];
+	return self;
+}
+
+#pragma mark - Public API
+
++ (Class)controlContentClass {
+	return [BTRControlContent class];
+}
+
+- (BTRControlContent *)contentForControlState:(BTRControlState)state {
+	Class contentClass = [self.class controlContentClass];
+	id content = self.content[@(state)];
+	if (!content) {
+		content = [contentClass new];
+		[(BTRControlContent *)content setState:state];
+		[(BTRControlContent *)content setControl:self];
+		self.content[@(state)] = content;
+	}
+	return content;
+}
+
+#pragma mark - Convenience Methods
+
+- (NSImage *)backgroundImageForControlState:(BTRControlState)state {
+	return [self contentForControlState:state].backgroundImage;
+}
+
+- (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state {
+	[self contentForControlState:state].backgroundImage = image;
+}
+
+- (NSString *)titleForControlState:(BTRControlState)state {
+	return [self contentForControlState:state].title;
+}
+
+- (void)setTitle:(NSString *)title forControlState:(BTRControlState)state {
+	[self contentForControlState:state].title = title;
+}
+
+- (NSAttributedString *)attributedTitleForState:(BTRControlState)state {
+	return [self contentForControlState:state].attributedTitle;
+}
+
+- (void)setAttributedTitle:(NSAttributedString *)title forState:(BTRControlState)state {
+	[self contentForControlState:state].attributedTitle = title;
+}
+
+- (NSColor *)titleColorForState:(BTRControlState)state {
+	return [self contentForControlState:state].titleColor;
+}
+
+- (void)setTitleColor:(NSColor *)color forState:(BTRControlState)state {
+	[self contentForControlState:state].titleColor = color;
+}
+
+- (NSShadow *)titleShadowForState:(BTRControlState)state {
+	return [self contentForControlState:state].titleShadow;
+}
+
+- (void)setTitleShadow:(NSShadow *)shadow forState:(BTRControlState)state {
+	[self contentForControlState:state].titleShadow = shadow;
+}
+
+- (NSFont *)titleFontForState:(BTRControlState)state {
+	return [self contentForControlState:state].titleFont;
+}
+
+- (void)setTitleFont:(NSFont *)font forState:(BTRControlState)state {
+	[self contentForControlState:state].titleFont = font;
+}
+
+- (NSString *)currentTitle {
+	return [self contentForControlState:self.state].title ?: [self contentForControlState:BTRControlStateNormal].title;
+}
+
+- (NSAttributedString *)currentAttributedTitle {
+	return [self contentForControlState:self.state].attributedTitle ?: [self contentForControlState:BTRControlStateNormal].attributedTitle;
+}
+
+- (NSImage *)currentBackgroundImage {
+	return [self contentForControlState:self.state].backgroundImage ?: [self contentForControlState:BTRControlStateNormal].backgroundImage;
+}
+
+- (NSColor *)currentTitleColor {
+	return [self contentForControlState:self.state].titleColor ?: [self contentForControlState:BTRControlStateNormal].titleColor;
+}
+
+- (NSShadow *)currentTitleShadow {
+	return [self contentForControlState:self.state].titleShadow ?: [self contentForControlState:BTRControlStateNormal].titleShadow;
+}
+
+- (NSFont *)currentTitleFont {
+	return [self contentForControlState:self.state].titleFont ?: [self contentForControlState:BTRControlStateNormal].titleFont;
+}
 #pragma mark State
 
 - (BTRControlState)state {
@@ -214,3 +323,79 @@
 }
 
 @end
+
+@implementation BTRControlContent {
+	NSMutableAttributedString *_attributedTitle;
+}
+@synthesize attributedTitle = _attributedTitle;
+
+- (NSString *)title {
+	return [self.attributedTitle string];
+}
+
+- (void)setTitle:(NSString *)title {
+	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+	style.alignment = NSCenterTextAlignment;
+	style.lineBreakMode = NSLineBreakByTruncatingTail;
+	NSMutableDictionary *attributes = [self defaultTitleAttributes].mutableCopy;
+	if (self.titleColor) attributes[NSForegroundColorAttributeName] = self.titleColor;
+	if (self.titleShadow) attributes[NSShadowAttributeName] = self.titleShadow;
+	if (self.titleFont) attributes[NSFontAttributeName] = self.titleFont;
+	self.attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributes];
+}
+
+- (void)setAttributedTitle:(NSAttributedString *)attributedTitle {
+	_attributedTitle = [attributedTitle mutableCopy];
+	[self controlContentChanged];
+}
+
+- (void)setTitleColor:(NSColor *)titleColor {
+	if (titleColor) {
+		[_attributedTitle addAttribute:NSForegroundColorAttributeName value:titleColor range:[self entireStringRange]];
+	} else {
+		[_attributedTitle removeAttribute:NSForegroundColorAttributeName range:[self entireStringRange]];
+	}
+	_titleColor = titleColor;
+	[self controlContentChanged];
+}
+
+- (void)setTitleShadow:(NSShadow *)titleShadow {
+	if (titleShadow) {
+		[_attributedTitle addAttribute:NSShadowAttributeName value:titleShadow range:[self entireStringRange]];
+	} else {
+		[_attributedTitle removeAttribute:NSShadowAttributeName range:[self entireStringRange]];
+	}
+	_titleShadow = titleShadow;
+	[self controlContentChanged];
+}
+
+- (void)setTitleFont:(NSFont *)titleFont {
+	if (titleFont) {
+		[_attributedTitle addAttribute:NSFontAttributeName value:titleFont range:[self entireStringRange]];
+	} else {
+		[_attributedTitle removeAttribute:NSFontAttributeName range:[self entireStringRange]];
+	}
+	_titleFont = titleFont;
+	[self controlContentChanged];
+}
+
+- (NSRange)entireStringRange {
+	return NSMakeRange(0, [_attributedTitle length]);
+}
+
+- (NSDictionary *)defaultTitleAttributes
+{
+	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+	style.alignment = NSCenterTextAlignment;
+	style.lineBreakMode = NSLineBreakByTruncatingTail;
+	return @{NSParagraphStyleAttributeName: style};
+}
+
+- (void)controlContentChanged
+{
+	if (self.control.state & self.state) {
+		[self.control handleStateChange];
+	}
+}
+@end
+
