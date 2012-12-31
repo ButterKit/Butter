@@ -142,7 +142,8 @@
 }
 
 - (NSRect)imageFrame {
-	return NSMakeRect([self edgeInset], 0.f, self.selectedItem.image.size.width, NSHeight(self.bounds));
+	NSSize imageSize = self.selectedItem.image.size;
+	return NSMakeRect([self edgeInset], roundf(NSMidY(self.bounds) - (imageSize.height / 2.f)), imageSize.width, imageSize.height);
 }
 
 - (NSRect)labelFrame {
@@ -153,8 +154,8 @@
 }
 
 - (NSRect)arrowFrame {
-	CGFloat arrowWidth = self.currentArrowImage.size.width;
-	return NSMakeRect(NSMaxX(self.bounds) - arrowWidth - [self edgeInset], 0.f, arrowWidth, NSHeight(self.bounds));
+	NSSize arrowSize = self.currentArrowImage.size;
+	return NSMakeRect(NSMaxX(self.bounds) - arrowSize.width - [self edgeInset], roundf(NSMidY(self.bounds) - (arrowSize.height / 2.f)), arrowSize.width, arrowSize.height);
 }
 
 - (CGFloat)interElementSpacing {
