@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSMenuItem *selectedItem;
 
 - (void)selectItemAtIndex:(NSUInteger)index;
+- (NSUInteger)indexOfSelectedItem;
 
 - (NSImage *)arrowImageForControlState:(BTRControlState)state;
 - (void)setArrowImage:(NSImage *)image forControlState:(BTRControlState)state;

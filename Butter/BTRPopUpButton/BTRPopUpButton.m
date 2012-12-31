@@ -95,9 +95,12 @@
 	return [self popUpButtonContentForState:self.state].arrowImage ?: [self popUpButtonContentForState:BTRControlStateNormal].arrowImage;
 }
 
-- (void)selectItemAtIndex:(NSUInteger)index
-{
+- (void)selectItemAtIndex:(NSUInteger)index {
 	self.selectedItem = [self.menu itemAtIndex:index];
+}
+
+- (NSUInteger)indexOfSelectedItem {
+	return [self.menu indexOfItem:self.selectedItem];
 }
 
 #pragma mark - Accessors
