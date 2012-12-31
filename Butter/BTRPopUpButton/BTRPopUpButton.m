@@ -134,11 +134,11 @@
 #pragma mark - NSView
 
 - (void)layout {
-	[super layout];
 	self.imageView.frame = [self imageFrame];
 	self.label.frame = [self labelFrame];
 	self.arrowImageView.frame = [self arrowFrame];
 	self.backgroundImageView.frame = self.bounds;
+	[super layout];
 }
 
 - (NSRect)imageFrame {
