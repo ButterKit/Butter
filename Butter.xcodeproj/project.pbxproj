@@ -87,6 +87,13 @@
 			remoteGlobalIDString = 03594AA41671C9BF0025210A;
 			remoteInfo = BasicExample;
 		};
+		AB7996C016914FE300B1FF7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB799683169146CC00B1FF7E;
+			remoteInfo = "Popup Button Demo";
+		};
 		ABA67773168AC94B006DD644 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABA6776F168AC94A006DD644 /* ActivityIndicator Demo.xcodeproj */;
@@ -167,6 +174,7 @@
 		03FA6F5E16743D6000491A1D /* BTRCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRCollectionViewCell.m; path = Butter/BTRCollectionView/BTRCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
 		03FA702916746A7900491A1D /* CircleLayout.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CircleLayout.xcodeproj; path = Butter/Examples/BTRCollectionView/CircleLayout/CircleLayout.xcodeproj; sourceTree = "<group>"; };
 		03FA703316746A7F00491A1D /* BasicExample.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BasicExample.xcodeproj; path = Butter/Examples/BTRCollectionView/BasicExample/BasicExample.xcodeproj; sourceTree = "<group>"; };
+		AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Popup Button Demo.xcodeproj"; path = "Butter/Examples/BTRPopUpButton/Popup Button Demo/Popup Button Demo.xcodeproj"; sourceTree = "<group>"; };
 		ABA6776F168AC94A006DD644 /* ActivityIndicator Demo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ActivityIndicator Demo.xcodeproj"; path = "Butter/Examples/BTRActivityIndicator/ActivityIndicator Demo/ActivityIndicator Demo.xcodeproj"; sourceTree = "<group>"; };
 		ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRActivityIndicator.h; sourceTree = "<group>"; };
 		ABA67797168C03FA006DD644 /* BTRActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRActivityIndicator.m; sourceTree = "<group>"; };
@@ -342,6 +350,7 @@
 		03FA702616746A6600491A1D /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				AB7996B316914FD300B1FF7E /* BTRPopUpButton */,
 				03034013168D87E900697D51 /* BTRTextField */,
 				ABA67745168AC90D006DD644 /* BTRActivityIndicator */,
 				ABECF0771685636200BED126 /* BTRButton */,
@@ -395,6 +404,22 @@
 			);
 			name = BTRCollectionView;
 			path = BTRCollectionView/BTRCollectionView;
+			sourceTree = "<group>";
+		};
+		AB7996B316914FD300B1FF7E /* BTRPopUpButton */ = {
+			isa = PBXGroup;
+			children = (
+				AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */,
+			);
+			name = BTRPopUpButton;
+			sourceTree = "<group>";
+		};
+		AB7996BD16914FE300B1FF7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB7996C116914FE300B1FF7E /* Popup Button Demo.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		ABA67745168AC90D006DD644 /* BTRActivityIndicator */ = {
@@ -629,6 +654,10 @@
 					ProjectRef = ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */;
 				},
 				{
+					ProductGroup = AB7996BD16914FE300B1FF7E /* Products */;
+					ProjectRef = AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */;
+				},
+				{
 					ProductGroup = ABE938E816792D6000A7A1B8 /* Products */;
 					ProjectRef = ABE938E716792D6000A7A1B8 /* SelectionDemo.xcodeproj */;
 				},
@@ -671,6 +700,13 @@
 			fileType = wrapper.application;
 			path = BasicExample.app;
 			remoteRef = 03FA703B16746A7F00491A1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AB7996C116914FE300B1FF7E /* Popup Button Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Popup Button Demo.app";
+			remoteRef = AB7996C016914FE300B1FF7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ABA67774168AC94B006DD644 /* ActivityIndicator Demo.app */ = {
