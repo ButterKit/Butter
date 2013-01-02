@@ -1132,7 +1132,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	BTRCollectionViewCell *cell = [self.dataSource collectionView:self cellForItemAtIndexPath:indexPath];
 	[cell setHighlighted:[_indexPathsForHighlightedItems containsObject:indexPath]];
 	[cell setSelected:[_indexPathsForSelectedItems containsObject:indexPath]];
-	[cell applyLayoutAttributes:layoutAttributes];
 	return cell;
 }
 
@@ -1143,7 +1142,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 		BTRCollectionReusableView *view = [self.dataSource collectionView:self
 										viewForSupplementaryElementOfKind:kind
 															  atIndexPath:indexPath];
-		[view applyLayoutAttributes:layoutAttributes];
 		return view;
 	}
 	return nil;
