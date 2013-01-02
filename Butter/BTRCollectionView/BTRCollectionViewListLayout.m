@@ -113,8 +113,7 @@
 	NSUInteger numberOfSections = [self.collectionView numberOfSections];
 	NSMutableArray *sections = [NSMutableArray arrayWithCapacity:numberOfSections];
 	
-	CGSize collectionViewContentSize;
-	collectionViewContentSize.width = CGRectGetWidth([self.collectionView.enclosingScrollView bounds]);
+	CGSize collectionViewContentSize = CGSizeMake(CGRectGetWidth([self.collectionView.enclosingScrollView bounds]), 0.f);
 	
 	CGRect lastSectionFrame = CGRectZero;
 	for (NSUInteger section = 0; section < numberOfSections; section++) {
