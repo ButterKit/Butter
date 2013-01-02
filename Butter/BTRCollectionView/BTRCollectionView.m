@@ -883,7 +883,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	if (!updates) return;
 	[self setupCellAnimations];
 	updates();
-	if (completion) _updateCompletionHandler = completion;
+	if (completion) _updateCompletionHandler = [completion copy];
 	[self endItemAnimations];
 }
 
@@ -1289,7 +1289,10 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	[_allVisibleViewsDict enumerateKeysAndObjectsUsingBlock:^(BTRCollectionViewItemKey *key, id obj, BOOL *stop) {
 		BTRCollectionReusableView *view = _allVisibleViewsDict[key];
 		NSUInteger oldGlobalIndex = [_currentUpdate[BTRCollectionViewOldModelKey] globalIndexForItemAtIndexPath:key.indexPath];
-		NSUInteger newGlobalIndex = [_currentUpdate[BTRCollectionViewOldToNewIndexMapKey][oldGlobalIndex] unsignedIntegerValue];
+		NSUInteger newGlobalIndex = NSNotFound;
+		if (oldGlobalIndex != NSNotFound) {
+			newGlobalIndex = [_currentUpdate[BTRCollectionViewOldToNewIndexMapKey][oldGlobalIndex] unsignedIntegerValue];
+		}
 		if (newGlobalIndex != NSNotFound) {
 			NSIndexPath *newIndexPath = [_currentUpdate[BTRCollectionViewNewModelKey] indexPathForItemAtGlobalIndex:newGlobalIndex];
 			
