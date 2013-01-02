@@ -284,7 +284,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	// Check to see if there is already a reusable cell in the reuse queue
 	NSMutableArray *reusableCells = _cellReuseQueues[identifier];
 	__block BTRCollectionViewCell *cell = [reusableCells lastObject];
-	BTRCollectionViewLayoutAttributes *attributes = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
 	if (cell) {
 		[reusableCells removeObjectAtIndex:[reusableCells count]-1];
 	}else {
@@ -318,7 +317,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 		cell.collectionView = self;
 		cell.reuseIdentifier = identifier;
 	}
-	[cell applyLayoutAttributes:attributes];
 	return cell;
 }
 
@@ -326,7 +324,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	// Check to see if there's already a supplementary view of the desired type in the reuse queue
 	NSString *kindAndIdentifier = [NSString stringWithFormat:@"%@/%@", elementKind, identifier];
 	NSMutableArray *reusableViews = _supplementaryViewReuseQueues[kindAndIdentifier];
-	BTRCollectionViewLayoutAttributes *attributes = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:elementKind atIndexPath:indexPath];
 	__block BTRCollectionReusableView *view = [reusableViews lastObject];
 	if (view) {
 		[reusableViews removeObjectAtIndex:reusableViews.count - 1];
@@ -362,7 +359,6 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 		view.collectionView = self;
 		view.reuseIdentifier = identifier;
 	}
-	[view applyLayoutAttributes:attributes];
 	return view;
 }
 
@@ -1132,6 +1128,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	BTRCollectionViewCell *cell = [self.dataSource collectionView:self cellForItemAtIndexPath:indexPath];
 	[cell setHighlighted:[_indexPathsForHighlightedItems containsObject:indexPath]];
 	[cell setSelected:[_indexPathsForSelectedItems containsObject:indexPath]];
+	[cell applyLayoutAttributes:layoutAttributes];
 	return cell;
 }
 
@@ -1142,6 +1139,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 		BTRCollectionReusableView *view = [self.dataSource collectionView:self
 										viewForSupplementaryElementOfKind:kind
 															  atIndexPath:indexPath];
+		[view applyLayoutAttributes:layoutAttributes];
 		return view;
 	}
 	return nil;
