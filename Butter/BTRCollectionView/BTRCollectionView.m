@@ -221,6 +221,15 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	[super setFrame:frame];
 }
 
+- (void)addCollectionViewSubview:(NSView *)subview
+{
+	if ([subview isKindOfClass:[BTRCollectionViewCell class]]) {
+		[self addSubview:subview positioned:NSWindowBelow relativeTo:nil];
+	} else {
+		[self addSubview:subview];
+	}
+}
+
 #pragma mark - NSResponder
 
 // Need to override these to receive keyboard events
@@ -964,7 +973,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			if (!cell) {
 				cell = [self createPreparedCellForItemAtIndexPath:key.indexPath withLayoutAttributes:layoutInterchangeData[key][BTRCollectionViewPreviousLayoutInfoKey]];
 				_allVisibleViewsDict[key] = cell;
-				[self addSubview:cell];
+				[self addCollectionViewSubview:cell];
 			} else {
 				[cell applyLayoutAttributes:layoutInterchangeData[key][BTRCollectionViewPreviousLayoutInfoKey]];
 			}
@@ -1116,7 +1125,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			}
 			if (view) {
 				_allVisibleViewsDict[itemKey] = view;
-				[self addSubview:view];
+				[self addCollectionViewSubview:view];
 			}
 		}else {
 			[view applyLayoutAttributes:layoutAttributes];
@@ -1253,7 +1262,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 				
 				if (CGRectIntersectsRect(self.visibleRect, startRect) || CGRectIntersectsRect(self.visibleRect, finalRect)) {
 					BTRCollectionReusableView *view = [self createPreparedCellForItemAtIndexPath:indexPath withLayoutAttributes:startAttrs];
-					[self addSubview:view];
+					[self addCollectionViewSubview:view];
 					
 					newAllVisibleView[key] = view;
 					[animations addObject:@{BTRCollectionViewViewKey : view, BTRCollectionViewPreviousLayoutInfoKey : startAttrs ?: finalAttrs, BTRCollectionViewNewLayoutInfoKey: finalAttrs}];
@@ -1277,7 +1286,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 					startAttrs = [finalAttrs copy];
 					startAttrs.alpha = 0;
 					view = [self createPreparedCellForItemAtIndexPath:indexPathAfter withLayoutAttributes:startAttrs];
-					[self addSubview:view];
+					[self addCollectionViewSubview:view];
 					newAllVisibleView[keyAfter] = view;
 				}
 				[animations addObject:@{BTRCollectionViewViewKey : view, BTRCollectionViewPreviousLayoutInfoKey : startAttrs, BTRCollectionViewNewLayoutInfoKey : finalAttrs}];
@@ -1318,7 +1327,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 			[_layout initialLayoutAttributesForAppearingItemAtIndexPath:attrs.indexPath];
 			BTRCollectionReusableView *view = [self createPreparedCellForItemAtIndexPath:attrs.indexPath
 																	withLayoutAttributes:startAttrs];
-			[self addSubview:view];
+			[self addCollectionViewSubview:view];
 			newAllVisibleView[key] = view;
 			[animations addObject:@{BTRCollectionViewViewKey : view, BTRCollectionViewPreviousLayoutInfoKey : startAttrs?startAttrs:attrs, BTRCollectionViewNewLayoutInfoKey : attrs}];
 		}
