@@ -274,14 +274,14 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 		BTRCollectionUpdateAction action = updateItem.updateAction;
 		if (updateItem.isSectionOperation) {
 			if (action == BTRCollectionUpdateActionReload) {
-				[_deletedSectionsSet addIndex:[[updateItem indexPathBeforeUpdate] section]];
-				[_insertedSectionsSet addIndex:[updateItem indexPathAfterUpdate].section];
+				[_deletedSectionsSet addIndex:updateItem.indexPathBeforeUpdate.section];
+				[_insertedSectionsSet addIndex:updateItem.indexPathAfterUpdate.section];
 			} else {
 				NSMutableIndexSet *indexSet = action == BTRCollectionUpdateActionInsert ? _insertedSectionsSet : _deletedSectionsSet;
-				[indexSet addIndex:[updateItem indexPath].section];
+				[indexSet addIndex:updateItem.indexPathBeforeUpdate.section];
 			}
 		} else if (action == BTRCollectionUpdateActionDelete) {
-			BTRCollectionViewItemKey *key = [BTRCollectionViewItemKey collectionItemKeyForCellWithIndexPath:[updateItem indexPathBeforeUpdate]];
+			BTRCollectionViewItemKey *key = [BTRCollectionViewItemKey collectionItemKeyForCellWithIndexPath:updateItem.indexPathBeforeUpdate];
 			BTRCollectionViewLayoutAttributes *attrs = [[_finalAnimationLayoutAttributesDict objectForKey:key] copy];
 			if (attrs) {
 				[attrs setAlpha:0.f];
