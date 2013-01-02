@@ -234,7 +234,7 @@ NSString *const BTRFlowLayoutRowVerticalAlignmentKey = @"BTRFlowLayoutRowVertica
     BTRGridLayoutRow *row = nil;
     CGRect itemFrame = CGRectZero;
 
-    if (section.fixedItemSize && indexPath.item / section.itemsByRowCount < [section.rows count]) {
+    if (section.fixedItemSize && [section.rows count] && indexPath.item / section.itemsByRowCount < [section.rows count]) {
         row = section.rows[indexPath.item / section.itemsByRowCount];
         NSUInteger itemIndex = indexPath.item % section.itemsByRowCount;
         NSArray *itemRects = [row itemRects];

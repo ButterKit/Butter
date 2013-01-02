@@ -261,12 +261,14 @@ NSString* const BTRCollectionViewNewToOldIndexMapKey = @"BTRCollectionViewNewToO
 	NSArray *layoutAttributes = [collectionViewData layoutAttributesForElementsInRect:bounds];
 	[layoutAttributes enumerateObjectsUsingBlock:^(BTRCollectionViewLayoutAttributes *attr, NSUInteger idx, BOOL *stop) {
 		NSUInteger index = [collectionViewData globalIndexForItemAtIndexPath:attr.indexPath];
-		index = [newToOldMap[index] unsignedIntegerValue];
-		if(index != NSNotFound) {
-			BTRCollectionViewLayoutAttributes* finalAttrs = [attr copy];
-			[finalAttrs setIndexPath:[oldModel indexPathForItemAtGlobalIndex:index]];
-			[finalAttrs setAlpha:0];
-			_finalAnimationLayoutAttributesDict[[BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:finalAttrs]] = finalAttrs;
+		if (index != NSNotFound) {
+			index = [newToOldMap[index] unsignedIntegerValue];
+			if(index != NSNotFound) {
+				BTRCollectionViewLayoutAttributes* finalAttrs = [attr copy];
+				[finalAttrs setIndexPath:[oldModel indexPathForItemAtGlobalIndex:index]];
+				[finalAttrs setAlpha:0];
+				_finalAnimationLayoutAttributesDict[[BTRCollectionViewItemKey collectionItemKeyForLayoutAttributes:finalAttrs]] = finalAttrs;
+			}
 		}
 	}];
 	
