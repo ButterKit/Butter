@@ -1603,11 +1603,11 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 				newToOldMap[newGlobalIndex] = section[j];
 		}
 	}
-	
-	_currentUpdate = @{BTRCollectionViewOldModelKey : oldCollectionViewData,
-			 BTRCollectionViewNewModelKey : _collectionViewData,
+	NSMutableDictionary *update = @{ BTRCollectionViewNewModelKey : _collectionViewData,
 			 BTRCollectionViewOldToNewIndexMapKey : oldToNewMap,
-			 BTRCollectionViewNewToOldIndexMapKey : newToOldMap};
+			 BTRCollectionViewNewToOldIndexMapKey : newToOldMap}.mutableCopy;
+	if (oldCollectionViewData) update[BTRCollectionViewOldModelKey] = oldCollectionViewData;
+	_currentUpdate = update;
 	
 	[self updateWithItems:items];
 	
