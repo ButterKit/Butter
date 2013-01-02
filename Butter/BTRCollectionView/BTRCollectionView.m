@@ -284,6 +284,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	// Check to see if there is already a reusable cell in the reuse queue
 	NSMutableArray *reusableCells = _cellReuseQueues[identifier];
 	__block BTRCollectionViewCell *cell = [reusableCells lastObject];
+	BTRCollectionViewLayoutAttributes *attributes = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
 	if (cell) {
 		[reusableCells removeObjectAtIndex:[reusableCells count]-1];
 	}else {
@@ -317,6 +318,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 		cell.collectionView = self;
 		cell.reuseIdentifier = identifier;
 	}
+	[cell applyLayoutAttributes:attributes];
 	return cell;
 }
 
@@ -324,6 +326,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 	// Check to see if there's already a supplementary view of the desired type in the reuse queue
 	NSString *kindAndIdentifier = [NSString stringWithFormat:@"%@/%@", elementKind, identifier];
 	NSMutableArray *reusableViews = _supplementaryViewReuseQueues[kindAndIdentifier];
+	BTRCollectionViewLayoutAttributes *attributes = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:elementKind atIndexPath:indexPath];
 	__block BTRCollectionReusableView *view = [reusableViews lastObject];
 	if (view) {
 		[reusableViews removeObjectAtIndex:reusableViews.count - 1];
@@ -359,6 +362,7 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 		view.collectionView = self;
 		view.reuseIdentifier = identifier;
 	}
+	[view applyLayoutAttributes:attributes];
 	return view;
 }
 
@@ -1288,21 +1292,23 @@ static NSString* const BTRCollectionViewViewKey = @"BTRCollectionViewViewKey";
 		BTRCollectionReusableView *view = _allVisibleViewsDict[key];
 		NSUInteger oldGlobalIndex = [_currentUpdate[BTRCollectionViewOldModelKey] globalIndexForItemAtIndexPath:key.indexPath];
 		NSUInteger newGlobalIndex = [_currentUpdate[BTRCollectionViewOldToNewIndexMapKey][oldGlobalIndex] unsignedIntegerValue];
-		NSIndexPath *newIndexPath = [_currentUpdate[BTRCollectionViewNewModelKey] indexPathForItemAtGlobalIndex:newGlobalIndex];
-		
-		BTRCollectionViewLayoutAttributes* startAttrs =
-		[_layout initialLayoutAttributesForAppearingItemAtIndexPath:newIndexPath];
-		
-		BTRCollectionViewLayoutAttributes* finalAttrs =
-		[_layout layoutAttributesForItemAtIndexPath:newIndexPath];
-		
-		NSMutableDictionary *animation = [NSMutableDictionary dictionaryWithDictionary:@{BTRCollectionViewViewKey : view}];
-        if (startAttrs) [animation setObject:startAttrs forKey:BTRCollectionViewPreviousLayoutInfoKey];
-        if (finalAttrs) [animation setObject:finalAttrs forKey:BTRCollectionViewNewLayoutInfoKey];
-		[animations addObject:animation];
-		BTRCollectionViewItemKey* newKey = [key copy];
-		[newKey setIndexPath:newIndexPath];
-		newAllVisibleView[newKey] = view;
+		if (newGlobalIndex != NSNotFound) {
+			NSIndexPath *newIndexPath = [_currentUpdate[BTRCollectionViewNewModelKey] indexPathForItemAtGlobalIndex:newGlobalIndex];
+			
+			BTRCollectionViewLayoutAttributes* startAttrs =
+			[_layout initialLayoutAttributesForAppearingItemAtIndexPath:newIndexPath];
+			
+			BTRCollectionViewLayoutAttributes* finalAttrs =
+			[_layout layoutAttributesForItemAtIndexPath:newIndexPath];
+			
+			NSMutableDictionary *animation = [NSMutableDictionary dictionaryWithDictionary:@{BTRCollectionViewViewKey : view}];
+			if (startAttrs) [animation setObject:startAttrs forKey:BTRCollectionViewPreviousLayoutInfoKey];
+			if (finalAttrs) [animation setObject:finalAttrs forKey:BTRCollectionViewNewLayoutInfoKey];
+			[animations addObject:animation];
+			BTRCollectionViewItemKey* newKey = [key copy];
+			[newKey setIndexPath:newIndexPath];
+			newAllVisibleView[newKey] = view;
+		}
 	}];
 	
 	NSArray *allNewlyVisibleItems = [_layout layoutAttributesForElementsInRect:self.visibleRect];
