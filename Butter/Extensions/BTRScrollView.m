@@ -35,10 +35,15 @@
 - (void)swapClipView {
 	self.wantsLayer = YES;
 	id documentView = self.documentView;
-	BTRClipView *clipView = [[BTRClipView alloc] initWithFrame:self.contentView.frame];
+	Class clipViewClass = [self.class clipViewClass];
+	BTRClipView *clipView = [[clipViewClass alloc] initWithFrame:self.contentView.frame];
 	clipView.backgroundColor = [self.contentView backgroundColor];
 	self.contentView = clipView;
 	self.documentView = documentView;
 }
 
++ (Class)clipViewClass
+{
+	return [BTRClipView class];
+}
 @end

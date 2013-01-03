@@ -73,16 +73,7 @@
 	if ([image isKindOfClass:[RBLResizableImage class]]) {
 		NSSize imageSize = image.size;
 		NSEdgeInsets insets = [(RBLResizableImage *)image capInsets];
-		CGRect imageRect = BTRNSEdgeInsetsInsetRect((CGRect){.size=imageSize}, insets);
-		if (imageRect.size.width > 0) {
-			imageRect.origin.x /= imageSize.width;
-			imageRect.size.width /= imageSize.width;
-		}
-		if (imageRect.size.height > 0) {
-			imageRect.origin.y /= imageSize.height;
-			imageRect.size.height /= imageSize.height;
-		}
-		self.imageLayer.contentsCenter = imageRect;
+		self.imageLayer.contentsCenter = BTRCAContentsCenterForInsets(insets, imageSize);
 	} else {
 		self.imageLayer.contentsCenter = CGRectMake(0.0, 0.0, 1.0, 1.0);
 	}

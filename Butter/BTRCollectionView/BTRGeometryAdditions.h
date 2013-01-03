@@ -21,6 +21,19 @@ NS_INLINE CGRect BTRNSEdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets) {
 	return newRect;
 }
 
+NS_INLINE CGRect BTRCAContentsCenterForInsets(NSEdgeInsets insets, CGSize imageSize) {
+	CGRect imageRect = BTRNSEdgeInsetsInsetRect((CGRect){.size=imageSize}, insets);
+	if (imageRect.size.width > 0) {
+		imageRect.origin.x /= imageSize.width;
+		imageRect.size.width /= imageSize.width;
+	}
+	if (imageRect.size.height > 0) {
+		imageRect.origin.y /= imageSize.height;
+		imageRect.size.height /= imageSize.height;
+	}
+	return imageRect;
+}
+
 // NSString to Data type conversions
 
 NS_INLINE NSString* BTRNSStringFromCGRect(CGRect rect) {
