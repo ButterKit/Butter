@@ -29,7 +29,7 @@
 
 static const CGFloat BTRTextFieldCornerRadius = 3.f;
 static const CGFloat BTRTextFieldInnerRadius = 2.f;
-static CGFloat const BTRTextFieldXInset = 10.f;
+static CGFloat const BTRTextFieldXInset = 2.f;
 #define BTRTextFieldBorderColor [NSColor colorWithDeviceWhite:1.f alpha:0.6f]
 #define BTRTextFieldActiveGradientStartingColor [NSColor colorWithCalibratedRed:0.114 green:0.364 blue:0.689 alpha:1.000]
 #define BTRTextFieldActiveGradientEndingColor [NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1]
