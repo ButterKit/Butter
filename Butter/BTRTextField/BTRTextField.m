@@ -372,6 +372,11 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 {
 	return rect;
 }
+
+- (NSRect)editingRectForProposedEditingRect:(NSRect)rect
+{
+	return rect;
+}
 @end
 
 // Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
@@ -418,7 +423,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
 {
-	aRect = [self drawingRectForBounds:aRect];
+	aRect = [(BTRTextField *)[self controlView] editingRectForProposedEditingRect:[self drawingRectForBounds:aRect]];
 	_isEditingOrSelecting = YES;
 	[super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
 	_isEditingOrSelecting = NO;
@@ -426,7 +431,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
 {
-	aRect = [self drawingRectForBounds:aRect];
+	aRect = [(BTRTextField *)[self controlView] editingRectForProposedEditingRect:[self drawingRectForBounds:aRect]];
 	_isEditingOrSelecting = YES;
 	[super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
 	_isEditingOrSelecting = NO;

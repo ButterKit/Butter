@@ -31,4 +31,5 @@
 // Subclassing hooks
 - (void)drawBackgroundInRect:(NSRect)rect;
 - (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect;
+- (NSRect)editingRectForProposedEditingRect:(NSRect)rect;
 @end
