@@ -32,4 +32,5 @@
 - (void)drawBackgroundInRect:(NSRect)rect;
 - (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect;
 - (NSRect)editingRectForProposedEditingRect:(NSRect)rect;
+- (void)setFieldEditorAttributes:(NSTextView *)fieldEditor;
 @end

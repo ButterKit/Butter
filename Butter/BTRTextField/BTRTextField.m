@@ -378,6 +378,11 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 {
 	return rect;
 }
+
+- (void)setFieldEditorAttributes:(NSTextView *)fieldEditor
+{
+	
+}
 @end
 
 // Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
@@ -436,6 +441,13 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	_isEditingOrSelecting = YES;
 	[super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
 	_isEditingOrSelecting = NO;
+}
+
+- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj
+{
+	NSTextView *editor = (NSTextView *)[super setUpFieldEditorAttributes:textObj];
+	[(BTRTextField *)[self controlView] setFieldEditorAttributes:editor];
+	return editor;
 }
 
 @end
