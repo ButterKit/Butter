@@ -29,5 +29,6 @@
 - (void)addBlock:(void (^)(BTRControlEvents events))block forControlEvents:(BTRControlEvents)events;
 
 // Subclassing hooks
+- (void)drawBackgroundInRect:(NSRect)rect;
 - (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect;
 @end

@@ -12,7 +12,6 @@
 
 @interface BTRTextField()
 @property (nonatomic, readonly, getter = isFirstResponder) BOOL firstResponder;
-@property (nonatomic, strong) BTRImageView *backgroundImageView;
 @property (nonatomic, strong) NSMutableDictionary *backgroundImages;
 @property (nonatomic, strong) NSMutableArray *actions;
 @property (nonatomic) BOOL mouseInside;
@@ -126,29 +125,12 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	return _btrDrawsBackground;
 }
 
-- (void)setCornerRadius:(CGFloat)cornerRadius {
-	self.backgroundImageView.cornerRadius = cornerRadius;
-}
-
-- (CGFloat)cornerRadius {
-	return self.backgroundImageView.cornerRadius;
-}
-
 - (BTRControlState)state {
 	BTRControlState state = BTRControlStateNormal;
 	if (self.highlighted) state |= BTRControlStateHighlighted;
 	if (![self isEnabled]) state |= BTRControlStateDisabled;
 	if (self.mouseHover && !self.highlighted) state |= BTRControlStateHover;
 	return state;
-}
-
-- (BTRImageView *)backgroundImageView {
-	if (!_backgroundImageView) {
-		_backgroundImageView = [[BTRImageView alloc] initWithFrame:self.bounds];
-		_backgroundImageView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		[self addSubview:_backgroundImageView];
-	}
-	return _backgroundImageView;
 }
 
 - (void)setEnabled:(BOOL)enabled
@@ -159,35 +141,35 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 #pragma mark Drawing
 
-- (void)drawRect:(NSRect)dirtyRect {
-	if (!self.drawsBackground) {
-		[super drawRect:dirtyRect];
-		return;
-	}
-	[BTRTextFieldBorderColor set];
-	if (![self isFirstResponder])
-		[[NSBezierPath bezierPathWithRoundedRect:self.bounds
-										 xRadius:BTRTextFieldCornerRadius
-										 yRadius:BTRTextFieldCornerRadius] fill];
-	
-	NSGradient *gradient = nil;
-	CGRect borderRect = self.bounds;
-	borderRect.size.height -= 1, borderRect.origin.y += 1;
-	if([self isFirstResponder]) {
-		gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldActiveGradientStartingColor
-												 endingColor:BTRTextFieldActiveGradientStartingColor];
+- (void)drawBackgroundInRect:(NSRect)rect
+{
+	if (self.drawsBackground) {
+		[BTRTextFieldBorderColor set];
+		if (![self isFirstResponder])
+			[[NSBezierPath bezierPathWithRoundedRect:rect
+											 xRadius:BTRTextFieldCornerRadius
+											 yRadius:BTRTextFieldCornerRadius] fill];
+		
+		NSGradient *gradient = nil;
+		CGRect borderRect = rect;
+		borderRect.size.height -= 1, borderRect.origin.y += 1;
+		if([self isFirstResponder]) {
+			gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldActiveGradientStartingColor
+													 endingColor:BTRTextFieldActiveGradientStartingColor];
+		} else {
+			gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldInactiveGradientStartingColor
+													 endingColor:BTRTextFieldInactiveGradientEndingColor];
+		}
+		[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:borderRect xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] angle:-90];
+		
+		[BTRTextFieldFillColor set];
+		CGRect innerRect = NSInsetRect(rect, 1, 2);
+		innerRect.size.height += 1;
+		[[NSBezierPath bezierPathWithRoundedRect:innerRect xRadius:BTRTextFieldInnerRadius yRadius:BTRTextFieldInnerRadius] fill];
 	} else {
-		gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldInactiveGradientStartingColor
-												 endingColor:BTRTextFieldInactiveGradientEndingColor];
+		NSImage *image = [self backgroundImageForControlState:self.state] ?: [self backgroundImageForControlState:BTRControlStateNormal];
+		[image drawInRect:rect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.f];
 	}
-	[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:borderRect xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] angle:-90];
-	
-	[BTRTextFieldFillColor set];
-	CGRect innerRect = NSInsetRect(self.bounds, 1, 2);
-	innerRect.size.height += 1;
-	[[NSBezierPath bezierPathWithRoundedRect:innerRect xRadius:BTRTextFieldInnerRadius yRadius:BTRTextFieldInnerRadius] fill];
-	
-	[super drawRect:dirtyRect];
 }
 
 - (CATransition *)shadowOpacityAnimation {
@@ -214,7 +196,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 		backgroundImage = [self backgroundImageForControlState:BTRControlStateNormal];
 	}
 	self.drawsBackground = (backgroundImage == nil);
-	self.backgroundImageView.image = backgroundImage;
 }
 
 #pragma mark - BTRControl
@@ -371,17 +352,15 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 }
 
 - (BOOL)becomeFirstResponder {
-	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
-	self.layer.shadowOpacity = 1.f;
-	self.backgroundImageView.animatesContents = NO;
+	//[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
+	//self.layer.shadowOpacity = 1.f;
 	self.highlighted = YES;
 	return [super becomeFirstResponder];
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification {
-	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
-	self.layer.shadowOpacity = 0.f;
-	self.backgroundImageView.animatesContents = self.animatesContents;
+	//[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
+	//self.layer.shadowOpacity = 0.f;
 	[super textDidEndEditing:notification];
 	self.highlighted = NO;
 }
@@ -399,6 +378,12 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 // <http://www.red-sweater.com/blog/148/what-a-difference-a-cell-makes>
 @implementation BTRTextFieldCell {
 	BOOL _isEditingOrSelecting;
+}
+
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+	[(BTRTextField *)[self controlView] drawBackgroundInRect:cellFrame];
+	[super drawInteriorWithFrame:cellFrame inView:controlView];
 }
 
 - (NSRect)drawingRectForBounds:(NSRect)theRect
