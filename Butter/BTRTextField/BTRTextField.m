@@ -382,8 +382,9 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-	[(BTRTextField *)[self controlView] drawBackgroundInRect:cellFrame];
-	[super drawInteriorWithFrame:cellFrame inView:controlView];
+	NSRect integralFrame = NSIntegralRect(cellFrame);
+	[(BTRTextField *)[self controlView] drawBackgroundInRect:integralFrame];
+	[super drawInteriorWithFrame:integralFrame inView:controlView];
 }
 
 - (NSRect)drawingRectForBounds:(NSRect)theRect
