@@ -82,6 +82,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.actions = [NSMutableArray array];
 	self.needsTrackingArea = NO;
 	
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawDuringViewResize;
 	self.focusRingType = NSFocusRingTypeNone;
 	super.drawsBackground = NO;
 	self.drawsBackground = YES;
