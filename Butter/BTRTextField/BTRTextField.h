@@ -27,4 +27,7 @@
 @property (nonatomic, readonly) NSInteger clickCount;
 
 - (void)addBlock:(void (^)(BTRControlEvents events))block forControlEvents:(BTRControlEvents)events;
+
+// Subclassing hooks
+- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect;
 @end
