@@ -24,17 +24,18 @@
 @end
 
 @interface BTRTextFieldCell : NSTextFieldCell
+
 @end
 
 static const CGFloat BTRTextFieldCornerRadius = 3.f;
 static const CGFloat BTRTextFieldInnerRadius = 2.f;
-static CGFloat const BTRTextFieldXInset = 2.f;
+static CGFloat const BTRTextFieldXInset = 10.f;
 #define BTRTextFieldBorderColor [NSColor colorWithDeviceWhite:1.f alpha:0.6f]
-#define BTRTextFieldActiveGradientStartingColor [NSColor colorWithCalibratedRed:0.114 green:0.364 blue:0.689 alpha:1.000] 
+#define BTRTextFieldActiveGradientStartingColor [NSColor colorWithCalibratedRed:0.114 green:0.364 blue:0.689 alpha:1.000]
 #define BTRTextFieldActiveGradientEndingColor [NSColor colorWithCalibratedRed:0.176 green:0.490 blue:0.898 alpha:1]
 #define BTRTextFieldInactiveGradientStartingColor [NSColor colorWithDeviceWhite:0.6 alpha:1.0]
 #define BTRTextFieldInactiveGradientEndingColor [NSColor colorWithDeviceWhite:0.7 alpha:1.0]
-#define BTRTextFieldFillColor [NSColor whiteColor] 
+#define BTRTextFieldFillColor [NSColor whiteColor]
 #define BTRTextFieldShadowColor [NSColor colorWithDeviceRed:0.19 green:0.51 blue:0.81 alpha:1.0]
 
 @implementation BTRTextField {
@@ -384,6 +385,13 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	[super textDidEndEditing:notification];
 	self.highlighted = NO;
 }
+
+#pragma mark - Subclassing Hooks
+
+- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect
+{
+	return rect;
+}
 @end
 
 // Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
@@ -417,7 +425,8 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 			newRect.origin.y += ceilf(heightDelta / 2) + 1.f;
 		}
 	}
-	return NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
+	NSRect proposedRect = NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
+	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:proposedRect];
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
