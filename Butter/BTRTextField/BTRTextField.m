@@ -75,6 +75,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	newCell.action = oldCell.action;
 	newCell.target = oldCell.target;
 	newCell.focusRingType = oldCell.focusRingType;
+	[newCell setScrollable:[oldCell isScrollable]];
 	[newCell setEditable:[oldCell isEditable]];
 	[newCell setSelectable:[oldCell isSelectable]];
 	self.cell = newCell;
