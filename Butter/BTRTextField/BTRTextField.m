@@ -57,6 +57,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 - (void)commonInit {
 	self.wantsLayer = YES;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	// Copy over *all* the attributes to the new cell
 	// There really is no other easy way to do this :(
@@ -83,7 +84,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.actions = [NSMutableArray array];
 	self.needsTrackingArea = NO;
 	
-	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawDuringViewResize;
 	self.focusRingType = NSFocusRingTypeNone;
 	super.drawsBackground = NO;
 	self.drawsBackground = YES;
@@ -112,6 +112,12 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 + (Class)cellClass {
 	return [BTRTextFieldCell class];
+}
+
+- (void)setFrame:(NSRect)frameRect
+{
+	[super setFrame:frameRect];
+	[self setNeedsDisplay:YES];
 }
 
 #pragma mark - Accessors
@@ -354,15 +360,15 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 }
 
 - (BOOL)becomeFirstResponder {
-	//[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
-	//self.layer.shadowOpacity = 1.f;
+	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
+	self.layer.shadowOpacity = 1.f;
 	self.highlighted = YES;
 	return [super becomeFirstResponder];
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification {
-	//[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
-	//self.layer.shadowOpacity = 0.f;
+	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
+	self.layer.shadowOpacity = 0.f;
 	[super textDidEndEditing:notification];
 	self.highlighted = NO;
 }
