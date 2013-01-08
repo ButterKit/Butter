@@ -17,6 +17,7 @@
 - (NSImage *)backgroundImageForControlState:(BTRControlState)state;
 - (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state;
 
+@property (nonatomic, assign) BOOL drawsFocusRing;
 // Modifies the contentMode on the underlying image view.
 @property (nonatomic, assign) BTRViewContentMode contentMode;
 @property (nonatomic, assign) BOOL animatesContents;

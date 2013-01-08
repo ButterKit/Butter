@@ -85,14 +85,10 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.needsTrackingArea = NO;
 	
 	self.focusRingType = NSFocusRingTypeNone;
+	self.drawsFocusRing = YES;
 	super.drawsBackground = NO;
 	self.drawsBackground = YES;
 	self.bezeled = NO;
-	
-	// Set up the layer styles used to draw a focus ring.
-	self.layer.shadowColor = BTRTextFieldShadowColor.CGColor;
-	self.layer.shadowOffset = CGSizeZero;
-	self.layer.shadowRadius = 2.f;
 }
 
 // NSTextField is flipped by default.
@@ -121,6 +117,22 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 }
 
 #pragma mark - Accessors
+
+- (void)setDrawsFocusRing:(BOOL)drawsFocusRing
+{
+	if (_drawsFocusRing != drawsFocusRing) {
+		_drawsFocusRing = drawsFocusRing;
+		if (_drawsFocusRing) {
+			// Set up the layer styles used to draw a focus ring.
+			self.layer.shadowColor = BTRTextFieldShadowColor.CGColor;
+			self.layer.shadowOffset = CGSizeZero;
+			self.layer.shadowRadius = 2.f;
+		} else {
+			self.layer.shadowColor = [NSColor clearColor].CGColor;
+			self.layer.shadowRadius = 0.f;
+		}
+	}
+}
 
 - (void)setDrawsBackground:(BOOL)flag {
 	if (_btrDrawsBackground != flag) {
