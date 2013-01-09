@@ -32,21 +32,34 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 - (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
 	self = [super initWithFrame:frame];
+	if (self == nil) return nil;
 	
 	if (hostsLayer) {
 		self.layer = [CALayer layer];
 		self.layer.delegate = self;
 	}
-	
-	self.wantsLayer = YES;
-	self.layerContentsPlacement = NSViewLayerContentsPlacementScaleAxesIndependently;
-	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+	[self commonInitForBTRView];
 	
 	return self;
 }
 
 - (id)initWithFrame:(NSRect)frame {
 	return [self initWithFrame:frame layerHosted:NO];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self == nil) return nil;
+	
+	[self commonInitForBTRView];
+	
+	return self;
+}
+
+- (void)commonInitForBTRView {
+	self.wantsLayer = YES;
+	self.layerContentsPlacement = NSViewLayerContentsPlacementScaleAxesIndependently;
+	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
 
