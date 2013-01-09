@@ -92,6 +92,7 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 
 - (NSFont *)titleFontForState:(BTRControlState)state;
 - (void)setTitleFont:(NSFont *)font forState:(BTRControlState)state;
+
 @end
 
 @interface BTRControlContent : NSObject

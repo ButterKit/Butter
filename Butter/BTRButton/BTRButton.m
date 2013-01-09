@@ -56,6 +56,14 @@
 	self.titleLabel.frame = self.bounds;
 }
 
+- (void)setContentMode:(BTRViewContentMode)contentMode {
+	self.imageView.contentMode = contentMode;
+}
+
+- (BTRViewContentMode)contentMode {
+	return self.imageView.contentMode;
+}
+
 // TODO: Ideally we'll have a good default style that can be drawn here.
 - (NSImage *)defaultBackgroundImageForControlState:(BTRControlState)state {
 	return [NSImage imageWithSize:self.bounds.size flipped:NO drawingHandler:^BOOL(NSRect rect) {

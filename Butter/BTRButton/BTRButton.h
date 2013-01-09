@@ -11,6 +11,11 @@
 #import "BTRLabel.h"
 
 @interface BTRButton : BTRControl
+
 @property (nonatomic, strong, readonly) BTRLabel *titleLabel;
 @property (nonatomic, strong, readonly) BTRImageView *imageView;
+
+// Sets the content mode on the underlying image view.
+@property (nonatomic, assign) BTRViewContentMode contentMode;
+
 @end
