@@ -31,6 +31,12 @@
 	self.control.enabled = NO;
 	self.control.selected = YES;
 	NSLog(@"state: %li",self.control.state);
+	
+	[self.control addTarget:self action:@selector(handleClick:) forControlEvents:BTRControlEventClick];
+}
+
+- (void)handleClick:(id)sender {
+	NSLog(@"click (selector)");
 }
 
 @end

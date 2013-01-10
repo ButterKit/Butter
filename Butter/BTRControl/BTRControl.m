@@ -195,6 +195,15 @@
 	[self handleUpdatedEvents:events];
 }
 
+- (void)addTarget:(id)target action:(SEL)selector forControlEvents:(BTRControlEvents)events {
+	BTRControlAction *action = [BTRControlAction new];
+	action.target = target;
+	action.action = selector;
+	action.events = events;
+	[self.actions addObject:action];
+	[self handleUpdatedEvents:events];
+}
+
 - (void)handleUpdatedEvents:(BTRControlEvents)events {
 	// TODO: Verify if we need a tracking area here.
 	self.needsTrackingArea = YES;
@@ -312,7 +321,7 @@
 			if (action.block != nil) {
 				action.block(events);
 			} else if (action.action != nil) { // the target can be nil
-				[NSApp sendAction:action.action to:action.target];
+				[NSApp sendAction:action.action to:action.target from:self];
 			}
 		}
 	}
