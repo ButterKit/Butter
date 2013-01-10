@@ -11,7 +11,7 @@
 #import "RBLResizableImage.h"
 
 @interface BTRImageView()
-@property (nonatomic, strong) CALayer *imageLayer;
+@property (nonatomic, strong, readwrite) CALayer *imageLayer;
 @end
 
 @implementation BTRImageView
