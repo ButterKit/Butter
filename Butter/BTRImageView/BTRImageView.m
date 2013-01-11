@@ -79,6 +79,11 @@
 	}
 }
 
+- (void)viewDidChangeBackingProperties {
+	self.layer.contentsScale = self.window.backingScaleFactor;
+	self.imageLayer.contentsScale = self.layer.contentsScale;
+}
+
 #pragma mark Layer properties
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
