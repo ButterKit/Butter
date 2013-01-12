@@ -18,4 +18,7 @@
 // Sets the content mode on the underlying image view.
 @property (nonatomic, assign) BTRViewContentMode contentMode;
 
+// Subclassing hooks
+- (CGRect)imageFrame;
+- (CGRect)labelFrame;
 @end

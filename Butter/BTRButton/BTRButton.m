@@ -51,9 +51,9 @@
 #pragma mark Drawing
 
 - (void)layout {
+	self.imageView.frame = [self imageFrame];
+	self.titleLabel.frame = [self labelFrame];
 	[super layout];
-	self.imageView.frame = self.bounds;
-	self.titleLabel.frame = self.bounds;
 }
 
 - (void)setContentMode:(BTRViewContentMode)contentMode {
@@ -94,5 +94,15 @@
 
 - (CGFloat)cornerRadius {
 	return self.imageView.cornerRadius;
+}
+
+#pragma mark - Subclassing Hooks
+
+- (CGRect)imageFrame {
+	return self.bounds;
+}
+
+- (CGRect)labelFrame {
+	return self.bounds;
 }
 @end
