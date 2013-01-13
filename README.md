@@ -10,7 +10,6 @@ This framework seeks to provide the following:
 
 The following controls will be provided. All controls are assumed to be layer-backed by default unless otherwise specified.
 
-- `BTRCollectionView` – a complete port of `UICollectionView` to the Mac
 - `BTRButton` – an image-based button with block APIs
 - `BTRImageView`
 - `BTRTextField`
@@ -23,6 +22,8 @@ The following controls will be provided. All controls are assumed to be layer-ba
 - `BTRRefreshControl` – a stylish pull-to-refresh control for scroll views
 
 More controls will be added in due time if seen fit.
+
+`BTRCollectionView` can be found on its [own repo.](https://github.com/ButterKit/BTRCollectionView)
 
 License
 ---
