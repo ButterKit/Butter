@@ -6,11 +6,6 @@
 //  Copyright (c) 2012 ButterKit. All rights reserved.
 //
 
-#import <Butter/BTRCollectionView.h>
-#import <Butter/BTRCollectionViewCell.h>
-#import <Butter/BTRCollectionViewLayout.h>
-#import <Butter/BTRCollectionViewFlowLayout.h>
-#import <Butter/BTRCollectionViewListLayout.h>
 #import <Butter/BTRImageView.h>
 #import <Butter/BTRControl.h>
 #import <Butter/BTRButton.h>
