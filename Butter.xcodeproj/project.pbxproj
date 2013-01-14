@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03034054168D89B100697D51 /* BTRSecureTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034052168D89B100697D51 /* BTRSecureTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		03034055168D89B100697D51 /* BTRSecureTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034053168D89B100697D51 /* BTRSecureTextField.m */; };
 		03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */; };
 		0303406B168D8E4500697D51 /* RBLResizableImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034067168D8E4500697D51 /* RBLResizableImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -18,11 +16,7 @@
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
 		035B5C1916A367EC0098CB09 /* BTRGeometryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 035B5C1816A367EC0098CB09 /* BTRGeometryAdditions.h */; };
-		036E245A169123CE00376C68 /* BTRPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 036E2458169123CE00376C68 /* BTRPopUpButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		036E245B169123CE00376C68 /* BTRPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 036E2459169123CE00376C68 /* BTRPopUpButton.m */; };
 		03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E41480167B03D800EACE0F /* BTRCommon.h */; };
-		ABA67798168C03FA006DD644 /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABA67799168C03FA006DD644 /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA67797168C03FA006DD644 /* BTRActivityIndicator.m */; };
 		ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */; };
 		ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA38167AD439003EFDD6 /* BTRClipView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -31,55 +25,23 @@
 		ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */; };
 		ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA3C167AD439003EFDD6 /* BTRView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3D167AD439003EFDD6 /* BTRView.m */; };
-		ABB9D743167BD73A00ECB31D /* BTRControl.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB9D741167BD73A00ECB31D /* BTRControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB9D742167BD73A00ECB31D /* BTRControl.m */; };
-		ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABE939381679942300A7A1B8 /* BTRImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE939391679942300A7A1B8 /* BTRImageView.m */; };
-		ABECF0671685393100BED126 /* BTRButton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABECF0651685393100BED126 /* BTRButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABECF0681685393100BED126 /* BTRButton.m in Sources */ = {isa = PBXBuildFile; fileRef = ABECF0661685393100BED126 /* BTRButton.m */; };
-		ABECF07116855FCA00BED126 /* BTRTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = ABECF06F16855FCA00BED126 /* BTRTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABECF07216855FCA00BED126 /* BTRTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = ABECF07016855FCA00BED126 /* BTRTextField.m */; };
-		ABECF07516855FD800BED126 /* BTRLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = ABECF07316855FD800BED126 /* BTRLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABECF07616855FD800BED126 /* BTRLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = ABECF07416855FD800BED126 /* BTRLabel.m */; };
+		ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */; };
+		ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */; };
+		ABEC314616A3CF7300919EED /* BTRButton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314416A3CF7300919EED /* BTRButton.h */; };
+		ABEC314716A3CF7300919EED /* BTRButton.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314516A3CF7300919EED /* BTRButton.m */; };
+		ABEC314A16A3CF7B00919EED /* BTRControl.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314816A3CF7B00919EED /* BTRControl.h */; };
+		ABEC314B16A3CF7B00919EED /* BTRControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314916A3CF7B00919EED /* BTRControl.m */; };
+		ABEC314E16A3CF8100919EED /* BTRImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314C16A3CF8100919EED /* BTRImageView.h */; };
+		ABEC314F16A3CF8100919EED /* BTRImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314D16A3CF8100919EED /* BTRImageView.m */; };
+		ABEC315216A3CF8800919EED /* BTRLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC315016A3CF8800919EED /* BTRLabel.h */; };
+		ABEC315316A3CF8800919EED /* BTRLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC315116A3CF8800919EED /* BTRLabel.m */; };
+		ABEC315616A3CF8E00919EED /* BTRPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC315416A3CF8E00919EED /* BTRPopUpButton.h */; };
+		ABEC315716A3CF8E00919EED /* BTRPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC315516A3CF8E00919EED /* BTRPopUpButton.m */; };
+		ABEC315A16A3CF9A00919EED /* BTRSecureTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC315816A3CF9A00919EED /* BTRSecureTextField.h */; };
+		ABEC315B16A3CF9A00919EED /* BTRSecureTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC315916A3CF9A00919EED /* BTRSecureTextField.m */; };
+		ABEC315E16A3CFA000919EED /* BTRTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC315C16A3CFA000919EED /* BTRTextField.h */; };
+		ABEC315F16A3CFA000919EED /* BTRTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC315D16A3CFA000919EED /* BTRTextField.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		03034041168D880D00697D51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0303403D168D880B00697D51 /* TextFieldDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0303401D168D880B00697D51;
-			remoteInfo = TextFieldDemo;
-		};
-		AB7996C016914FE300B1FF7E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AB799683169146CC00B1FF7E;
-			remoteInfo = "Popup Button Demo";
-		};
-		ABA67773168AC94B006DD644 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABA6776F168AC94A006DD644 /* ActivityIndicator Demo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ABA6774F168AC94A006DD644;
-			remoteInfo = "ActivityIndicator Demo";
-		};
-		ABB9D773167BF0F200ECB31D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ABB9D74F167BF0F100ECB31D;
-			remoteInfo = ControlEvents;
-		};
-		ABECF0A5168563CC00BED126 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ABECF081168563CB00BED126;
-			remoteInfo = ButtonDemo;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		03FA6FFC1674631E00491A1D /* CopyFiles */ = {
@@ -94,9 +56,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0303403D168D880B00697D51 /* TextFieldDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TextFieldDemo.xcodeproj; path = Butter/Examples/BTRTextField/TextFieldDemo/TextFieldDemo.xcodeproj; sourceTree = "<group>"; };
-		03034052168D89B100697D51 /* BTRSecureTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRSecureTextField.h; path = BTRSecureTextField/BTRSecureTextField.h; sourceTree = "<group>"; };
-		03034053168D89B100697D51 /* BTRSecureTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRSecureTextField.m; path = BTRSecureTextField/BTRSecureTextField.m; sourceTree = "<group>"; };
 		03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+RBLResizableImageAdditions.h"; sourceTree = "<group>"; };
 		03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+RBLResizableImageAdditions.m"; sourceTree = "<group>"; };
 		03034067168D8E4500697D51 /* RBLResizableImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBLResizableImage.h; sourceTree = "<group>"; };
@@ -112,13 +71,7 @@
 		03239F6A1672E712004263D7 /* Butter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Butter.h; sourceTree = "<group>"; };
 		03239F7E1672E7C8004263D7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		035B5C1816A367EC0098CB09 /* BTRGeometryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRGeometryAdditions.h; sourceTree = "<group>"; };
-		036E2458169123CE00376C68 /* BTRPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRPopUpButton.h; path = BTRPopUpButton/BTRPopUpButton.h; sourceTree = "<group>"; };
-		036E2459169123CE00376C68 /* BTRPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRPopUpButton.m; path = BTRPopUpButton/BTRPopUpButton.m; sourceTree = "<group>"; };
 		03E41480167B03D800EACE0F /* BTRCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRCommon.h; sourceTree = "<group>"; };
-		AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Popup Button Demo.xcodeproj"; path = "Butter/Examples/BTRPopUpButton/Popup Button Demo/Popup Button Demo.xcodeproj"; sourceTree = "<group>"; };
-		ABA6776F168AC94A006DD644 /* ActivityIndicator Demo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ActivityIndicator Demo.xcodeproj"; path = "Butter/Examples/BTRActivityIndicator/ActivityIndicator Demo/ActivityIndicator Demo.xcodeproj"; sourceTree = "<group>"; };
-		ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRActivityIndicator.h; sourceTree = "<group>"; };
-		ABA67797168C03FA006DD644 /* BTRActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRActivityIndicator.m; sourceTree = "<group>"; };
 		ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BTRAdditions.h"; path = "Extensions/NSView+BTRAdditions.h"; sourceTree = "<group>"; };
 		ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BTRAdditions.m"; path = "Extensions/NSView+BTRAdditions.m"; sourceTree = "<group>"; };
 		ABACCA38167AD439003EFDD6 /* BTRClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRClipView.h; sourceTree = "<group>"; };
@@ -127,18 +80,22 @@
 		ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRScrollView.m; sourceTree = "<group>"; };
 		ABACCA3C167AD439003EFDD6 /* BTRView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRView.h; sourceTree = "<group>"; };
 		ABACCA3D167AD439003EFDD6 /* BTRView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRView.m; sourceTree = "<group>"; };
-		ABB9D741167BD73A00ECB31D /* BTRControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRControl.h; path = BTRControl/BTRControl.h; sourceTree = "<group>"; };
-		ABB9D742167BD73A00ECB31D /* BTRControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRControl.m; path = BTRControl/BTRControl.m; sourceTree = "<group>"; };
-		ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ControlEvents.xcodeproj; path = Butter/Examples/BTRControl/ControlEvents/ControlEvents.xcodeproj; sourceTree = "<group>"; };
-		ABE939381679942300A7A1B8 /* BTRImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRImageView.h; path = BTRImageView/BTRImageView.h; sourceTree = "<group>"; };
-		ABE939391679942300A7A1B8 /* BTRImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRImageView.m; path = BTRImageView/BTRImageView.m; sourceTree = "<group>"; };
-		ABECF0651685393100BED126 /* BTRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRButton.h; path = BTRButton/BTRButton.h; sourceTree = "<group>"; };
-		ABECF0661685393100BED126 /* BTRButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRButton.m; path = BTRButton/BTRButton.m; sourceTree = "<group>"; };
-		ABECF06F16855FCA00BED126 /* BTRTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRTextField.h; path = BTRTextField/BTRTextField.h; sourceTree = "<group>"; };
-		ABECF07016855FCA00BED126 /* BTRTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRTextField.m; path = BTRTextField/BTRTextField.m; sourceTree = "<group>"; };
-		ABECF07316855FD800BED126 /* BTRLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRLabel.h; path = BTRLabel/BTRLabel.h; sourceTree = "<group>"; };
-		ABECF07416855FD800BED126 /* BTRLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRLabel.m; path = BTRLabel/BTRLabel.m; sourceTree = "<group>"; };
-		ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ButtonDemo.xcodeproj; path = Butter/Examples/BTRButton/ButtonDemo/ButtonDemo.xcodeproj; sourceTree = "<group>"; };
+		ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRActivityIndicator.h; path = Butter/BTRActivityIndicator.h; sourceTree = SOURCE_ROOT; };
+		ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRActivityIndicator.m; path = Butter/BTRActivityIndicator.m; sourceTree = SOURCE_ROOT; };
+		ABEC314416A3CF7300919EED /* BTRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRButton.h; sourceTree = "<group>"; };
+		ABEC314516A3CF7300919EED /* BTRButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRButton.m; sourceTree = "<group>"; };
+		ABEC314816A3CF7B00919EED /* BTRControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRControl.h; sourceTree = "<group>"; };
+		ABEC314916A3CF7B00919EED /* BTRControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRControl.m; sourceTree = "<group>"; };
+		ABEC314C16A3CF8100919EED /* BTRImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRImageView.h; sourceTree = "<group>"; };
+		ABEC314D16A3CF8100919EED /* BTRImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRImageView.m; sourceTree = "<group>"; };
+		ABEC315016A3CF8800919EED /* BTRLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRLabel.h; sourceTree = "<group>"; };
+		ABEC315116A3CF8800919EED /* BTRLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRLabel.m; sourceTree = "<group>"; };
+		ABEC315416A3CF8E00919EED /* BTRPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRPopUpButton.h; sourceTree = "<group>"; };
+		ABEC315516A3CF8E00919EED /* BTRPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRPopUpButton.m; sourceTree = "<group>"; };
+		ABEC315816A3CF9A00919EED /* BTRSecureTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRSecureTextField.h; sourceTree = "<group>"; };
+		ABEC315916A3CF9A00919EED /* BTRSecureTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRSecureTextField.m; sourceTree = "<group>"; };
+		ABEC315C16A3CFA000919EED /* BTRTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRTextField.h; sourceTree = "<group>"; };
+		ABEC315D16A3CFA000919EED /* BTRTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,27 +111,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03034013168D87E900697D51 /* BTRTextField */ = {
-			isa = PBXGroup;
-			children = (
-				0303403D168D880B00697D51 /* TextFieldDemo.xcodeproj */,
-			);
-			name = BTRTextField;
-			sourceTree = "<group>";
-		};
-		0303403E168D880B00697D51 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				03034042168D880D00697D51 /* TextFieldDemo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		03034051168D896300697D51 /* BTRSecureTextField */ = {
 			isa = PBXGroup;
 			children = (
-				03034052168D89B100697D51 /* BTRSecureTextField.h */,
-				03034053168D89B100697D51 /* BTRSecureTextField.m */,
+				ABEC315816A3CF9A00919EED /* BTRSecureTextField.h */,
+				ABEC315916A3CF9A00919EED /* BTRSecureTextField.m */,
 			);
 			name = BTRSecureTextField;
 			sourceTree = "<group>";
@@ -183,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				03239EBB1672E6D6004263D7 /* Butter */,
-				03FA702616746A6600491A1D /* Examples */,
 				03239EB41672E6D6004263D7 /* Frameworks */,
 				03239EB31672E6D6004263D7 /* Products */,
 			);
@@ -221,7 +161,16 @@
 			isa = PBXGroup;
 			children = (
 				03239F6A1672E712004263D7 /* Butter.h */,
+				0391B769169119D000725AAD /* BTRPopUpButton */,
+				ABA67795168C03FA006DD644 /* BTRActivityIndicator */,
+				ABE93937167993DB00A7A1B8 /* BTRImageView */,
+				ABB9D73D167BD6C800ECB31D /* BTRControl */,
+				ABECF05C1685390500BED126 /* BTRButton */,
+				ABECF06D16855FA400BED126 /* BTRTextField */,
+				03034051168D896300697D51 /* BTRSecureTextField */,
+				ABECF06E16855FB000BED126 /* BTRLabel */,
 				03FA6EFB1674393400491A1D /* Categories */,
+				ABACCA35167AD439003EFDD6 /* Extensions */,
 				03239ECA1672E6DC004263D7 /* Components */,
 				03239EBC1672E6D6004263D7 /* Supporting Files */,
 			);
@@ -241,15 +190,6 @@
 		03239ECA1672E6DC004263D7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				0391B769169119D000725AAD /* BTRPopUpButton */,
-				ABACCA35167AD439003EFDD6 /* Extensions */,
-				ABA67795168C03FA006DD644 /* BTRActivityIndicator */,
-				ABE93937167993DB00A7A1B8 /* BTRImageView */,
-				ABB9D73D167BD6C800ECB31D /* BTRControl */,
-				ABECF05C1685390500BED126 /* BTRButton */,
-				ABECF06D16855FA400BED126 /* BTRTextField */,
-				03034051168D896300697D51 /* BTRSecureTextField */,
-				ABECF06E16855FB000BED126 /* BTRLabel */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -257,8 +197,8 @@
 		0391B769169119D000725AAD /* BTRPopUpButton */ = {
 			isa = PBXGroup;
 			children = (
-				036E2458169123CE00376C68 /* BTRPopUpButton.h */,
-				036E2459169123CE00376C68 /* BTRPopUpButton.m */,
+				ABEC315416A3CF8E00919EED /* BTRPopUpButton.h */,
+				ABEC315516A3CF8E00919EED /* BTRPopUpButton.m */,
 			);
 			name = BTRPopUpButton;
 			sourceTree = "<group>";
@@ -272,55 +212,11 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		03FA702616746A6600491A1D /* Examples */ = {
-			isa = PBXGroup;
-			children = (
-				AB7996B316914FD300B1FF7E /* BTRPopUpButton */,
-				03034013168D87E900697D51 /* BTRTextField */,
-				ABA67745168AC90D006DD644 /* BTRActivityIndicator */,
-				ABECF0771685636200BED126 /* BTRButton */,
-				ABB9D745167BF03600ECB31D /* BTRControl */,
-			);
-			name = Examples;
-			sourceTree = "<group>";
-		};
-		AB7996B316914FD300B1FF7E /* BTRPopUpButton */ = {
-			isa = PBXGroup;
-			children = (
-				AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */,
-			);
-			name = BTRPopUpButton;
-			sourceTree = "<group>";
-		};
-		AB7996BD16914FE300B1FF7E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AB7996C116914FE300B1FF7E /* Popup Button Demo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		ABA67745168AC90D006DD644 /* BTRActivityIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				ABA6776F168AC94A006DD644 /* ActivityIndicator Demo.xcodeproj */,
-			);
-			name = BTRActivityIndicator;
-			sourceTree = "<group>";
-		};
-		ABA67770168AC94A006DD644 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ABA67774168AC94B006DD644 /* ActivityIndicator Demo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ABA67795168C03FA006DD644 /* BTRActivityIndicator */ = {
 			isa = PBXGroup;
 			children = (
-				ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */,
-				ABA67797168C03FA006DD644 /* BTRActivityIndicator.m */,
+				ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */,
+				ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */,
 			);
 			path = BTRActivityIndicator;
 			sourceTree = "<group>";
@@ -347,33 +243,17 @@
 		ABB9D73D167BD6C800ECB31D /* BTRControl */ = {
 			isa = PBXGroup;
 			children = (
-				ABB9D741167BD73A00ECB31D /* BTRControl.h */,
-				ABB9D742167BD73A00ECB31D /* BTRControl.m */,
+				ABEC314816A3CF7B00919EED /* BTRControl.h */,
+				ABEC314916A3CF7B00919EED /* BTRControl.m */,
 			);
 			name = BTRControl;
-			sourceTree = "<group>";
-		};
-		ABB9D745167BF03600ECB31D /* BTRControl */ = {
-			isa = PBXGroup;
-			children = (
-				ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */,
-			);
-			name = BTRControl;
-			sourceTree = "<group>";
-		};
-		ABB9D770167BF0F100ECB31D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ABB9D774167BF0F200ECB31D /* ControlEvents.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		ABE93937167993DB00A7A1B8 /* BTRImageView */ = {
 			isa = PBXGroup;
 			children = (
-				ABE939381679942300A7A1B8 /* BTRImageView.h */,
-				ABE939391679942300A7A1B8 /* BTRImageView.m */,
+				ABEC314C16A3CF8100919EED /* BTRImageView.h */,
+				ABEC314D16A3CF8100919EED /* BTRImageView.m */,
 			);
 			name = BTRImageView;
 			sourceTree = "<group>";
@@ -381,8 +261,8 @@
 		ABECF05C1685390500BED126 /* BTRButton */ = {
 			isa = PBXGroup;
 			children = (
-				ABECF0651685393100BED126 /* BTRButton.h */,
-				ABECF0661685393100BED126 /* BTRButton.m */,
+				ABEC314416A3CF7300919EED /* BTRButton.h */,
+				ABEC314516A3CF7300919EED /* BTRButton.m */,
 			);
 			name = BTRButton;
 			sourceTree = "<group>";
@@ -390,8 +270,8 @@
 		ABECF06D16855FA400BED126 /* BTRTextField */ = {
 			isa = PBXGroup;
 			children = (
-				ABECF06F16855FCA00BED126 /* BTRTextField.h */,
-				ABECF07016855FCA00BED126 /* BTRTextField.m */,
+				ABEC315C16A3CFA000919EED /* BTRTextField.h */,
+				ABEC315D16A3CFA000919EED /* BTRTextField.m */,
 			);
 			name = BTRTextField;
 			sourceTree = "<group>";
@@ -399,26 +279,10 @@
 		ABECF06E16855FB000BED126 /* BTRLabel */ = {
 			isa = PBXGroup;
 			children = (
-				ABECF07316855FD800BED126 /* BTRLabel.h */,
-				ABECF07416855FD800BED126 /* BTRLabel.m */,
+				ABEC315016A3CF8800919EED /* BTRLabel.h */,
+				ABEC315116A3CF8800919EED /* BTRLabel.m */,
 			);
 			name = BTRLabel;
-			sourceTree = "<group>";
-		};
-		ABECF0771685636200BED126 /* BTRButton */ = {
-			isa = PBXGroup;
-			children = (
-				ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */,
-			);
-			name = BTRButton;
-			sourceTree = "<group>";
-		};
-		ABECF0A2168563CB00BED126 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ABECF0A6168563CC00BED126 /* ButtonDemo.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,22 +293,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				03239F6B1672E712004263D7 /* Butter.h in Headers */,
-				ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */,
 				ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */,
 				ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */,
 				ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */,
 				ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */,
 				03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */,
-				ABB9D743167BD73A00ECB31D /* BTRControl.h in Headers */,
-				ABECF0671685393100BED126 /* BTRButton.h in Headers */,
-				ABECF07116855FCA00BED126 /* BTRTextField.h in Headers */,
-				ABECF07516855FD800BED126 /* BTRLabel.h in Headers */,
-				ABA67798168C03FA006DD644 /* BTRActivityIndicator.h in Headers */,
-				03034054168D89B100697D51 /* BTRSecureTextField.h in Headers */,
 				03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */,
 				0303406B168D8E4500697D51 /* RBLResizableImage.h in Headers */,
-				036E245A169123CE00376C68 /* BTRPopUpButton.h in Headers */,
 				035B5C1916A367EC0098CB09 /* BTRGeometryAdditions.h in Headers */,
+				ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */,
+				ABEC314616A3CF7300919EED /* BTRButton.h in Headers */,
+				ABEC314A16A3CF7B00919EED /* BTRControl.h in Headers */,
+				ABEC314E16A3CF8100919EED /* BTRImageView.h in Headers */,
+				ABEC315216A3CF8800919EED /* BTRLabel.h in Headers */,
+				ABEC315616A3CF8E00919EED /* BTRPopUpButton.h in Headers */,
+				ABEC315A16A3CF9A00919EED /* BTRSecureTextField.h in Headers */,
+				ABEC315E16A3CFA000919EED /* BTRTextField.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,72 +354,12 @@
 			mainGroup = 03239EA61672E6D6004263D7;
 			productRefGroup = 03239EB31672E6D6004263D7 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = ABA67770168AC94A006DD644 /* Products */;
-					ProjectRef = ABA6776F168AC94A006DD644 /* ActivityIndicator Demo.xcodeproj */;
-				},
-				{
-					ProductGroup = ABECF0A2168563CB00BED126 /* Products */;
-					ProjectRef = ABECF0A1168563CB00BED126 /* ButtonDemo.xcodeproj */;
-				},
-				{
-					ProductGroup = ABB9D770167BF0F100ECB31D /* Products */;
-					ProjectRef = ABB9D76F167BF0F100ECB31D /* ControlEvents.xcodeproj */;
-				},
-				{
-					ProductGroup = AB7996BD16914FE300B1FF7E /* Products */;
-					ProjectRef = AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */;
-				},
-				{
-					ProductGroup = 0303403E168D880B00697D51 /* Products */;
-					ProjectRef = 0303403D168D880B00697D51 /* TextFieldDemo.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				03239EB11672E6D6004263D7 /* Butter */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		03034042168D880D00697D51 /* TextFieldDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = TextFieldDemo.app;
-			remoteRef = 03034041168D880D00697D51 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB7996C116914FE300B1FF7E /* Popup Button Demo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Popup Button Demo.app";
-			remoteRef = AB7996C016914FE300B1FF7E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ABA67774168AC94B006DD644 /* ActivityIndicator Demo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "ActivityIndicator Demo.app";
-			remoteRef = ABA67773168AC94B006DD644 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ABB9D774167BF0F200ECB31D /* ControlEvents.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ControlEvents.app;
-			remoteRef = ABB9D773167BF0F200ECB31D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ABECF0A6168563CC00BED126 /* ButtonDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ButtonDemo.app;
-			remoteRef = ABECF0A5168563CC00BED126 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		03239EB01672E6D6004263D7 /* Resources */ = {
@@ -573,20 +377,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */,
 				ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */,
 				ABACCA41167AD439003EFDD6 /* BTRClipView.m in Sources */,
 				ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */,
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,
-				ABB9D744167BD73A00ECB31D /* BTRControl.m in Sources */,
-				ABECF0681685393100BED126 /* BTRButton.m in Sources */,
-				ABECF07216855FCA00BED126 /* BTRTextField.m in Sources */,
-				ABECF07616855FD800BED126 /* BTRLabel.m in Sources */,
-				ABA67799168C03FA006DD644 /* BTRActivityIndicator.m in Sources */,
-				03034055168D89B100697D51 /* BTRSecureTextField.m in Sources */,
 				0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */,
 				0303406C168D8E4500697D51 /* RBLResizableImage.m in Sources */,
-				036E245B169123CE00376C68 /* BTRPopUpButton.m in Sources */,
+				ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */,
+				ABEC314716A3CF7300919EED /* BTRButton.m in Sources */,
+				ABEC314B16A3CF7B00919EED /* BTRControl.m in Sources */,
+				ABEC314F16A3CF8100919EED /* BTRImageView.m in Sources */,
+				ABEC315316A3CF8800919EED /* BTRLabel.m in Sources */,
+				ABEC315716A3CF8E00919EED /* BTRPopUpButton.m in Sources */,
+				ABEC315B16A3CF9A00919EED /* BTRSecureTextField.m in Sources */,
+				ABEC315F16A3CFA000919EED /* BTRTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
