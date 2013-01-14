@@ -82,17 +82,17 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 - (NSString *)titleForControlState:(BTRControlState)state;
 - (void)setTitle:(NSString *)title forControlState:(BTRControlState)state;
 
-- (NSAttributedString *)attributedTitleForState:(BTRControlState)state;
-- (void)setAttributedTitle:(NSAttributedString *)title forState:(BTRControlState)state;
+- (NSAttributedString *)attributedTitleForControlState:(BTRControlState)state;
+- (void)setAttributedTitle:(NSAttributedString *)title forControlState:(BTRControlState)state;
 
-- (NSColor *)titleColorForState:(BTRControlState)state;
-- (void)setTitleColor:(NSColor *)color forState:(BTRControlState)state;
+- (NSColor *)titleColorForControlState:(BTRControlState)state;
+- (void)setTitleColor:(NSColor *)color forControlState:(BTRControlState)state;
 
-- (NSShadow *)titleShadowForState:(BTRControlState)state;
-- (void)setTitleShadow:(NSShadow *)shadow forState:(BTRControlState)state;
+- (NSShadow *)titleShadowForControlState:(BTRControlState)state;
+- (void)setTitleShadow:(NSShadow *)shadow forControlState:(BTRControlState)state;
 
-- (NSFont *)titleFontForState:(BTRControlState)state;
-- (void)setTitleFont:(NSFont *)font forState:(BTRControlState)state;
+- (NSFont *)titleFontForControlState:(BTRControlState)state;
+- (void)setTitleFont:(NSFont *)font forControlState:(BTRControlState)state;
 
 @end
 

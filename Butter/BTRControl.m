@@ -92,35 +92,35 @@
 	[self contentForControlState:state].title = title;
 }
 
-- (NSAttributedString *)attributedTitleForState:(BTRControlState)state {
+- (NSAttributedString *)attributedTitleForControlState:(BTRControlState)state {
 	return [self contentForControlState:state].attributedTitle;
 }
 
-- (void)setAttributedTitle:(NSAttributedString *)title forState:(BTRControlState)state {
+- (void)setAttributedTitle:(NSAttributedString *)title forControlState:(BTRControlState)state {
 	[self contentForControlState:state].attributedTitle = title;
 }
 
-- (NSColor *)titleColorForState:(BTRControlState)state {
+- (NSColor *)titleColorForControlState:(BTRControlState)state {
 	return [self contentForControlState:state].titleColor;
 }
 
-- (void)setTitleColor:(NSColor *)color forState:(BTRControlState)state {
+- (void)setTitleColor:(NSColor *)color forControlState:(BTRControlState)state {
 	[self contentForControlState:state].titleColor = color;
 }
 
-- (NSShadow *)titleShadowForState:(BTRControlState)state {
+- (NSShadow *)titleShadowForControlState:(BTRControlState)state {
 	return [self contentForControlState:state].titleShadow;
 }
 
-- (void)setTitleShadow:(NSShadow *)shadow forState:(BTRControlState)state {
+- (void)setTitleShadow:(NSShadow *)shadow forControlState:(BTRControlState)state {
 	[self contentForControlState:state].titleShadow = shadow;
 }
 
-- (NSFont *)titleFontForState:(BTRControlState)state {
+- (NSFont *)titleFontForControlState:(BTRControlState)state {
 	return [self contentForControlState:state].titleFont;
 }
 
-- (void)setTitleFont:(NSFont *)font forState:(BTRControlState)state {
+- (void)setTitleFont:(NSFont *)font forControlState:(BTRControlState)state {
 	[self contentForControlState:state].titleFont = font;
 }
 
@@ -212,7 +212,7 @@
 - (void)updateTrackingAreas {
 	if (!self.needsTrackingArea)
 		return;
-
+	
 	if (self.trackingArea) {
 		[self removeTrackingArea:self.trackingArea];
 		self.trackingArea = nil;
@@ -270,12 +270,12 @@
 
 //- (void)mouseDragged:(NSEvent *)theEvent {
 //	[super mouseDragged:theEvent];
-//		
+//
 //	if (self.mouseDown) {
 //		BTRControlEvents events = 1;
-//		
+//
 //		// TODO: Implement logic here
-//		
+//
 //		//[self sendActionsForControlEvents:events];
 //	}
 //}

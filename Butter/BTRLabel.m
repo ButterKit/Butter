@@ -13,7 +13,8 @@
 - (void)commonInitForBTRLabel {
 	self.bezeled = NO;
 	self.editable = NO;
-	self.layer.shadowRadius = 0.f;
+	self.drawsFocusRing = NO;
+	self.drawsBackground = NO;
 	self.selectable = NO;
 }
 
@@ -29,9 +30,5 @@
 	if (self == nil) return nil;
 	[self commonInitForBTRLabel];
 	return self;
-}
-
-- (BOOL)drawsBackground {
-	return NO;
 }
 @end

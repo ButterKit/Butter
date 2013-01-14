@@ -21,6 +21,13 @@
 // Modifies the contentMode on the underlying image view.
 @property (nonatomic, assign) BTRViewContentMode contentMode;
 @property (nonatomic, assign) BOOL animatesContents;
+@property (nonatomic, strong) NSTextFieldCell *textFieldCell;
+
+// Text attribute accessors
+@property (nonatomic, strong) NSString *placeholderTitle;
+@property (nonatomic, strong) NSColor *placeholderTextColor;
+@property (nonatomic, strong) NSFont *placeholderFont;
+@property (nonatomic, strong) NSShadow *placeholderShadow;
 
 // Reimplementation of BTRControl API
 @property (nonatomic, readonly) BTRControlState state;

@@ -20,6 +20,8 @@
 @property (nonatomic, readwrite) NSInteger clickCount;
 @property (nonatomic, strong) NSTrackingArea *trackingArea;
 @property (nonatomic, assign) BOOL needsTrackingArea;
+
+@property (nonatomic, strong) NSMutableDictionary *placeholderAttributes;
 @end
 
 @interface BTRTextFieldCell : NSTextFieldCell
@@ -83,6 +85,8 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.backgroundImages = [NSMutableDictionary dictionary];
 	self.actions = [NSMutableArray array];
 	self.needsTrackingArea = NO;
+	self.placeholderAttributes = [NSMutableDictionary dictionary];
+	_placeholderTitle = [self.textFieldCell.placeholderString copy];
 	
 	self.focusRingType = NSFocusRingTypeNone;
 	self.drawsFocusRing = YES;
@@ -135,10 +139,8 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 }
 
 - (void)setDrawsBackground:(BOOL)flag {
-	if (_btrDrawsBackground != flag) {
-		_btrDrawsBackground = flag;
-		[self setNeedsDisplay:YES];
-	}
+	_btrDrawsBackground = flag;
+	[self setNeedsDisplay:YES];
 }
 
 - (BOOL)drawsBackground {
@@ -159,11 +161,78 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	[self handleStateChange];
 }
 
+- (NSTextFieldCell *)textFieldCell {
+	return self.cell;
+}
+
+- (void)setTextFieldCell:(NSTextFieldCell *)textFieldCell {
+	self.cell = textFieldCell;
+}
+
+- (void)setPlaceholderTitle:(NSString *)placeholderTitle {
+	if (_placeholderTitle != placeholderTitle) {
+		_placeholderTitle = placeholderTitle;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)setPlaceholderTextColor:(NSColor *)placeholderColor {
+	if (_placeholderTextColor != placeholderColor) {
+		_placeholderTextColor = placeholderColor;
+		self.placeholderAttributes[NSForegroundColorAttributeName] = placeholderColor;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)setPlaceholderFont:(NSFont *)placeholderFont {
+	if (_placeholderFont != placeholderFont) {
+		_placeholderFont = placeholderFont;
+		self.placeholderAttributes[NSFontAttributeName] = placeholderFont;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)setPlaceholderShadow:(NSShadow *)placeholderShadow{
+	if (_placeholderShadow != placeholderShadow) {
+		_placeholderShadow = placeholderShadow;
+		self.placeholderAttributes[NSShadowAttributeName] = placeholderShadow;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)resetPlaceholder {
+	if ([self.placeholderTitle length]) {
+		self.textFieldCell.placeholderAttributedString = [[NSAttributedString alloc] initWithString:self.placeholderTitle attributes:self.placeholderAttributes];
+	}
+}
+
+- (void)setFont:(NSFont *)fontObj {
+	[super setFont:fontObj];
+	if (!self.placeholderFont)
+		self.placeholderFont = fontObj;
+}
+
+- (void)setTextColor:(NSColor *)color {
+	[super setTextColor:color];
+	if (!self.placeholderTextColor)
+		self.placeholderTextColor = color;
+}
+
+- (void)setShadow:(NSShadow *)shadow {
+	[super setShadow:shadow];
+	if (!self.placeholderShadow)
+		self.placeholderShadow = shadow;
+}
+
 #pragma mark Drawing
 
 - (void)drawBackgroundInRect:(NSRect)rect
 {
-	if (self.drawsBackground) {
+	if (!self.drawsBackground) return;
+	NSImage *image = [self backgroundImageForControlState:self.state] ?: [self backgroundImageForControlState:BTRControlStateNormal];
+	if (image) {
+		[image drawInRect:rect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.f];
+	} else {
 		[BTRTextFieldBorderColor set];
 		if (![self isFirstResponder])
 			[[NSBezierPath bezierPathWithRoundedRect:rect
@@ -186,9 +255,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 		CGRect innerRect = NSInsetRect(rect, 1, 2);
 		innerRect.size.height += 1;
 		[[NSBezierPath bezierPathWithRoundedRect:innerRect xRadius:BTRTextFieldInnerRadius yRadius:BTRTextFieldInnerRadius] fill];
-	} else {
-		NSImage *image = [self backgroundImageForControlState:self.state] ?: [self backgroundImageForControlState:BTRControlStateNormal];
-		[image drawInRect:rect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.f];
 	}
 }
 
@@ -215,7 +281,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	if (backgroundImage == nil) {
 		backgroundImage = [self backgroundImageForControlState:BTRControlStateNormal];
 	}
-	self.drawsBackground = (backgroundImage == nil);
 }
 
 #pragma mark - BTRControl
