@@ -43,6 +43,30 @@
 		ABEC315F16A3CFA000919EED /* BTRTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC315D16A3CFA000919EED /* BTRTextField.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		ABEC316816A3D2CC00919EED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABEC316116A3D2CB00919EED /* Rebel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D09AE4DF15C5F45200ECAD10;
+			remoteInfo = Rebel;
+		};
+		ABEC316A16A3D2CC00919EED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABEC316116A3D2CB00919EED /* Rebel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D09AE4F715C5F45300ECAD10;
+			remoteInfo = RebelTests;
+		};
+		ABEC316C16A3D2DA00919EED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABEC316116A3D2CB00919EED /* Rebel.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D09AE4DE15C5F45200ECAD10;
+			remoteInfo = Rebel;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		03FA6FFC1674631E00491A1D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -96,6 +120,7 @@
 		ABEC315916A3CF9A00919EED /* BTRSecureTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRSecureTextField.m; sourceTree = "<group>"; };
 		ABEC315C16A3CFA000919EED /* BTRTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRTextField.h; sourceTree = "<group>"; };
 		ABEC315D16A3CFA000919EED /* BTRTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRTextField.m; sourceTree = "<group>"; };
+		ABEC316116A3D2CB00919EED /* Rebel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Rebel.xcodeproj; path = External/Rebel/Rebel.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +185,7 @@
 		03239EBB1672E6D6004263D7 /* Butter */ = {
 			isa = PBXGroup;
 			children = (
+				ABEC316016A3D2BD00919EED /* External */,
 				03239F6A1672E712004263D7 /* Butter.h */,
 				0391B769169119D000725AAD /* BTRPopUpButton */,
 				ABA67795168C03FA006DD644 /* BTRActivityIndicator */,
@@ -258,6 +284,23 @@
 			name = BTRImageView;
 			sourceTree = "<group>";
 		};
+		ABEC316016A3D2BD00919EED /* External */ = {
+			isa = PBXGroup;
+			children = (
+				ABEC316116A3D2CB00919EED /* Rebel.xcodeproj */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		ABEC316216A3D2CB00919EED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABEC316916A3D2CC00919EED /* Rebel.framework */,
+				ABEC316B16A3D2CC00919EED /* RebelTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ABECF05C1685390500BED126 /* BTRButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +371,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				ABEC316D16A3D2DA00919EED /* PBXTargetDependency */,
 			);
 			name = Butter;
 			productName = Butter;
@@ -354,12 +398,35 @@
 			mainGroup = 03239EA61672E6D6004263D7;
 			productRefGroup = 03239EB31672E6D6004263D7 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ABEC316216A3D2CB00919EED /* Products */;
+					ProjectRef = ABEC316116A3D2CB00919EED /* Rebel.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				03239EB11672E6D6004263D7 /* Butter */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ABEC316916A3D2CC00919EED /* Rebel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Rebel.framework;
+			remoteRef = ABEC316816A3D2CC00919EED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABEC316B16A3D2CC00919EED /* RebelTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RebelTests.octest;
+			remoteRef = ABEC316A16A3D2CC00919EED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		03239EB01672E6D6004263D7 /* Resources */ = {
@@ -395,6 +462,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABEC316D16A3D2DA00919EED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Rebel;
+			targetProxy = ABEC316C16A3D2DA00919EED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		03239EBE1672E6D6004263D7 /* InfoPlist.strings */ = {
