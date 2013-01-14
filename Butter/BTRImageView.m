@@ -94,6 +94,14 @@
 	return self.imageLayer.cornerRadius;
 }
 
+- (void)setTransform:(CATransform3D)transform {
+	self.imageLayer.transform = transform;
+}
+
+- (CATransform3D)transform {
+	return self.imageLayer.transform;
+}
+
 #pragma mark Content mode
 
 - (void)setContentMode:(BTRViewContentMode)contentMode {

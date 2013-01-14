@@ -30,8 +30,9 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
 - (id)initWithImage:(NSImage *)image;
 
 @property (nonatomic, strong) NSImage *image;
-// The layer actually used to display the image
-@property (nonatomic, strong, readonly) CALayer *imageLayer;
+
+// The transform applied to the image.
+@property (nonatomic, assign) CATransform3D transform;
 
 // The content mode for the image view. Directly modifies the layer's contentsGravity.
 //
