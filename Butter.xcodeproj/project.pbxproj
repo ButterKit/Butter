@@ -21,10 +21,6 @@
 		036E245A169123CE00376C68 /* BTRPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 036E2458169123CE00376C68 /* BTRPopUpButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		036E245B169123CE00376C68 /* BTRPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 036E2459169123CE00376C68 /* BTRPopUpButton.m */; };
 		03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E41480167B03D800EACE0F /* BTRCommon.h */; };
-		03FA6F0016743BD700491A1D /* NSValue+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */; };
-		03FA6F0116743BD700491A1D /* NSValue+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		03FA6F0216743BD700491A1D /* NSIndexPath+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */; };
-		03FA6F0316743BD700491A1D /* NSIndexPath+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA6EFF16743BD700491A1D /* NSIndexPath+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABA67798168C03FA006DD644 /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABA67799168C03FA006DD644 /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA67797168C03FA006DD644 /* BTRActivityIndicator.m */; };
 		ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -119,10 +115,6 @@
 		036E2458169123CE00376C68 /* BTRPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRPopUpButton.h; path = BTRPopUpButton/BTRPopUpButton.h; sourceTree = "<group>"; };
 		036E2459169123CE00376C68 /* BTRPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRPopUpButton.m; path = BTRPopUpButton/BTRPopUpButton.m; sourceTree = "<group>"; };
 		03E41480167B03D800EACE0F /* BTRCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRCommon.h; sourceTree = "<group>"; };
-		03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSValue+BTRAdditions.m"; path = "Categories/NSValue+BTRAdditions.m"; sourceTree = "<group>"; };
-		03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+BTRAdditions.h"; path = "Categories/NSValue+BTRAdditions.h"; sourceTree = "<group>"; };
-		03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSIndexPath+BTRAdditions.m"; path = "Categories/NSIndexPath+BTRAdditions.m"; sourceTree = "<group>"; };
-		03FA6EFF16743BD700491A1D /* NSIndexPath+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSIndexPath+BTRAdditions.h"; path = "Categories/NSIndexPath+BTRAdditions.h"; sourceTree = "<group>"; };
 		AB7996BC16914FE300B1FF7E /* Popup Button Demo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Popup Button Demo.xcodeproj"; path = "Butter/Examples/BTRPopUpButton/Popup Button Demo/Popup Button Demo.xcodeproj"; sourceTree = "<group>"; };
 		ABA6776F168AC94A006DD644 /* ActivityIndicator Demo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ActivityIndicator Demo.xcodeproj"; path = "Butter/Examples/BTRActivityIndicator/ActivityIndicator Demo/ActivityIndicator Demo.xcodeproj"; sourceTree = "<group>"; };
 		ABA67796168C03FA006DD644 /* BTRActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRActivityIndicator.h; sourceTree = "<group>"; };
@@ -276,10 +268,6 @@
 			children = (
 				ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */,
 				ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */,
-				03FA6EFC16743BD700491A1D /* NSValue+BTRAdditions.m */,
-				03FA6EFD16743BD700491A1D /* NSValue+BTRAdditions.h */,
-				03FA6EFE16743BD700491A1D /* NSIndexPath+BTRAdditions.m */,
-				03FA6EFF16743BD700491A1D /* NSIndexPath+BTRAdditions.h */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -441,8 +429,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				03239F6B1672E712004263D7 /* Butter.h in Headers */,
-				03FA6F0116743BD700491A1D /* NSValue+BTRAdditions.h in Headers */,
-				03FA6F0316743BD700491A1D /* NSIndexPath+BTRAdditions.h in Headers */,
 				ABE9393A1679942300A7A1B8 /* BTRImageView.h in Headers */,
 				ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */,
 				ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */,
@@ -587,8 +573,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03FA6F0016743BD700491A1D /* NSValue+BTRAdditions.m in Sources */,
-				03FA6F0216743BD700491A1D /* NSIndexPath+BTRAdditions.m in Sources */,
 				ABE9393B1679942300A7A1B8 /* BTRImageView.m in Sources */,
 				ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */,
 				ABACCA41167AD439003EFDD6 /* BTRClipView.m in Sources */,
