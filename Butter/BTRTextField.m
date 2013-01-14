@@ -478,7 +478,13 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	NSRect integralFrame = NSIntegralRect(cellFrame);
-	[(BTRTextField *)[self controlView] drawBackgroundInRect:integralFrame];
+	BTRTextField *textField = (BTRTextField *)controlView;
+	[textField drawBackgroundInRect:integralFrame];
+	if (textField.highlighted && ![textField.stringValue length]) {
+		NSRect placeholderRect = [self drawingRectForBounds:cellFrame];
+		placeholderRect.origin.x += 2.f;
+		[self.placeholderAttributedString drawInRect:placeholderRect];
+	}
 	[super drawInteriorWithFrame:integralFrame inView:controlView];
 }
 
