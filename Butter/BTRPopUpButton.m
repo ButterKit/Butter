@@ -255,7 +255,14 @@
 - (void)mouseDown:(NSEvent *)theEvent {
 	[super mouseDown:theEvent];
 	if (self.menu) {
-		NSPoint location = [self convertPoint:self.bounds.origin toView:nil];
+		NSPoint origin = [self imageFrame].origin;
+		origin.y = 0.f;
+		// Offset to line up the menu item image
+		// TODO: Figure out a better way to calculate this offset at runtime.
+		// There are no geometry methods on NSMenu or NSMenuItem that would
+		// allow the retrievel of layout information for menu items
+		origin.x -= 22.f; 
+		NSPoint location = [self convertPoint:origin toView:nil];
 		// Synthesize an event just so we can change the location of the menu
 		NSEvent *synthesizedEvent = [NSEvent mouseEventWithType:theEvent.type location:location modifierFlags:theEvent.modifierFlags timestamp:theEvent.timestamp windowNumber:theEvent.windowNumber context:theEvent.context eventNumber:theEvent.eventNumber clickCount:theEvent.clickCount pressure:theEvent.pressure];
 		[NSMenu popUpContextMenu:self.menu withEvent:synthesizedEvent forView:self];
