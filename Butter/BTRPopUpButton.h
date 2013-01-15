@@ -9,14 +9,9 @@
 #import <Butter/Butter.h>
 
 @interface BTRPopUpButton : BTRControl
-@property (nonatomic, strong, readonly) BTRImageView *imageView;
-@property (nonatomic, strong, readonly) BTRLabel *label;
-
-@property (nonatomic, strong, readonly) BTRImageView *backgroundImageView;
-@property (nonatomic, strong, readonly) BTRImageView *arrowImageView;
-
 @property (nonatomic, copy) IBOutlet NSMenu *menu;
 @property (nonatomic, strong) NSMenuItem *selectedItem;
+@property (nonatomic, assign) BOOL autoenablesItems;
 
 - (void)selectItemAtIndex:(NSUInteger)index;
 - (NSUInteger)indexOfSelectedItem;

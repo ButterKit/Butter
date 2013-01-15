@@ -25,7 +25,7 @@
 @end
 
 @interface BTRTextFieldCell : NSTextFieldCell
-
+@property (nonatomic, assign) BOOL didRedrawAfterTextChange;
 @end
 
 static const CGFloat BTRTextFieldCornerRadius = 3.f;
@@ -450,6 +450,13 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.highlighted = NO;
 }
 
+- (void)textDidChange:(NSNotification *)notification
+{
+	[super textDidChange:notification];
+	// This hack is needed because in certain cases (e.g. when inside a popover), a layer backed text view will not redraw by itself
+	[self setNeedsDisplay:YES];
+}
+
 #pragma mark - Subclassing Hooks
 
 - (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect
@@ -486,6 +493,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 		[self.placeholderAttributedString drawInRect:placeholderRect];
 	}
 	[super drawInteriorWithFrame:integralFrame inView:controlView];
+	self.didRedrawAfterTextChange = YES;
 }
 
 - (NSRect)drawingRectForBounds:(NSRect)theRect
