@@ -12,6 +12,7 @@
 
 @interface BTRImageView()
 @property (nonatomic, strong, readwrite) CALayer *imageLayer;
+@property (nonatomic, assign) CGPoint imageLayerAnchorPoint;
 @end
 
 @implementation BTRImageView
@@ -48,6 +49,7 @@
 	[self.layer addSublayer:self.imageLayer];
 	
 	self.contentMode = BTRViewContentModeScaleToFill;
+	self.imageLayerAnchorPoint = CGPointMake(0.5f, 0.5f);
 }
 
 - (void)layout {
@@ -85,6 +87,14 @@
 }
 
 #pragma mark Layer properties
+
+- (BOOL)wantsUpdateLayer {
+	return YES;
+}
+
+- (void)updateLayer {
+	self.imageLayer.anchorPoint = self.imageLayerAnchorPoint;
+}
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
 	self.imageLayer.cornerRadius = cornerRadius;
