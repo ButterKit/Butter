@@ -10,13 +10,20 @@
 
 @implementation AppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-	// Insert code here to initialize your application
+- (void)awakeFromNib {
+	self.imageView.contentMode = BTRViewContentModeCenter;
+	
+	// We're just setting the image view's image to a random image. In this case I'm redrawing
+	// system-provided artwork at a larger size, just for demonstration purposes.
+	self.imageView.image = [NSImage imageWithSize:CGSizeMake(150, 150) flipped:NO
+								   drawingHandler:^BOOL(NSRect dstRect) {
+									   [[NSImage imageNamed:NSImageNameUser] drawInRect:dstRect fromRect:CGRectZero operation:NSCompositeSourceOver fraction:1];
+									   return YES;
+								   }];
 }
 
-- (void)awakeFromNib {
-	self.imageView.image = [NSImage imageNamed:NSImageNameSlideshowTemplate];
+- (void)imageViewContentModeShouldChange:(NSSegmentedControl *)sender {
+	self.imageView.contentMode = (sender.selectedSegment == 0 ? BTRViewContentModeCenter : BTRViewContentModeScaleAspectFit);
 }
 
 @end

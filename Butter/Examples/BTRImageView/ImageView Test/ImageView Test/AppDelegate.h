@@ -14,4 +14,6 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (nonatomic, assign) IBOutlet BTRImageView *imageView;
 
+- (IBAction)imageViewContentModeShouldChange:(id)sender;
+
 @end
