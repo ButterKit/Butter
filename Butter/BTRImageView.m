@@ -55,7 +55,7 @@
 	[super layout];
 	
 	self.imageLayer.bounds = self.bounds;
-	self.imageLayer.position = CGPointZero;
+	self.imageLayer.position = CGPointMake(NSMidX(self.bounds), NSMidY(self.bounds));
 }
 
 // Let super (BTRView) handle the contents, in case -animtesContents is set to YES.
