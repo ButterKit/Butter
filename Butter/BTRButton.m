@@ -9,14 +9,21 @@
 #import "BTRButton.h"
 #import "BTRLabel.h"
 
+// Subclasses to override -hitTest: and prevent them from receiving mouse events
+@interface BTRButtonLabel : BTRLabel
+@end
+
+@interface BTRButtonImageView : BTRImageView
+@end
+
 @implementation BTRButton
 
 #pragma mark - Initialization
 
 - (void)commonInitForBTRButton {
-	_imageView = [[BTRImageView alloc] initWithFrame:self.bounds];
+	_imageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:_imageView];
-	_titleLabel = [[BTRLabel alloc] initWithFrame:self.bounds];
+	_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
 	[self addSubview:_titleLabel];
 }
 
@@ -105,4 +112,12 @@
 - (CGRect)labelFrame {
 	return self.bounds;
 }
+@end
+
+@implementation BTRButtonLabel
+- (NSView *)hitTest:(NSPoint)aPoint { return nil; }
+@end
+
+@implementation BTRButtonImageView
+- (NSView *)hitTest:(NSPoint)aPoint { return nil; }
 @end
