@@ -284,6 +284,12 @@
 	self.clickCount = event.clickCount;
 	self.mouseDown = YES;
 	
+	// mouseInside is also set in mouseEntered:, but there are many cases in which
+	// NSTrackingArea exhibits buggy behaviour and does not call mouseEntered: when the
+	// mouse is being moved too fast, etc. If a mouse down event is received then it's
+	// safe to say that the mouse is inside the view, so mouseInside = YES.
+	self.mouseInside = YES;
+	
 	BTRControlEvents events = 1;
 	events |= BTRControlEventMouseDownInside;
 	
