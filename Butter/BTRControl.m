@@ -223,7 +223,19 @@
 	self.trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
 													 options:options
 													   owner:self userInfo:nil];
+	
+	// This solution comes from <http://stackoverflow.com/a/9107224/153112>
+	// Apparently if the mouse is already inside the view when the tracking
+	// area is created, mouseEntered: is never called. This remedies that issue.
+	NSPoint mouseLocation = [[self window] mouseLocationOutsideOfEventStream];
+    mouseLocation = [self convertPoint:mouseLocation fromView:nil];
+	if (NSPointInRect(mouseLocation, self.bounds)) {
+		[self mouseEntered: nil];
+	} else {
+		[self mouseExited: nil];
+	}
 	[self addTrackingArea:self.trackingArea];
+	[super updateTrackingAreas];
 }
 
 - (void)setNeedsTrackingArea:(BOOL)needsTrackingArea {
@@ -283,12 +295,6 @@
 - (void)handleMouseDown:(NSEvent *)event {
 	self.clickCount = event.clickCount;
 	self.mouseDown = YES;
-	
-	// mouseInside is also set in mouseEntered:, but there are many cases in which
-	// NSTrackingArea exhibits buggy behaviour and does not call mouseEntered: when the
-	// mouse is being moved too fast, etc. If a mouse down event is received then it's
-	// safe to say that the mouse is inside the view, so mouseInside = YES.
-	self.mouseInside = YES;
 	
 	BTRControlEvents events = 1;
 	events |= BTRControlEventMouseDownInside;
