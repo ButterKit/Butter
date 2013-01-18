@@ -14,7 +14,13 @@
 @property (nonatomic, strong, readwrite) CALayer *imageLayer;
 @end
 
-@implementation BTRImageView
+@implementation BTRImageView {
+	NSUInteger _currentImageFrame;
+	NSUInteger _totalImageFrames;
+	NSInteger _animationLoopCount;
+	NSInteger _currentLoopCount;
+	NSTimer *_animationTimer;
+}
 
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame layerHosted:YES];
@@ -71,6 +77,8 @@
 - (void)setImage:(NSImage *)image {
 	if (_image == image)
 		return;
+	[_animationTimer invalidate];
+	_animationTimer = nil;
 	_image = image;
 	self.imageLayer.contents = image;
 	if ([image isKindOfClass:[RBLResizableImage class]]) {
@@ -80,6 +88,31 @@
 	} else {
 		self.imageLayer.contentsCenter = CGRectMake(0.0, 0.0, 1.0, 1.0);
 	}
+	NSArray *representations = [image representations];
+	if (representations.count && self.animatesMultipleFrames) {
+		NSBitmapImageRep *rep = representations[0];
+		_totalImageFrames = [[rep valueForProperty:NSImageFrameCount] unsignedIntegerValue];
+		_currentImageFrame = [[rep valueForProperty:NSImageCurrentFrame] unsignedIntegerValue];
+		_animationLoopCount = [[rep valueForProperty:NSImageLoopCount] unsignedIntegerValue];
+		_currentLoopCount = 0;
+		if (_totalImageFrames > 1) [self imageAnimationTimerFired:nil];
+	}	
+}
+
+- (void)imageAnimationTimerFired:(NSTimer *)timer
+{
+	if (timer) _currentImageFrame++;
+	if (_currentImageFrame > _totalImageFrames - 1) {
+		_currentImageFrame = 0;
+		_currentLoopCount++;
+		if (_animationLoopCount != 0 && _currentLoopCount > _animationLoopCount) return;
+	}
+	NSBitmapImageRep *rep = self.image.representations[0];
+	[rep setProperty:NSImageCurrentFrame withValue:@(_currentImageFrame)];
+	NSImage *currentFrameImage = [NSImage new];
+	[currentFrameImage addRepresentation:rep];
+	self.imageLayer.contents = currentFrameImage;
+	_animationTimer = [NSTimer scheduledTimerWithTimeInterval:[[rep valueForProperty:NSImageCurrentFrameDuration] doubleValue] target:self selector:@selector(imageAnimationTimerFired:) userInfo:nil repeats:NO];
 }
 
 - (void)viewDidChangeBackingProperties {

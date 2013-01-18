@@ -30,6 +30,8 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
 - (id)initWithImage:(NSImage *)image;
 
 @property (nonatomic, strong) NSImage *image;
+// Set to YES to animate images with multiple frames (e..g animated GIFs). Default is NO.
+@property (nonatomic, assign) BOOL animatesMultipleFrames;
 
 // The transform applied to the image.
 @property (nonatomic, assign) CATransform3D transform;
