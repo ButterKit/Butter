@@ -285,12 +285,12 @@
 - (IBAction)performClick:(id)sender
 {
 	NSEvent* (^createMouseEvent)(NSEventType) = ^NSEvent*(NSEventType type){
-		return [NSEvent mouseEventWithType:type location:[self convertPoint:NSMakePoint(NSMidX(self.bounds), NSMidY(self.bounds)) toView:nil] modifierFlags:0 timestamp:1 windowNumber:self.window.windowNumber context:[NSGraphicsContext currentContext] eventNumber:1 clickCount:1 pressure:0];
+		return [NSEvent mouseEventWithType:type location:[self convertPoint:NSMakePoint(NSMidX(self.bounds), NSMidY(self.bounds)) toView:nil] modifierFlags:0 timestamp:1 windowNumber:self.window.windowNumber context:nil eventNumber:1 clickCount:1 pressure:0];
 	};
-	[self mouseEntered:createMouseEvent(NSMouseEntered)];
+	[self mouseEntered:nil];
 	[self mouseDown:createMouseEvent(NSLeftMouseDown)];
 	[self mouseUp:createMouseEvent(NSLeftMouseUp)];
-	[self mouseExited:createMouseEvent(NSMouseExited)];
+	[self mouseExited:nil];
 }
 
 //- (void)mouseDragged:(NSEvent *)theEvent {
