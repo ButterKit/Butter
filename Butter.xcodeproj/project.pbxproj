@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */; };
-		0303406B168D8E4500697D51 /* RBLResizableImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034067168D8E4500697D51 /* RBLResizableImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0303406C168D8E4500697D51 /* RBLResizableImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034068168D8E4500697D51 /* RBLResizableImage.m */; };
 		03239EB61672E6D6004263D7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239EB51672E6D6004263D7 /* Cocoa.framework */; };
 		03239EC01672E6D6004263D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03239EBE1672E6D6004263D7 /* InfoPlist.strings */; };
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,6 +23,7 @@
 		ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */; };
 		ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA3C167AD439003EFDD6 /* BTRView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3D167AD439003EFDD6 /* BTRView.m */; };
+		ABCDC9CA16AB620D008CE5FB /* Rebel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABEC316916A3D2CC00919EED /* Rebel.framework */; };
 		ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */; };
 		ABEC314616A3CF7300919EED /* BTRButton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314416A3CF7300919EED /* BTRButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -124,8 +123,6 @@
 /* Begin PBXFileReference section */
 		03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+RBLResizableImageAdditions.h"; sourceTree = "<group>"; };
 		03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+RBLResizableImageAdditions.m"; sourceTree = "<group>"; };
-		03034067168D8E4500697D51 /* RBLResizableImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBLResizableImage.h; sourceTree = "<group>"; };
-		03034068168D8E4500697D51 /* RBLResizableImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBLResizableImage.m; sourceTree = "<group>"; };
 		03239EB21672E6D6004263D7 /* Butter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Butter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03239EB51672E6D6004263D7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		03239EB81672E6D6004263D7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -224,6 +221,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABCDC9CA16AB620D008CE5FB /* Rebel.framework in Frameworks */,
 				03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */,
 				03239EB61672E6D6004263D7 /* Cocoa.framework in Frameworks */,
 			);
@@ -603,8 +601,6 @@
 				03E41480167B03D800EACE0F /* BTRCommon.h */,
 				03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */,
 				03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */,
-				03034067168D8E4500697D51 /* RBLResizableImage.h */,
-				03034068168D8E4500697D51 /* RBLResizableImage.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -684,7 +680,6 @@
 				ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */,
 				ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */,
 				03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */,
-				0303406B168D8E4500697D51 /* RBLResizableImage.h in Headers */,
 				ABEC314616A3CF7300919EED /* BTRButton.h in Headers */,
 				ABEC315E16A3CFA000919EED /* BTRTextField.h in Headers */,
 				ABEC314A16A3CF7B00919EED /* BTRControl.h in Headers */,
@@ -858,7 +853,6 @@
 				ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */,
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,
 				0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */,
-				0303406C168D8E4500697D51 /* RBLResizableImage.m in Sources */,
 				ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */,
 				ABEC314716A3CF7300919EED /* BTRButton.m in Sources */,
 				ABEC314B16A3CF7B00919EED /* BTRControl.m in Sources */,

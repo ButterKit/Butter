@@ -7,7 +7,7 @@
 //
 
 #import "NSImage+RBLResizableImageAdditions.h"
-#import "RBLResizableImage.h"
+#import <Rebel/RBLResizableImage.h>
 
 @implementation NSImage (RBLResizableImageAdditions)
 

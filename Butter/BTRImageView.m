@@ -8,7 +8,7 @@
 
 #import "BTRImageView.h"
 #import "BTRGeometryAdditions.h"
-#import "RBLResizableImage.h"
+#import <Rebel/RBLResizableImage.h>
 
 @interface BTRImageView()
 @property (nonatomic, strong, readwrite) CALayer *imageLayer;

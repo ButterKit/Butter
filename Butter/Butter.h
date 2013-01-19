@@ -16,6 +16,5 @@
 #import <Butter/BTRClipView.h>
 #import <Butter/NSView+BTRAdditions.h>
 #import <Butter/NSImage+RBLResizableImageAdditions.h>
-#import <Butter/RBLResizableImage.h>
 #import <Butter/BTRPopUpButton.h>
 #import <Butter/BTRGeometryAdditions.h>
