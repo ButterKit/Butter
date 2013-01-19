@@ -96,6 +96,7 @@
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
+	[super setCornerRadius:cornerRadius];
 	self.imageView.cornerRadius = cornerRadius;
 }
 
