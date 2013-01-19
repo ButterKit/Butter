@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */; };
 		03239EB61672E6D6004263D7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239EB51672E6D6004263D7 /* Cocoa.framework */; };
 		03239EC01672E6D6004263D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03239EBE1672E6D6004263D7 /* InfoPlist.strings */; };
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -121,8 +119,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+RBLResizableImageAdditions.h"; sourceTree = "<group>"; };
-		03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+RBLResizableImageAdditions.m"; sourceTree = "<group>"; };
 		03239EB21672E6D6004263D7 /* Butter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Butter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03239EB51672E6D6004263D7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		03239EB81672E6D6004263D7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -599,8 +595,6 @@
 				ABACCA3C167AD439003EFDD6 /* BTRView.h */,
 				ABACCA3D167AD439003EFDD6 /* BTRView.m */,
 				03E41480167B03D800EACE0F /* BTRCommon.h */,
-				03034065168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h */,
-				03034066168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -679,7 +673,6 @@
 				ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */,
 				ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */,
 				ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */,
-				03034069168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.h in Headers */,
 				ABEC314616A3CF7300919EED /* BTRButton.h in Headers */,
 				ABEC315E16A3CFA000919EED /* BTRTextField.h in Headers */,
 				ABEC314A16A3CF7B00919EED /* BTRControl.h in Headers */,
@@ -852,7 +845,6 @@
 				ABACCA41167AD439003EFDD6 /* BTRClipView.m in Sources */,
 				ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */,
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,
-				0303406A168D8E4500697D51 /* NSImage+RBLResizableImageAdditions.m in Sources */,
 				ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */,
 				ABEC314716A3CF7300919EED /* BTRButton.m in Sources */,
 				ABEC314B16A3CF7B00919EED /* BTRControl.m in Sources */,
