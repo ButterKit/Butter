@@ -237,13 +237,18 @@
 }
 
 - (CGFloat)widthToFit {
-	return  self.selectedItem.image.size.width + self.label.attributedStringValue.size.width + self.currentArrowImage.size.width + (2.f * [self edgeInset]) + (2.f * [self interElementSpacing]);
+	// Need to tack on 5px of padding here because NSTextFieldCell does some weird padding stuff
+	// that causes the actual drawing bounds of the text to be less than the width of the text field.
+	// I've already tried a bunch of stuff like NSTextFieldCell's -cellSizeForBounds:, -drawingRectForBounds:,
+	// and none of them return a properly sized rect.
+	return NSWidth([self imageFrame]) + self.label.attributedStringValue.size.width + NSWidth([self arrowFrame]) + (2.f * [self edgeInset]) + (2.f * [self interElementSpacing]) + 5.f;
 }
 
 - (void)sizeToFit {
 	NSRect newFrame = self.frame;
 	newFrame.size.width = [self widthToFit];
 	self.frame = newFrame;
+	[self setNeedsLayout:YES];
 }
 
 #pragma mark - Mouse Events
@@ -285,6 +290,7 @@
 + (NSDictionary *)defaultTitleAttributes {
 	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
 	style.lineBreakMode = NSLineBreakByTruncatingTail;
+	style.alignment = NSLeftTextAlignment;
 	return @{NSParagraphStyleAttributeName: style};
 }
 @end
@@ -302,6 +308,11 @@
 {
 	_isEditing = YES;
 	return [super becomeFirstResponder];
+}
+
+- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect
+{
+	return rect;
 }
 @end
 

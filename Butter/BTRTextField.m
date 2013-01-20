@@ -461,7 +461,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 - (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect
 {
-	return rect;
+	return NSInsetRect(rect, BTRTextFieldXInset, 0.f);
 }
 
 - (NSRect)editingRectForProposedEditingRect:(NSRect)rect
@@ -520,8 +520,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 			newRect.origin.y += ceilf(heightDelta / 2) + 1.f;
 		}
 	}
-	NSRect proposedRect = NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
-	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:proposedRect];
+	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
