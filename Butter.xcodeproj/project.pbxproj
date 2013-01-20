@@ -21,7 +21,7 @@
 		ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */; };
 		ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA3C167AD439003EFDD6 /* BTRView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3D167AD439003EFDD6 /* BTRView.m */; };
-		ABCDC9CA16AB620D008CE5FB /* Rebel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABEC316916A3D2CC00919EED /* Rebel.framework */; };
+		ABCDC9CA16AB620D008CE5FB /* Rebel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABEC316916A3D2CC00919EED /* Rebel.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */; };
 		ABEC314616A3CF7300919EED /* BTRButton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314416A3CF7300919EED /* BTRButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
