@@ -237,11 +237,11 @@
 }
 
 - (CGFloat)widthToFit {
-	// Need to tack on 5px of padding here because NSTextFieldCell does some weird padding stuff
+	// Need to tack on padding here because NSTextFieldCell does some weird padding stuff
 	// that causes the actual drawing bounds of the text to be less than the width of the text field.
 	// I've already tried a bunch of stuff like NSTextFieldCell's -cellSizeForBounds:, -drawingRectForBounds:,
 	// and none of them return a properly sized rect.
-	return NSWidth([self imageFrame]) + self.label.attributedStringValue.size.width + NSWidth([self arrowFrame]) + (2.f * [self edgeInset]) + (2.f * [self interElementSpacing]) + 5.f;
+	return NSWidth([self imageFrame]) + ceilf(self.label.attributedStringValue.size.width) + NSWidth([self arrowFrame]) + (2.f * [self edgeInset]) + (2.f * [self interElementSpacing]) + 4.f;
 }
 
 - (void)sizeToFit {
