@@ -91,16 +91,12 @@
 - (void)handleStateChange {
 	NSString *title = self.selectedItem.title;
 	if (title) {
-		NSMutableDictionary *textAttributes = [BTRPopUpButtonContent defaultTitleAttributes].mutableCopy;
-		NSColor *textColor = self.currentTitleColor;
-		NSShadow *textShadow = self.currentTitleShadow;
-		NSFont *textFont = self.currentTitleFont;
-		if (textColor) textAttributes[NSForegroundColorAttributeName] = textColor;
-		if (textShadow) textAttributes[NSShadowAttributeName] = textShadow;
-		if (textFont) textAttributes[NSFontAttributeName] = textFont;
-		self.label.attributedStringValue = [[NSAttributedString alloc] initWithString:title attributes:textAttributes];
+		self.label.textColor = self.currentTitleColor;
+		self.label.shadow = self.currentTitleShadow;
+		self.label.font = self.currentTitleFont;
+		self.label.stringValue = title;
 	} else {
-		self.label.attributedStringValue = nil;
+		self.label.stringValue = @"";
 	}
 	self.arrowImageView.image = self.currentArrowImage;
 	self.backgroundImageView.image = self.currentBackgroundImage;
@@ -254,6 +250,7 @@
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	[super mouseDown:theEvent];
+	[(id)self.label beginEditing];
 	if (self.menu) {
 		NSPoint origin = [self imageFrame].origin;
 		origin.y = 0.f;
@@ -294,8 +291,19 @@
 @end
 
 // Prevent the subviews from receiving mouse events
-@implementation BTRPopUpButtonLabel
-- (NSView *)hitTest:(NSPoint)aPoint { return nil; }
+@implementation BTRPopUpButtonLabel {
+	BOOL _isEditing;
+}
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+	return _isEditing ? [super hitTest:aPoint] : nil;
+}
+
+- (BOOL)becomeFirstResponder
+{
+	_isEditing = YES;
+	return [super becomeFirstResponder];
+}
 @end
 
 @implementation BTRPopUpButtonImageView
