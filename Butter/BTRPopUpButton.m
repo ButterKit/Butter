@@ -250,7 +250,6 @@
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	[super mouseDown:theEvent];
-	[(id)self.label beginEditing];
 	if (self.menu) {
 		NSPoint origin = [self imageFrame].origin;
 		origin.y = 0.f;
