@@ -46,13 +46,7 @@
 - (void)handleStateChange {
 	self.titleLabel.attributedStringValue = self.currentAttributedTitle;
 	
-	NSImage *backgroundImage = self.currentBackgroundImage;
-	if (backgroundImage == nil) {
-		// If we can't find a control state for the current state, we to the normal control state image.
-		// If the normal state image can't be found, revert back to the default image for the current state.
-		backgroundImage = [self defaultBackgroundImageForControlState:self.state];
-	}
-	self.imageView.image = backgroundImage;
+	self.imageView.image = self.currentBackgroundImage;
 }
 
 #pragma mark Drawing
@@ -69,22 +63,6 @@
 
 - (BTRViewContentMode)contentMode {
 	return self.imageView.contentMode;
-}
-
-// TODO: Ideally we'll have a good default style that can be drawn here.
-- (NSImage *)defaultBackgroundImageForControlState:(BTRControlState)state {
-	return [NSImage imageWithSize:self.bounds.size flipped:NO drawingHandler:^BOOL(NSRect rect) {
-		
-		if (state == BTRControlStateNormal) {
-			[NSColor.redColor set];
-		} else if (state & BTRControlStateHighlighted) {
-			[NSColor.blueColor set];
-		}
-		
-		NSRectFill(rect);
-		
-		return YES;
-	}];
 }
 
 // When a button is clicked, the initial state change shouldn't animate
