@@ -34,6 +34,7 @@
 
 - (void)commonInitForBTRControl {
 	self.enabled = YES;
+	self.userInteractionEnabled = YES;
 	//TODO: If this isn't enabled, then subclasses might not get mouse events
 	// when they need them if they don't add event handlers. Figure out a better
 	// way to detect whether we need it or not. Alternatively, always use it?
@@ -186,6 +187,18 @@
 	// Implemented by subclasses
 }
 
+- (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+	if (!userInteractionEnabled) {
+		[self mouseExited: nil];
+		[self mouseUp:nil];
+		
+		self.mouseDown = NO;
+		self.mouseHover = NO;
+		self.mouseInside = NO;
+	}
+	_userInteractionEnabled = userInteractionEnabled;
+}
+
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
 	NSParameterAssert(block);
 	BTRControlAction *action = [BTRControlAction new];
@@ -267,6 +280,9 @@
 }
 
 - (void)mouseEntered:(NSEvent *)event {
+	if (!self.userInteractionEnabled)
+		return;
+	
 	[super mouseEntered:event];
 	self.mouseInside = YES;
 	self.mouseHover = YES;
@@ -274,6 +290,9 @@
 }
 
 - (void)mouseExited:(NSEvent *)event {
+	if (!self.userInteractionEnabled)
+		return;
+	
 	[super mouseExited:event];
 	self.mouseInside = NO;
 	self.mouseHover = NO;
@@ -282,8 +301,10 @@
 
 #pragma mark - Actions
 
-- (IBAction)performClick:(id)sender
-{
+- (IBAction)performClick:(id)sender {
+	if (!self.userInteractionEnabled)
+		return;
+	
 	NSEvent* (^createMouseEvent)(NSEventType) = ^NSEvent*(NSEventType type){
 		return [NSEvent mouseEventWithType:type location:[self convertPoint:NSMakePoint(NSMidX(self.bounds), NSMidY(self.bounds)) toView:nil] modifierFlags:0 timestamp:1 windowNumber:self.window.windowNumber context:nil eventNumber:1 clickCount:1 pressure:0];
 	};
@@ -306,6 +327,9 @@
 //}
 
 - (void)handleMouseDown:(NSEvent *)event {
+	if (!self.userInteractionEnabled)
+		return;
+	
 	self.clickCount = event.clickCount;
 	self.mouseDown = YES;
 	
@@ -318,6 +342,9 @@
 }
 
 - (void)handleMouseUp:(NSEvent *)event {
+	if (!self.userInteractionEnabled)
+		return;
+	
 	self.mouseDown = NO;
 	
 	BTRControlEvents events = 1;
@@ -341,6 +368,9 @@
 }
 
 - (void)sendActionsForControlEvents:(BTRControlEvents)events {
+	if (!self.userInteractionEnabled)
+		return;
+	
 	for (BTRControlAction *action in self.actions) {
 		if (action.events & events) {
 			if (action.block != nil) {

@@ -51,6 +51,8 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 @property (nonatomic, getter = isSelected) BOOL selected;
 @property (nonatomic, getter = isHighlighted) BOOL highlighted;
 
+@property (nonatomic, getter = isUserInteractionEnabled) BOOL userInteractionEnabled;
+
 // Implemented by subclasses. Useful for reacting to state changes caused either by
 // mouse events, or by changing the state properties above.
 - (void)handleStateChange;
