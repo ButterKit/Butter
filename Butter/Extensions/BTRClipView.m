@@ -87,6 +87,12 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	}
 }
 
+- (void)setDestination:(CGPoint)destination {
+	// We want to round up to the nearest integral point, since some classes
+	// have a bad habit of providing non-integral point values.
+	_destination = (CGPoint){ .x = roundf(destination.x), .y = roundf(destination.y) };
+}
+
 - (BOOL)scrollRectToVisible:(NSRect)aRect animated:(BOOL)animated {
 	self.animate = animated;
 	return [super scrollRectToVisible:aRect];
