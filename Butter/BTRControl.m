@@ -152,7 +152,7 @@
 
 - (BTRControlState)state {
 	BTRControlState state = BTRControlStateNormal;
-	if (self.highlighted) state |= BTRControlStateHighlighted;
+	if (self.highlighted && self.mouseInside) state |= BTRControlStateHighlighted;
 	if (self.selected) state |= BTRControlStateSelected;
 	if (!self.enabled) state |= BTRControlStateDisabled;
 	if (self.mouseHover && !self.highlighted) state |= BTRControlStateHover;
