@@ -109,9 +109,11 @@
 	}
 	NSBitmapImageRep *rep = self.image.representations[0];
 	[rep setProperty:NSImageCurrentFrame withValue:@(_currentImageFrame)];
-	NSImage *currentFrameImage = [NSImage new];
-	[currentFrameImage addRepresentation:rep];
-	self.imageLayer.contents = currentFrameImage;
+	if (!NSEqualRects(self.visibleRect, NSZeroRect)) {
+		NSImage *currentFrameImage = [NSImage new];
+		[currentFrameImage addRepresentation:rep];
+		self.imageLayer.contents = currentFrameImage;
+	}
 	_animationTimer = [NSTimer scheduledTimerWithTimeInterval:[[rep valueForProperty:NSImageCurrentFrameDuration] doubleValue] target:self selector:@selector(imageAnimationTimerFired:) userInfo:nil repeats:NO];
 }
 
