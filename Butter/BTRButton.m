@@ -69,8 +69,10 @@
 // or it will appear to be laggy. However, if the user has opted to animate
 // the contents, we animate the transition back out.
 - (void)setHighlighted:(BOOL)highlighted {
-	self.imageView.animatesContents = (!highlighted && self.animatesContents);
+	BOOL animatesFlag = self.animatesContents;
+	self.imageView.animatesContents = (!highlighted && animatesFlag);
 	[super setHighlighted:highlighted];
+	self.imageView.animatesContents = animatesFlag;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
