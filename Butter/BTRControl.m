@@ -260,58 +260,63 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-	[super mouseDown:event];
-	[self handleMouseDown:event];
+	if (self.userInteractionEnabled) {
+		[self handleMouseDown:event];
+	} else {
+		[super mouseDown:event];
+	}
 }
 
 - (void)mouseUp:(NSEvent *)event {
-	[super mouseUp:event];
-	[self handleMouseUp:event];
+	if (self.userInteractionEnabled) {
+		[self handleMouseUp:event];
+	} else {
+		[super mouseUp:event];
+	}
 }
 
 - (void)rightMouseUp:(NSEvent *)event {
-	[super rightMouseUp:event];
-	[self handleMouseUp:event];
+	if (self.userInteractionEnabled) {
+		[self handleMouseUp:event];
+	} else {
+		[super rightMouseUp:event];
+	}
 }
 
 - (void)rightMouseDown:(NSEvent *)event {
-	[super rightMouseDown:event];
-	[self handleMouseDown:event];
+	if (self.userInteractionEnabled) {
+		[self handleMouseDown:event];
+	} else {
+		[super rightMouseDown:event];
+	}
 }
 
 - (void)mouseEntered:(NSEvent *)event {
-	if (!self.userInteractionEnabled)
-		return;
-	
-	[super mouseEntered:event];
-	self.mouseInside = YES;
-	self.mouseHover = YES;
-	[self sendActionsForControlEvents:BTRControlEventMouseEntered];
+	if (self.userInteractionEnabled) {
+		self.mouseInside = YES;
+		self.mouseHover = YES;
+		[self sendActionsForControlEvents:BTRControlEventMouseEntered];
+	} else {
+		[super mouseEntered:event];
+	}
 }
 
 - (void)mouseExited:(NSEvent *)event {
-	if (!self.userInteractionEnabled)
-		return;
-	
-	[super mouseExited:event];
-	self.mouseInside = NO;
-	self.mouseHover = NO;
-	[self sendActionsForControlEvents:BTRControlEventMouseExited];
+	if (self.userInteractionEnabled) {
+		self.mouseInside = NO;
+		self.mouseHover = NO;
+		[self sendActionsForControlEvents:BTRControlEventMouseExited];
+	} else {
+		[super mouseExited:event];
+	}
 }
 
 #pragma mark - Actions
 
 - (IBAction)performClick:(id)sender {
-	if (!self.userInteractionEnabled)
-		return;
-	
-	NSEvent* (^createMouseEvent)(NSEventType) = ^NSEvent*(NSEventType type){
-		return [NSEvent mouseEventWithType:type location:[self convertPoint:NSMakePoint(NSMidX(self.bounds), NSMidY(self.bounds)) toView:nil] modifierFlags:0 timestamp:1 windowNumber:self.window.windowNumber context:nil eventNumber:1 clickCount:1 pressure:0];
-	};
-	[self mouseEntered:nil];
-	[self mouseDown:createMouseEvent(NSLeftMouseDown)];
-	[self mouseUp:createMouseEvent(NSLeftMouseUp)];
-	[self mouseExited:nil];
+	if (self.userInteractionEnabled) {
+		[self sendActionsForControlEvents:BTRControlEventClick];
+	}
 }
 
 //- (void)mouseDragged:(NSEvent *)theEvent {
@@ -326,10 +331,8 @@
 //	}
 //}
 
-- (void)handleMouseDown:(NSEvent *)event {
-	if (!self.userInteractionEnabled)
-		return;
-	
+- (void)handleMouseDown:(NSEvent *)event
+{
 	self.clickCount = event.clickCount;
 	self.mouseDown = YES;
 	
@@ -341,10 +344,8 @@
 	self.highlighted = YES;
 }
 
-- (void)handleMouseUp:(NSEvent *)event {
-	if (!self.userInteractionEnabled)
-		return;
-	
+- (void)handleMouseUp:(NSEvent *)event
+{
 	self.mouseDown = NO;
 	
 	BTRControlEvents events = 1;
