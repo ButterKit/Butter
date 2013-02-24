@@ -46,25 +46,25 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-	[self commonInit];
+	BTRCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	[self commonInit];
+	BTRCommonInit(self);
 	return self;
 }
 
-- (void)commonInit {
-	self.wantsLayer = YES;
-	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+static void BTRCommonInit(BTRTextField *textField) {
+	textField.wantsLayer = YES;
+	textField.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	// Copy over *all* the attributes to the new cell
 	// There really is no other easy way to do this :(
-	NSTextFieldCell *oldCell = self.cell;
-	BTRTextFieldCell *newCell = [[BTRTextFieldCell alloc] initTextCell:self.stringValue];
+	NSTextFieldCell *oldCell = textField.cell;
+	BTRTextFieldCell *newCell = [[BTRTextFieldCell alloc] initTextCell:textField.stringValue];
 	newCell.placeholderString = oldCell.placeholderString;
 	newCell.textColor = oldCell.textColor;
 	newCell.font = oldCell.font;
@@ -81,19 +81,19 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	[newCell setScrollable:[oldCell isScrollable]];
 	[newCell setEditable:[oldCell isEditable]];
 	[newCell setSelectable:[oldCell isSelectable]];
-	self.cell = newCell;
-	self.backgroundImages = [NSMutableDictionary dictionary];
-	self.actions = [NSMutableArray array];
-	self.needsTrackingArea = NO;
-	self.placeholderAttributes = [NSMutableDictionary dictionary];
-	_placeholderTitle = [self.textFieldCell.placeholderString copy];
+	textField.cell = newCell;
+	textField.backgroundImages = [NSMutableDictionary dictionary];
+	textField.actions = [NSMutableArray array];
+	textField.needsTrackingArea = NO;
+	textField.placeholderAttributes = [NSMutableDictionary dictionary];
+	textField.placeholderTitle = [textField.textFieldCell.placeholderString copy];
 	
-	self.focusRingType = NSFocusRingTypeNone;
-	self.drawsFocusRing = YES;
-	super.drawsBackground = NO;
-	self.drawsBackground = YES;
-	self.bezeled = NO;
+	textField.focusRingType = NSFocusRingTypeNone;
+	textField.drawsFocusRing = YES;
+	textField.drawsBackground = YES;
+	textField.bezeled = NO;
 }
+
 
 // NSTextField is flipped by default.
 // Switch it back to normal drawing behaviour.
