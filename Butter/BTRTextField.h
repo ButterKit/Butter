@@ -29,6 +29,8 @@
 @property (nonatomic, strong) NSFont *placeholderFont;
 @property (nonatomic, strong) NSShadow *placeholderShadow;
 
+@property (nonatomic, strong) NSShadow *textShadow;
+
 // Reimplementation of BTRControl API
 @property (nonatomic, readonly) BTRControlState state;
 @property (nonatomic, getter = isHighlighted) BOOL highlighted;

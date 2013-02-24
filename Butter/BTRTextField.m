@@ -224,6 +224,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 		self.placeholderShadow = shadow;
 }
 
+
 #pragma mark Drawing
 
 - (void)drawBackgroundInRect:(NSRect)rect
@@ -450,9 +451,14 @@ static void BTRCommonInit(BTRTextField *textField) {
 	self.highlighted = NO;
 }
 
-- (void)textDidChange:(NSNotification *)notification
-{
+- (void)textDidChange:(NSNotification *)notification {
 	[super textDidChange:notification];
+	
+	NSTextView *fieldEditor = (NSTextView *)[[self window] fieldEditor:YES forObject:self];
+	if (self.textShadow && fieldEditor) {
+		[fieldEditor.textStorage addAttribute:NSShadowAttributeName value:self.textShadow range:NSMakeRange(0, fieldEditor.textStorage.length)];
+	}
+	
 	// This hack is needed because in certain cases (e.g. when inside a popover), a layer backed text view will not redraw by itself
 	[self setNeedsDisplay:YES];
 }
@@ -471,8 +477,9 @@ static void BTRCommonInit(BTRTextField *textField) {
 
 - (void)setFieldEditorAttributes:(NSTextView *)fieldEditor
 {
-	
+
 }
+
 @end
 
 // Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
