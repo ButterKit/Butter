@@ -91,11 +91,13 @@
 	NSArray *representations = [image representations];
 	if (representations.count && self.animatesMultipleFrames) {
 		NSBitmapImageRep *rep = representations[0];
-		_totalImageFrames = [[rep valueForProperty:NSImageFrameCount] unsignedIntegerValue];
-		_currentImageFrame = [[rep valueForProperty:NSImageCurrentFrame] unsignedIntegerValue];
-		_animationLoopCount = [[rep valueForProperty:NSImageLoopCount] unsignedIntegerValue];
-		_currentLoopCount = 0;
-		if (_totalImageFrames > 1) [self imageAnimationTimerFired:nil];
+		if ([rep isKindOfClass:[NSBitmapImageRep class]]) {
+			_totalImageFrames = [[rep valueForProperty:NSImageFrameCount] unsignedIntegerValue];
+			_currentImageFrame = [[rep valueForProperty:NSImageCurrentFrame] unsignedIntegerValue];
+			_animationLoopCount = [[rep valueForProperty:NSImageLoopCount] unsignedIntegerValue];
+			_currentLoopCount = 0;
+			if (_totalImageFrames > 1) [self imageAnimationTimerFired:nil];
+		}
 	}	
 }
 
