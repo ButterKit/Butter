@@ -12,7 +12,6 @@
 #import <QuartzCore/CAMediaTimingFunction.h>
 
 static NSUInteger BTRAnimationContextCount = 0;
-static CGFloat slowMotionMultiplier = 5.f;
 
 @implementation NSView (BTRAnimationAdditions)
 
@@ -35,9 +34,6 @@ static CGFloat slowMotionMultiplier = 5.f;
 	}
 	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-		if ([self btr_wantsSlowMotion])
-			NSAnimationContext.currentContext.duration *= slowMotionMultiplier;
-		
 		BTRAnimationContextCount++;
 		NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
 		animations();
@@ -96,12 +92,6 @@ static CGFloat slowMotionMultiplier = 5.f;
 			break;
 	}
 	return nil;
-}
-
-#pragma mark Slow motion
-
-+ (BOOL)btr_wantsSlowMotion {
-	return (([NSApp currentEvent].modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
 }
 
 @end
