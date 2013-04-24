@@ -11,7 +11,8 @@
 #import "BTRClipView.h"
 #import "BTRCommon.h"
 
-const CGFloat decelerationRate = 0.88;
+// The deceleration constant used for the ease-out curve in the animation.
+const CGFloat BTRClipViewDecelerationRate = 0.78;
 
 @interface BTRClipView()
 @property (nonatomic) CVDisplayLinkRef displayLink;
@@ -64,6 +65,8 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	// Matches default NSClipView settings.
 	self.backgroundColor = NSColor.clearColor;
 	self.opaque = NO;
+	
+	self.decelerationRate = BTRClipViewDecelerationRate;
 
 	return self;
 }
@@ -115,6 +118,15 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	return CVDisplayLinkIsRunning(self.displayLink);
 }
 
+// Sanitize the deceleration rate to [0, 1] so nothing unexpected happens.
+- (void)setDecelerationRate:(CGFloat)decelerationRate {
+	if (decelerationRate > 1)
+		decelerationRate = 1;
+	else if (decelerationRate < 0)
+		decelerationRate = 0;
+	_decelerationRate = decelerationRate;
+}
+
 - (CVReturn)updateOrigin {
 	if(self.window == nil) {
 		[self endScrolling];
@@ -123,8 +135,8 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	
 	CGPoint o = self.bounds.origin;
 	CGPoint lastOrigin = o;
-	o.x = o.x * decelerationRate + self.destination.x * (1-decelerationRate);
-	o.y = o.y * decelerationRate + self.destination.y * (1-decelerationRate);
+	o.x = o.x * self.decelerationRate + self.destination.x * (1 - self.decelerationRate);
+	o.y = o.y * self.decelerationRate + self.destination.y * (1 - self.decelerationRate);
 	
 	[self setBoundsOrigin:o];
 	

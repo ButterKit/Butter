@@ -24,6 +24,15 @@
 // Defaults to NO.
 @property (nonatomic, getter = isOpaque) BOOL opaque;
 
+// Calls -scrollRectToVisible:, optionally animated.
 - (BOOL)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated;
 
+// Any time the origin changes with an animation as discussed above, the deceleration
+// rate will be used to create an ease-out animation.
+//
+// Values should range from [0, 1]. Smaller deceleration rates will provide
+// generally fast animations, whereas larger rates will create lengthy animations.
+//
+//Defaults to 0.78.
+@property (nonatomic, assign) CGFloat decelerationRate;
 @end
