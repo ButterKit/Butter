@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) BTRImageView *backgroundImageView;
 @property (nonatomic, strong) BTRImageView *arrowImageView;
+
+@property (nonatomic, strong) id notificationObserver;
 @end
 
 @interface BTRPopUpButtonContent : BTRControlContent
@@ -66,7 +68,9 @@
 
 - (void)dealloc {
 	[self removeObserver:self forKeyPath:@"menu.delegate"];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	if (self.notificationObserver) {
+		[NSNotificationCenter.defaultCenter removeObserver:self.notificationObserver];
+	}
 }
 
 #pragma mark - KVO
@@ -130,7 +134,10 @@
 - (void)setMenu:(NSMenu *)menu {
 	if (_menu != menu) {
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-		[nc removeObserver:self name:NSMenuDidEndTrackingNotification object:_menu];
+		if (self.notificationObserver) {
+			[nc removeObserver:self.notificationObserver];
+			self.notificationObserver = nil;
+		}
 		self.selectedItem = nil;
 		_menu = menu;
 		if (_menu) {
@@ -139,7 +146,7 @@
 			// because mouseUp: and mouseExited: are not normally called if the menu is closed
 			// when the cursor is outside the pop up button. This ensures that the proper
 			// state is restored once the menu is closed.
-			[nc addObserverForName:NSMenuDidEndTrackingNotification object:_menu queue:nil usingBlock:^(NSNotification *note) {
+			self.notificationObserver = [nc addObserverForName:NSMenuDidEndTrackingNotification object:_menu queue:nil usingBlock:^(NSNotification *note) {
 				[self mouseUp:nil];
 				[self mouseExited:nil];
 			}];

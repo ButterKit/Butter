@@ -19,6 +19,7 @@ const CGFloat BTRClipViewDecelerationRate = 0.78;
 @property (nonatomic) BOOL animate;
 @property (nonatomic) CGPoint destination;
 @property (nonatomic, readonly, getter = isScrolling) BOOL scrolling;
+@property (nonatomic, strong) id notificationObserver;
 @end
 
 @implementation BTRClipView
@@ -42,12 +43,13 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	if (self.window) {
-		[nc removeObserver:self name:NSWindowDidChangeScreenNotification object:self.window];
+	if (self.window && self.notificationObserver) {
+		[nc removeObserver:self.notificationObserver];
+		self.notificationObserver = nil;
 	}
 	[super viewWillMoveToWindow:newWindow];
 	if (newWindow) {
-		[nc addObserverForName:NSWindowDidChangeScreenNotification object:newWindow queue:nil usingBlock:^(NSNotification *note) {
+		self.notificationObserver = [nc addObserverForName:NSWindowDidChangeScreenNotification object:newWindow queue:nil usingBlock:^(NSNotification *note) {
 			[self updateCVDisplay];
 		}];
 	}
@@ -73,7 +75,9 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 - (void)dealloc {
 	CVDisplayLinkRelease(_displayLink);
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	if (self.notificationObserver) {
+		[NSNotificationCenter.defaultCenter removeObserver:self.notificationObserver];
+	}
 }
 
 #pragma mark Scrolling
