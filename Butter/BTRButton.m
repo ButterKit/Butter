@@ -21,7 +21,10 @@
 #pragma mark - Initialization
 
 - (void)commonInitForBTRButton {
+	_backgroundImageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
+	[self addSubview:_backgroundImageView];
 	_imageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
+	_imageView.contentMode = BTRViewContentModeCenter;
 	[self addSubview:_imageView];
 	_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
 	[self addSubview:_titleLabel];
@@ -44,24 +47,33 @@
 #pragma mark State
 
 - (void)handleStateChange {
+	self.backgroundImageView.image = self.currentBackgroundImage;
+	self.imageView.image = self.currentImage;
 	self.titleLabel.attributedStringValue = self.currentAttributedTitle;
-	
-	self.imageView.image = self.currentBackgroundImage;
 }
 
 #pragma mark Drawing
 
 - (void)layout {
+	self.backgroundImageView.frame = [self backgroundImageFrame];
 	self.imageView.frame = [self imageFrame];
 	self.titleLabel.frame = [self labelFrame];
 	[super layout];
 }
 
-- (void)setContentMode:(BTRViewContentMode)contentMode {
-	self.imageView.contentMode = contentMode;
+- (void)setBackgroundContentMode:(BTRViewContentMode)backgroundContentMode {
+	self.backgroundImageView.contentMode = backgroundContentMode;
 }
 
 - (BTRViewContentMode)contentMode {
+	return self.backgroundImageView.contentMode;
+}
+
+- (void)setImageContentMode:(BTRViewContentMode)imageContentMode {
+	self.imageView.contentMode = imageContentMode;
+}
+
+- (BTRViewContentMode)imageContentMode {
 	return self.imageView.contentMode;
 }
 
@@ -70,23 +82,30 @@
 // the contents, we animate the transition back out.
 - (void)setHighlighted:(BOOL)highlighted {
 	BOOL animatesFlag = self.animatesContents;
-	self.imageView.animatesContents = (!highlighted && animatesFlag);
+	BOOL shouldAnimate = (!highlighted && animatesFlag);
+	self.imageView.animatesContents = shouldAnimate;
+	self.backgroundImageView.animatesContents = shouldAnimate;
 	[super setHighlighted:highlighted];
 	self.imageView.animatesContents = animatesFlag;
+	self.backgroundImageView.animatesContents = animatesFlag;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
 	[super setCornerRadius:cornerRadius];
-	self.imageView.cornerRadius = cornerRadius;
+	self.backgroundImageView.cornerRadius = cornerRadius;
 }
 
 - (CGFloat)cornerRadius {
-	return self.imageView.cornerRadius;
+	return self.backgroundImageView.cornerRadius;
 }
 
 #pragma mark - Subclassing Hooks
 
 - (CGRect)imageFrame {
+	return self.bounds;
+}
+
+- (CGRect)backgroundImageFrame {
 	return self.bounds;
 }
 

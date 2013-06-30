@@ -85,6 +85,14 @@
 	[self contentForControlState:state].backgroundImage = image;
 }
 
+- (NSImage *)imageForControlState:(BTRControlState)state {
+	return [self contentForControlState:state].image;
+}
+
+- (void)setImage:(NSImage *)image forControlState:(BTRControlState)state {
+	[self contentForControlState:state].image = image;
+}
+
 - (NSString *)titleForControlState:(BTRControlState)state {
 	return [self contentForControlState:state].title;
 }
@@ -126,28 +134,42 @@
 }
 
 - (NSString *)currentTitle {
-	return [self contentForControlState:self.state].title ?: [self contentForControlState:BTRControlStateNormal].title;
+	return [self currentValueForStateKey:@"title"];
 }
 
 - (NSAttributedString *)currentAttributedTitle {
-	return [self contentForControlState:self.state].attributedTitle ?: [self contentForControlState:BTRControlStateNormal].attributedTitle;
+	return [self currentValueForStateKey:@"attributedTitle"];
 }
 
 - (NSImage *)currentBackgroundImage {
-	return [self contentForControlState:self.state].backgroundImage ?: [self contentForControlState:BTRControlStateNormal].backgroundImage;
+	return [self currentValueForStateKey:@"backgroundImage"];
+}
+
+- (NSImage *)currentImage {
+	return [self currentValueForStateKey:@"image"];
 }
 
 - (NSColor *)currentTitleColor {
-	return [self contentForControlState:self.state].titleColor ?: [self contentForControlState:BTRControlStateNormal].titleColor;
+	return [self currentValueForStateKey:@"titleColor"];
 }
 
 - (NSShadow *)currentTitleShadow {
-	return [self contentForControlState:self.state].titleShadow ?: [self contentForControlState:BTRControlStateNormal].titleShadow;
+	return [self currentValueForStateKey:@"titleShadow"];
 }
 
 - (NSFont *)currentTitleFont {
-	return [self contentForControlState:self.state].titleFont ?: [self contentForControlState:BTRControlStateNormal].titleFont;
+	return [self currentValueForStateKey:@"titleFont"];
 }
+
+- (id)currentValueForStateKey:(NSString *)key
+{
+	id value = [[self contentForControlState:self.state] valueForKey:key];
+	if (!value || value == NSNull.null) {
+		value = [[self contentForControlState:BTRControlStateNormal] valueForKey:key];
+	}
+	return (value == NSNull.null) ? nil : value;
+}
+
 #pragma mark State
 
 - (BTRControlState)state {
@@ -393,6 +415,14 @@
 - (void)setBackgroundImage:(NSImage *)backgroundImage {
 	if (_backgroundImage != backgroundImage) {
 		_backgroundImage = backgroundImage;
+		[self controlContentChanged];
+	}
+}
+
+- (void)setImage:(NSImage *)image
+{
+	if (_image != image) {
+		_image = image;
 		[self controlContentChanged];
 	}
 }

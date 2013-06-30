@@ -73,6 +73,7 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 // Your control subclass can add more methods and properties similar to this
 @property (nonatomic, strong, readonly) NSString *currentTitle;
 @property (nonatomic, strong, readonly) NSAttributedString *currentAttributedTitle;
+@property (nonatomic, strong, readonly) NSImage *currentImage;
 @property (nonatomic, strong, readonly) NSImage *currentBackgroundImage;
 @property (nonatomic, strong, readonly) NSColor *currentTitleColor;
 @property (nonatomic, strong, readonly) NSShadow *currentTitleShadow;
@@ -80,6 +81,9 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 
 - (NSImage *)backgroundImageForControlState:(BTRControlState)state;
 - (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state;
+
+- (NSImage *)imageForControlState:(BTRControlState)state;
+- (void)setImage:(NSImage *)image forControlState:(BTRControlState)state;
 
 - (NSString *)titleForControlState:(BTRControlState)state;
 - (void)setTitle:(NSString *)title forControlState:(BTRControlState)state;
@@ -104,6 +108,7 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 @property (nonatomic, strong) NSColor *titleColor;
 @property (nonatomic, strong) NSShadow *titleShadow;
 @property (nonatomic, strong) NSFont *titleFont;
+@property (nonatomic, strong) NSImage *image;
 @property (nonatomic, strong) NSImage *backgroundImage;
 // Any setter on a BTRControlContent subclass should always call the
 // -controlContentChanged method in order to notify the control of the
