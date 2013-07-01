@@ -16,16 +16,15 @@
 @interface BTRButtonImageView : BTRImageView
 @end
 
-@implementation BTRButton
+@implementation BTRButton {
+	BTRButtonImageView *_imageView;
+}
 
 #pragma mark - Initialization
 
 - (void)commonInitForBTRButton {
 	_backgroundImageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:_backgroundImageView];
-	_imageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
-	_imageView.contentMode = BTRViewContentModeCenter;
-	[self addSubview:_imageView];
 	_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
 	[self addSubview:_titleLabel];
 }
@@ -44,11 +43,25 @@
 	return self;
 }
 
+#pragma mark - Accessors
+
+- (BTRButtonImageView *)imageView
+{
+	if (!_imageView) {
+		_imageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
+		_imageView.contentMode = BTRViewContentModeCenter;
+		[self addSubview:_imageView];
+	}
+	return _imageView;
+}
+
 #pragma mark State
 
 - (void)handleStateChange {
 	self.backgroundImageView.image = self.currentBackgroundImage;
-	self.imageView.image = self.currentImage;
+	if (self.currentImage) {
+		self.imageView.image = self.currentImage;
+	}
 	self.titleLabel.attributedStringValue = self.currentAttributedTitle;
 }
 
@@ -56,8 +69,10 @@
 
 - (void)layout {
 	self.backgroundImageView.frame = [self backgroundImageFrame];
-	self.imageView.frame = [self imageFrame];
 	self.titleLabel.frame = [self labelFrame];
+	if (_imageView) {
+		self.imageView.frame = [self imageFrame];
+	}
 	[super layout];
 }
 
