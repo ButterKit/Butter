@@ -96,6 +96,34 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	return [super actionForLayer:layer forKey:event];
 }
 
+#pragma mark - View controller
+
+
+// From http://www.cocoawithlove.com/2008/07/better-integration-for-nsviewcontroller.html
+
+- (void)setViewController:(NSViewController *)newController {
+    if (_viewController) {
+        NSResponder *controllerNextResponder = _viewController.nextResponder;
+        [super setNextResponder:controllerNextResponder];
+		_viewController.nextResponder = nil;
+    }
+	
+    _viewController = newController;
+	
+    if (newController) {
+        NSResponder *ownNextResponder = self.nextResponder;
+        [super setNextResponder:_viewController];
+		_viewController.nextResponder = ownNextResponder;
+    }
+}
+
+- (void)setNextResponder:(NSResponder *)newNextResponder {
+    if (_viewController) {
+		_viewController.nextResponder = newNextResponder;
+        return;
+    }
+    [super setNextResponder:newNextResponder];
+}
 
 #pragma mark Drawing block
 

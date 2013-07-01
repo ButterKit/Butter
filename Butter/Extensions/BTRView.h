@@ -47,6 +47,11 @@
 // Defaults to NO.
 @property (nonatomic, assign) BOOL animatesContents;
 
+// The view's parent view controller.
+//
+// Used to patch the view controller into the responder chain.
+@property (nonatomic, assign) IBOutlet NSViewController *viewController;
+
 // A wrapper around -layout that enables the animation on view redrawing,
 // draws the view, and changes back to default content animation setting.
 //
