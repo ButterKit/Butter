@@ -36,6 +36,9 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
 // The transform applied to the image.
 @property (nonatomic, assign) CATransform3D transform;
 
+// Add an animation to the image.
+- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key;
+
 // The content mode for the image view. Directly modifies the layer's contentsGravity.
 //
 // Defaults to BTRViewContentModeScaleToFill.

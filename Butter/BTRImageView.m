@@ -132,6 +132,11 @@
 	return self.imageLayer.transform;
 }
 
+- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
+{
+	[self.imageLayer addAnimation:animation forKey:key];
+}
+
 #pragma mark Content mode
 
 - (void)setContentMode:(BTRViewContentMode)contentMode {
