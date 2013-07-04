@@ -224,6 +224,19 @@ static void BTRCommonInit(BTRTextField *textField) {
 		self.placeholderShadow = shadow;
 }
 
+- (void)setTextShadow:(NSShadow *)textShadow
+{
+	if (_textShadow != textShadow) {
+		_textShadow = textShadow;
+		NSMutableAttributedString *attrString = self.attributedStringValue.mutableCopy;
+		[attrString addAttribute:NSShadowAttributeName value:textShadow range:NSMakeRange(0, attrString.length)];
+		self.attributedStringValue = attrString;
+		
+		if (!self.placeholderShadow)
+			self.placeholderShadow = textShadow;
+	}
+}
+
 
 #pragma mark Drawing
 
