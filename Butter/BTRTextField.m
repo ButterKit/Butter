@@ -228,15 +228,39 @@ static void BTRCommonInit(BTRTextField *textField) {
 {
 	if (_textShadow != textShadow) {
 		_textShadow = textShadow;
-		NSMutableAttributedString *attrString = self.attributedStringValue.mutableCopy;
-		[attrString addAttribute:NSShadowAttributeName value:textShadow range:NSMakeRange(0, attrString.length)];
-		self.attributedStringValue = attrString;
+		[self updateAttributedString];
 		
 		if (!self.placeholderShadow)
 			self.placeholderShadow = textShadow;
 	}
 }
 
+- (void)setStringValue:(NSString *)aString
+{
+	[super setStringValue:aString];
+	[self updateAttributedString];
+}
+
+- (void)updateAttributedString
+{
+	NSMutableAttributedString *attrString = self.attributedStringValue.mutableCopy;
+	NSRange wholeRange = NSMakeRange(0, attrString.length);
+	void (^removeOrAddAttribute)(NSString *, id) = ^(NSString *key, id value) {
+		if (value) {
+			[attrString addAttribute:key value:value range:wholeRange];
+		} else {
+			[attrString removeAttribute:key range:wholeRange];
+		}
+	};
+	
+	[attrString beginEditing];
+	removeOrAddAttribute(NSShadowAttributeName, self.textShadow ?: self.shadow);
+	removeOrAddAttribute(NSForegroundColorAttributeName, self.textColor);
+	removeOrAddAttribute(NSFontAttributeName, self.font);
+	[attrString endEditing];
+
+	self.attributedStringValue = attrString;
+}
 
 #pragma mark Drawing
 
