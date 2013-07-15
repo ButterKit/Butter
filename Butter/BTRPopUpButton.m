@@ -96,9 +96,9 @@
 	NSString *title = self.selectedItem.title;
 	if (title) {
 		self.label.textColor = self.currentTitleColor;
-		self.label.shadow = self.currentTitleShadow;
 		self.label.font = self.currentTitleFont;
 		self.label.stringValue = title;
+		self.label.textShadow = self.currentTitleShadow;
 	} else {
 		self.label.stringValue = @"";
 	}
