@@ -24,4 +24,5 @@
 - (CGRect)backgroundImageFrame;
 - (CGRect)imageFrame;
 - (CGRect)labelFrame;
+
 @end

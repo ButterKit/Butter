@@ -10,10 +10,11 @@
 #import "BTRControl.h"
 #import "BTRImageView.h"
 
-// BTRTextField should *not* be layer backed in Interface Builder
-// This leads to a bug that causes an additional shadow to be shown
-// underneath the field
+// BTRTextField should _not_ be layer backed in Interface Builder.
+// There is an Interface Builder bug that leads to an issue which causes
+// an additional shadow to be shown underneath the textfield.
 @interface BTRTextField : NSTextField
+
 - (NSImage *)backgroundImageForControlState:(BTRControlState)state;
 - (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state;
 
@@ -43,4 +44,5 @@
 - (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect;
 - (NSRect)editingRectForProposedEditingRect:(NSRect)rect;
 - (void)setFieldEditorAttributes:(NSTextView *)fieldEditor;
+
 @end
