@@ -21,7 +21,7 @@
 		ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3B167AD439003EFDD6 /* BTRScrollView.m */; };
 		ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA3C167AD439003EFDD6 /* BTRView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3D167AD439003EFDD6 /* BTRView.m */; };
-		ABDC52C717963E830027133D /* NSImage+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABDC52C517963E830027133D /* NSImage+BTRAdditions.h */; };
+		ABDC52C717963E830027133D /* NSImage+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABDC52C517963E830027133D /* NSImage+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABDC52C817963E830027133D /* NSImage+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDC52C617963E830027133D /* NSImage+BTRAdditions.m */; };
 		ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */; };
@@ -654,8 +654,8 @@
 				ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */,
 				ABEC314E16A3CF8100919EED /* BTRImageView.h in Headers */,
 				035B5C1916A367EC0098CB09 /* BTRGeometryAdditions.h in Headers */,
-				03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */,
 				ABDC52C717963E830027133D /* NSImage+BTRAdditions.h in Headers */,
+				03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
