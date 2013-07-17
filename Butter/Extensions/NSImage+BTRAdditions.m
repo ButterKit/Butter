@@ -16,7 +16,7 @@ static void *BTRNSImageCapInsetsAssociatedObjectKey = &BTRNSImageCapInsetsAssoci
 
 - (void)setBtr_capInsets:(NSEdgeInsets)insets {
 	// There's no built-in boxing of NSEdgeInsets => NSValue, so we'll do it manually.
-	NSValue *wrappedInsets = [NSValue value:&insets withObjCType:@encode(NSEdgeInsets)];
+	NSValue *wrappedInsets = [NSValue valueWithBytes:&insets objCType:@encode(NSEdgeInsets)];
 	objc_setAssociatedObject(self, BTRNSImageCapInsetsAssociatedObjectKey, wrappedInsets, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
