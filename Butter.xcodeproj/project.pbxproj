@@ -12,6 +12,8 @@
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
 		035B5C1916A367EC0098CB09 /* BTRGeometryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 035B5C1816A367EC0098CB09 /* BTRGeometryAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03C1BE9317967060008AAC0B /* NSImage+BTRImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */; };
+		03C1BE9417967060008AAC0B /* NSImage+BTRImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */; };
 		03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E41480167B03D800EACE0F /* BTRCommon.h */; };
 		AB5A1A4517966E19003FF742 /* BTRImage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB5A1A4317966E19003FF742 /* BTRImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB5A1A4617966E19003FF742 /* BTRImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AB5A1A4417966E19003FF742 /* BTRImage.m */; };
@@ -110,6 +112,8 @@
 		03239F6A1672E712004263D7 /* Butter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Butter.h; sourceTree = "<group>"; };
 		03239F7E1672E7C8004263D7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		035B5C1816A367EC0098CB09 /* BTRGeometryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRGeometryAdditions.h; sourceTree = "<group>"; };
+		03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+BTRImageAdditions.h"; sourceTree = "<group>"; };
+		03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+BTRImageAdditions.m"; sourceTree = "<group>"; };
 		03E41480167B03D800EACE0F /* BTRCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRCommon.h; sourceTree = "<group>"; };
 		AB00F29D16A4F23000096C91 /* ActivityIndicator Demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ActivityIndicator Demo-Info.plist"; sourceTree = "<group>"; };
 		AB00F29E16A4F23000096C91 /* ActivityIndicator Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ActivityIndicator Demo-Prefix.pch"; sourceTree = "<group>"; };
@@ -297,6 +301,8 @@
 			children = (
 				ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */,
 				ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */,
+				03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */,
+				03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 				ABACCA40167AD439003EFDD6 /* BTRClipView.h in Headers */,
 				ABACCA42167AD439003EFDD6 /* BTRScrollView.h in Headers */,
 				ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */,
+				03C1BE9317967060008AAC0B /* NSImage+BTRImageAdditions.h in Headers */,
 				ABEC314616A3CF7300919EED /* BTRButton.h in Headers */,
 				ABEC315E16A3CFA000919EED /* BTRTextField.h in Headers */,
 				ABEC314A16A3CF7B00919EED /* BTRControl.h in Headers */,
@@ -796,6 +803,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */,
+				03C1BE9417967060008AAC0B /* NSImage+BTRImageAdditions.m in Sources */,
 				ABACCA41167AD439003EFDD6 /* BTRClipView.m in Sources */,
 				ABACCA43167AD439003EFDD6 /* BTRScrollView.m in Sources */,
 				ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */,

@@ -16,7 +16,4 @@
 // Returns an image created by calling NSImage +imageNamed:, copying the image, and setting `capInsets`.
 + (instancetype)resizableImageNamed:(NSString *)name withCapInsets:(NSEdgeInsets)insets;
 
-// Returns a copy of the image with `capInsets` set to the given value.
-- (instancetype)resizableImageWithCapInsets:(NSEdgeInsets)insets;
-
 @end
