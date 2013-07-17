@@ -16,4 +16,6 @@
 // Returns the wrapped value for the edge insets. This value will be nil if insets have not been set.
 - (NSValue *)btr_capInsetsValue;
 
+// Calls NSImage +imageNamed: followed by -setBtr_capInsets: to create a resizable image.
++ (instancetype)btr_resizableImageNamed:(NSString *)name withCapInsets:(NSEdgeInsets)insets;
 @end

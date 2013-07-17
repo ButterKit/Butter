@@ -32,4 +32,11 @@ static void *BTRNSImageCapInsetsAssociatedObjectKey = &BTRNSImageCapInsetsAssoci
 	return objc_getAssociatedObject(self, BTRNSImageCapInsetsAssociatedObjectKey);
 }
 
++ (instancetype)btr_resizableImageNamed:(NSString *)name withCapInsets:(NSEdgeInsets)insets
+{
+	NSImage *image = [self imageNamed:name];
+	image.btr_capInsets = insets;
+	return image;
+}
+
 @end
