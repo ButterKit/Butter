@@ -42,9 +42,9 @@ static void *BTRNSImageCapInsetsAssociatedObjectKey = &BTRNSImageCapInsetsAssoci
 }
 
 - (instancetype)btr_resizableImageWithCapInsets:(NSEdgeInsets)insets {
-	NSImage *copy = [self copy];
-	copy.btr_capInsets = insets;
-	return copy;
+	NSImage *image = [self copy];
+	image.btr_capInsets = insets;
+	return image;
 }
 
 @end
