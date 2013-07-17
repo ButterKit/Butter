@@ -8,7 +8,7 @@
 
 #import "BTRImageView.h"
 #import "BTRGeometryAdditions.h"
-#import "NSImage+BTRAdditions.h"
+#import "BTRImage.h"
 
 @interface BTRImageView()
 @property (nonatomic, strong, readwrite) CALayer *imageLayer;
@@ -70,9 +70,10 @@
 	_animationTimer = nil;
 	_image = image;
 	self.imageLayer.contents = image;
-	if (image.btr_capInsetsValue != nil) {
+	
+	if ([image isKindOfClass:BTRImage.class]) {
 		NSSize imageSize = image.size;
-		NSEdgeInsets insets = image.btr_capInsets;
+		NSEdgeInsets insets = ((BTRImage *)image).capInsets;
 		self.imageLayer.contentsCenter = BTRCAContentsCenterForInsets(insets, imageSize);
 	} else {
 		self.imageLayer.contentsCenter = CGRectMake(0.0, 0.0, 1.0, 1.0);
