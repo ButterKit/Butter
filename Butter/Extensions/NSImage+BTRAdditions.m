@@ -7,6 +7,7 @@
 //
 
 #import "NSImage+BTRAdditions.h"
+#import "BTRGeometryAdditions.h"
 #import <objc/runtime.h>
 
 static void *BTRNSImageCapInsetsAssociatedObjectKey = &BTRNSImageCapInsetsAssociatedObjectKey;
@@ -21,9 +22,11 @@ static void *BTRNSImageCapInsetsAssociatedObjectKey = &BTRNSImageCapInsetsAssoci
 
 - (NSEdgeInsets)btr_capInsets {
 	NSValue *insetsValue = [self btr_capInsetsValue];
+	NSEdgeInsets insets = BTRNSEdgeInsetsZero;
 	
-	NSEdgeInsets insets;
-	[insetsValue getValue:&insetsValue];
+	if (insetsValue != nil) {
+		[insetsValue getValue:&insetsValue];
+	}
 	
 	return insets;
 }
@@ -32,17 +35,16 @@ static void *BTRNSImageCapInsetsAssociatedObjectKey = &BTRNSImageCapInsetsAssoci
 	return objc_getAssociatedObject(self, BTRNSImageCapInsetsAssociatedObjectKey);
 }
 
-+ (instancetype)btr_resizableImageNamed:(NSString *)name withCapInsets:(NSEdgeInsets)insets
-{
++ (instancetype)btr_resizableImageNamed:(NSString *)name withCapInsets:(NSEdgeInsets)insets {
 	NSImage *image = [[self imageNamed:name] copy];
 	image.btr_capInsets = insets;
 	return image;
 }
 
-- (instancetype)btr_resizableImageWithCapInsets:(NSEdgeInsets)insets
-{
+- (instancetype)btr_resizableImageWithCapInsets:(NSEdgeInsets)insets {
 	NSImage *copy = [self copy];
 	copy.btr_capInsets = insets;
 	return copy;
 }
+
 @end
