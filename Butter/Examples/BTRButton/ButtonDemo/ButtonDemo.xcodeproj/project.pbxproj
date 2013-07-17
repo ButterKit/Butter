@@ -7,16 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ABDC52EF17964C2A0027133D /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDC52EE17964C220027133D /* Butter.framework */; };
 		ABECF085168563CB00BED126 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABECF084168563CB00BED126 /* Cocoa.framework */; };
 		ABECF08F168563CB00BED126 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABECF08D168563CB00BED126 /* InfoPlist.strings */; };
 		ABECF091168563CB00BED126 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABECF090168563CB00BED126 /* main.m */; };
 		ABECF095168563CB00BED126 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = ABECF093168563CB00BED126 /* Credits.rtf */; };
 		ABECF098168563CB00BED126 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABECF097168563CB00BED126 /* AppDelegate.m */; };
 		ABECF09B168563CB00BED126 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABECF099168563CB00BED126 /* MainMenu.xib */; };
-		ABECF0A8168563DA00BED126 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABECF0A7168563DA00BED126 /* Butter.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		ABDC52ED17964C220027133D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABDC52E917964C220027133D /* Butter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03239EB21672E6D6004263D7;
+			remoteInfo = Butter;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		ABDC52E917964C220027133D /* Butter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Butter.xcodeproj; path = ../../../../../Butter.xcodeproj; sourceTree = "<group>"; };
 		ABECF081168563CB00BED126 /* ButtonDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ButtonDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABECF084168563CB00BED126 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		ABECF087168563CB00BED126 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -30,7 +41,6 @@
 		ABECF096168563CB00BED126 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ABECF097168563CB00BED126 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		ABECF09A168563CB00BED126 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		ABECF0A7168563DA00BED126 /* Butter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Butter.framework; path = "../../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-gqoqbeasmoutbjeyiuunhmhydaex/Build/Products/Debug/Butter.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,14 +48,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABECF0A8168563DA00BED126 /* Butter.framework in Frameworks */,
 				ABECF085168563CB00BED126 /* Cocoa.framework in Frameworks */,
+				ABDC52EF17964C2A0027133D /* Butter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ABDC52EA17964C220027133D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABDC52EE17964C220027133D /* Butter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ABECF078168563CB00BED126 = {
 			isa = PBXGroup;
 			children = (
@@ -66,7 +84,6 @@
 		ABECF083168563CB00BED126 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				ABECF0A7168563DA00BED126 /* Butter.framework */,
 				ABECF084168563CB00BED126 /* Cocoa.framework */,
 				ABECF086168563CB00BED126 /* Other Frameworks */,
 			);
@@ -86,6 +103,7 @@
 		ABECF08A168563CB00BED126 /* ButtonDemo */ = {
 			isa = PBXGroup;
 			children = (
+				ABDC52E917964C220027133D /* Butter.xcodeproj */,
 				ABECF096168563CB00BED126 /* AppDelegate.h */,
 				ABECF097168563CB00BED126 /* AppDelegate.m */,
 				ABECF099168563CB00BED126 /* MainMenu.xib */,
@@ -145,12 +163,28 @@
 			mainGroup = ABECF078168563CB00BED126;
 			productRefGroup = ABECF082168563CB00BED126 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ABDC52EA17964C220027133D /* Products */;
+					ProjectRef = ABDC52E917964C220027133D /* Butter.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				ABECF080168563CB00BED126 /* ButtonDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ABDC52EE17964C220027133D /* Butter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Butter.framework;
+			remoteRef = ABDC52ED17964C220027133D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ABECF07F168563CB00BED126 /* Resources */ = {
@@ -315,6 +349,7 @@
 				ABECF0A0168563CB00BED126 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -36,10 +36,10 @@ NS_INLINE CGRect BTRCAContentsCenterForInsets(NSEdgeInsets insets, CGSize imageS
 
 // NSString to Data type conversions
 
-NS_INLINE NSString* BTRNSStringFromCGRect(CGRect rect) {
+NS_INLINE NSString * BTRNSStringFromCGRect(CGRect rect) {
     return NSStringFromRect(rect);
 }
 
-NS_INLINE NSString* BTRNSStringFromCGSize(CGSize size) {
+NS_INLINE NSString * BTRNSStringFromCGSize(CGSize size) {
     return NSStringFromSize(size);
 }

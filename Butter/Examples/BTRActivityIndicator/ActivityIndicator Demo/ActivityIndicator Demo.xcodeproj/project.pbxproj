@@ -13,9 +13,19 @@
 		ABA67763168AC94A006DD644 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = ABA67761168AC94A006DD644 /* Credits.rtf */; };
 		ABA67766168AC94A006DD644 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA67765168AC94A006DD644 /* AppDelegate.m */; };
 		ABA67769168AC94A006DD644 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA67767168AC94A006DD644 /* MainMenu.xib */; };
-		ABA67776168AC950006DD644 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA67775168AC950006DD644 /* Butter.framework */; };
 		ABA67778168AEB15006DD644 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA67777168AEB15006DD644 /* QuartzCore.framework */; };
+		ABDC52E817964BF60027133D /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDC52E717964BEF0027133D /* Butter.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ABDC52E617964BEF0027133D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABDC52E217964BEF0027133D /* Butter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03239EB21672E6D6004263D7;
+			remoteInfo = Butter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		ABA6774F168AC94A006DD644 /* ActivityIndicator Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ActivityIndicator Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,8 +41,8 @@
 		ABA67764168AC94A006DD644 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ABA67765168AC94A006DD644 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		ABA67768168AC94A006DD644 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		ABA67775168AC950006DD644 /* Butter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Butter.framework; path = "../../../../../../../../../Library/Developer/Xcode/DerivedData/Butter-gqoqbeasmoutbjeyiuunhmhydaex/Build/Products/Debug/Butter.framework"; sourceTree = "<group>"; };
 		ABA67777168AEB15006DD644 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		ABDC52E217964BEF0027133D /* Butter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Butter.xcodeproj; path = ../../../../../Butter.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,8 +51,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABA67778168AEB15006DD644 /* QuartzCore.framework in Frameworks */,
-				ABA67776168AC950006DD644 /* Butter.framework in Frameworks */,
 				ABA67753168AC94A006DD644 /* Cocoa.framework in Frameworks */,
+				ABDC52E817964BF60027133D /* Butter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				ABA67777168AEB15006DD644 /* QuartzCore.framework */,
-				ABA67775168AC950006DD644 /* Butter.framework */,
 				ABA67752168AC94A006DD644 /* Cocoa.framework */,
 				ABA67754168AC94A006DD644 /* Other Frameworks */,
 			);
@@ -90,6 +99,7 @@
 		ABA67758168AC94A006DD644 /* ActivityIndicator Demo */ = {
 			isa = PBXGroup;
 			children = (
+				ABDC52E217964BEF0027133D /* Butter.xcodeproj */,
 				ABA67764168AC94A006DD644 /* AppDelegate.h */,
 				ABA67765168AC94A006DD644 /* AppDelegate.m */,
 				ABA67767168AC94A006DD644 /* MainMenu.xib */,
@@ -108,6 +118,14 @@
 				ABA67761168AC94A006DD644 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ABDC52E317964BEF0027133D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABDC52E717964BEF0027133D /* Butter.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,12 +167,28 @@
 			mainGroup = ABA67746168AC94A006DD644;
 			productRefGroup = ABA67750168AC94A006DD644 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ABDC52E317964BEF0027133D /* Products */;
+					ProjectRef = ABDC52E217964BEF0027133D /* Butter.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				ABA6774E168AC94A006DD644 /* ActivityIndicator Demo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ABDC52E717964BEF0027133D /* Butter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Butter.framework;
+			remoteRef = ABDC52E617964BEF0027133D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ABA6774D168AC94A006DD644 /* Resources */ = {

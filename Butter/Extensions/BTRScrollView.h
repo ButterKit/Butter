@@ -15,4 +15,5 @@
 @interface BTRScrollView : NSScrollView
 // Overridden by subviews to change the class of the clip view
 + (Class)clipViewClass;
+
 @end

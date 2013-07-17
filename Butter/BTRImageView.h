@@ -25,12 +25,19 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
     BTRViewContentModeBottomRight,
 };
 
+// BTRImageView is an extremely lightweight replacement for NSImageView that is based
+// off of CALayers. The image layer itself can have a transform directly applied without
+// any consequence, as this is a layer-hosting view.
 @interface BTRImageView : BTRView
 
+// The dedicated initializer. The bounds of the image view will
+// be adjusted to match the size of the image.
 - (id)initWithImage:(NSImage *)image;
 
+// The image displayed in the image view.
 @property (nonatomic, strong) NSImage *image;
-// Set to YES to animate images with multiple frames (e..g animated GIFs). Default is NO.
+
+// Set to YES to animate images with multiple frames (e.g. animated GIFs). Default is NO.
 @property (nonatomic, assign) BOOL animatesMultipleFrames;
 
 // The transform applied to the image.
@@ -43,4 +50,5 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
 //
 // Defaults to BTRViewContentModeScaleToFill.
 @property (nonatomic, assign) BTRViewContentMode contentMode;
+
 @end

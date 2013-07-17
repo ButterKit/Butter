@@ -13,8 +13,18 @@
 		03034031168D880B00697D51 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0303402F168D880B00697D51 /* Credits.rtf */; };
 		03034034168D880B00697D51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03034033168D880B00697D51 /* AppDelegate.m */; };
 		03034037168D880B00697D51 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03034035168D880B00697D51 /* MainMenu.xib */; };
-		03034044168D881500697D51 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03034043168D881500697D51 /* Butter.framework */; };
+		AB5A1A3C17964F0F003FF742 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A1A3B17964F05003FF742 /* Butter.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AB5A1A3A17964F05003FF742 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5A1A3617964F05003FF742 /* Butter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03239EB21672E6D6004263D7;
+			remoteInfo = Butter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0303401D168D880B00697D51 /* TextFieldDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextFieldDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,7 +40,7 @@
 		03034032168D880B00697D51 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		03034033168D880B00697D51 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		03034036168D880B00697D51 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		03034043168D881500697D51 /* Butter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Butter.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Butter-efnfuzlzcszjexczntjphyuejbht/Build/Products/Debug/Butter.framework"; sourceTree = "<group>"; };
+		AB5A1A3617964F05003FF742 /* Butter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Butter.xcodeproj; path = ../../../../../Butter.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,8 +48,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03034044168D881500697D51 /* Butter.framework in Frameworks */,
 				03034021168D880B00697D51 /* Cocoa.framework in Frameworks */,
+				AB5A1A3C17964F0F003FF742 /* Butter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,7 +59,6 @@
 		03034014168D880B00697D51 = {
 			isa = PBXGroup;
 			children = (
-				03034043168D881500697D51 /* Butter.framework */,
 				03034026168D880B00697D51 /* TextFieldDemo */,
 				0303401F168D880B00697D51 /* Frameworks */,
 				0303401E168D880B00697D51 /* Products */,
@@ -86,6 +95,7 @@
 		03034026168D880B00697D51 /* TextFieldDemo */ = {
 			isa = PBXGroup;
 			children = (
+				AB5A1A3617964F05003FF742 /* Butter.xcodeproj */,
 				03034032168D880B00697D51 /* AppDelegate.h */,
 				03034033168D880B00697D51 /* AppDelegate.m */,
 				03034035168D880B00697D51 /* MainMenu.xib */,
@@ -104,6 +114,14 @@
 				0303402F168D880B00697D51 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AB5A1A3717964F05003FF742 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5A1A3B17964F05003FF742 /* Butter.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,12 +163,28 @@
 			mainGroup = 03034014168D880B00697D51;
 			productRefGroup = 0303401E168D880B00697D51 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AB5A1A3717964F05003FF742 /* Products */;
+					ProjectRef = AB5A1A3617964F05003FF742 /* Butter.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				0303401C168D880B00697D51 /* TextFieldDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AB5A1A3B17964F05003FF742 /* Butter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Butter.framework;
+			remoteRef = AB5A1A3A17964F05003FF742 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0303401B168D880B00697D51 /* Resources */ = {
@@ -315,6 +349,7 @@
 				0303403C168D880B00697D51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
