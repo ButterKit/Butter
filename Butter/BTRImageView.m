@@ -8,7 +8,7 @@
 
 #import "BTRImageView.h"
 #import "BTRGeometryAdditions.h"
-#import <Rebel/RBLResizableImage.h>
+#import "NSImage+BTRAdditions.h"
 
 @interface BTRImageView()
 @property (nonatomic, strong, readwrite) CALayer *imageLayer;
@@ -30,15 +30,14 @@
 }
 
 - (id)initWithImage:(NSImage *)image {
-	self = [super initWithFrame:CGRectZero layerHosted:YES];
+	self = [super initWithFrame:(CGRect){ .size = image.size } layerHosted:YES];
 	if (self == nil) return nil;
 	self.image = image;
 	[self commonInit];
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	self.layer = [CALayer layer];
@@ -71,13 +70,14 @@
 	_animationTimer = nil;
 	_image = image;
 	self.imageLayer.contents = image;
-	if ([image isKindOfClass:[RBLResizableImage class]]) {
+	if (image.btr_capInsetsValue != nil) {
 		NSSize imageSize = image.size;
-		NSEdgeInsets insets = [(RBLResizableImage *)image capInsets];
+		NSEdgeInsets insets = image.btr_capInsets;
 		self.imageLayer.contentsCenter = BTRCAContentsCenterForInsets(insets, imageSize);
 	} else {
 		self.imageLayer.contentsCenter = CGRectMake(0.0, 0.0, 1.0, 1.0);
 	}
+		
 	NSArray *representations = [image representations];
 	if (representations.count && self.animatesMultipleFrames) {
 		NSBitmapImageRep *rep = representations[0];
