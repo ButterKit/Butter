@@ -46,4 +46,5 @@
 {
 	return [BTRClipView class];
 }
+
 @end
