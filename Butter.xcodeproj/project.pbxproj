@@ -12,7 +12,7 @@
 		03239F6B1672E712004263D7 /* Butter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03239F6A1672E712004263D7 /* Butter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
 		035B5C1916A367EC0098CB09 /* BTRGeometryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 035B5C1816A367EC0098CB09 /* BTRGeometryAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		03C1BE9317967060008AAC0B /* NSImage+BTRImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */; };
+		03C1BE9317967060008AAC0B /* NSImage+BTRImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03C1BE9417967060008AAC0B /* NSImage+BTRImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */; };
 		03E41481167B03DB00EACE0F /* BTRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E41480167B03D800EACE0F /* BTRCommon.h */; };
 		AB5A1A4517966E19003FF742 /* BTRImage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB5A1A4317966E19003FF742 /* BTRImage.h */; settings = {ATTRIBUTES = (Public, ); }; };

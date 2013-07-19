@@ -1,10 +1,10 @@
 //
-//  NSView+BTRAdditions.h
-//  Originally from Rebel
+//	NSView+BTRAdditions.h
+//	Originally from Rebel
 //
-//  Created by Justin Spahr-Summers on 2012-09-04.
+//	Created by Justin Spahr-Summers on 2012-09-04.
 //	Updated by Jonathan Willing
-//  Copyright (c) 2012 GitHub. All rights reserved.
+//	Copyright (c) 2012 GitHub. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

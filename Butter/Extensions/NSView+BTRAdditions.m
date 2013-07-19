@@ -1,17 +1,15 @@
 //
-//  NSView+BTRAdditions.m
-//  Originally from Rebel
+//	NSView+BTRAdditions.m
+//	Originally from Rebel
 //
-//  Created by Justin Spahr-Summers on 2012-09-04.
-//	Modified by Jonathan Willing
-//  Copyright (c) 2012 GitHub. All rights reserved.
+//	Created by Justin Spahr-Summers on 2012-09-04.
+//	Updated by Jonathan Willing
+//	Copyright (c) 2012 GitHub. All rights reserved.
 //
 
 #import "NSView+BTRAdditions.h"
 #import "BTRClipView.h"
 #import <QuartzCore/CAMediaTimingFunction.h>
-
-static NSUInteger BTRAnimationContextCount = 0;
 
 @implementation NSView (BTRAnimationAdditions)
 
