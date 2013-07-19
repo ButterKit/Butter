@@ -22,51 +22,38 @@ static NSUInteger BTRAnimationContextCount = 0;
 }
 
 + (void)btr_animate:(void (^)(void))animations completion:(void (^)(void))completion {
-	// It's not clear whether NSAnimationContext will accept a nil completion block.
-	if (completion == nil) completion = ^{};
-	
-	// If we're in an animation block, just enable implicit animations
-	if ([self btr_isInAnimationContext]) {
-		NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
-		animations();
-		completion();
-		return;
-	}
-	
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-		BTRAnimationContextCount++;
 		NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
 		animations();
-		NSAnimationContext.currentContext.allowsImplicitAnimation = NO;
-		BTRAnimationContextCount--;
 	} completionHandler:completion];
 }
 
 + (void)btr_animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(void))completion {
-	if (![self btr_isInAnimationContext])
+	[self btr_animate:^{
 		NSAnimationContext.currentContext.duration = duration;
-	[self btr_animate:animations completion:completion];
+		animations();
+	} completion:completion];
 }
 
 + (void)btr_animateWithDuration:(NSTimeInterval)duration animationCurve:(BTRViewAnimationCurve)curve animations:(void (^)(void))animations completion:(void (^)(void))completion {
-	if (![self btr_isInAnimationContext])
+	[self btr_animateWithDuration:duration animations:^{
 		NSAnimationContext.currentContext.timingFunction = [self btr_timingFunctionWithCurve:curve];
-	[self btr_animateWithDuration:duration animations:animations completion:completion];
-}
-
-+ (BOOL)btr_isInAnimationContext {
-	return BTRAnimationContextCount > 0;
+		animations();
+	} completion:completion];
 }
 
 - (void)btr_scrollRectToVisible:(NSRect)rect animated:(BOOL)animated {
 	NSClipView *clipView = [[self enclosingScrollView] contentView];
+	if (clipView == nil) {
+		return;
+	}
+	
 	if ([clipView isKindOfClass:BTRClipView.class]) {
 		[(BTRClipView *)clipView scrollRectToVisible:rect animated:animated];
 	} else {
 		if (animated) {
 			[(NSClipView *)[clipView animator] scrollRectToVisible:rect];
-		}
-		else {
+		} else {
 			[clipView scrollRectToVisible:rect];
 		}
 	}
@@ -91,6 +78,7 @@ static NSUInteger BTRAnimationContextCount = 0;
 		default:
 			break;
 	}
+	
 	return nil;
 }
 

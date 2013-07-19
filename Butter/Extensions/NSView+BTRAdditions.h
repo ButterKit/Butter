@@ -34,14 +34,17 @@ typedef NS_ENUM(NSInteger, BTRViewAnimationCurve) {
 					 animations:(void (^)(void))animations
 					 completion:(void (^)(void))completion;
 
-// Invokes +btr_animateWithDuration:animations:completion: with the added ability to set
-// a timing function on the animation.
+// Invokes +btr_animateWithDuration:animations:completion: with the specified
+// animation curve.
 + (void)btr_animateWithDuration:(NSTimeInterval)duration
 				 animationCurve:(BTRViewAnimationCurve)curve
 					 animations:(void (^)(void))animations
 					 completion:(void (^)(void))completion;
 
 
+// If the receiver is a descendant of a clip view, then this method will
+// scroll the clip view to the passed in rect, optionally using the animator
+// proxy, or using the enhanced scrolling in BTRClipView, if in use.
 - (void)btr_scrollRectToVisible:(NSRect)rect animated:(BOOL)animated;
 
 @end
