@@ -79,6 +79,23 @@ The secure variant of `BTRTextField`.
 ```objc
 BTRLabel *label = [[BTRLabel alloc] initWithFrame:rect];
 ```
+
+##NSView Additions##
+This category contains some convenience animation additions for `NSView`.
+
+```objc
+NSView/BTRView *view = someView;
+[view btr_animate:^{ // simplified
+	view.frame = newFrame;
+}];
+
+[view btr_animateWithDuration:2
+               animationCurve:BTRViewAnimationCurveEaseInOut
+                   animations:^{
+    view.frame = newFrame;
+} completion:nil];
+```
+
 License
 ---
 Butter is licensed under the MIT License. See the [License](https://github.com/ButterKit/Butter/blob/master/LICENSE.md).
