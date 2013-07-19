@@ -49,6 +49,18 @@ imageView.animatesMultipleFrames = YES; // animate the GIF
 
 `BTRImageView` is also capable of displaying stretchable images when combined with `BTRImage`.
 
+##BTRImage##
+`BTRImage` is a `NSImage` subclass that provides support for stretchable images.
+
+```objc
+NSEdgeInsets insets = NSEdgeInsetsMake(0, 5, 0, 5);
+BTRImage *image = [BTRImage resizableImageNamed:@"epic" withCapInsets:insets];
+self.imageView.image = image; // BTRImageView only
+```
+Note that `BTRImage` will not attempt to use the stretched images when manually drawing, or for any other purpose than setting it as the image of a `BTRImageView`.
+
+There is also a convenience category for creating `BTRImage`s out of `NSImage`s, located in `NSImage+BTRImageAdditions.h`.
+
 License
 ---
 Butter is licensed under the MIT License. See the [License](https://github.com/ButterKit/Butter/blob/master/LICENSE.md).
