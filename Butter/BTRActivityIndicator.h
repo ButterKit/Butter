@@ -5,6 +5,7 @@
 //  Created by Jonathan Willing on 12/25/12.
 //  Copyright (c) 2012 ButterKit. All rights reserved.
 //
+//	Much thanks to David Rönnqvist (@davidronnqvist) for the original idea of using CAReplicatorLayer.
 
 typedef NS_ENUM(NSInteger, BTRActivityIndicatorStyle) {
     BTRActivityIndicatorStyleWhite,
