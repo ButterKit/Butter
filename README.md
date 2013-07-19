@@ -107,6 +107,19 @@ view.animatesContents = YES; // fades between redraws
 view.viewController = someVC; // patch into the responder chain
 ```
 
+##BTRClipView / BTRScrollView##
+`BTRClipView` implements a completely custom scrolling mechanism that is used for buttery-smooth scrolling in response to keyboard events, and calls to a custom `-scrollRectToVisible:animated:` method.
+
+`BTRScrollView` makes it easy to use `BTRClipView` by swapping out the clip view at runtime.
+
+
+##BTRPopupButton##
+
+
+
+
+More controls will be added in due time if seen fit.
+
 License
 ---
 Butter is licensed under the MIT License. See the [License](https://github.com/ButterKit/Butter/blob/master/LICENSE.md).
