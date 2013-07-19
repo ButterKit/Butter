@@ -1,25 +1,18 @@
-Butter
-===
-Butter is a framework for OS X that seeks to provide a set of commonly used controls which are full replacements for their cell-based AppKit counterparts. Butter is written on top of [Rebel](https://github.com/github/Rebel). This framework is far from complete, and ***is not ready for general use***. 
+#Butter#
+
+Butter is a framework for OS X that seeks to provide a set of commonly used controls which are full replacements for their cell-based AppKit counterparts. This framework is still a work in progress, but it is **usable in production apps.**
 
 This framework seeks to provide the following:
 
-- Image-based customization of controls
+- Image-based customization of controls for various states
+- Block-based action handlers
 - Complete independence of cell-based controls
-- A complete, unified, and minimalistic default style for controls
+- Customizable properties that would otherwise be hard to change
 
-The following controls will be provided. All controls are assumed to be layer-backed by default unless otherwise specified.
+#Controls#
 
-- `BTRButton` – an image-based button with block APIs
-- `BTRImageView`
-- `BTRTextField`
-- `BTRLabel` – non-bordered text field
-- `BTRSlider`
-- `BTRSegmentedControl`
-- `BTRProgressIndicator`
-- `BTRCheckbox`
-- `BTRSwitch`
-- `BTRRefreshControl` – a stylish pull-to-refresh control for scroll views
+##BTRControl##
+`BTRControl` is a subclass of `BTRView` that provides a base for all controls. It offers state-based customization with block-based (or alternatively target/action-based) control event handling. `BTRControl` is designed for subclassing.
 
 More controls will be added in due time if seen fit.
 
