@@ -9,6 +9,7 @@
 #import "NSImage+BTRImageAdditions.h"
 
 @implementation NSImage (BTRImageAdditions)
+
 - (BTRImage *)btr_resizableImageWithCapInsets:(NSEdgeInsets)insets
 {
 	BTRImage *image = [[BTRImage alloc] initWithSize:self.size];
@@ -16,4 +17,5 @@
 	image.capInsets = insets;
 	return image;
 }
+
 @end

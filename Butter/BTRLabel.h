@@ -8,6 +8,9 @@
 
 #import "BTRTextField.h"
 
+// A convenience class for creating a BTRTextField that is set up to show
+// like a label, with selection, editing, bezel and background drawing, and
+// focus rings disabled.
 @interface BTRLabel : BTRTextField
 
 @end

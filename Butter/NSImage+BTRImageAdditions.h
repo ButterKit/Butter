@@ -10,6 +10,7 @@
 #import "BTRImage.h"
 
 @interface NSImage (BTRImageAdditions)
+
 // Returns an instance of `BTRImage` by copying the receiver and setting the cap insets
 // to the given value.
 - (BTRImage *)btr_resizableImageWithCapInsets:(NSEdgeInsets)insets;
