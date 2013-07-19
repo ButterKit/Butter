@@ -7,6 +7,7 @@
 //
 
 #import "BTRSecureTextField.h"
+#import "BTRControlAction.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface BTRSecureTextField()
@@ -90,12 +91,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.layer.shadowColor = BTRTextFieldShadowColor.CGColor;
 	self.layer.shadowOffset = CGSizeZero;
 	self.layer.shadowRadius = 2.f;
-}
-
-// NSTextField is flipped by default.
-// Switch it back to normal drawing behaviour.
-- (BOOL)isFlipped {
-	return NO;
 }
 
 - (void)layout {
@@ -387,6 +382,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	[super textDidEndEditing:notification];
 	self.highlighted = NO;
 }
+
 @end
 
 // Originally written by Daniel Jalkut as RSVerticallyCenteredTextFieldCell
@@ -396,8 +392,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	BOOL _isEditingOrSelecting;
 }
 
-- (NSRect)drawingRectForBounds:(NSRect)theRect
-{
+- (NSRect)drawingRectForBounds:(NSRect)theRect {
 	// Get the parent's idea of where we should draw
 	NSRect newRect = [super drawingRectForBounds:theRect];
 	
@@ -406,8 +401,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	// the configuration of the field editor.  We sneak around this by
 	// intercepting selectWithFrame and editWithFrame and sneaking a
 	// reduced, centered rect in at the last minute.
-	if (_isEditingOrSelecting == NO)
-	{
+	if (_isEditingOrSelecting == NO) {
 		// Get our ideal size for current text
 		NSSize textSize = [self cellSizeForBounds:theRect];
 		
@@ -422,16 +416,14 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	return NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
 }
 
-- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
-{
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength {
 	aRect = [self drawingRectForBounds:aRect];
 	_isEditingOrSelecting = YES;
 	[super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
 	_isEditingOrSelecting = NO;
 }
 
-- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
-{
+- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent {
 	aRect = [self drawingRectForBounds:aRect];
 	_isEditingOrSelecting = YES;
 	[super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
