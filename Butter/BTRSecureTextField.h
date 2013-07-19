@@ -10,9 +10,7 @@
 #import "BTRControl.h"
 #import "BTRImageView.h"
 
-// BTRSecureTextField should _not_ be layer backed in Interface Builder.
-// There is an Interface Builder bug that leads to an issue which causes
-// an additional shadow to be shown underneath the textfield.
+// The secure variant of BTRTextField. See BTRTextField header for more information.
 @interface BTRSecureTextField : NSSecureTextField
 
 - (NSImage *)backgroundImageForControlState:(BTRControlState)state;
