@@ -37,6 +37,17 @@ indicator.progressShapeCount = 20; // give it more gears
 [indicator startAnimating];
 ```
 
+##BTRImageView##
+`BTRImageView` is a subclass of `BTRView`, and it provides a fast and lightweight alternative to `NSImageView`. The view is layer-hosted, meaning the sublayer that contains the image itself can safely have a  transform applied. This opens up many possibilities for complex animations. `BTRImageView` can also handle animated images, such as GIFs.
+
+```objc
+BTRImageView *imageView = [[BTRImageView alloc] initWithImage:someGIF];
+imageView.contentMode = BTRViewContentModeScaleAspectFit;
+imageView.transform = some3DTransform;
+imageView.animatesMultipleFrames = YES; // animate the GIF
+```
+
+`BTRImageView` is also capable of displaying stretchable images when combined with `BTRImage`.
 
 License
 ---
