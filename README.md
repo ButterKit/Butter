@@ -14,7 +14,17 @@ This framework seeks to provide the following:
 ##BTRControl##
 `BTRControl` is a subclass of `BTRView` that provides a base for all controls. It offers state-based customization with block-based (or alternatively target/action-based) control event handling. `BTRControl` is designed for subclassing.
 
-More controls will be added in due time if seen fit.
+##BTRButton##
+`BTRButton` is a subclass of `BTRControl`, and is an extremely customizable. Here's an example:
+
+```objc
+BTRButton *button = [[BTRButton alloc] initWithFrame:rect];
+[button setTitle:@"Hey!" forControlState:BTRControlStateNormal];
+[button setBackgroundImage:image1 forControlState:BTRControlStateNormal];
+[button setBackgroundImage:image2 forControlState:BTRControlStateHighlighted];
+[button addBlock:^{ NSLog(@"hi!"); } forControlEvents:BTRControlEventClick];
+button.animatesContents = YES; // animate the transition back from click
+```
 
 `BTRCollectionView` can be found on its [own repo.](https://github.com/ButterKit/BTRCollectionView)
 
