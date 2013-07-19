@@ -61,6 +61,24 @@ Note that `BTRImage` will not attempt to use the stretched images when manually 
 
 There is also a convenience category for creating `BTRImage`s out of `NSImage`s, located in `NSImage+BTRImageAdditions.h`.
 
+##BTRTextField##
+`BTRTextField` is a subclass of `NSTextField`. It takes all the pain out of customizing normal text fields. Background images for states, text shadow, placeholder text customization, custom text drawing frames, control event handlers, and more.
+
+```objc
+BTRTextField *textField = [[BTRTextField alloc] initWithFrame:rect];
+[textField setBackgroundImage:image forControlState:BTRControlStateNormal];
+textField.textShadow = someNSShadow;
+```
+
+##BTRSecureTextField##
+The secure variant of `BTRTextField`.
+
+##BTRLabel##
+`BTRLabel` is a subclass of `BTRTextField` that provides a common setup for labels, with no bezel, background drawing, editing, or selection.
+
+```objc
+BTRLabel *label = [[BTRLabel alloc] initWithFrame:rect];
+```
 License
 ---
 Butter is licensed under the MIT License. See the [License](https://github.com/ButterKit/Butter/blob/master/LICENSE.md).
