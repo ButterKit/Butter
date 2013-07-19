@@ -127,7 +127,10 @@ static void BTRCommonInit(BTRTextField *textField) {
 			shadow.shadowOffset = CGSizeZero;
 			self.shadow = shadow;
 		} else {
-			self.shadow = nil;
+			NSShadow *shadow = [[NSShadow alloc] init];
+			shadow.shadowBlurRadius = 0.f;
+			shadow.shadowColor = [NSColor clearColor];
+			self.shadow = shadow;
 		}
 	}
 }
