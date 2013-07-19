@@ -94,13 +94,6 @@ static void BTRCommonInit(BTRTextField *textField) {
 	textField.bezeled = NO;
 }
 
-
-// NSTextField is flipped by default.
-// Switch it back to normal drawing behaviour.
-- (BOOL)isFlipped {
-	return NO;
-}
-
 // It appears that on some layer-backed view heirarchies that are
 // set up before the window has a chance to be shown, the text fields
 // aren't set up properly. This temporarily alleviates this problem.
@@ -249,9 +242,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 	};
 	
 	[attrString beginEditing];
-	if (self.textShadow != nil) {
-		removeOrAddAttribute(NSShadowAttributeName, self.textShadow);
-	}
+	removeOrAddAttribute(NSShadowAttributeName, self.textShadow);
 	removeOrAddAttribute(NSForegroundColorAttributeName, self.textColor);
 	removeOrAddAttribute(NSFontAttributeName, self.font);
 	[attrString endEditing];
@@ -557,8 +548,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 		if (heightDelta > 0)
 		{
 			newRect.size.height -= heightDelta;
-			// Need to add a pixel on because otherwise it isn't properly vertically centered
-			newRect.origin.y += ceilf(heightDelta / 2) + 1.f;
+			newRect.origin.y += ceilf(heightDelta / 2);
 		}
 	}
 	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];
