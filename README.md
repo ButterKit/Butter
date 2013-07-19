@@ -26,7 +26,17 @@ BTRButton *button = [[BTRButton alloc] initWithFrame:rect];
 button.animatesContents = YES; // animate the transition back from click
 ```
 
-`BTRCollectionView` can be found on its [own repo.](https://github.com/ButterKit/BTRCollectionView)
+##BTRActivityIndicator##
+`BTRActvityIndicator` is a subclass of `BTRView` that provides a comprehensive API for creating any type of circular indeterminate activity indicator. Nearly all features of the indicator can be modified, and if more customization is desired a custom layer can be set to completely modify the appearance of the spinner. Short example:
+
+```objc
+BTRActivityIndicator *indicator = [[BTRActivityIndicator alloc] initWithFrame:rect];
+indicator.progressShapeColor = newColor;
+indicator.progressAnimationDuration = 4.f; // make it slow
+indicator.progressShapeCount = 20; // give it more gears
+[indicator startAnimating];
+```
+
 
 License
 ---
