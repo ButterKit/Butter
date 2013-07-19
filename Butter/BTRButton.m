@@ -45,8 +45,7 @@
 
 #pragma mark - Accessors
 
-- (BTRButtonImageView *)imageView
-{
+- (BTRButtonImageView *)imageView {
 	if (!_imageView) {
 		_imageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
 		_imageView.contentMode = BTRViewContentModeCenter;
@@ -127,6 +126,7 @@
 - (CGRect)labelFrame {
 	return self.bounds;
 }
+
 @end
 
 @implementation BTRButtonLabel

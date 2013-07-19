@@ -7,6 +7,7 @@
 //  Portions of code inspired by TwUI.
 
 #import "BTRControl.h"
+#import "BTRControlAction.h"
 
 @interface BTRControl()
 @property (nonatomic, strong) NSMutableArray *actions;
@@ -25,9 +26,6 @@
 @interface BTRControlContent ()
 @property (nonatomic, assign) BTRControlState state;
 @property (nonatomic, weak) BTRControl *control;
-@end
-
-@implementation BTRControlAction
 @end
 
 @implementation BTRControl
@@ -161,8 +159,7 @@
 	return [self currentValueForStateKey:@"titleFont"];
 }
 
-- (id)currentValueForStateKey:(NSString *)key
-{
+- (id)currentValueForStateKey:(NSString *)key {
 	id value = [[self contentForControlState:self.state] valueForKey:key];
 	if (!value || value == NSNull.null) {
 		value = [[self contentForControlState:BTRControlStateNormal] valueForKey:key];
@@ -353,8 +350,7 @@
 //	}
 //}
 
-- (void)handleMouseDown:(NSEvent *)event
-{
+- (void)handleMouseDown:(NSEvent *)event {
 	self.clickCount = event.clickCount;
 	self.mouseDown = YES;
 	
@@ -366,8 +362,7 @@
 	self.highlighted = YES;
 }
 
-- (void)handleMouseUp:(NSEvent *)event
-{
+- (void)handleMouseUp:(NSEvent *)event {
 	self.mouseDown = NO;
 	
 	BTRControlEvents events = 1;
@@ -410,7 +405,6 @@
 @implementation BTRControlContent {
 	NSMutableAttributedString *_attributedTitle;
 }
-@synthesize attributedTitle = _attributedTitle;
 
 - (void)setBackgroundImage:(NSImage *)backgroundImage {
 	if (_backgroundImage != backgroundImage) {
@@ -419,8 +413,7 @@
 	}
 }
 
-- (void)setImage:(NSImage *)image
-{
+- (void)setImage:(NSImage *)image {
 	if (_image != image) {
 		_image = image;
 		[self controlContentChanged];

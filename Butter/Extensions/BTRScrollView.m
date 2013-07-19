@@ -42,8 +42,7 @@
 	self.documentView = documentView;
 }
 
-+ (Class)clipViewClass
-{
++ (Class)clipViewClass {
 	return [BTRClipView class];
 }
 

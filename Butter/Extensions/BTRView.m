@@ -18,15 +18,13 @@
 
 BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
-- (void)setFlipped:(BOOL)flipped
-{
+- (void)setFlipped:(BOOL)flipped {
 	if (_flipped != flipped) {
 		_flipped = flipped;
 		self.needsLayout = YES;
 		self.needsDisplay = YES;
 	}
 }
-
 
 #pragma mark Lifecycle
 
@@ -62,13 +60,11 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 }
 
-
 #pragma mark NSObject
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<%@: %p>{ frame = %@, layer = <%@: %p> }", self.class, self, NSStringFromRect(self.frame), self.layer.class, self.layer];
 }
-
 
 #pragma mark Drawing and actions
 
@@ -98,9 +94,7 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 #pragma mark - View controller
 
-
 // From http://www.cocoawithlove.com/2008/07/better-integration-for-nsviewcontroller.html
-
 - (void)setViewController:(NSViewController *)newController {
     if (_viewController) {
         NSResponder *controllerNextResponder = _viewController.nextResponder;

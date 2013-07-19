@@ -58,7 +58,8 @@
 // The animation can be customized by wrapping the call in a NSView animation.
 - (void)displayAnimated;
 
-// TODO: This is not implemented fully.
-@property (nonatomic, copy) void (^drawRectBlock)(BTRView *view, CGContextRef ctx);
+// TODO: Disabled due to an AppKit bug getting in the way. Will be implemented
+// in the future.
+//@property (nonatomic, copy) void (^drawRectBlock)(BTRView *view, CGContextRef ctx);
 
 @end

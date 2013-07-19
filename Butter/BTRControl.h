@@ -47,7 +47,6 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 
 @property (nonatomic, readonly) BTRControlState state;
 @property (nonatomic, getter = isEnabled) BOOL enabled;
-// TODO: Selected is not implemented.
 @property (nonatomic, getter = isSelected) BOOL selected;
 @property (nonatomic, getter = isHighlighted) BOOL highlighted;
 
@@ -119,13 +118,5 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 // Subclasses can use this to return text attributes that the
 // attributedTitle should use by default
 + (NSDictionary *)defaultTitleAttributes;
-@end
 
-#pragma mark - Private Interface
-
-@interface BTRControlAction : NSObject
-@property (nonatomic, weak) id target;
-@property (nonatomic, assign) SEL action;
-@property (nonatomic, copy) void(^block)(BTRControlEvents events);
-@property (nonatomic, assign) BTRControlEvents events;
 @end

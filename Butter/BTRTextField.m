@@ -8,6 +8,7 @@
 
 #import "BTRTextField.h"
 #import "BTRImageView.h"
+#import "BTRControlAction.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface BTRTextField()
@@ -107,16 +108,14 @@ static void BTRCommonInit(BTRTextField *textField) {
 	return [BTRTextFieldCell class];
 }
 
-- (void)setFrame:(NSRect)frameRect
-{
+- (void)setFrame:(NSRect)frameRect {
 	[super setFrame:frameRect];
 	[self setNeedsDisplay:YES];
 }
 
 #pragma mark - Accessors
 
-- (void)setDrawsFocusRing:(BOOL)drawsFocusRing
-{
+- (void)setDrawsFocusRing:(BOOL)drawsFocusRing {
 	if (_drawsFocusRing != drawsFocusRing) {
 		_drawsFocusRing = drawsFocusRing;
 		if (_drawsFocusRing) {
@@ -152,8 +151,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 	return state;
 }
 
-- (void)setEnabled:(BOOL)enabled
-{
+- (void)setEnabled:(BOOL)enabled {
 	[super setEnabled:enabled];
 	[self handleStateChange];
 }
@@ -215,8 +213,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 		self.placeholderTextColor = color;
 }
 
-- (void)setTextShadow:(NSShadow *)textShadow
-{
+- (void)setTextShadow:(NSShadow *)textShadow {
 	if (_textShadow != textShadow) {
 		_textShadow = textShadow;
 		[self updateAttributedString];
@@ -226,14 +223,12 @@ static void BTRCommonInit(BTRTextField *textField) {
 	}
 }
 
-- (void)setStringValue:(NSString *)aString
-{
+- (void)setStringValue:(NSString *)aString {
 	[super setStringValue:aString];
 	[self updateAttributedString];
 }
 
-- (void)updateAttributedString
-{
+- (void)updateAttributedString {
 	NSMutableAttributedString *attrString = self.attributedStringValue.mutableCopy;
 	NSRange wholeRange = NSMakeRange(0, attrString.length);
 	void (^removeOrAddAttribute)(NSString *, id) = ^(NSString *key, id value) {
@@ -255,8 +250,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 
 #pragma mark Drawing
 
-- (void)drawBackgroundInRect:(NSRect)rect
-{
+- (void)drawBackgroundInRect:(NSRect)rect {
 	if (!self.drawsBackground) return;
 	NSImage *image = [self backgroundImageForControlState:self.state] ?: [self backgroundImageForControlState:BTRControlStateNormal];
 	if (image) {
@@ -493,18 +487,15 @@ static void BTRCommonInit(BTRTextField *textField) {
 
 #pragma mark - Subclassing Hooks
 
-- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect
-{
+- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect {
 	return NSInsetRect(rect, BTRTextFieldXInset, 0.f);
 }
 
-- (NSRect)editingRectForProposedEditingRect:(NSRect)rect
-{
+- (NSRect)editingRectForProposedEditingRect:(NSRect)rect {
 	return rect;
 }
 
-- (void)setFieldEditorAttributes:(NSTextView *)fieldEditor
-{
+- (void)setFieldEditorAttributes:(NSTextView *)fieldEditor {
 
 }
 
@@ -517,8 +508,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 	BOOL _isEditingOrSelecting;
 }
 
-- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-{
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
 	NSRect integralFrame = NSIntegralRect(cellFrame);
 	BTRTextField *textField = (BTRTextField *)controlView;
 	[textField drawBackgroundInRect:integralFrame];
@@ -531,8 +521,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 	self.didRedrawAfterTextChange = YES;
 }
 
-- (NSRect)drawingRectForBounds:(NSRect)theRect
-{
+- (NSRect)drawingRectForBounds:(NSRect)theRect {
 	// Get the parent's idea of where we should draw
 	NSRect newRect = [super drawingRectForBounds:theRect];
 	
@@ -541,8 +530,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 	// the configuration of the field editor.  We sneak around this by
 	// intercepting selectWithFrame and editWithFrame and sneaking a
 	// reduced, centered rect in at the last minute.
-	if (_isEditingOrSelecting == NO)
-	{
+	if (!_isEditingOrSelecting) {
 		// Get our ideal size for current text
 		NSSize textSize = [self cellSizeForBounds:theRect];
 		
@@ -557,24 +545,21 @@ static void BTRCommonInit(BTRTextField *textField) {
 	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];
 }
 
-- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
-{
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength {
 	aRect = [(BTRTextField *)[self controlView] editingRectForProposedEditingRect:[self drawingRectForBounds:aRect]];
 	_isEditingOrSelecting = YES;
 	[super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
 	_isEditingOrSelecting = NO;
 }
 
-- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
-{
+- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent {
 	aRect = [(BTRTextField *)[self controlView] editingRectForProposedEditingRect:[self drawingRectForBounds:aRect]];
 	_isEditingOrSelecting = YES;
 	[super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
 	_isEditingOrSelecting = NO;
 }
 
-- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj
-{
+- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj {
 	NSTextView *editor = (NSTextView *)[super setUpFieldEditorAttributes:textObj];
 	[(BTRTextField *)[self controlView] setFieldEditorAttributes:editor];
 	return editor;

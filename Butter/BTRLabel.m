@@ -31,4 +31,5 @@
 	[self commonInitForBTRLabel];
 	return self;
 }
+
 @end

@@ -92,8 +92,7 @@
 	}	
 }
 
-- (void)imageAnimationTimerFired:(NSTimer *)timer
-{
+- (void)imageAnimationTimerFired:(NSTimer *)timer {
 	if (timer) _currentImageFrame++;
 	if (_currentImageFrame > _totalImageFrames - 1) {
 		_currentImageFrame = 0;
@@ -133,8 +132,7 @@
 	return self.imageLayer.transform;
 }
 
-- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
-{
+- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key {
 	[self.imageLayer addAnimation:animation forKey:key];
 }
 

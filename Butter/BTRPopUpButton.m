@@ -31,8 +31,7 @@
 
 #pragma mark - Initialization
 
-- (void)commonInitForBTRPopUpButton
-{
+- (void)commonInitForBTRPopUpButton {
 	self.label = [[BTRPopUpButtonLabel alloc] initWithFrame:NSZeroRect];
 	self.imageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
 	self.imageView.contentMode = BTRViewContentModeCenter;
@@ -166,8 +165,7 @@
 	}
 }
 
-- (void)reconfigureMenuItems
-{
+- (void)reconfigureMenuItems {
 	// Reset the target and action of each item so that the pop up button receives
 	// the events when the items are clicked.
 	[self.menu.itemArray enumerateObjectsUsingBlock:^(NSMenuItem *item, NSUInteger idx, BOOL *stop) {
@@ -181,8 +179,7 @@
 	}
 }
 
-- (void)forceMenuUpdate
-{
+- (void)forceMenuUpdate {
 	id delegate = self.menu.delegate;
 	if (!delegate) {
 		[self reconfigureMenuItems];
@@ -306,23 +303,23 @@
 @implementation BTRPopUpButtonLabel {
 	BOOL _isEditing;
 }
-- (NSView *)hitTest:(NSPoint)aPoint
-{
+- (NSView *)hitTest:(NSPoint)aPoint {
 	return _isEditing ? [super hitTest:aPoint] : nil;
 }
 
-- (BOOL)becomeFirstResponder
-{
+- (BOOL)becomeFirstResponder {
 	_isEditing = YES;
 	return [super becomeFirstResponder];
 }
 
-- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect
-{
+- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect {
 	return rect;
 }
+
 @end
 
 @implementation BTRPopUpButtonImageView
+
 - (NSView *)hitTest:(NSPoint)aPoint { return nil; }
+
 @end
