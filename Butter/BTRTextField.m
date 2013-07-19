@@ -128,12 +128,13 @@ static void BTRCommonInit(BTRTextField *textField) {
 		_drawsFocusRing = drawsFocusRing;
 		if (_drawsFocusRing) {
 			// Set up the layer styles used to draw a focus ring.
-			self.layer.shadowColor = BTRTextFieldShadowColor.CGColor;
-			self.layer.shadowOffset = CGSizeZero;
-			self.layer.shadowRadius = 2.f;
+			NSShadow *shadow = [[NSShadow alloc] init];
+			shadow.shadowBlurRadius = 2.f;
+			shadow.shadowColor = BTRTextFieldShadowColor;
+			shadow.shadowOffset = CGSizeZero;
+			self.shadow = shadow;
 		} else {
-			self.layer.shadowColor = [NSColor clearColor].CGColor;
-			self.layer.shadowRadius = 0.f;
+			self.shadow = nil;
 		}
 	}
 }
@@ -218,12 +219,6 @@ static void BTRCommonInit(BTRTextField *textField) {
 		self.placeholderTextColor = color;
 }
 
-- (void)setShadow:(NSShadow *)shadow {
-	[super setShadow:shadow];
-	if (!self.placeholderShadow)
-		self.placeholderShadow = shadow;
-}
-
 - (void)setTextShadow:(NSShadow *)textShadow
 {
 	if (_textShadow != textShadow) {
@@ -254,7 +249,9 @@ static void BTRCommonInit(BTRTextField *textField) {
 	};
 	
 	[attrString beginEditing];
-	removeOrAddAttribute(NSShadowAttributeName, self.textShadow ?: self.shadow);
+	if (self.textShadow != nil) {
+		removeOrAddAttribute(NSShadowAttributeName, self.textShadow);
+	}
 	removeOrAddAttribute(NSForegroundColorAttributeName, self.textColor);
 	removeOrAddAttribute(NSFontAttributeName, self.font);
 	[attrString endEditing];
