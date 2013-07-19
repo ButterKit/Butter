@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
 
 // BTRImageView is an extremely lightweight replacement for NSImageView that is based
 // off of CALayers. The image layer itself can have a transform directly applied without
-// any consequence, as this is a layer-hosting view.
+// any consequence, as this is a layer-hosting view. BTRImageView can also display animated
+// images, such as animated GIFs.
 @interface BTRImageView : BTRView
 
 // The dedicated initializer. The bounds of the image view will
