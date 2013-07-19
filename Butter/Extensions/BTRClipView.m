@@ -1,58 +1,53 @@
 //
-//  BTRClipView.m
-//  Originally from Rebel
+//  BTRClipView.h
+//  Butter
 //
 //  Created by Justin Spahr-Summers on 2012-09-14.
-//  Modified by Jonathan Willing
-//  Deceleration logic originally from TwUI
 //  Copyright (c) 2012 GitHub. All rights reserved.
+//  Update with smooth scrolling by Jonathan Willing, with logic from TwUI.
 //
 
 #import "BTRClipView.h"
-#import "BTRCommon.h"
 
 // The deceleration constant used for the ease-out curve in the animation.
-const CGFloat BTRClipViewDecelerationRate = 0.78;
+static const CGFloat BTRClipViewDecelerationRate = 0.78;
 
-@interface BTRClipView()
-@property (nonatomic) CVDisplayLinkRef displayLink;
-@property (nonatomic) BOOL animate;
-@property (nonatomic) CGPoint destination;
-@property (nonatomic, readonly, getter = isScrolling) BOOL scrolling;
-@property (nonatomic, strong) id notificationObserver;
+@interface BTRClipView ()
+// Used to drive the animation through repeated callbacks.
+// A display link is used instead of a timer so that we don't get dropped frames and tearing.
+// Lazily created when needed, released in dealloc. Stopped automatically when scrolling is not occurring.
+@property (nonatomic, assign) CVDisplayLinkRef displayLink;
+
+// Used to determine whether to animate in `scrollToPoint:`.
+@property (nonatomic, assign) BOOL shouldAnimateOriginChange;
+
+// Used when animating with the display link as the final origin for the animation.
+@property (nonatomic, assign) CGPoint destinationOrigin;
+
+// Return value is whether the display link is currently animating a scroll.
+@property (nonatomic, readonly) BOOL animatingScroll;
 @end
 
 @implementation BTRClipView
 
-#pragma mark Properties
-
 @dynamic layer;
 
-BTRVIEW_ADDITIONS_IMPLEMENTATION();
+#pragma mark Properties
 
-- (CVDisplayLinkRef)displayLink {
-	if (_displayLink == NULL) {
-		CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
-		CVDisplayLinkSetOutputCallback(_displayLink, &BTRScrollingCallback, (__bridge void *)(self));
-		[self updateCVDisplay];
-	}
-	return _displayLink;
+- (NSColor *)backgroundColor {
+	return [NSColor colorWithCGColor:self.layer.backgroundColor];
 }
 
-#pragma mark - NSView
+- (void)setBackgroundColor:(NSColor *)color {
+	self.layer.backgroundColor = color.CGColor;
+}
 
-- (void)viewWillMoveToWindow:(NSWindow *)newWindow {
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	if (self.window && self.notificationObserver) {
-		[nc removeObserver:self.notificationObserver];
-		self.notificationObserver = nil;
-	}
-	[super viewWillMoveToWindow:newWindow];
-	if (newWindow) {
-		self.notificationObserver = [nc addObserverForName:NSWindowDidChangeScreenNotification object:newWindow queue:nil usingBlock:^(NSNotification *note) {
-			[self updateCVDisplay];
-		}];
-	}
+- (BOOL)isOpaque {
+	return self.layer.opaque;
+}
+
+- (void)setOpaque:(BOOL)opaque {
+	self.layer.opaque = opaque;
 }
 
 #pragma mark Lifecycle
@@ -60,65 +55,126 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-
+	
 	self.wantsLayer = YES;
+	
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawNever;
-
+	
 	// Matches default NSClipView settings.
 	self.backgroundColor = NSColor.clearColor;
 	self.opaque = NO;
 	
 	self.decelerationRate = BTRClipViewDecelerationRate;
-
+	
 	return self;
 }
 
 - (void)dealloc {
 	CVDisplayLinkRelease(_displayLink);
-	if (self.notificationObserver) {
-		[NSNotificationCenter.defaultCenter removeObserver:self.notificationObserver];
+	[NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
+#pragma mark View Heirarchy
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow {
+	if (self.window != nil) {
+		[NSNotificationCenter.defaultCenter removeObserver:self name:NSWindowDidChangeScreenNotification object:self.window];
+	}
+	
+	[super viewWillMoveToWindow:newWindow];
+	
+	if (newWindow != nil) {
+		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(updateCVDisplay:) name:NSWindowDidChangeScreenNotification object:newWindow];
+	}
+}
+
+#pragma mark Display link
+
+static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeStamp *now, const CVTimeStamp *outputTime, CVOptionFlags flagsIn, CVOptionFlags *flagsOut, void *displayLinkContext) {
+	@autoreleasepool {
+		BTRClipView *clipView = (__bridge id)displayLinkContext;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[clipView updateOrigin];
+		});
+	}
+	
+	return kCVReturnSuccess;
+}
+
+- (CVDisplayLinkRef)displayLink {
+	if (_displayLink == NULL) {
+		CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
+		CVDisplayLinkSetOutputCallback(_displayLink, &BTRScrollingCallback, (__bridge void *)self);
+		[self updateCVDisplay:nil];
+	}
+	
+	return _displayLink;
+}
+
+- (void)updateCVDisplay:(NSNotification *)note {
+	NSScreen *screen = self.window.screen;
+	if (screen == nil) {
+		NSDictionary *screenDictionary = NSScreen.mainScreen.deviceDescription;
+		NSNumber *screenID = screenDictionary[@"NSScreenNumber"];
+		CGDirectDisplayID displayID = screenID.unsignedIntValue;
+		CVDisplayLinkSetCurrentCGDisplay(_displayLink, displayID);
+	} else {
+		CVDisplayLinkSetCurrentCGDisplay(_displayLink, kCGDirectMainDisplay);
 	}
 }
 
 #pragma mark Scrolling
 
 - (void)scrollToPoint:(NSPoint)newOrigin {
-	if (self.animate && (self.window.currentEvent.type != NSScrollWheel)) {
-		self.destination = newOrigin;
+	NSEventType type = self.window.currentEvent.type;
+	
+	if (self.shouldAnimateOriginChange && type != NSScrollWheel) {
+		// Occurs when `-scrollRectToVisible:animated:` has been called with an animated flag.
+		self.destinationOrigin = newOrigin;
+		[self beginScrolling];
+	} else if (type == NSKeyDown || type == NSKeyUp || type == NSFlagsChanged) {
+		// Occurs if a keyboard press has triggered a origin change. In this case we
+		// want to explicitly enable and begin the animation.
+		self.destinationOrigin = newOrigin;
 		[self beginScrolling];
 	} else {
+		// For all other cases, we do not animate. We call `endScrolling` in case a previous animation
+		// is still in progress, in which case we want to stop the display link from making further
+		// callbacks, which would interfere with normal scrolling.
 		[self endScrolling];
 		[super scrollToPoint:newOrigin];
 	}
 }
 
-- (void)setDestination:(CGPoint)destination {
+- (void)setDestinationOrigin:(CGPoint)origin {
 	// We want to round up to the nearest integral point, since some classes
-	// have a bad habit of providing non-integral point values.
-	_destination = (CGPoint){ .x = roundf(destination.x), .y = roundf(destination.y) };
+	// seem to provide non-integral point values.
+	_destinationOrigin = (CGPoint){ .x = round(origin.x), .y = round(origin.y) };
 }
 
 - (BOOL)scrollRectToVisible:(NSRect)aRect animated:(BOOL)animated {
-	self.animate = animated;
+	self.shouldAnimateOriginChange = animated;
 	return [super scrollRectToVisible:aRect];
 }
 
 - (void)beginScrolling {
-	if (self.isScrolling)
+	if (self.animatingScroll) {
 		return;
-
+	}
+	
 	CVDisplayLinkStart(self.displayLink);
 }
 
 - (void)endScrolling {
-	if (!self.isScrolling)
+	if (!self.animatingScroll) {
 		return;
+	}
 	
 	CVDisplayLinkStop(self.displayLink);
-	self.animate = NO;
+	self.shouldAnimateOriginChange = NO;
 }
 
-- (BOOL)isScrolling {
+- (BOOL)animatingScroll {
 	return CVDisplayLinkIsRunning(self.displayLink);
 }
 
@@ -131,49 +187,26 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 	_decelerationRate = decelerationRate;
 }
 
-- (CVReturn)updateOrigin {
-	if(self.window == nil) {
+- (void)updateOrigin {
+	if (self.window == nil) {
 		[self endScrolling];
-		return kCVReturnError;
+		return;
 	}
 	
 	CGPoint o = self.bounds.origin;
 	CGPoint lastOrigin = o;
-	o.x = o.x * self.decelerationRate + self.destination.x * (1 - self.decelerationRate);
-	o.y = o.y * self.decelerationRate + self.destination.y * (1 - self.decelerationRate);
 	
-	[self setBoundsOrigin:o];
+	// Calculate the next origin on a basic ease-out curve.
+	o.x = o.x * self.decelerationRate + self.destinationOrigin.x * (1 - self.decelerationRate);
+	o.y = o.y * self.decelerationRate + self.destinationOrigin.y * (1 - self.decelerationRate);
 	
-	if((fabsf(o.x - lastOrigin.x) < 0.1) && (fabsf(o.y - lastOrigin.y) < 0.1)) {
+	self.boundsOrigin = o;
+	
+	if (fabs(o.x - lastOrigin.x) < 0.1 && fabs(o.y - lastOrigin.y) < 0.1) {
 		[self endScrolling];
-		[self setBoundsOrigin:self.destination];
-		[(NSScrollView *)self.superview flashScrollers];
+		self.boundsOrigin = self.destinationOrigin;
+		[self.enclosingScrollView flashScrollers];
 	}
-	
-	return kCVReturnSuccess;
-}
-
-- (void)updateCVDisplay {
-	NSScreen *screen = self.window.screen;
-	if (screen) {
-		NSDictionary* screenDictionary = [[NSScreen mainScreen] deviceDescription];
-		NSNumber *screenID = [screenDictionary objectForKey:@"NSScreenNumber"];
-		CGDirectDisplayID displayID = [screenID unsignedIntValue];
-		CVDisplayLinkSetCurrentCGDisplay(_displayLink, displayID);
-	} else {
-		CVDisplayLinkSetCurrentCGDisplay(_displayLink, kCGDirectMainDisplay);
-	}
-}
-
-static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeStamp* now, const CVTimeStamp* outputTime, CVOptionFlags flagsIn, CVOptionFlags* flagsOut, void* displayLinkContext) {
-	__block CVReturn status;
-	@autoreleasepool {
-		BTRClipView *clipView = (__bridge id)displayLinkContext;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			status = [clipView updateOrigin];
-		});
-	}
-    return status;
 }
 
 @end
