@@ -9,8 +9,16 @@
 #import <Butter/Butter.h>
 
 @interface BTRPopUpButton : BTRControl
+
+// The pop up button's menu.
 @property (nonatomic, copy) IBOutlet NSMenu *menu;
+
+// The selected item whose title is being currently displayed in
+// the pop up button.
 @property (nonatomic, strong) NSMenuItem *selectedItem;
+
+// Whether the pop up button automatically calls -setEnabled: on all
+// menu items before displaying the menu.
 @property (nonatomic, assign) BOOL autoenablesItems;
 
 - (void)selectItemAtIndex:(NSUInteger)index;
@@ -41,6 +49,7 @@
 // The width to fit all the content in the view (used by -sizeToFit)
 - (CGFloat)widthToFit;
 
+// Returns the arrow image for the current `BTRControlState`
 @property (nonatomic, strong, readonly) NSImage *currentArrowImage;
 
 @end
