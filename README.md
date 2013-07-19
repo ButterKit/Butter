@@ -96,6 +96,17 @@ NSView/BTRView *view = someView;
 } completion:nil];
 ```
 
+##BTRView##
+`BTRView` is a subclass of `NSView`, and it provides the base for many of the controls in Butter. It is layer-backed by default. It provides some convenience properties for common customization points.
+
+```objc
+BTRView *view = [[BTRView alloc] initWithFrame:rect];
+view.backgroundColor = [NSColor redColor];
+view.flipped = YES;
+view.animatesContents = YES; // fades between redraws
+view.viewController = someVC; // patch into the responder chain
+```
+
 License
 ---
 Butter is licensed under the MIT License. See the [License](https://github.com/ButterKit/Butter/blob/master/LICENSE.md).
