@@ -30,7 +30,6 @@
 		}];
 	}
 	self.objects = array;
-	// Insert code here to initialize your application
 }
 
 @end

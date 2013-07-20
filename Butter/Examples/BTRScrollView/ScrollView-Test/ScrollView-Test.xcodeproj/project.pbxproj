@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB93A9D0179B3F6A001DA314 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB93A9C5179B3CB2001DA314 /* Butter.framework */; };
 		DB687ECE179B355500EDCBB3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB687ECC179B355500EDCBB3 /* MainMenu.xib */; };
 		DB687ED5179B361800EDCBB3 /* name.csv in Resources */ = {isa = PBXBuildFile; fileRef = DB687ED0179B361800EDCBB3 /* name.csv */; };
 		DB687ED6179B361800EDCBB3 /* BTRNameGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = DB687ED2179B361800EDCBB3 /* BTRNameGenerator.m */; };
@@ -19,6 +20,23 @@
 		DB9DDACF179B330B00FE99BD /* BTRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9DDACE179B330B00FE99BD /* BTRAppDelegate.m */; };
 		DB9DDAF7179B34E100FE99BD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9DDAF6179B34E100FE99BD /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AB93A9C4179B3CB2001DA314 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB9DDAEF179B34CB00FE99BD /* Butter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03239EB21672E6D6004263D7;
+			remoteInfo = Butter;
+		};
+		AB93A9D1179B3F7B001DA314 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB9DDAEF179B34CB00FE99BD /* Butter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 03239EB11672E6D6004263D7;
+			remoteInfo = Butter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		DB687ECD179B355500EDCBB3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -49,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB93A9D0179B3F6A001DA314 /* Butter.framework in Frameworks */,
 				DB9DDAF7179B34E100FE99BD /* QuartzCore.framework in Frameworks */,
 				DB9DDABC179B330B00FE99BD /* Cocoa.framework in Frameworks */,
 			);
@@ -57,6 +76,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB93A9C0179B3CB2001DA314 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB93A9C5179B3CB2001DA314 /* Butter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DB687ECF179B360F00EDCBB3 /* Name Generator */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +173,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AB93A9D2179B3F7B001DA314 /* PBXTargetDependency */,
 			);
 			name = "ScrollView-Test";
 			productName = "ScrollView-Test";
@@ -173,12 +201,28 @@
 			mainGroup = DB9DDAAF179B330B00FE99BD;
 			productRefGroup = DB9DDAB9179B330B00FE99BD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AB93A9C0179B3CB2001DA314 /* Products */;
+					ProjectRef = DB9DDAEF179B34CB00FE99BD /* Butter.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				DB9DDAB7179B330B00FE99BD /* ScrollView-Test */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AB93A9C5179B3CB2001DA314 /* Butter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Butter.framework;
+			remoteRef = AB93A9C4179B3CB2001DA314 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DB9DDAB6179B330B00FE99BD /* Resources */ = {
@@ -208,6 +252,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB93A9D2179B3F7B001DA314 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Butter;
+			targetProxy = AB93A9D1179B3F7B001DA314 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DB687ECC179B355500EDCBB3 /* MainMenu.xib */ = {
