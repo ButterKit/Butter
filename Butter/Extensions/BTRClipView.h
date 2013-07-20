@@ -25,9 +25,6 @@
 // cell to come into view in a NSTableView.
 @interface BTRClipView : NSClipView
 
-// The backing layer for this view.
-@property (nonatomic, strong) CAScrollLayer *layer;
-
 // Whether the content in this view is opaque.
 //
 // Defaults to NO.

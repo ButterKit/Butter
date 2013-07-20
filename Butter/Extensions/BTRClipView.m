@@ -30,8 +30,6 @@ static const CGFloat BTRClipViewDecelerationRate = 0.78;
 
 @implementation BTRClipView
 
-@dynamic layer;
-
 #pragma mark Properties
 
 - (NSColor *)backgroundColor {
