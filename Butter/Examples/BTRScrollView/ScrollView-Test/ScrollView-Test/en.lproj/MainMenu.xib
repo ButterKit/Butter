@@ -1343,6 +1343,7 @@
 											<string key="NSFrameSize">{438, 302}</string>
 											<reference key="NSSuperview" ref="439892046"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="61618096"/>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1353,6 +1354,7 @@
 												<string key="NSFrameSize">{438, 17}</string>
 												<reference key="NSSuperview" ref="1002807908"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="439892046"/>
 												<reference key="NSTableView" ref="785935697"/>
 											</object>
 											<object class="_NSCornerView" key="NSCornerView">
@@ -1505,6 +1507,7 @@
 									<string key="NSFrame">{{1, 303}, {438, 16}}</string>
 									<reference key="NSSuperview" ref="617320479"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="617320479"/>
@@ -1517,6 +1520,7 @@
 									<string key="NSFrame">{{224, 17}, {15, 102}}</string>
 									<reference key="NSSuperview" ref="617320479"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="155236098"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="617320479"/>
 									<string key="NSAction">_doScroller:</string>
@@ -1527,7 +1531,7 @@
 							<string key="NSFrame">{{20, 20}, {440, 320}}</string>
 							<reference key="NSSuperview" ref="692952127"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="439892046"/>
+							<reference key="NSNextKeyView" ref="1002807908"/>
 							<int key="NSsFlags">133682</int>
 							<reference key="NSVScroller" ref="61618096"/>
 							<reference key="NSHScroller" ref="155236098"/>
@@ -1543,6 +1547,8 @@
 					<string key="NSFrameSize">{480, 360}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView" ref="617320479"/>
+					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
