@@ -9,6 +9,9 @@ This framework seeks to provide the following:
 - Complete independence of cell-based controls
 - Customizable properties that would otherwise be hard to change
 
+**Butter is compatible with OS X 10.8+.**
+
+
 #Controls#
 
 ##BTRControl##
