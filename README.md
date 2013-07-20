@@ -114,8 +114,7 @@ view.viewController = someVC; // patch into the responder chain
 
 
 ##BTRPopupButton##
-
-
+`BTRPopUpButton` is the layer-backed Butter equivalent of `NSPopUpButton`. Like `NSPopUpButton`, it uses an `NSMenu` as the model for its content. Basic elements like the arrow image are customizable via properties, and many of the layout attributes are designed to be customizable via subclassing. 
 
 
 More controls will be added in due time if seen fit.
