@@ -19,4 +19,7 @@
    <FileRef
       location = "group:Butter/Examples/BTRActivityIndicator/ActivityIndicator Demo/ActivityIndicator Demo.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Butter/Examples/BTRScrollView/ScrollView-Test/ScrollView-Test.xcodeproj">
+   </FileRef>
 </Workspace>
