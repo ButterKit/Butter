@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C5D60C9A-8331-4F11-AB25-B2A5E1F71B98</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Butter</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>93B7E5AC-6168-4090-8944-748E76788CD0</key>
+		<string>https://github.com/ButterKit/Butter.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Butter.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>93B7E5AC-6168-4090-8944-748E76788CD0</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ButterKit/Butter.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>93B7E5AC-6168-4090-8944-748E76788CD0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>93B7E5AC-6168-4090-8944-748E76788CD0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Butter</string>
+		</dict>
+	</array>
+</dict>
+</plist>
