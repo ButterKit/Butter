@@ -35,7 +35,7 @@ static const CGFloat BTRClipViewDecelerationRate = 0.78;
 #pragma mark Properties
 
 - (NSColor *)backgroundColor {
-	return [NSColor colorWithCGColor:self.layer.backgroundColor];
+	return self.layer.backgroundColor ? [NSColor colorWithCGColor:self.layer.backgroundColor] : nil;
 }
 
 - (void)setBackgroundColor:(NSColor *)color {
