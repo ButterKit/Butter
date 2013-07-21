@@ -95,7 +95,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 	textField.bezeled = NO;
 }
 
-// It appears that on some layer-backed view heirarchies that are
+// It appears that on some layer-backed view hierarchies that are
 // set up before the window has a chance to be shown, the text fields
 // aren't set up properly. This temporarily alleviates this problem.
 //
