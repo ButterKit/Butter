@@ -11,15 +11,15 @@
 @implementation BTRImage
 
 + (instancetype)resizableImageNamed:(NSString *)name withCapInsets:(NSEdgeInsets)insets {
-	BTRImage *image = [[self imageNamed:name] copy];
-	image.capInsets = insets;
-	return image;
-}
-
-- (instancetype)resizableImageWithCapInsets:(NSEdgeInsets)insets {
-	BTRImage *image = [self copy];
-	image.capInsets = insets;
-	return image;
+	NSImage *originalImage = [self imageNamed:name];
+	if (originalImage.representations) {
+		BTRImage *image = [[BTRImage alloc] initWithSize:originalImage.size];
+		[image addRepresentations:originalImage.representations];
+		image.capInsets = insets;
+		return image;
+	} else {
+		return nil;
+	}
 }
 
 @end
