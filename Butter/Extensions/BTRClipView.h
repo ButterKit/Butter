@@ -42,4 +42,7 @@
 // Defaults to 0.78.
 @property (nonatomic, assign) CGFloat decelerationRate;
 
+// Insets applied to the content.
+@property (assign) NSEdgeInsets contentInsets;
+
 @end

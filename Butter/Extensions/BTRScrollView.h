@@ -17,4 +17,13 @@
 // Overridden by subviews to change the class of the clip view
 + (Class)clipViewClass;
 
+// The distance that the content view is inset from the enclosing scroll view.
+@property (nonatomic, assign) NSEdgeInsets contentInsets;
+
+// The distance the scroll indicators are inset from the edge of the scroll view.
+@property (nonatomic, assign) NSEdgeInsets scrollIndicatorInsets;
+
+// The point at which the origin of the content view is offset from the origin of the scroll view.
+@property (nonatomic, assign) NSPoint contentOffset;
+
 @end
