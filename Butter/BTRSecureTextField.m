@@ -93,11 +93,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	self.layer.shadowRadius = 2.f;
 }
 
-- (void)layout {
-	[super layout];
-	self.backgroundImageView.frame = self.bounds;
-}
-
 // It appears that on some layer-backed view hierarchies that are
 // set up before the window has a chance to be shown, the text fields
 // aren't set up properly. This temporarily alleviates this problem.
