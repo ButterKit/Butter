@@ -1,5 +1,5 @@
 //
-//	NSView+BTRAdditions.h
+//	NSView+BTRAnimationAdditions.h
 //	Originally from Rebel
 //
 //	Created by Justin Spahr-Summers on 2012-09-04.

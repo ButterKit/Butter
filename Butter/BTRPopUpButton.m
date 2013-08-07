@@ -7,6 +7,7 @@
 //
 
 #import "BTRPopUpButton.h"
+#import "NSView+BTRLayoutAdditions.h"
 
 @interface BTRPopUpButtonLabel : BTRLabel
 @end
@@ -161,7 +162,7 @@
 		_selectedItem = selectedItem;
 		_selectedItem.state = NSOnState;
 		[self handleStateChange];
-		[self setNeedsLayout:YES];
+		[self btr_layout];
 	}
 }
 
@@ -205,12 +206,11 @@
 
 #pragma mark - NSView
 
-- (void)layout {
+- (void)resizeSubviewsWithOldSize:(NSSize)oldSize {
 	self.imageView.frame = [self imageFrame];
 	self.label.frame = [self labelFrame];
 	self.arrowImageView.frame = [self arrowFrame];
 	self.backgroundImageView.frame = self.bounds;
-	[super layout];
 }
 
 - (NSRect)imageFrame {
@@ -252,7 +252,7 @@
 	NSRect newFrame = self.frame;
 	newFrame.size.width = [self widthToFit];
 	self.frame = newFrame;
-	[self setNeedsLayout:YES];
+	[self btr_layout];
 }
 
 #pragma mark - Mouse Events

@@ -1,5 +1,5 @@
 //
-//	NSView+BTRAdditions.m
+//	NSView+BTRAnimationAdditions.m
 //	Originally from Rebel
 //
 //	Created by Justin Spahr-Summers on 2012-09-04.
@@ -7,7 +7,7 @@
 //	Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "NSView+BTRAdditions.h"
+#import "NSView+BTRAnimationAdditions.h"
 #import "BTRClipView.h"
 #import <QuartzCore/CAMediaTimingFunction.h>
 

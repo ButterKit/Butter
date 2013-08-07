@@ -143,6 +143,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (BTRImageView *)backgroundImageView {
 	if (!_backgroundImageView) {
 		_backgroundImageView = [[BTRImageView alloc] initWithFrame:self.bounds];
+		_backgroundImageView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[self addSubview:_backgroundImageView];
 	}
 	return _backgroundImageView;

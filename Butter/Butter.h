@@ -14,7 +14,7 @@
 #import <Butter/BTRLabel.h>
 #import <Butter/BTRScrollView.h>
 #import <Butter/BTRClipView.h>
-#import <Butter/NSView+BTRAdditions.h>
+#import <Butter/NSView+BTRAnimationAdditions.h>
 #import <Butter/NSImage+BTRImageAdditions.h>
 #import <Butter/BTRImage.h>
 #import <Butter/BTRPopUpButton.h>

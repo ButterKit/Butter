@@ -8,6 +8,7 @@
 
 #import "BTRButton.h"
 #import "BTRLabel.h"
+#import "NSView+BTRLayoutAdditions.h"
 
 // Subclasses to override -hitTest: and prevent them from receiving mouse events
 @interface BTRButtonLabel : BTRLabel
@@ -66,13 +67,12 @@
 
 #pragma mark Drawing
 
-- (void)layout {
+- (void)resizeSubviewsWithOldSize:(NSSize)oldSize {
 	self.backgroundImageView.frame = [self backgroundImageFrame];
 	self.titleLabel.frame = [self labelFrame];
 	if (_imageView) {
 		self.imageView.frame = [self imageFrame];
 	}
-	[super layout];
 }
 
 - (void)setBackgroundContentMode:(BTRViewContentMode)backgroundContentMode {
