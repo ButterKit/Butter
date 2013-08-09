@@ -28,6 +28,7 @@
 	[self addSubview:_backgroundImageView];
 	_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
 	[self addSubview:_titleLabel];
+	[self btr_layout];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
