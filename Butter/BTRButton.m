@@ -113,6 +113,11 @@
 	return self.backgroundImageView.cornerRadius;
 }
 
+- (void)mouseDragged:(NSEvent *)theEvent {
+	// Override to prevent superviews from receiving mouse dragged events
+	// when the button is dragged.
+}
+
 #pragma mark - Subclassing Hooks
 
 - (CGRect)imageFrame {
