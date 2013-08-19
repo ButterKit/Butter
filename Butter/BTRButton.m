@@ -54,7 +54,7 @@
 	return _imageView;
 }
 
-#pragma mark State
+#pragma mark - State
 
 - (void)handleStateChange {
 	self.backgroundImageView.image = self.currentBackgroundImage;
@@ -64,7 +64,7 @@
 	self.titleLabel.attributedStringValue = self.currentAttributedTitle;
 }
 
-#pragma mark Drawing
+#pragma mark - Drawing
 
 - (void)layout {
 	self.backgroundImageView.frame = [self backgroundImageFrame];
@@ -112,6 +112,8 @@
 - (CGFloat)cornerRadius {
 	return self.backgroundImageView.cornerRadius;
 }
+
+#pragma mark - Mouse Events
 
 - (void)mouseDragged:(NSEvent *)theEvent {
 	// Override to prevent superviews from receiving mouse dragged events
