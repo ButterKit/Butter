@@ -21,6 +21,9 @@
 // menu items before displaying the menu.
 @property (nonatomic, assign) BOOL autoenablesItems;
 
+// Alignment of the text in the pop up button label.
+@property (nonatomic, assign) NSTextAlignment textAlignment;
+
 - (void)selectItemAtIndex:(NSUInteger)index;
 - (NSUInteger)indexOfSelectedItem;
 
