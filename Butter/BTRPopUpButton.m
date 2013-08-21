@@ -302,7 +302,7 @@
 			// Offset to line up the menu item image
 			// TODO: Figure out a better way to calculate this offset at runtime.
 			// There are no geometry methods on NSMenu or NSMenuItem that would
-			// allow the retrievel of layout information for menu items
+			// allow the retrieval of layout information for menu items
 			origin.x -= 22.f;
 		} else {
 			origin = [self labelFrame].origin;
