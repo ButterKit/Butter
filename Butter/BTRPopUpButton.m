@@ -165,6 +165,15 @@
 	}
 }
 
+- (void)setTextAlignment:(NSTextAlignment)textAlignment {
+	if (_textAlignment != textAlignment) {
+		_textAlignment = textAlignment;
+		[self setNeedsLayout:YES];
+	}
+}
+
+#pragma mark - NSMenu
+
 - (void)reconfigureMenuItems {
 	// Reset the target and action of each item so that the pop up button receives
 	// the events when the items are clicked.
@@ -214,20 +223,46 @@
 }
 
 - (NSRect)imageFrame {
-	NSSize imageSize = self.selectedItem.image.size;
+	const NSSize imageSize = self.selectedItem.image.size;
 	// Size the image rect to the exact height and width of the selected image
 	return NSMakeRect([self edgeInset], roundf(NSMidY(self.bounds) - (imageSize.height / 2.f)), imageSize.width, imageSize.height);
 }
 
 - (NSRect)labelFrame {
-	NSRect imageFrame = [self imageFrame];
-	NSRect arrowFrame = [self arrowFrame];
-	CGFloat xOrigin = NSMaxX(imageFrame) + [self interElementSpacing];
-	return NSMakeRect(xOrigin, 0.f, NSMinX(arrowFrame) - xOrigin - [self interElementSpacing], NSHeight(self.bounds));
+	const NSRect imageFrame = [self imageFrame];
+	const NSRect arrowFrame = [self arrowFrame];
+	const CGFloat spacing = [self interElementSpacing];
+	
+	CGFloat maximumWidth = NSWidth(self.bounds) - NSMaxX(imageFrame) - NSWidth(arrowFrame) - [self edgeInset];
+	if (NSWidth(imageFrame)) {
+		maximumWidth -= spacing;
+	}
+	if (NSWidth(arrowFrame)) {
+		maximumWidth -= spacing;
+	}
+	
+	// Have to pad this by 4px because it seems like NSTextField cell adds an additional
+	// 2 pixels of padding on each side that isn't accounted for in the intrinsic content
+	// size. Always a magic numbers game with AppKit.
+	const CGFloat textWidth = fminf(self.label.intrinsicContentSize.width + 4.f, maximumWidth);
+	CGFloat xOrigin;
+	switch (self.textAlignment) {
+		case NSRightTextAlignment:
+			xOrigin = NSMinX(arrowFrame) - spacing - textWidth;
+			break;
+		case NSCenterTextAlignment:
+			xOrigin = floorf(NSMidX(self.bounds) - (textWidth / 2.f));
+			break;
+		case NSLeftTextAlignment:
+		default:
+			xOrigin = NSMaxX(imageFrame) + spacing;
+			break;
+	}
+	return NSMakeRect(xOrigin, 0.f, textWidth, NSHeight(self.bounds));
 }
 
 - (NSRect)arrowFrame {
-	NSSize arrowSize = self.currentArrowImage.size;
+	const NSSize arrowSize = self.currentArrowImage.size;
 	// Size the arrow image to the exact height and width of the image
 	return NSMakeRect(NSMaxX(self.bounds) - arrowSize.width - [self edgeInset], roundf(NSMidY(self.bounds) - (arrowSize.height / 2.f)), arrowSize.width, arrowSize.height);
 }
@@ -260,13 +295,19 @@
 - (void)mouseDown:(NSEvent *)theEvent {
 	[super mouseDown:theEvent];
 	if (self.menu) {
-		NSPoint origin = [self imageFrame].origin;
+		NSPoint origin;
+		NSRect imageFrame = [self imageFrame];
+		if (NSWidth(imageFrame)) {
+			origin = imageFrame.origin;
+			// Offset to line up the menu item image
+			// TODO: Figure out a better way to calculate this offset at runtime.
+			// There are no geometry methods on NSMenu or NSMenuItem that would
+			// allow the retrievel of layout information for menu items
+			origin.x -= 22.f;
+		} else {
+			origin = [self labelFrame].origin;
+		}
 		origin.y = 0.f;
-		// Offset to line up the menu item image
-		// TODO: Figure out a better way to calculate this offset at runtime.
-		// There are no geometry methods on NSMenu or NSMenuItem that would
-		// allow the retrievel of layout information for menu items
-		origin.x -= 22.f; 
 		NSPoint location = [self convertPoint:origin toView:nil];
 		// Synthesize an event just so we can change the location of the menu
 		NSEvent *synthesizedEvent = [NSEvent mouseEventWithType:theEvent.type location:location modifierFlags:theEvent.modifierFlags timestamp:theEvent.timestamp windowNumber:theEvent.windowNumber context:theEvent.context eventNumber:theEvent.eventNumber clickCount:theEvent.clickCount pressure:theEvent.pressure];
