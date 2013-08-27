@@ -296,7 +296,7 @@
 }
 
 - (void)mouseUp:(NSEvent *)event {
-	if (self.shouldHandleEvents) {
+	if (self.userInteractionEnabled) {
 		[self handleMouseUp:event];
 	} else {
 		[super mouseUp:event];
@@ -304,7 +304,7 @@
 }
 
 - (void)rightMouseUp:(NSEvent *)event {
-	if (self.shouldHandleEvents) {
+	if (self.userInteractionEnabled) {
 		[self handleMouseUp:event];
 	} else {
 		[super rightMouseUp:event];
