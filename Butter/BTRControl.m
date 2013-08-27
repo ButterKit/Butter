@@ -19,6 +19,7 @@
 @property (nonatomic) BOOL mouseInside;
 @property (nonatomic) BOOL mouseDown;
 @property (nonatomic) BOOL mouseHover;
+@property (nonatomic, readonly) BOOL shouldHandleEvents;
 
 - (void)handleStateChange;
 @end
@@ -218,6 +219,14 @@
 	_userInteractionEnabled = userInteractionEnabled;
 }
 
+- (BOOL)shouldHandleEvents {
+	return self.userInteractionEnabled && self.enabled;
+}
+
++ (NSSet *)keyPathsForValuesAffectingShouldHandleEvents {
+	return [NSSet setWithObjects:@"userInteractionEnabled", @"enabled", nil];
+}
+
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
 	NSParameterAssert(block);
 	BTRControlAction *action = [BTRControlAction new];
@@ -279,7 +288,7 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-	if (self.userInteractionEnabled) {
+	if (self.shouldHandleEvents) {
 		[self handleMouseDown:event];
 	} else {
 		[super mouseDown:event];
@@ -287,7 +296,7 @@
 }
 
 - (void)mouseUp:(NSEvent *)event {
-	if (self.userInteractionEnabled) {
+	if (self.shouldHandleEvents) {
 		[self handleMouseUp:event];
 	} else {
 		[super mouseUp:event];
@@ -295,7 +304,7 @@
 }
 
 - (void)rightMouseUp:(NSEvent *)event {
-	if (self.userInteractionEnabled) {
+	if (self.shouldHandleEvents) {
 		[self handleMouseUp:event];
 	} else {
 		[super rightMouseUp:event];
@@ -303,7 +312,7 @@
 }
 
 - (void)rightMouseDown:(NSEvent *)event {
-	if (self.userInteractionEnabled) {
+	if (self.shouldHandleEvents) {
 		[self handleMouseDown:event];
 	} else {
 		[super rightMouseDown:event];
@@ -311,7 +320,7 @@
 }
 
 - (void)mouseEntered:(NSEvent *)event {
-	if (self.userInteractionEnabled) {
+	if (self.shouldHandleEvents) {
 		self.mouseInside = YES;
 		self.mouseHover = YES;
 		[self sendActionsForControlEvents:BTRControlEventMouseEntered];
@@ -321,7 +330,7 @@
 }
 
 - (void)mouseExited:(NSEvent *)event {
-	if (self.userInteractionEnabled) {
+	if (self.shouldHandleEvents) {
 		self.mouseInside = NO;
 		self.mouseHover = NO;
 		[self sendActionsForControlEvents:BTRControlEventMouseExited];
@@ -333,7 +342,7 @@
 #pragma mark - Actions
 
 - (IBAction)performClick:(id)sender {
-	if (self.userInteractionEnabled) {
+	if (self.shouldHandleEvents) {
 		[self sendActionsForControlEvents:BTRControlEventClick];
 	}
 }
@@ -386,7 +395,7 @@
 }
 
 - (void)sendActionsForControlEvents:(BTRControlEvents)events {
-	if (!self.userInteractionEnabled)
+	if (!self.shouldHandleEvents)
 		return;
 	
 	for (BTRControlAction *action in self.actions) {
