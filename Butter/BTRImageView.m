@@ -56,11 +56,11 @@
 	self.imageLayer.anchorPoint = CGPointMake(0.5f, 0.5f);
 }
 
-- (void)layout {
-	[super layout];
-	
-	self.imageLayer.bounds = self.bounds;
-	self.imageLayer.position = CGPointMake(NSMidX(self.bounds), NSMidY(self.bounds));
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+	if (layer == self.layer) {
+		self.imageLayer.frame = self.bounds;
+	}
 }
 
 - (void)setImage:(NSImage *)image {
