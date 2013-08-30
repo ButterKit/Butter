@@ -8,6 +8,7 @@
 //	Much thanks to David Rönnqvist (@davidronnqvist) for the original idea of using CAReplicatorLayer.
 
 #import "BTRActivityIndicator.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface BTRActivityIndicator()
 @property (nonatomic, strong) CAReplicatorLayer *replicatorLayer;
