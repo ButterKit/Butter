@@ -144,6 +144,36 @@ static CVReturn BTRScrollingCallback(CVDisplayLinkRef displayLink, const CVTimeS
 	}
 }
 
+- (NSPoint)constrainScrollPoint:(NSPoint)newOrigin
+{
+    NSRect documentRect = [self documentRect];
+    if (newOrigin.y < NSMinY(documentRect)) {
+        newOrigin.y = NSMinY(documentRect);
+    }
+    CGFloat bottomY = newOrigin.y + NSHeight(self.bounds);
+    if (bottomY > NSMaxY(documentRect)) {
+        bottomY = NSMaxY(documentRect);
+        newOrigin.y = bottomY - NSHeight(self.bounds);
+    }
+    return newOrigin;
+}
+
+- (NSRect)documentRect
+{
+    NSRect r = [super documentRect];
+    r.origin.y -= self.contentInsets.top;
+    r.size.height += self.contentInsets.top + self.contentInsets.bottom;
+    return r;
+}
+
+- (NSRect)documentVisibleRect
+{
+    NSRect r = [super documentVisibleRect];
+    r.origin.y -= self.contentInsets.top;
+    r.size.height += self.contentInsets.top + self.contentInsets.bottom;
+    return r;
+}
+
 - (void)setDestinationOrigin:(CGPoint)origin {
 	// We want to round up to the nearest integral point, since some classes
 	// seem to provide non-integral point values.
