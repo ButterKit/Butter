@@ -132,34 +132,34 @@
 }
 
 - (NSString *)currentTitle {
-	return [self currentValueForStateKey:@"title"];
+	return [self currentValueForControlStateKey:@"title"];
 }
 
 - (NSAttributedString *)currentAttributedTitle {
-	return [self currentValueForStateKey:@"attributedTitle"];
+	return [self currentValueForControlStateKey:@"attributedTitle"];
 }
 
 - (NSImage *)currentBackgroundImage {
-	return [self currentValueForStateKey:@"backgroundImage"];
+	return [self currentValueForControlStateKey:@"backgroundImage"];
 }
 
 - (NSImage *)currentImage {
-	return [self currentValueForStateKey:@"image"];
+	return [self currentValueForControlStateKey:@"image"];
 }
 
 - (NSColor *)currentTitleColor {
-	return [self currentValueForStateKey:@"titleColor"];
+	return [self currentValueForControlStateKey:@"titleColor"];
 }
 
 - (NSShadow *)currentTitleShadow {
-	return [self currentValueForStateKey:@"titleShadow"];
+	return [self currentValueForControlStateKey:@"titleShadow"];
 }
 
 - (NSFont *)currentTitleFont {
-	return [self currentValueForStateKey:@"titleFont"];
+	return [self currentValueForControlStateKey:@"titleFont"];
 }
 
-- (id)currentValueForStateKey:(NSString *)key {
+- (id)currentValueForControlStateKey:(NSString *)key {
 	id value = [[self contentForControlState:self.state] valueForKey:key];
 	if (!value || value == NSNull.null) {
 		value = [[self contentForControlState:BTRControlStateNormal] valueForKey:key];

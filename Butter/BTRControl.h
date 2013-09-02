@@ -59,6 +59,12 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 // This method should be called by subclasses
 - (void)sendActionsForControlEvents:(BTRControlEvents)events;
 
+// This is the dynamic version of the `current*` property getters.
+// Examples of state keys: `title`, `titleColor`, `backgroundImage`
+//
+// Returns the current value for the given control state key.
+- (id)currentValueForControlStateKey:(NSString *)key;
+
 // Implemented by subclasses. Use it to return a subclass of BTRControlContent that
 // contains additional content properties pertaining to the specific control.
 + (Class)controlContentClass;
