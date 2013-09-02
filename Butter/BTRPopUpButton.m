@@ -241,10 +241,8 @@
 		maximumWidth -= spacing;
 	}
 	
-	// Have to pad this by 4px because it seems like NSTextField cell adds an additional
-	// 2 pixels of padding on each side that isn't accounted for in the intrinsic content
-	// size. Always a magic numbers game with AppKit.
-	const CGFloat textWidth = fminf(self.label.intrinsicContentSize.width + self.magicTextFieldPadding, maximumWidth);
+	[self.label sizeToFit];
+	const CGFloat textWidth = fminf(NSWidth(self.label.frame), maximumWidth);
 	CGFloat xOrigin;
 	switch (self.textAlignment) {
 		case NSRightTextAlignment:
@@ -259,11 +257,6 @@
 			break;
 	}
 	return NSMakeRect(xOrigin, 0.f, textWidth, NSHeight(self.bounds));
-}
-
-- (CGFloat)magicTextFieldPadding
-{
-	return (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_8) ? 4.f : 7.f;
 }
 
 - (NSRect)arrowFrame {
