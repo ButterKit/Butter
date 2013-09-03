@@ -241,10 +241,10 @@
 		maximumWidth -= spacing;
 	}
 	
-	// Have to pad this by 4px because it seems like NSTextField cell adds an additional
-	// 2 pixels of padding on each side that isn't accounted for in the intrinsic content
-	// size. Always a magic numbers game with AppKit.
-	const CGFloat textWidth = fminf(self.label.intrinsicContentSize.width + 4.f, maximumWidth);
+	// Calling -sizeToFit modifies the frame of the label. This is necessary
+	// to get accurate metrics for the intrinsic content size.
+	[self.label sizeToFit];
+	const CGFloat textWidth = fminf(NSWidth(self.label.frame), maximumWidth);
 	CGFloat xOrigin;
 	switch (self.textAlignment) {
 		case NSRightTextAlignment:
