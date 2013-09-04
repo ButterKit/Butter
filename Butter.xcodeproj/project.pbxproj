@@ -23,9 +23,9 @@
 		ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */; };
 		ABACCA44167AD439003EFDD6 /* BTRView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA3C167AD439003EFDD6 /* BTRView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA45167AD439003EFDD6 /* BTRView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA3D167AD439003EFDD6 /* BTRView.m */; };
-		ABCEDCAC17D044D80023B30C /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABCEDCA817D044D80023B30C /* BTRClipView.h */; };
+		ABCEDCAC17D044D80023B30C /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABCEDCA817D044D80023B30C /* BTRClipView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABCEDCAD17D044D80023B30C /* BTRClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABCEDCA917D044D80023B30C /* BTRClipView.m */; };
-		ABCEDCAE17D044D80023B30C /* BTRScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABCEDCAA17D044D80023B30C /* BTRScrollView.h */; };
+		ABCEDCAE17D044D80023B30C /* BTRScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABCEDCAA17D044D80023B30C /* BTRScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABCEDCAF17D044D80023B30C /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABCEDCAB17D044D80023B30C /* BTRScrollView.m */; };
 		ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */; };
