@@ -241,6 +241,8 @@
 		maximumWidth -= spacing;
 	}
 	
+	// Calling -sizeToFit modifies the frame of the label. This is necessary
+	// to get accurate metrics for the intrinsic content size.
 	[self.label sizeToFit];
 	const CGFloat textWidth = fminf(NSWidth(self.label.frame), maximumWidth);
 	CGFloat xOrigin;
