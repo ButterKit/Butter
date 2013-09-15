@@ -63,6 +63,12 @@ NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
 	return self;
 }
 
+#pragma mark - Accessibility
+
+- (BOOL)accessibilityIsIgnored {
+	return NO;
+}
+
 #pragma mark - Public API
 
 + (Class)controlContentClass {
@@ -105,6 +111,7 @@ NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
 
 - (void)setTitle:(NSString *)title forControlState:(BTRControlState)state {
 	[self contentForControlState:state].title = title;
+	[self accessibilitySetOverrideValue:title forAttribute:NSAccessibilityTitleAttribute];
 }
 
 - (NSAttributedString *)attributedTitleForControlState:(BTRControlState)state {
@@ -113,6 +120,7 @@ NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
 
 - (void)setAttributedTitle:(NSAttributedString *)title forControlState:(BTRControlState)state {
 	[self contentForControlState:state].attributedTitle = title;
+	[self accessibilitySetOverrideValue:title.string.copy forAttribute:NSAccessibilityTitleAttribute];
 }
 
 - (NSColor *)titleColorForControlState:(BTRControlState)state {
@@ -175,7 +183,7 @@ NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
 	return (value == NSNull.null) ? nil : value;
 }
 
-#pragma mark State
+#pragma mark - State
 
 - (BTRControlState)state {
 	BTRControlState state = BTRControlStateNormal;
@@ -190,6 +198,7 @@ NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
 
 - (void)setEnabled:(BOOL)enabled {
 	[self updateStateWithOld:&_enabled new:enabled];
+	[self accessibilitySetOverrideValue:@(enabled) forAttribute:NSAccessibilityEnabledAttribute];
 }
 
 - (void)setSelected:(BOOL)selected {

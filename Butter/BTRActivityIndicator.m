@@ -49,6 +49,9 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 	[self.layer addSublayer:self.replicatorLayer];
 	self.progressShapeLayer.opacity = 0.f;
 	
+	[self accessibilitySetOverrideValue:NSAccessibilityProgressIndicatorRole forAttribute:NSAccessibilityRoleAttribute];
+	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityProgressIndicatorRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
+	
 	return self;
 }
 
@@ -179,6 +182,13 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 	if (needsAnimation) {
 		[self.progressShapeLayer addAnimation:self.progressShapeLayerFadeOutAnimation forKey:BTRActivityIndicatorAnimationKey];
 	}
+}
+
+
+#pragma mark Accessibility
+
+- (BOOL)accessibilityIsIgnored {
+	return NO;
 }
 
 @end

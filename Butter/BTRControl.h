@@ -68,6 +68,10 @@ extern NSString * const BTRControlStateBackgroundImageKey;
 // This method should be called by subclasses
 - (void)sendActionsForControlEvents:(BTRControlEvents)events;
 
+// Sends actions for the `BTRControlClick` event, provided that `enabled` and
+// `userInteractionEnabled` are equal to `YES`.
+- (IBAction)performClick:(id)sender;
+
 // This is the dynamic version of the `current*` property getters.
 //
 // Unless explicitly defined in your own subclasses, state keys passed into this method

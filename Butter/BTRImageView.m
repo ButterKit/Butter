@@ -54,6 +54,9 @@
 	
 	self.contentMode = BTRViewContentModeScaleToFill;
 	self.imageLayer.anchorPoint = CGPointMake(0.5f, 0.5f);
+	
+	[self accessibilitySetOverrideValue:NSAccessibilityImageRole forAttribute:NSAccessibilityRoleAttribute];
+	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityImageRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
 }
 
 - (void)layout {
@@ -184,6 +187,12 @@
 		default:
 			break;
 	}
+}
+
+#pragma mark Accessibility
+
+- (BOOL)accessibilityIsIgnored {
+	return NO;
 }
 
 @end
