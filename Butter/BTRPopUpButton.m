@@ -319,8 +319,7 @@
 	[self showMenuWithEvent:theEvent];
 }
 
-- (void)showMenuWithEvent:(NSEvent *)event
-{
+- (void)showMenuWithEvent:(NSEvent *)event {
 	if (!self.menu || !self.enabled || !self.userInteractionEnabled) return;
 	
 	NSPoint origin;
@@ -342,8 +341,7 @@
 	[self accessibilitySetOverrideValue:self.menu forAttribute:NSAccessibilityShownMenuAttribute];
 }
 
-- (NSEvent *)synthesizedEventWithLocalMouseLocation:(NSPoint)location realEvent:(NSEvent *)event
-{
+- (NSEvent *)synthesizedEventWithLocalMouseLocation:(NSPoint)location realEvent:(NSEvent *)event {
 	NSPoint windowPoint = [self convertPoint:location toView:nil];
 	return [NSEvent mouseEventWithType:NSLeftMouseDown
 							  location:windowPoint
@@ -363,6 +361,7 @@
 	[self sendActionsForControlEvents:BTRControlEventValueChanged];
 	[self handleStateChange];
 }
+
 @end
 
 @implementation BTRPopUpButtonContent
