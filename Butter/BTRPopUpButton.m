@@ -49,6 +49,10 @@
 	// we want to force a menu refresh if the delegate has implemented the
 	// menu update methods declared in the NSMenuDelegate protocol.
 	[self addObserver:self forKeyPath:@"menu.delegate" options:NSKeyValueObservingOptionNew context:NULL];
+	
+	[self accessibilitySetOverrideValue:NSAccessibilityPopUpButtonRole forAttribute:NSAccessibilityRoleAttribute];
+	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityPopUpButtonRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
+	
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -148,6 +152,7 @@
 			self.notificationObserver = [nc addObserverForName:NSMenuDidEndTrackingNotification object:_menu queue:nil usingBlock:^(NSNotification *note) {
 				[self mouseUp:nil];
 				[self mouseExited:nil];
+				[self accessibilitySetOverrideValue:nil forAttribute:NSAccessibilityShownMenuAttribute];
 			}];
 			// Force a menu update from the delegate once the menu is initially set
 			[self forceMenuUpdate];
@@ -162,6 +167,7 @@
 		_selectedItem.state = NSOnState;
 		[self handleStateChange];
 		[self setNeedsLayout:YES];
+		[self accessibilitySetOverrideValue:_selectedItem.title forAttribute:NSAccessibilityTitleAttribute];
 	}
 }
 
@@ -212,7 +218,7 @@
 	[self reconfigureMenuItems];
 }
 
-#pragma mark - NSView
+#pragma mark - Layout
 
 - (void)layout {
 	self.imageView.frame = [self imageFrame];
@@ -312,6 +318,7 @@
 		// Synthesize an event just so we can change the location of the menu
 		NSEvent *synthesizedEvent = [NSEvent mouseEventWithType:theEvent.type location:location modifierFlags:theEvent.modifierFlags timestamp:theEvent.timestamp windowNumber:theEvent.windowNumber context:theEvent.context eventNumber:theEvent.eventNumber clickCount:theEvent.clickCount pressure:theEvent.pressure];
 		[NSMenu popUpContextMenu:self.menu withEvent:synthesizedEvent forView:self];
+		[self accessibilitySetOverrideValue:self.menu forAttribute:NSAccessibilityShownMenuAttribute];
 	}
 }
 
