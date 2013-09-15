@@ -37,6 +37,15 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 	BTRControlStateHover		= 1 << 3
 };
 
+// State key constants for use with `-currentValueForControlStateKey:`
+extern NSString * const BTRControlStateTitleKey;
+extern NSString * const BTRControlStateTitleColorKey;
+extern NSString * const BTRControlStateTitleShadowKey;
+extern NSString * const BTRControlStateTitleFontKey;
+extern NSString * const BTRControlStateAttributedTitleKey;
+extern NSString * const BTRControlStateImageKey;
+extern NSString * const BTRControlStateBackgroundImageKey;
+
 @class BTRControlContent;
 @interface BTRControl : BTRView
 

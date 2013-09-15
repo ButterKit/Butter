@@ -9,6 +9,14 @@
 #import "BTRControl.h"
 #import "BTRControlAction.h"
 
+NSString * const BTRControlStateTitleKey = @"title";
+NSString * const BTRControlStateTitleColorKey = @"titleColor";
+NSString * const BTRControlStateTitleShadowKey = @"titleShadow";
+NSString * const BTRControlStateTitleFontKey = @"titleFont";
+NSString * const BTRControlStateAttributedTitleKey = @"attributedTitle";
+NSString * const BTRControlStateImageKey = @"image";
+NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
+
 @interface BTRControl()
 @property (nonatomic, strong) NSMutableArray *actions;
 @property (nonatomic, strong) NSTrackingArea *trackingArea;
@@ -132,31 +140,31 @@
 }
 
 - (NSString *)currentTitle {
-	return [self currentValueForControlStateKey:@"title"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleKey];
 }
 
 - (NSAttributedString *)currentAttributedTitle {
-	return [self currentValueForControlStateKey:@"attributedTitle"];
+	return [self currentValueForControlStateKey:BTRControlStateAttributedTitleKey];
 }
 
 - (NSImage *)currentBackgroundImage {
-	return [self currentValueForControlStateKey:@"backgroundImage"];
+	return [self currentValueForControlStateKey:BTRControlStateBackgroundImageKey];
 }
 
 - (NSImage *)currentImage {
-	return [self currentValueForControlStateKey:@"image"];
+	return [self currentValueForControlStateKey:BTRControlStateImageKey];
 }
 
 - (NSColor *)currentTitleColor {
-	return [self currentValueForControlStateKey:@"titleColor"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleColorKey];
 }
 
 - (NSShadow *)currentTitleShadow {
-	return [self currentValueForControlStateKey:@"titleShadow"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleShadowKey];
 }
 
 - (NSFont *)currentTitleFont {
-	return [self currentValueForControlStateKey:@"titleFont"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleFontKey];
 }
 
 - (id)currentValueForControlStateKey:(NSString *)key {
