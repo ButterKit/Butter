@@ -27,6 +27,9 @@
 	[self addSubview:_backgroundImageView];
 	_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
 	[self addSubview:_titleLabel];
+	
+	[self accessibilitySetOverrideValue:NSAccessibilityButtonRole forAttribute:NSAccessibilityRoleAttribute];
+	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityButtonRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
