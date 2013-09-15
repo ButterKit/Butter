@@ -69,7 +69,9 @@ extern NSString * const BTRControlStateBackgroundImageKey;
 - (void)sendActionsForControlEvents:(BTRControlEvents)events;
 
 // This is the dynamic version of the `current*` property getters.
-// Examples of state keys: `title`, `titleColor`, `backgroundImage`
+//
+// Unless explicitly defined in your own subclasses, state keys passed into this method
+// should be limited to those defined in the `BTRControlState*Key` constants.
 //
 // Returns the current value for the given control state key.
 - (id)currentValueForControlStateKey:(NSString *)key;
