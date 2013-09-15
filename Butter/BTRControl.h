@@ -37,6 +37,15 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 	BTRControlStateHover		= 1 << 3
 };
 
+// State key constants for use with `-currentValueForControlStateKey:`
+extern NSString * const BTRControlStateTitleKey;
+extern NSString * const BTRControlStateTitleColorKey;
+extern NSString * const BTRControlStateTitleShadowKey;
+extern NSString * const BTRControlStateTitleFontKey;
+extern NSString * const BTRControlStateAttributedTitleKey;
+extern NSString * const BTRControlStateImageKey;
+extern NSString * const BTRControlStateBackgroundImageKey;
+
 @class BTRControlContent;
 @interface BTRControl : BTRView
 
@@ -58,6 +67,14 @@ typedef NS_OPTIONS(NSUInteger, BTRControlState) {
 
 // This method should be called by subclasses
 - (void)sendActionsForControlEvents:(BTRControlEvents)events;
+
+// This is the dynamic version of the `current*` property getters.
+//
+// Unless explicitly defined in your own subclasses, state keys passed into this method
+// should be limited to those defined in the `BTRControlState*Key` constants.
+//
+// Returns the current value for the given control state key.
+- (id)currentValueForControlStateKey:(NSString *)key;
 
 // Implemented by subclasses. Use it to return a subclass of BTRControlContent that
 // contains additional content properties pertaining to the specific control.
