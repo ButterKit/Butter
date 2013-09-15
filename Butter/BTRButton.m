@@ -46,6 +46,22 @@
 	return self;
 }
 
+#pragma mark - Accessibility
+
+- (NSArray *)accessibilityActionNames {
+	return @[NSAccessibilityPressAction];
+}
+
+- (NSString *)accessibilityActionDescription:(NSString *)action {
+	return NSAccessibilityActionDescription(action);
+}
+
+- (void)accessibilityPerformAction:(NSString *)action {
+	if ([action isEqualToString:NSAccessibilityPressAction]) {
+		[self performClick:nil];
+	}
+}
+
 #pragma mark - Accessors
 
 - (BTRButtonImageView *)imageView {
