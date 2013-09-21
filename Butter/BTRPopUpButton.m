@@ -49,6 +49,10 @@
 	// we want to force a menu refresh if the delegate has implemented the
 	// menu update methods declared in the NSMenuDelegate protocol.
 	[self addObserver:self forKeyPath:@"menu.delegate" options:NSKeyValueObservingOptionNew context:NULL];
+	
+	[self accessibilitySetOverrideValue:NSAccessibilityPopUpButtonRole forAttribute:NSAccessibilityRoleAttribute];
+	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityPopUpButtonRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
+	
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -78,6 +82,22 @@
 	// Force a menu update when the delegate changes
 	if ([keyPath isEqualToString:@"menu.delegate"]) {
 		[self forceMenuUpdate];
+	}
+}
+
+#pragma mark - Accessibility
+
+- (NSArray *)accessibilityActionNames {
+	return @[NSAccessibilityPressAction, NSAccessibilityShowMenuAction];
+}
+
+- (NSString *)accessibilityActionDescription:(NSString *)action {
+	return NSAccessibilityActionDescription(action);
+}
+
+- (void)accessibilityPerformAction:(NSString *)action {
+	if ([action isEqualToString:NSAccessibilityPressAction] || [action isEqualToString:NSAccessibilityShowMenuAction]) {
+		[self showMenuWithEvent:nil];
 	}
 }
 
@@ -148,6 +168,7 @@
 			self.notificationObserver = [nc addObserverForName:NSMenuDidEndTrackingNotification object:_menu queue:nil usingBlock:^(NSNotification *note) {
 				[self mouseUp:nil];
 				[self mouseExited:nil];
+				[self accessibilitySetOverrideValue:nil forAttribute:NSAccessibilityShownMenuAttribute];
 			}];
 			// Force a menu update from the delegate once the menu is initially set
 			[self forceMenuUpdate];
@@ -162,6 +183,7 @@
 		_selectedItem.state = NSOnState;
 		[self handleStateChange];
 		[self setNeedsLayout:YES];
+		[self accessibilitySetOverrideValue:_selectedItem.title forAttribute:NSAccessibilityTitleAttribute];
 	}
 }
 
@@ -212,7 +234,7 @@
 	[self reconfigureMenuItems];
 }
 
-#pragma mark - NSView
+#pragma mark - Layout
 
 - (void)layout {
 	self.imageView.frame = [self imageFrame];
@@ -294,25 +316,42 @@
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	[super mouseDown:theEvent];
-	if (self.menu) {
-		NSPoint origin;
-		NSRect imageFrame = [self imageFrame];
-		if (NSWidth(imageFrame)) {
-			origin = imageFrame.origin;
-			// Offset to line up the menu item image
-			// TODO: Figure out a better way to calculate this offset at runtime.
-			// There are no geometry methods on NSMenu or NSMenuItem that would
-			// allow the retrieval of layout information for menu items
-			origin.x -= 22.f;
-		} else {
-			origin = [self labelFrame].origin;
-		}
-		origin.y = 0.f;
-		NSPoint location = [self convertPoint:origin toView:nil];
-		// Synthesize an event just so we can change the location of the menu
-		NSEvent *synthesizedEvent = [NSEvent mouseEventWithType:theEvent.type location:location modifierFlags:theEvent.modifierFlags timestamp:theEvent.timestamp windowNumber:theEvent.windowNumber context:theEvent.context eventNumber:theEvent.eventNumber clickCount:theEvent.clickCount pressure:theEvent.pressure];
-		[NSMenu popUpContextMenu:self.menu withEvent:synthesizedEvent forView:self];
+	[self showMenuWithEvent:theEvent];
+}
+
+- (void)showMenuWithEvent:(NSEvent *)event {
+	if (!self.menu || !self.enabled || !self.userInteractionEnabled) return;
+	
+	NSPoint origin;
+	NSRect imageFrame = [self imageFrame];
+	if (NSWidth(imageFrame)) {
+		origin = imageFrame.origin;
+		// Offset to line up the menu item image
+		// TODO: Figure out a better way to calculate this offset at runtime.
+		// There are no geometry methods on NSMenu or NSMenuItem that would
+		// allow the retrieval of layout information for menu items
+		origin.x -= 22.f;
+	} else {
+		origin = [self labelFrame].origin;
 	}
+	origin.y = 0.f;
+	// Synthesize an event just so we can change the location of the menu
+	NSEvent *synthesizedEvent = [self synthesizedEventWithLocalMouseLocation:origin realEvent:event];
+	[NSMenu popUpContextMenu:self.menu withEvent:synthesizedEvent forView:self];
+	[self accessibilitySetOverrideValue:self.menu forAttribute:NSAccessibilityShownMenuAttribute];
+}
+
+- (NSEvent *)synthesizedEventWithLocalMouseLocation:(NSPoint)location realEvent:(NSEvent *)event {
+	NSPoint windowPoint = [self convertPoint:location toView:nil];
+	return [NSEvent mouseEventWithType:NSLeftMouseDown
+							  location:windowPoint
+						 modifierFlags:event.modifierFlags
+							 timestamp:event.timestamp
+						  windowNumber:self.window.windowNumber
+							   context:event.context
+						   eventNumber:event.eventNumber
+							clickCount:event.clickCount ?: 1
+							  pressure:event.pressure];
 }
 
 #pragma mark - Menu Events
@@ -322,6 +361,7 @@
 	[self sendActionsForControlEvents:BTRControlEventValueChanged];
 	[self handleStateChange];
 }
+
 @end
 
 @implementation BTRPopUpButtonContent
