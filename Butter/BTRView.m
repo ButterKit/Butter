@@ -7,7 +7,6 @@
 //
 
 #import "BTRView.h"
-#import "BTRCommon.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation BTRView {
@@ -64,6 +63,40 @@ BTRVIEW_ADDITIONS_IMPLEMENTATION();
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<%@: %p>{ frame = %@, layer = <%@: %p> }", self.class, self, NSStringFromRect(self.frame), self.layer.class, self.layer];
+}
+
+#pragma mark NSView
+
+- (NSColor *)backgroundColor {
+	return [NSColor colorWithCGColor:self.layer.backgroundColor];
+}
+
+- (void)setBackgroundColor:(NSColor *)color {
+	self.layer.backgroundColor = color.CGColor;
+}
+
+- (CGFloat)cornerRadius {
+	return self.layer.cornerRadius;
+}
+
+- (void)setCornerRadius:(CGFloat)radius {
+	self.layer.cornerRadius = radius;
+}
+
+- (BOOL)masksToBounds {
+	return self.layer.masksToBounds;
+}
+
+- (void)setMasksToBounds:(BOOL)masksToBounds {
+	self.layer.masksToBounds = masksToBounds;
+}
+
+- (BOOL)isOpaque {
+	return self.layer.opaque;
+}
+
+- (void)setOpaque:(BOOL)opaque {
+	self.layer.opaque = opaque;
 }
 
 #pragma mark Drawing and actions
