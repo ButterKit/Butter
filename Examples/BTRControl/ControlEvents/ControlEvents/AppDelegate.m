@@ -28,7 +28,7 @@
 	
 	[self.control addBlock:^(BTRControlEvents events) { NSLog(@"***VALUE CHANGED***"); } forControlEvents:BTRControlEventValueChanged];
 
-	self.control.enabled = NO;
+	self.control.enabled = YES;
 	self.control.selected = YES;
 	NSLog(@"state: %li",self.control.state);
 	
