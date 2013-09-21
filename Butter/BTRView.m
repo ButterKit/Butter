@@ -15,8 +15,6 @@
 
 #pragma mark Properties
 
-BTRVIEW_ADDITIONS_IMPLEMENTATION();
-
 - (void)setFlipped:(BOOL)flipped {
 	if (_flipped != flipped) {
 		_flipped = flipped;
