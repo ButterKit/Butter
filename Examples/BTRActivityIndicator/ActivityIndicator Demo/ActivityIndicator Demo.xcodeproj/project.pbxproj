@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB9774BD17ED8D2E00810BA9 /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9774B217ED8C0A00810BA9 /* Butter.framework */; };
 		ABA67753168AC94A006DD644 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA67752168AC94A006DD644 /* Cocoa.framework */; };
 		ABA6775D168AC94A006DD644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABA6775B168AC94A006DD644 /* InfoPlist.strings */; };
 		ABA6775F168AC94A006DD644 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA6775E168AC94A006DD644 /* main.m */; };
@@ -14,15 +15,21 @@
 		ABA67766168AC94A006DD644 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA67765168AC94A006DD644 /* AppDelegate.m */; };
 		ABA67769168AC94A006DD644 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA67767168AC94A006DD644 /* MainMenu.xib */; };
 		ABA67778168AEB15006DD644 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA67777168AEB15006DD644 /* QuartzCore.framework */; };
-		ABDC52E817964BF60027133D /* Butter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDC52E717964BEF0027133D /* Butter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		ABDC52E617964BEF0027133D /* PBXContainerItemProxy */ = {
+		AB9774B117ED8C0A00810BA9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ABDC52E217964BEF0027133D /* Butter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 03239EB21672E6D6004263D7;
+			remoteInfo = Butter;
+		};
+		AB9774B317ED8C1D00810BA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABDC52E217964BEF0027133D /* Butter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 03239EB11672E6D6004263D7;
 			remoteInfo = Butter;
 		};
 /* End PBXContainerItemProxy section */
@@ -42,7 +49,7 @@
 		ABA67765168AC94A006DD644 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		ABA67768168AC94A006DD644 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		ABA67777168AEB15006DD644 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		ABDC52E217964BEF0027133D /* Butter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Butter.xcodeproj; path = ../../../../../Butter.xcodeproj; sourceTree = "<group>"; };
+		ABDC52E217964BEF0027133D /* Butter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Butter.xcodeproj; path = ../../../../Butter.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,15 +57,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB9774BD17ED8D2E00810BA9 /* Butter.framework in Frameworks */,
 				ABA67778168AEB15006DD644 /* QuartzCore.framework in Frameworks */,
 				ABA67753168AC94A006DD644 /* Cocoa.framework in Frameworks */,
-				ABDC52E817964BF60027133D /* Butter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB9774AE17ED8C0A00810BA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB9774B217ED8C0A00810BA9 /* Butter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ABA67746168AC94A006DD644 = {
 			isa = PBXGroup;
 			children = (
@@ -120,14 +135,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		ABDC52E317964BEF0027133D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ABDC52E717964BEF0027133D /* Butter.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -142,6 +149,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AB9774B417ED8C1D00810BA9 /* PBXTargetDependency */,
 			);
 			name = "ActivityIndicator Demo";
 			productName = "ActivityIndicator Demo";
@@ -169,7 +177,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = ABDC52E317964BEF0027133D /* Products */;
+					ProductGroup = AB9774AE17ED8C0A00810BA9 /* Products */;
 					ProjectRef = ABDC52E217964BEF0027133D /* Butter.xcodeproj */;
 				},
 			);
@@ -181,11 +189,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		ABDC52E717964BEF0027133D /* Butter.framework */ = {
+		AB9774B217ED8C0A00810BA9 /* Butter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Butter.framework;
-			remoteRef = ABDC52E617964BEF0027133D /* PBXContainerItemProxy */;
+			remoteRef = AB9774B117ED8C0A00810BA9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -214,6 +222,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB9774B417ED8C1D00810BA9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Butter;
+			targetProxy = AB9774B317ED8C1D00810BA9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		ABA6775B168AC94A006DD644 /* InfoPlist.strings */ = {
