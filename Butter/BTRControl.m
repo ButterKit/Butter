@@ -9,6 +9,14 @@
 #import "BTRControl.h"
 #import "BTRControlAction.h"
 
+NSString * const BTRControlStateTitleKey = @"title";
+NSString * const BTRControlStateTitleColorKey = @"titleColor";
+NSString * const BTRControlStateTitleShadowKey = @"titleShadow";
+NSString * const BTRControlStateTitleFontKey = @"titleFont";
+NSString * const BTRControlStateAttributedTitleKey = @"attributedTitle";
+NSString * const BTRControlStateImageKey = @"image";
+NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
+
 @interface BTRControl()
 @property (nonatomic, strong) NSMutableArray *actions;
 @property (nonatomic, strong) NSTrackingArea *trackingArea;
@@ -55,6 +63,12 @@
 	return self;
 }
 
+#pragma mark - Accessibility
+
+- (BOOL)accessibilityIsIgnored {
+	return NO;
+}
+
 #pragma mark - Public API
 
 + (Class)controlContentClass {
@@ -97,6 +111,7 @@
 
 - (void)setTitle:(NSString *)title forControlState:(BTRControlState)state {
 	[self contentForControlState:state].title = title;
+	[self accessibilitySetOverrideValue:title forAttribute:NSAccessibilityTitleAttribute];
 }
 
 - (NSAttributedString *)attributedTitleForControlState:(BTRControlState)state {
@@ -105,6 +120,7 @@
 
 - (void)setAttributedTitle:(NSAttributedString *)title forControlState:(BTRControlState)state {
 	[self contentForControlState:state].attributedTitle = title;
+	[self accessibilitySetOverrideValue:title.string.copy forAttribute:NSAccessibilityTitleAttribute];
 }
 
 - (NSColor *)titleColorForControlState:(BTRControlState)state {
@@ -132,34 +148,34 @@
 }
 
 - (NSString *)currentTitle {
-	return [self currentValueForStateKey:@"title"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleKey];
 }
 
 - (NSAttributedString *)currentAttributedTitle {
-	return [self currentValueForStateKey:@"attributedTitle"];
+	return [self currentValueForControlStateKey:BTRControlStateAttributedTitleKey];
 }
 
 - (NSImage *)currentBackgroundImage {
-	return [self currentValueForStateKey:@"backgroundImage"];
+	return [self currentValueForControlStateKey:BTRControlStateBackgroundImageKey];
 }
 
 - (NSImage *)currentImage {
-	return [self currentValueForStateKey:@"image"];
+	return [self currentValueForControlStateKey:BTRControlStateImageKey];
 }
 
 - (NSColor *)currentTitleColor {
-	return [self currentValueForStateKey:@"titleColor"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleColorKey];
 }
 
 - (NSShadow *)currentTitleShadow {
-	return [self currentValueForStateKey:@"titleShadow"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleShadowKey];
 }
 
 - (NSFont *)currentTitleFont {
-	return [self currentValueForStateKey:@"titleFont"];
+	return [self currentValueForControlStateKey:BTRControlStateTitleFontKey];
 }
 
-- (id)currentValueForStateKey:(NSString *)key {
+- (id)currentValueForControlStateKey:(NSString *)key {
 	id value = [[self contentForControlState:self.state] valueForKey:key];
 	if (!value || value == NSNull.null) {
 		value = [[self contentForControlState:BTRControlStateNormal] valueForKey:key];
@@ -167,7 +183,7 @@
 	return (value == NSNull.null) ? nil : value;
 }
 
-#pragma mark State
+#pragma mark - State
 
 - (BTRControlState)state {
 	BTRControlState state = BTRControlStateNormal;
@@ -182,6 +198,7 @@
 
 - (void)setEnabled:(BOOL)enabled {
 	[self updateStateWithOld:&_enabled new:enabled];
+	[self accessibilitySetOverrideValue:@(enabled) forAttribute:NSAccessibilityEnabledAttribute];
 }
 
 - (void)setSelected:(BOOL)selected {

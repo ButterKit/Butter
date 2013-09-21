@@ -27,6 +27,9 @@
 	[self addSubview:_backgroundImageView];
 	_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
 	[self addSubview:_titleLabel];
+	
+	[self accessibilitySetOverrideValue:NSAccessibilityButtonRole forAttribute:NSAccessibilityRoleAttribute];
+	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityButtonRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -41,6 +44,22 @@
 	if (self == nil) return nil;
 	[self commonInitForBTRButton];
 	return self;
+}
+
+#pragma mark - Accessibility
+
+- (NSArray *)accessibilityActionNames {
+	return @[NSAccessibilityPressAction];
+}
+
+- (NSString *)accessibilityActionDescription:(NSString *)action {
+	return NSAccessibilityActionDescription(action);
+}
+
+- (void)accessibilityPerformAction:(NSString *)action {
+	if ([action isEqualToString:NSAccessibilityPressAction]) {
+		[self performClick:nil];
+	}
 }
 
 #pragma mark - Accessors
