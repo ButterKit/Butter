@@ -20,12 +20,12 @@
 		AB97749417ED8A1200810BA9 /* BTRGeometryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB97749017ED8A1200810BA9 /* BTRGeometryAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB97749517ED8A1200810BA9 /* BTRView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB97749117ED8A1200810BA9 /* BTRView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB97749617ED8A1200810BA9 /* BTRView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB97749217ED8A1200810BA9 /* BTRView.m */; };
+		AB97750C17EE4F9800810BA9 /* BTRScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB97750A17EE4F9800810BA9 /* BTRScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AB97750D17EE4F9800810BA9 /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB97750B17EE4F9800810BA9 /* BTRScrollView.m */; };
+		AB97751017EE4F9F00810BA9 /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB97750E17EE4F9F00810BA9 /* BTRClipView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AB97751117EE4F9F00810BA9 /* BTRClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB97750F17EE4F9F00810BA9 /* BTRClipView.m */; };
 		ABACCA3E167AD439003EFDD6 /* NSView+BTRAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */; };
-		ABCEDCAC17D044D80023B30C /* BTRClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABCEDCA817D044D80023B30C /* BTRClipView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABCEDCAD17D044D80023B30C /* BTRClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABCEDCA917D044D80023B30C /* BTRClipView.m */; };
-		ABCEDCAE17D044D80023B30C /* BTRScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABCEDCAA17D044D80023B30C /* BTRScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABCEDCAF17D044D80023B30C /* BTRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABCEDCAB17D044D80023B30C /* BTRScrollView.m */; };
 		ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */; };
 		ABEC314616A3CF7300919EED /* BTRButton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEC314416A3CF7300919EED /* BTRButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,12 +76,12 @@
 		AB97749017ED8A1200810BA9 /* BTRGeometryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRGeometryAdditions.h; sourceTree = "<group>"; };
 		AB97749117ED8A1200810BA9 /* BTRView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRView.h; sourceTree = "<group>"; };
 		AB97749217ED8A1200810BA9 /* BTRView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRView.m; sourceTree = "<group>"; };
+		AB97750A17EE4F9800810BA9 /* BTRScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRScrollView.h; sourceTree = "<group>"; };
+		AB97750B17EE4F9800810BA9 /* BTRScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRScrollView.m; sourceTree = "<group>"; };
+		AB97750E17EE4F9F00810BA9 /* BTRClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRClipView.h; sourceTree = "<group>"; };
+		AB97750F17EE4F9F00810BA9 /* BTRClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRClipView.m; sourceTree = "<group>"; };
 		ABACCA36167AD439003EFDD6 /* NSView+BTRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+BTRAdditions.h"; sourceTree = "<group>"; };
 		ABACCA37167AD439003EFDD6 /* NSView+BTRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+BTRAdditions.m"; sourceTree = "<group>"; };
-		ABCEDCA817D044D80023B30C /* BTRClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRClipView.h; path = External/BTRScrollView/BTRScrollView/BTRClipView.h; sourceTree = SOURCE_ROOT; };
-		ABCEDCA917D044D80023B30C /* BTRClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRClipView.m; path = External/BTRScrollView/BTRScrollView/BTRClipView.m; sourceTree = SOURCE_ROOT; };
-		ABCEDCAA17D044D80023B30C /* BTRScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRScrollView.h; path = External/BTRScrollView/BTRScrollView/BTRScrollView.h; sourceTree = SOURCE_ROOT; };
-		ABCEDCAB17D044D80023B30C /* BTRScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRScrollView.m; path = External/BTRScrollView/BTRScrollView/BTRScrollView.m; sourceTree = SOURCE_ROOT; };
 		ABEC314016A3CF5D00919EED /* BTRActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRActivityIndicator.h; path = Butter/BTRActivityIndicator.h; sourceTree = SOURCE_ROOT; };
 		ABEC314116A3CF5D00919EED /* BTRActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTRActivityIndicator.m; path = Butter/BTRActivityIndicator.m; sourceTree = SOURCE_ROOT; };
 		ABEC314416A3CF7300919EED /* BTRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRButton.h; sourceTree = "<group>"; };
@@ -126,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				03239EBB1672E6D6004263D7 /* Butter */,
-				ABCEDCA717D044BB0023B30C /* External */,
 				03239EB41672E6D6004263D7 /* Frameworks */,
 				03239EB31672E6D6004263D7 /* Products */,
 			);
@@ -167,6 +166,8 @@
 				AB97749017ED8A1200810BA9 /* BTRGeometryAdditions.h */,
 				AB97749117ED8A1200810BA9 /* BTRView.h */,
 				AB97749217ED8A1200810BA9 /* BTRView.m */,
+				AB97750917EE4F8800810BA9 /* BTRClipView */,
+				AB97750817EE4F8200810BA9 /* BTRScrollView */,
 				0391B769169119D000725AAD /* BTRPopUpButton */,
 				ABA67795168C03FA006DD644 /* BTRActivityIndicator */,
 				ABE93937167993DB00A7A1B8 /* BTRImageView */,
@@ -220,6 +221,24 @@
 			name = Private;
 			sourceTree = "<group>";
 		};
+		AB97750817EE4F8200810BA9 /* BTRScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				AB97750A17EE4F9800810BA9 /* BTRScrollView.h */,
+				AB97750B17EE4F9800810BA9 /* BTRScrollView.m */,
+			);
+			name = BTRScrollView;
+			sourceTree = "<group>";
+		};
+		AB97750917EE4F8800810BA9 /* BTRClipView */ = {
+			isa = PBXGroup;
+			children = (
+				AB97750E17EE4F9F00810BA9 /* BTRClipView.h */,
+				AB97750F17EE4F9F00810BA9 /* BTRClipView.m */,
+			);
+			name = BTRClipView;
+			sourceTree = "<group>";
+		};
 		ABA67795168C03FA006DD644 /* BTRActivityIndicator */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,18 +256,6 @@
 				ABEC314916A3CF7B00919EED /* BTRControl.m */,
 			);
 			name = BTRControl;
-			sourceTree = "<group>";
-		};
-		ABCEDCA717D044BB0023B30C /* External */ = {
-			isa = PBXGroup;
-			children = (
-				ABCEDCA817D044D80023B30C /* BTRClipView.h */,
-				ABCEDCA917D044D80023B30C /* BTRClipView.m */,
-				ABCEDCAA17D044D80023B30C /* BTRScrollView.h */,
-				ABCEDCAB17D044D80023B30C /* BTRScrollView.m */,
-			);
-			name = External;
-			path = Butter;
 			sourceTree = "<group>";
 		};
 		ABE93937167993DB00A7A1B8 /* BTRImageView */ = {
@@ -308,11 +315,11 @@
 				ABEC315216A3CF8800919EED /* BTRLabel.h in Headers */,
 				ABEC315616A3CF8E00919EED /* BTRPopUpButton.h in Headers */,
 				ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */,
-				ABCEDCAE17D044D80023B30C /* BTRScrollView.h in Headers */,
 				AB97749417ED8A1200810BA9 /* BTRGeometryAdditions.h in Headers */,
+				AB97750C17EE4F9800810BA9 /* BTRScrollView.h in Headers */,
+				AB97751017EE4F9F00810BA9 /* BTRClipView.h in Headers */,
 				AB97749517ED8A1200810BA9 /* BTRView.h in Headers */,
 				ABEC314E16A3CF8100919EED /* BTRImageView.h in Headers */,
-				ABCEDCAC17D044D80023B30C /* BTRClipView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,17 +391,17 @@
 				ABACCA3F167AD439003EFDD6 /* NSView+BTRAdditions.m in Sources */,
 				03C1BE9417967060008AAC0B /* NSImage+BTRImageAdditions.m in Sources */,
 				ABEC314316A3CF5D00919EED /* BTRActivityIndicator.m in Sources */,
-				ABCEDCAF17D044D80023B30C /* BTRScrollView.m in Sources */,
 				AB97749617ED8A1200810BA9 /* BTRView.m in Sources */,
 				ABEC314716A3CF7300919EED /* BTRButton.m in Sources */,
 				ABEC314B16A3CF7B00919EED /* BTRControl.m in Sources */,
+				AB97750D17EE4F9800810BA9 /* BTRScrollView.m in Sources */,
 				AB5A1A6117991E3A003FF742 /* BTRControlAction.m in Sources */,
 				ABEC314F16A3CF8100919EED /* BTRImageView.m in Sources */,
 				ABEC315316A3CF8800919EED /* BTRLabel.m in Sources */,
 				ABEC315716A3CF8E00919EED /* BTRPopUpButton.m in Sources */,
 				ABEC315B16A3CF9A00919EED /* BTRSecureTextField.m in Sources */,
-				ABCEDCAD17D044D80023B30C /* BTRClipView.m in Sources */,
 				ABEC315F16A3CFA000919EED /* BTRTextField.m in Sources */,
+				AB97751117EE4F9F00810BA9 /* BTRClipView.m in Sources */,
 				AB5A1A4617966E19003FF742 /* BTRImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
