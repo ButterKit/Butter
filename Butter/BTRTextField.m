@@ -539,7 +539,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 		if (heightDelta > 0)
 		{
 			newRect.size.height -= heightDelta;
-			newRect.origin.y += ceilf(heightDelta / 2);
+			newRect.origin.y += ceil(heightDelta / 2);
 		}
 	}
 	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];
