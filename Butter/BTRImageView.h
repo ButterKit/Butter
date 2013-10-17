@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ButterKit. All rights reserved.
 //
 
-#import <Butter/BTRView.h>
+#import "BTRView.h"
 
 // Equivalent to UIViewContentMode. See "Providing CALayer Content"
 // in the Core Animation guide for more information about the modes.

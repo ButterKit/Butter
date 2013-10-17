@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ButterKit. All rights reserved.
 
 // This class is heavily inspired by UIKit and TwUI.
-#import <Butter/BTRView.h>
+#import "BTRView.h"
 
 typedef NS_OPTIONS(NSUInteger, BTRControlEvents) {
 	// TODO: UNIMPLEMENTED

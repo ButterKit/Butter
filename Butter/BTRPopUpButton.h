@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ButterKit. All rights reserved.
 //
 
-#import <Butter/Butter.h>
+#import "BTRControl.h"
 
 @interface BTRPopUpButton : BTRControl
 
