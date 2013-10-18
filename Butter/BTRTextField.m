@@ -313,15 +313,11 @@ static void BTRCommonInit(BTRTextField *textField) {
 }
 
 - (void)setMouseHover:(BOOL)mouseHover {
-	[self updateStateWithOld:&_mouseHover new:mouseHover];
+    _mouseHover = mouseHover;
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
-	[self updateStateWithOld:&_highlighted new:highlighted];
-}
-
-- (void)updateStateWithOld:(BOOL *)old new:(BOOL)new {
-	*old = new;
+    _highlighted = highlighted;
 }
 
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
