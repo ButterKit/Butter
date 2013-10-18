@@ -296,14 +296,6 @@ static void BTRCommonInit(BTRTextField *textField) {
 
 - (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state {
 	_backgroundImages[@(state)] = image;
-	[self updateState];
-}
-
-- (void)updateState {
-	NSImage *backgroundImage = [self backgroundImageForControlState:self.state];
-	if (backgroundImage == nil) {
-		backgroundImage = [self backgroundImageForControlState:BTRControlStateNormal];
-	}
 }
 
 #pragma mark - BTRControl
@@ -342,7 +334,6 @@ static void BTRCommonInit(BTRTextField *textField) {
 }
 
 - (void)handleStateChange {
-	[self updateState];
 }
 
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
