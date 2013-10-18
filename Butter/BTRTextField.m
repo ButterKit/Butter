@@ -151,11 +151,6 @@ static void BTRCommonInit(BTRTextField *textField) {
 	return state;
 }
 
-- (void)setEnabled:(BOOL)enabled {
-	[super setEnabled:enabled];
-	[self handleStateChange];
-}
-
 - (NSTextFieldCell *)textFieldCell {
 	return self.cell;
 }
@@ -326,14 +321,7 @@ static void BTRCommonInit(BTRTextField *textField) {
 }
 
 - (void)updateStateWithOld:(BOOL *)old new:(BOOL)new {
-	BOOL o = *old;
 	*old = new;
-	if (o != new) {
-		[self handleStateChange];
-	}
-}
-
-- (void)handleStateChange {
 }
 
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
