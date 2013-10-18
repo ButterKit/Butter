@@ -12,7 +12,7 @@ typedef NS_ENUM(NSInteger, BTRActivityIndicatorStyle) {
     BTRActivityIndicatorStyleGray
 };
 
-#import <Butter/Butter.h>
+#import "BTRView.h"
 
 // An indeterminate activity indicator.
 @interface BTRActivityIndicator : BTRView
