@@ -7,6 +7,7 @@
 //
 
 #import "BTRPopUpButton.h"
+#import "BTRLabel.h"
 
 @interface BTRPopUpButtonLabel : BTRLabel
 @end
