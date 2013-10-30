@@ -174,7 +174,7 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 }
 
 - (void)setProgressShapeLayer:(CALayer *)progressShapeLayer {
-	BOOL needsAnimation = [self.progressShapeLayer animationForKey:BTRActivityIndicatorAnimationKey];
+	BOOL needsAnimation = ([self.progressShapeLayer animationForKey:BTRActivityIndicatorAnimationKey] != nil);
 	[self.progressShapeLayer removeFromSuperlayer];
 	_progressShapeLayer = progressShapeLayer;
 	self.progressShapeLayer.position = self.progressShapeLayerPosition;
