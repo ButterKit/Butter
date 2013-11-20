@@ -166,11 +166,16 @@
 			// because mouseUp: and mouseExited: are not normally called if the menu is closed
 			// when the cursor is outside the pop up button. This ensures that the proper
 			// state is restored once the menu is closed.
+			__weak BTRPopUpButton *weakSelf = self;
+			
 			self.notificationObserver = [nc addObserverForName:NSMenuDidEndTrackingNotification object:_menu queue:nil usingBlock:^(NSNotification *note) {
-				[self mouseUp:nil];
-				[self mouseExited:nil];
-				[self accessibilitySetOverrideValue:nil forAttribute:NSAccessibilityShownMenuAttribute];
+				BTRPopUpButton *strongSelf = weakSelf;
+				
+				[strongSelf mouseUp:nil];
+				[strongSelf mouseExited:nil];
+				[strongSelf accessibilitySetOverrideValue:nil forAttribute:NSAccessibilityShownMenuAttribute];
 			}];
+			
 			// Force a menu update from the delegate once the menu is initially set
 			[self forceMenuUpdate];
 		}
