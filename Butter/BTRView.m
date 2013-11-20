@@ -33,7 +33,8 @@
 		self.layer = [CALayer layer];
 		self.layer.delegate = self;
 	}
-	[self commonInitForBTRView];
+
+	BTRViewCommonInit(self);
 	
 	return self;
 }
@@ -46,12 +47,12 @@
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	
-	[self commonInitForBTRView];
+	BTRViewCommonInit(self);
 	
 	return self;
 }
 
-- (void)commonInitForBTRView {
+static void BTRViewCommonInit(BTRView *self) {
 	self.wantsLayer = YES;
 	self.layerContentsPlacement = NSViewLayerContentsPlacementScaleAxesIndependently;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;

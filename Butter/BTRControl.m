@@ -38,7 +38,7 @@ NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
 
 @implementation BTRControl
 
-- (void)commonInitForBTRControl {
+static void BTRControlCommonInit(BTRControl *self) {
 	self.enabled = YES;
 	self.userInteractionEnabled = YES;
 	//TODO: If this isn't enabled, then subclasses might not get mouse events
@@ -52,14 +52,14 @@ NSString * const BTRControlStateBackgroundImageKey = @"backgroundImage";
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-	[self commonInitForBTRControl];
+	BTRControlCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	[self commonInitForBTRControl];
+	BTRControlCommonInit(self);
 	return self;
 }
 

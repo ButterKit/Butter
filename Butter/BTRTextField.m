@@ -47,18 +47,18 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-	BTRCommonInit(self);
+	BTRTextFieldCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	BTRCommonInit(self);
+	BTRTextFieldCommonInit(self);
 	return self;
 }
 
-static void BTRCommonInit(BTRTextField *textField) {
+static void BTRTextFieldCommonInit(BTRTextField *textField) {
 	textField.wantsLayer = YES;
 	textField.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
