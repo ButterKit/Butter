@@ -22,11 +22,11 @@
 
 #pragma mark - Initialization
 
-- (void)commonInitForBTRButton {
-	_backgroundImageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
-	[self addSubview:_backgroundImageView];
-	_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
-	[self addSubview:_titleLabel];
+static void BTRButtonCommonInit(BTRButton *self) {
+	self->_backgroundImageView = [[BTRButtonImageView alloc] initWithFrame:self.bounds];
+	[self addSubview:self->_backgroundImageView];
+	self->_titleLabel = [[BTRButtonLabel alloc] initWithFrame:self.bounds];
+	[self addSubview:self->_titleLabel];
 	
 	[self accessibilitySetOverrideValue:NSAccessibilityButtonRole forAttribute:NSAccessibilityRoleAttribute];
 	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityButtonRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
@@ -35,14 +35,14 @@
 - (id)initWithFrame:(NSRect)frameRect {
 	self = [super initWithFrame:frameRect];
 	if (self == nil) return nil;
-	[self commonInitForBTRButton];
+	BTRButtonCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	[self commonInitForBTRButton];
+	BTRButtonCommonInit(self);
 	return self;
 }
 

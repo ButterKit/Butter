@@ -25,15 +25,13 @@
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame layerHosted:YES];
 	if (self == nil) return nil;
-	[self commonInit];
+	BTRImageViewCommonInit(self);
 	return self;
 }
 
 - (id)initWithImage:(NSImage *)image {
-	self = [super initWithFrame:(CGRect){ .size = image.size } layerHosted:YES];
-	if (self == nil) return nil;
+	self = [self initWithFrame:(CGRect){ .size = image.size }];
 	self.image = image;
-	[self commonInit];
 	return self;
 }
 
@@ -42,11 +40,11 @@
 	if (self == nil) return nil;
 	self.layer = [CALayer layer];
 	self.wantsLayer = YES;
-	[self commonInit];
+	BTRImageViewCommonInit(self);
 	return self;
 }
 
-- (void)commonInit {	
+static void BTRImageViewCommonInit(BTRImageView *self) {
 	self.imageLayer = [CALayer layer];
 	self.imageLayer.delegate = self;
 	self.imageLayer.masksToBounds = YES;
