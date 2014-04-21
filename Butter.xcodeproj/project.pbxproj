@@ -69,6 +69,7 @@
 		03239F7E1672E7C8004263D7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+BTRImageAdditions.h"; sourceTree = "<group>"; };
 		03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+BTRImageAdditions.m"; sourceTree = "<group>"; };
+		9C5E66DF1905493B00C5E835 /* BTRTextFieldProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRTextFieldProtocol.h; sourceTree = "<group>"; };
 		AB5A1A4317966E19003FF742 /* BTRImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRImage.h; sourceTree = "<group>"; };
 		AB5A1A4417966E19003FF742 /* BTRImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRImage.m; sourceTree = "<group>"; };
 		AB5A1A5E17991E3A003FF742 /* BTRControlAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRControlAction.h; path = Private/BTRControlAction.h; sourceTree = "<group>"; };
@@ -281,6 +282,7 @@
 		ABECF06D16855FA400BED126 /* BTRTextField */ = {
 			isa = PBXGroup;
 			children = (
+				9C5E66DF1905493B00C5E835 /* BTRTextFieldProtocol.h */,
 				ABEC315C16A3CFA000919EED /* BTRTextField.h */,
 				ABEC315D16A3CFA000919EED /* BTRTextField.m */,
 			);

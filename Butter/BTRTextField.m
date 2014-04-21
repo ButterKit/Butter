@@ -43,6 +43,20 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	BOOL _btrDrawsBackground;
 }
 
+// Because properties declared in protocols are not automatically synthesized.
+@synthesize drawsFocusRing = _drawsFocusRing;
+@synthesize contentMode = _contentMode;
+@synthesize animatesContents = _animatesContents;
+@synthesize textFieldCell = _textFieldCell;
+@synthesize placeholderTitle = _placeholderTitle;
+@synthesize placeholderTextColor = _placeholderTextColor;
+@synthesize placeholderFont = _placeholderFont;
+@synthesize placeholderShadow = _placeholderShadow;
+@synthesize textShadow = _textShadow;
+@synthesize state = _state;
+@synthesize highlighted = _highlighted;
+@synthesize clickCount = _clickCount;
+
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
