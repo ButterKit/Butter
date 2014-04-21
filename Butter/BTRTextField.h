@@ -13,8 +13,6 @@
 // for image-based customization and modifications of default drawing,
 // plus control event additions.
 //
-// The methods used by
-//
 // BTRTextField should _not_ be layer backed in Interface Builder.
 // There is an Interface Builder bug that leads to an issue which causes
 // an additional shadow to be shown underneath the textfield.
