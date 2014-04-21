@@ -303,7 +303,11 @@ static void BTRSecureTextFieldCommonInit(BTRSecureTextField *textField) {
 }
 
 - (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state {
-	_backgroundImages[@(state)] = image;
+	if (image != nil) {
+		_backgroundImages[@(state)] = image;
+	} else {
+		[_backgroundImages removeObjectForKey:@(state)];
+	}
 }
 
 #pragma mark - BTRControl
