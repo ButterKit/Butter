@@ -13,6 +13,7 @@
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
 		03C1BE9317967060008AAC0B /* NSImage+BTRImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03C1BE9417967060008AAC0B /* NSImage+BTRImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */; };
+		9C5E66EC1905650500C5E835 /* BTRTextFieldProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C5E66DF1905493B00C5E835 /* BTRTextFieldProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB5A1A4517966E19003FF742 /* BTRImage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB5A1A4317966E19003FF742 /* BTRImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB5A1A4617966E19003FF742 /* BTRImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AB5A1A4417966E19003FF742 /* BTRImage.m */; };
 		AB5A1A6017991E3A003FF742 /* BTRControlAction.h in Headers */ = {isa = PBXBuildFile; fileRef = AB5A1A5E17991E3A003FF742 /* BTRControlAction.h */; };
@@ -69,6 +70,7 @@
 		03239F7E1672E7C8004263D7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+BTRImageAdditions.h"; sourceTree = "<group>"; };
 		03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+BTRImageAdditions.m"; sourceTree = "<group>"; };
+		9C5E66DF1905493B00C5E835 /* BTRTextFieldProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRTextFieldProtocol.h; sourceTree = "<group>"; };
 		AB5A1A4317966E19003FF742 /* BTRImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRImage.h; sourceTree = "<group>"; };
 		AB5A1A4417966E19003FF742 /* BTRImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRImage.m; sourceTree = "<group>"; };
 		AB5A1A5E17991E3A003FF742 /* BTRControlAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTRControlAction.h; path = Private/BTRControlAction.h; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 		ABECF06D16855FA400BED126 /* BTRTextField */ = {
 			isa = PBXGroup;
 			children = (
+				9C5E66DF1905493B00C5E835 /* BTRTextFieldProtocol.h */,
 				ABEC315C16A3CFA000919EED /* BTRTextField.h */,
 				ABEC315D16A3CFA000919EED /* BTRTextField.m */,
 			);
@@ -312,6 +315,7 @@
 				ABEC315E16A3CFA000919EED /* BTRTextField.h in Headers */,
 				ABEC314A16A3CF7B00919EED /* BTRControl.h in Headers */,
 				ABEC315A16A3CF9A00919EED /* BTRSecureTextField.h in Headers */,
+				9C5E66EC1905650500C5E835 /* BTRTextFieldProtocol.h in Headers */,
 				ABEC315216A3CF8800919EED /* BTRLabel.h in Headers */,
 				ABEC315616A3CF8E00919EED /* BTRPopUpButton.h in Headers */,
 				ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */,
@@ -352,7 +356,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = BTR;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = ButterKit;
 			};
 			buildConfigurationList = 03239EAB1672E6D6004263D7 /* Build configuration list for PBXProject "Butter" */;
@@ -424,7 +428,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -455,7 +458,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;

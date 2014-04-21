@@ -12,7 +12,6 @@
 
 @interface BTRSecureTextField()
 @property (nonatomic, readonly, getter = isFirstResponder) BOOL firstResponder;
-@property (nonatomic, strong) BTRImageView *backgroundImageView;
 @property (nonatomic, strong) NSMutableDictionary *backgroundImages;
 @property (nonatomic, strong) NSMutableArray *actions;
 @property (nonatomic) BOOL mouseInside;
@@ -21,9 +20,12 @@
 @property (nonatomic, readwrite) NSInteger clickCount;
 @property (nonatomic, strong) NSTrackingArea *trackingArea;
 @property (nonatomic, assign) BOOL needsTrackingArea;
+
+@property (nonatomic, strong) NSMutableDictionary *placeholderAttributes;
 @end
 
 @interface BTRSecureTextFieldCell : NSSecureTextFieldCell
+@property (nonatomic, assign) BOOL didRedrawAfterTextChange;
 @end
 
 static const CGFloat BTRTextFieldCornerRadius = 3.f;
@@ -41,27 +43,42 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	BOOL _btrDrawsBackground;
 }
 
+// Because properties declared in protocols are not automatically synthesized.
+@synthesize drawsFocusRing = _drawsFocusRing;
+@synthesize contentMode = _contentMode;
+@synthesize animatesContents = _animatesContents;
+@synthesize textFieldCell = _textFieldCell;
+@synthesize placeholderTitle = _placeholderTitle;
+@synthesize placeholderTextColor = _placeholderTextColor;
+@synthesize placeholderFont = _placeholderFont;
+@synthesize placeholderShadow = _placeholderShadow;
+@synthesize textShadow = _textShadow;
+@synthesize state = _state;
+@synthesize highlighted = _highlighted;
+@synthesize clickCount = _clickCount;
+
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-	[self commonInit];
+	BTRSecureTextFieldCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	[self commonInit];
+	BTRSecureTextFieldCommonInit(self);
 	return self;
 }
 
-- (void)commonInit {
-	self.wantsLayer = YES;
+static void BTRSecureTextFieldCommonInit(BTRSecureTextField *textField) {
+	textField.wantsLayer = YES;
+	textField.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
 	// Copy over *all* the attributes to the new cell
 	// There really is no other easy way to do this :(
-	NSTextFieldCell *oldCell = self.cell;
-	BTRSecureTextFieldCell *newCell = [[BTRSecureTextFieldCell alloc] initTextCell:self.stringValue];
+	NSTextFieldCell *oldCell = textField.cell;
+	BTRSecureTextFieldCell *newCell = [[BTRSecureTextFieldCell alloc] initTextCell:textField.stringValue];
 	newCell.placeholderString = oldCell.placeholderString;
 	newCell.textColor = oldCell.textColor;
 	newCell.font = oldCell.font;
@@ -75,27 +92,20 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	newCell.action = oldCell.action;
 	newCell.target = oldCell.target;
 	newCell.focusRingType = oldCell.focusRingType;
+	[newCell setScrollable:[oldCell isScrollable]];
 	[newCell setEditable:[oldCell isEditable]];
 	[newCell setSelectable:[oldCell isSelectable]];
-	self.cell = newCell;
-	self.backgroundImages = [NSMutableDictionary dictionary];
-	self.actions = [NSMutableArray array];
-	self.needsTrackingArea = NO;
+	textField.cell = newCell;
+	textField.backgroundImages = [NSMutableDictionary dictionary];
+	textField.actions = [NSMutableArray array];
+	textField.needsTrackingArea = NO;
+	textField.placeholderAttributes = [NSMutableDictionary dictionary];
+	textField.placeholderTitle = [textField.textFieldCell.placeholderString copy];
 	
-	self.focusRingType = NSFocusRingTypeNone;
-	super.drawsBackground = NO;
-	self.drawsBackground = YES;
-	self.bezeled = NO;
-	
-	// Set up the layer styles used to draw a focus ring.
-	self.layer.shadowColor = BTRTextFieldShadowColor.CGColor;
-	self.layer.shadowOffset = CGSizeZero;
-	self.layer.shadowRadius = 2.f;
-}
-
-- (void)layout {
-	[super layout];
-	self.backgroundImageView.frame = self.bounds;
+	textField.focusRingType = NSFocusRingTypeNone;
+	textField.drawsFocusRing = YES;
+	textField.drawsBackground = YES;
+	textField.bezeled = NO;
 }
 
 // It appears that on some layer-backed view hierarchies that are
@@ -111,25 +121,39 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	return [BTRSecureTextFieldCell class];
 }
 
+- (void)setFrame:(NSRect)frameRect {
+	[super setFrame:frameRect];
+	[self setNeedsDisplay:YES];
+}
+
 #pragma mark - Accessors
 
-- (void)setDrawsBackground:(BOOL)flag {
-	if (_btrDrawsBackground != flag) {
-		_btrDrawsBackground = flag;
-		[self setNeedsDisplay:YES];
+- (void)setDrawsFocusRing:(BOOL)drawsFocusRing {
+	if (_drawsFocusRing != drawsFocusRing) {
+		_drawsFocusRing = drawsFocusRing;
+		if (_drawsFocusRing) {
+			// Set up the layer styles used to draw a focus ring.
+			NSShadow *shadow = [[NSShadow alloc] init];
+			shadow.shadowBlurRadius = 2.f;
+			shadow.shadowColor = BTRTextFieldShadowColor;
+			shadow.shadowOffset = CGSizeZero;
+			self.shadow = shadow;
+		} else {
+			NSShadow *shadow = [[NSShadow alloc] init];
+			shadow.shadowBlurRadius = 0.f;
+			shadow.shadowColor = [NSColor clearColor];
+			self.shadow = shadow;
+		}
 	}
+}
+
+- (void)setDrawsBackground:(BOOL)flag {
+	_btrDrawsBackground = flag;
+	[self setNeedsDisplay:YES];
 }
 
 - (BOOL)drawsBackground {
 	return _btrDrawsBackground;
-}
-
-- (void)setCornerRadius:(CGFloat)cornerRadius {
-	self.backgroundImageView.cornerRadius = cornerRadius;
-}
-
-- (CGFloat)cornerRadius {
-	return self.backgroundImageView.cornerRadius;
 }
 
 - (BTRControlState)state {
@@ -140,51 +164,129 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	return state;
 }
 
-- (BTRImageView *)backgroundImageView {
-	if (!_backgroundImageView) {
-		_backgroundImageView = [[BTRImageView alloc] initWithFrame:self.bounds];
-		[self addSubview:_backgroundImageView];
-	}
-	return _backgroundImageView;
+- (NSTextFieldCell *)textFieldCell {
+	return self.cell;
 }
 
-- (void)setEnabled:(BOOL)enabled
-{
-	[super setEnabled:enabled];
-	[self handleStateChange];
+- (void)setTextFieldCell:(NSTextFieldCell *)textFieldCell {
+	self.cell = textFieldCell;
+}
+
+- (void)setPlaceholderTitle:(NSString *)placeholderTitle {
+	if (_placeholderTitle != placeholderTitle) {
+		_placeholderTitle = placeholderTitle;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)setPlaceholderTextColor:(NSColor *)placeholderColor {
+	if (_placeholderTextColor != placeholderColor) {
+		_placeholderTextColor = placeholderColor;
+		self.placeholderAttributes[NSForegroundColorAttributeName] = placeholderColor;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)setPlaceholderFont:(NSFont *)placeholderFont {
+	if (_placeholderFont != placeholderFont) {
+		_placeholderFont = placeholderFont;
+		self.placeholderAttributes[NSFontAttributeName] = placeholderFont;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)setPlaceholderShadow:(NSShadow *)placeholderShadow{
+	if (_placeholderShadow != placeholderShadow) {
+		_placeholderShadow = placeholderShadow;
+		self.placeholderAttributes[NSShadowAttributeName] = placeholderShadow;
+		[self resetPlaceholder];
+	}
+}
+
+- (void)resetPlaceholder {
+	if ([self.placeholderTitle length]) {
+		self.textFieldCell.placeholderAttributedString = [[NSAttributedString alloc] initWithString:self.placeholderTitle attributes:self.placeholderAttributes];
+	}
+}
+
+- (void)setFont:(NSFont *)fontObj {
+	[super setFont:fontObj];
+	if (!self.placeholderFont)
+		self.placeholderFont = fontObj;
+}
+
+- (void)setTextColor:(NSColor *)color {
+	[super setTextColor:color];
+	if (!self.placeholderTextColor)
+		self.placeholderTextColor = color;
+}
+
+- (void)setTextShadow:(NSShadow *)textShadow {
+	if (_textShadow != textShadow) {
+		_textShadow = textShadow;
+		[self updateAttributedString];
+		
+		if (!self.placeholderShadow)
+			self.placeholderShadow = textShadow;
+	}
+}
+
+- (void)setStringValue:(NSString *)aString {
+	[super setStringValue:aString];
+	[self updateAttributedString];
+}
+
+- (void)updateAttributedString {
+	NSMutableAttributedString *attrString = self.attributedStringValue.mutableCopy;
+	NSRange wholeRange = NSMakeRange(0, attrString.length);
+	void (^removeOrAddAttribute)(NSString *, id) = ^(NSString *key, id value) {
+		if (value) {
+			[attrString addAttribute:key value:value range:wholeRange];
+		} else {
+			[attrString removeAttribute:key range:wholeRange];
+		}
+	};
+	
+	[attrString beginEditing];
+	removeOrAddAttribute(NSShadowAttributeName, self.textShadow);
+	removeOrAddAttribute(NSForegroundColorAttributeName, self.textColor);
+	removeOrAddAttribute(NSFontAttributeName, self.font);
+	[attrString endEditing];
+
+	self.attributedStringValue = attrString;
 }
 
 #pragma mark Drawing
 
-- (void)drawRect:(NSRect)dirtyRect {
-	if (!self.drawsBackground) {
-		[super drawRect:dirtyRect];
-		return;
-	}
-	[BTRTextFieldBorderColor set];
-	if (![self isFirstResponder])
-		[[NSBezierPath bezierPathWithRoundedRect:self.bounds
-										 xRadius:BTRTextFieldCornerRadius
-										 yRadius:BTRTextFieldCornerRadius] fill];
-	
-	NSGradient *gradient = nil;
-	CGRect borderRect = self.bounds;
-	borderRect.size.height -= 1, borderRect.origin.y += 1;
-	if([self isFirstResponder]) {
-		gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldActiveGradientStartingColor
-												 endingColor:BTRTextFieldActiveGradientStartingColor];
+- (void)drawBackgroundInRect:(NSRect)rect {
+	if (!self.drawsBackground) return;
+	NSImage *image = [self backgroundImageForControlState:self.state] ?: [self backgroundImageForControlState:BTRControlStateNormal];
+	if (image) {
+		[image drawInRect:rect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.f];
 	} else {
-		gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldInactiveGradientStartingColor
-												 endingColor:BTRTextFieldInactiveGradientEndingColor];
+		[BTRTextFieldBorderColor set];
+		if (![self isFirstResponder])
+			[[NSBezierPath bezierPathWithRoundedRect:rect
+											 xRadius:BTRTextFieldCornerRadius
+											 yRadius:BTRTextFieldCornerRadius] fill];
+		
+		NSGradient *gradient = nil;
+		CGRect borderRect = rect;
+		borderRect.size.height -= 1, borderRect.origin.y += 1;
+		if([self isFirstResponder]) {
+			gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldActiveGradientStartingColor
+													 endingColor:BTRTextFieldActiveGradientStartingColor];
+		} else {
+			gradient = [[NSGradient alloc] initWithStartingColor:BTRTextFieldInactiveGradientStartingColor
+													 endingColor:BTRTextFieldInactiveGradientEndingColor];
+		}
+		[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:borderRect xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] angle:-90];
+		
+		[BTRTextFieldFillColor set];
+		CGRect innerRect = NSInsetRect(rect, 1, 2);
+		innerRect.size.height += 1;
+		[[NSBezierPath bezierPathWithRoundedRect:innerRect xRadius:BTRTextFieldInnerRadius yRadius:BTRTextFieldInnerRadius] fill];
 	}
-	[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:borderRect xRadius:BTRTextFieldCornerRadius yRadius:BTRTextFieldCornerRadius] angle:-90];
-	
-	[BTRTextFieldFillColor set];
-	CGRect innerRect = NSInsetRect(self.bounds, 1, 2);
-	innerRect.size.height += 1;
-	[[NSBezierPath bezierPathWithRoundedRect:innerRect xRadius:BTRTextFieldInnerRadius yRadius:BTRTextFieldInnerRadius] fill];
-	
-	[super drawRect:dirtyRect];
 }
 
 - (CATransition *)shadowOpacityAnimation {
@@ -202,16 +304,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 
 - (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state {
 	_backgroundImages[@(state)] = image;
-	[self updateState];
-}
-
-- (void)updateState {
-	NSImage *backgroundImage = [self backgroundImageForControlState:self.state];
-	if (backgroundImage == nil) {
-		backgroundImage = [self backgroundImageForControlState:BTRControlStateNormal];
-	}
-	self.drawsBackground = (backgroundImage == nil);
-	self.backgroundImageView.image = backgroundImage;
 }
 
 #pragma mark - BTRControl
@@ -234,23 +326,11 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 }
 
 - (void)setMouseHover:(BOOL)mouseHover {
-	[self updateStateWithOld:&_mouseHover new:mouseHover];
+    _mouseHover = mouseHover;
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
-	[self updateStateWithOld:&_highlighted new:highlighted];
-}
-
-- (void)updateStateWithOld:(BOOL *)old new:(BOOL)new {
-	BOOL o = *old;
-	*old = new;
-	if (o != new) {
-		[self handleStateChange];
-	}
-}
-
-- (void)handleStateChange {
-	[self updateState];
+    _highlighted = highlighted;
 }
 
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
@@ -370,7 +450,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (BOOL)becomeFirstResponder {
 	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
 	self.layer.shadowOpacity = 1.f;
-	self.backgroundImageView.animatesContents = NO;
 	self.highlighted = YES;
 	return [super becomeFirstResponder];
 }
@@ -378,9 +457,34 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (void)textDidEndEditing:(NSNotification *)notification {
 	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
 	self.layer.shadowOpacity = 0.f;
-	self.backgroundImageView.animatesContents = self.animatesContents;
 	[super textDidEndEditing:notification];
 	self.highlighted = NO;
+}
+
+- (void)textDidChange:(NSNotification *)notification {
+	[super textDidChange:notification];
+	
+	NSTextView *fieldEditor = (NSTextView *)[[self window] fieldEditor:YES forObject:self];
+	if (self.textShadow && fieldEditor) {
+		[fieldEditor.textStorage addAttribute:NSShadowAttributeName value:self.textShadow range:NSMakeRange(0, fieldEditor.textStorage.length)];
+	}
+	
+	// This hack is needed because in certain cases (e.g. when inside a popover), a layer backed text view will not redraw by itself
+	[self setNeedsDisplay:YES];
+}
+
+#pragma mark - Subclassing Hooks
+
+- (NSRect)drawingRectForProposedDrawingRect:(NSRect)rect {
+	return NSInsetRect(rect, BTRTextFieldXInset, 0.f);
+}
+
+- (NSRect)editingRectForProposedEditingRect:(NSRect)rect {
+	return rect;
+}
+
+- (void)setFieldEditorAttributes:(NSTextView *)fieldEditor {
+
 }
 
 @end
@@ -392,6 +496,19 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	BOOL _isEditingOrSelecting;
 }
 
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+	NSRect integralFrame = NSIntegralRect(cellFrame);
+	BTRSecureTextField *textField = (BTRSecureTextField *)controlView;
+	[textField drawBackgroundInRect:integralFrame];
+	if (textField.highlighted && ![textField.stringValue length]) {
+		NSRect placeholderRect = [self drawingRectForBounds:cellFrame];
+		placeholderRect.origin.x += 2.f;
+		[self.placeholderAttributedString drawInRect:placeholderRect];
+	}
+	[super drawInteriorWithFrame:integralFrame inView:controlView];
+	self.didRedrawAfterTextChange = YES;
+}
+
 - (NSRect)drawingRectForBounds:(NSRect)theRect {
 	// Get the parent's idea of where we should draw
 	NSRect newRect = [super drawingRectForBounds:theRect];
@@ -401,7 +518,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 	// the configuration of the field editor.  We sneak around this by
 	// intercepting selectWithFrame and editWithFrame and sneaking a
 	// reduced, centered rect in at the last minute.
-	if (_isEditingOrSelecting == NO) {
+	if (!_isEditingOrSelecting) {
 		// Get our ideal size for current text
 		NSSize textSize = [self cellSizeForBounds:theRect];
 		
@@ -413,22 +530,27 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 			newRect.origin.y += ceil(heightDelta / 2);
 		}
 	}
-	return NSInsetRect(newRect, BTRTextFieldXInset, 0.f);
+	return [(BTRSecureTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength {
-	aRect = [self drawingRectForBounds:aRect];
+	aRect = [(BTRSecureTextField *)[self controlView] editingRectForProposedEditingRect:[self drawingRectForBounds:aRect]];
 	_isEditingOrSelecting = YES;
 	[super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
 	_isEditingOrSelecting = NO;
 }
 
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent {
-	aRect = [self drawingRectForBounds:aRect];
+	aRect = [(BTRSecureTextField *)[self controlView] editingRectForProposedEditingRect:[self drawingRectForBounds:aRect]];
 	_isEditingOrSelecting = YES;
 	[super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
 	_isEditingOrSelecting = NO;
 }
 
-@end
+- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj {
+	NSTextView *editor = (NSTextView *)[super setUpFieldEditorAttributes:textObj];
+	[(BTRSecureTextField *)[self controlView] setFieldEditorAttributes:editor];
+	return editor;
+}
 
+@end

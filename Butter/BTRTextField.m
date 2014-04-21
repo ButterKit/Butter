@@ -7,7 +7,6 @@
 //
 
 #import "BTRTextField.h"
-#import "BTRImageView.h"
 #import "BTRControlAction.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -43,6 +42,20 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 @implementation BTRTextField {
 	BOOL _btrDrawsBackground;
 }
+
+// Because properties declared in protocols are not automatically synthesized.
+@synthesize drawsFocusRing = _drawsFocusRing;
+@synthesize contentMode = _contentMode;
+@synthesize animatesContents = _animatesContents;
+@synthesize textFieldCell = _textFieldCell;
+@synthesize placeholderTitle = _placeholderTitle;
+@synthesize placeholderTextColor = _placeholderTextColor;
+@synthesize placeholderFont = _placeholderFont;
+@synthesize placeholderShadow = _placeholderShadow;
+@synthesize textShadow = _textShadow;
+@synthesize state = _state;
+@synthesize highlighted = _highlighted;
+@synthesize clickCount = _clickCount;
 
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
@@ -149,11 +162,6 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 	if (![self isEnabled]) state |= BTRControlStateDisabled;
 	if (self.mouseHover && !self.highlighted) state |= BTRControlStateHover;
 	return state;
-}
-
-- (void)setEnabled:(BOOL)enabled {
-	[super setEnabled:enabled];
-	[self handleStateChange];
 }
 
 - (NSTextFieldCell *)textFieldCell {
@@ -296,14 +304,6 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 
 - (void)setBackgroundImage:(NSImage *)image forControlState:(BTRControlState)state {
 	_backgroundImages[@(state)] = image;
-	[self updateState];
-}
-
-- (void)updateState {
-	NSImage *backgroundImage = [self backgroundImageForControlState:self.state];
-	if (backgroundImage == nil) {
-		backgroundImage = [self backgroundImageForControlState:BTRControlStateNormal];
-	}
 }
 
 #pragma mark - BTRControl
@@ -326,23 +326,11 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 }
 
 - (void)setMouseHover:(BOOL)mouseHover {
-	[self updateStateWithOld:&_mouseHover new:mouseHover];
+    _mouseHover = mouseHover;
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
-	[self updateStateWithOld:&_highlighted new:highlighted];
-}
-
-- (void)updateStateWithOld:(BOOL *)old new:(BOOL)new {
-	BOOL o = *old;
-	*old = new;
-	if (o != new) {
-		[self handleStateChange];
-	}
-}
-
-- (void)handleStateChange {
-	[self updateState];
+    _highlighted = highlighted;
 }
 
 - (void)addBlock:(void (^)(BTRControlEvents))block forControlEvents:(BTRControlEvents)events {
