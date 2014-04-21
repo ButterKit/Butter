@@ -310,7 +310,6 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 	}
 }
 
-
 #pragma mark - BTRControl
 
 - (void)updateTrackingAreas {
