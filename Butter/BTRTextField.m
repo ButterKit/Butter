@@ -7,7 +7,6 @@
 //
 
 #import "BTRTextField.h"
-#import "BTRImageView.h"
 #import "BTRControlAction.h"
 #import <QuartzCore/QuartzCore.h>
 
