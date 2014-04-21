@@ -13,6 +13,7 @@
 		03239F7F1672E7C8004263D7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03239F7E1672E7C8004263D7 /* QuartzCore.framework */; };
 		03C1BE9317967060008AAC0B /* NSImage+BTRImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 03C1BE9117967060008AAC0B /* NSImage+BTRImageAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03C1BE9417967060008AAC0B /* NSImage+BTRImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C1BE9217967060008AAC0B /* NSImage+BTRImageAdditions.m */; };
+		9C5E66EC1905650500C5E835 /* BTRTextFieldProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C5E66DF1905493B00C5E835 /* BTRTextFieldProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB5A1A4517966E19003FF742 /* BTRImage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB5A1A4317966E19003FF742 /* BTRImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB5A1A4617966E19003FF742 /* BTRImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AB5A1A4417966E19003FF742 /* BTRImage.m */; };
 		AB5A1A6017991E3A003FF742 /* BTRControlAction.h in Headers */ = {isa = PBXBuildFile; fileRef = AB5A1A5E17991E3A003FF742 /* BTRControlAction.h */; };
@@ -314,6 +315,7 @@
 				ABEC315E16A3CFA000919EED /* BTRTextField.h in Headers */,
 				ABEC314A16A3CF7B00919EED /* BTRControl.h in Headers */,
 				ABEC315A16A3CF9A00919EED /* BTRSecureTextField.h in Headers */,
+				9C5E66EC1905650500C5E835 /* BTRTextFieldProtocol.h in Headers */,
 				ABEC315216A3CF8800919EED /* BTRLabel.h in Headers */,
 				ABEC315616A3CF8E00919EED /* BTRPopUpButton.h in Headers */,
 				ABEC314216A3CF5D00919EED /* BTRActivityIndicator.h in Headers */,
