@@ -10,7 +10,7 @@
 
 @implementation BTRLabel
 
-- (void)commonInitForBTRLabel {
+static void BTRLabelCommonInit(BTRLabel *self) {
 	self.bezeled = NO;
 	self.editable = NO;
 	self.drawsFocusRing = NO;
@@ -21,14 +21,14 @@
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-	[self commonInitForBTRLabel];
+	BTRLabelCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	[self commonInitForBTRLabel];
+	BTRLabelCommonInit(self);
 	return self;
 }
 

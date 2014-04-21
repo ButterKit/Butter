@@ -60,18 +60,18 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
-	BTRCommonInit(self);
+	BTRTextFieldCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	BTRCommonInit(self);
+	BTRTextFieldCommonInit(self);
 	return self;
 }
 
-static void BTRCommonInit(BTRTextField *textField) {
+static void BTRTextFieldCommonInit(BTRTextField *textField) {
 	textField.wantsLayer = YES;
 	textField.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	
@@ -523,11 +523,11 @@ static void BTRCommonInit(BTRTextField *textField) {
 		NSSize textSize = [self cellSizeForBounds:theRect];
 		
 		// Center that in the proposed rect
-		float heightDelta = newRect.size.height - textSize.height;
+		CGFloat heightDelta = newRect.size.height - textSize.height;
 		if (heightDelta > 0)
 		{
 			newRect.size.height -= heightDelta;
-			newRect.origin.y += ceilf(heightDelta / 2);
+			newRect.origin.y += ceil(heightDelta / 2);
 		}
 	}
 	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];

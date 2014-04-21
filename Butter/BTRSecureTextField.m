@@ -523,11 +523,11 @@ static void BTRCommonInit(BTRSecureTextField *textField) {
 		NSSize textSize = [self cellSizeForBounds:theRect];
 		
 		// Center that in the proposed rect
-		float heightDelta = newRect.size.height - textSize.height;
+		CGFloat heightDelta = newRect.size.height - textSize.height;
 		if (heightDelta > 0)
 		{
 			newRect.size.height -= heightDelta;
-			newRect.origin.y += ceilf(heightDelta / 2);
+			newRect.origin.y += ceil(heightDelta / 2);
 		}
 	}
 	return [(BTRSecureTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];

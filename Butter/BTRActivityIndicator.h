@@ -7,12 +7,12 @@
 //
 //	Much thanks to David Rönnqvist (@davidronnqvist) for the original idea of using CAReplicatorLayer.
 
+#import "BTRView.h"
+
 typedef NS_ENUM(NSInteger, BTRActivityIndicatorStyle) {
     BTRActivityIndicatorStyleWhite,
     BTRActivityIndicatorStyleGray
 };
-
-#import <Butter/Butter.h>
 
 // An indeterminate activity indicator.
 @interface BTRActivityIndicator : BTRView

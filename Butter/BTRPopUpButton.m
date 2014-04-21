@@ -7,6 +7,7 @@
 //
 
 #import "BTRPopUpButton.h"
+#import "BTRLabel.h"
 
 @interface BTRPopUpButtonLabel : BTRLabel
 @end
@@ -31,7 +32,7 @@
 
 #pragma mark - Initialization
 
-- (void)commonInitForBTRPopUpButton {
+static void BTRPopupButtonCommonInit(BTRPopUpButton *self) {
 	self.label = [[BTRPopUpButtonLabel alloc] initWithFrame:NSZeroRect];
 	self.imageView = [[BTRPopUpButtonImageView alloc] initWithFrame:NSZeroRect];
 	self.imageView.contentMode = BTRViewContentModeCenter;
@@ -58,14 +59,14 @@
 - (id)initWithFrame:(NSRect)frameRect {
 	self = [super initWithFrame:frameRect];
 	if (self == nil) return nil;
-	[self commonInitForBTRPopUpButton];
+	BTRPopupButtonCommonInit(self);
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
-	[self commonInitForBTRPopUpButton];
+	BTRPopupButtonCommonInit(self);
 	return self;
 }
 
@@ -165,11 +166,16 @@
 			// because mouseUp: and mouseExited: are not normally called if the menu is closed
 			// when the cursor is outside the pop up button. This ensures that the proper
 			// state is restored once the menu is closed.
+			__weak BTRPopUpButton *weakSelf = self;
+			
 			self.notificationObserver = [nc addObserverForName:NSMenuDidEndTrackingNotification object:_menu queue:nil usingBlock:^(NSNotification *note) {
-				[self mouseUp:nil];
-				[self mouseExited:nil];
-				[self accessibilitySetOverrideValue:nil forAttribute:NSAccessibilityShownMenuAttribute];
+				BTRPopUpButton *strongSelf = weakSelf;
+				
+				[strongSelf mouseUp:nil];
+				[strongSelf mouseExited:nil];
+				[strongSelf accessibilitySetOverrideValue:nil forAttribute:NSAccessibilityShownMenuAttribute];
 			}];
+			
 			// Force a menu update from the delegate once the menu is initially set
 			[self forceMenuUpdate];
 		}
