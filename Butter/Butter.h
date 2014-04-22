@@ -8,6 +8,7 @@
 
 #import <Butter/BTRImageView.h>
 #import <Butter/BTRControl.h>
+#import <Butter/BTRActivityIndicator.h>
 #import <Butter/BTRButton.h>
 #import <Butter/BTRTextField.h>
 #import <Butter/BTRSecureTextField.h>
