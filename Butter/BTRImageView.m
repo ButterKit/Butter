@@ -74,7 +74,7 @@ static void BTRImageViewCommonInit(BTRImageView *self) {
 	
 	if ([image isKindOfClass:BTRImage.class]) {
 		NSSize imageSize = image.size;
-		NSEdgeInsets insets = ((BTRImage *)image).capInsets;
+        NSEdgeInsets insets = ((BTRImage *)image).btr_capInsets;
 		self.imageLayer.contentsCenter = BTRCAContentsCenterForInsets(insets, imageSize);
 	} else {
 		self.imageLayer.contentsCenter = CGRectMake(0.0, 0.0, 1.0, 1.0);

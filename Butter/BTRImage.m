@@ -15,7 +15,7 @@
 	if (originalImage.representations) {
 		BTRImage *image = [[BTRImage alloc] initWithSize:originalImage.size];
 		[image addRepresentations:originalImage.representations];
-		image.capInsets = insets;
+		image.btr_capInsets = insets;
 		return image;
 	} else {
 		return nil;

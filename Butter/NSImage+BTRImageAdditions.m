@@ -13,7 +13,7 @@
 - (BTRImage *)btr_resizableImageWithCapInsets:(NSEdgeInsets)insets {
 	BTRImage *image = [[BTRImage alloc] initWithSize:self.size];
 	[image addRepresentations:self.representations];
-	image.capInsets = insets;
+	image.btr_capInsets = insets;
 	return image;
 }
 
