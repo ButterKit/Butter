@@ -29,6 +29,7 @@
 @end
 
 @implementation BTRPopUpButton
+@synthesize menu = _menu;
 
 #pragma mark - Initialization
 

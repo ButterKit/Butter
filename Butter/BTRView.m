@@ -12,6 +12,7 @@
 @implementation BTRView {
 	BOOL drawFlag;
 }
+@synthesize flipped = _flipped;
 
 #pragma mark Properties
 

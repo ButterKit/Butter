@@ -42,6 +42,7 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 @implementation BTRSecureTextField {
 	BOOL _btrDrawsBackground;
 }
+@synthesize highlighted = _highlighted;
 
 // Because properties declared in protocols are not automatically synthesized.
 @synthesize drawsFocusRing = _drawsFocusRing;
@@ -54,7 +55,6 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 @synthesize placeholderShadow = _placeholderShadow;
 @synthesize textShadow = _textShadow;
 @synthesize state = _state;
-@synthesize highlighted = _highlighted;
 @synthesize clickCount = _clickCount;
 
 - (id)initWithFrame:(NSRect)frame {
