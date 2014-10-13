@@ -448,7 +448,7 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 
 - (BOOL)isFirstResponder {
 	id firstResponder = self.window.firstResponder;
-	return ([firstResponder isKindOfClass:[NSText class]] && [firstResponder delegate] == self);
+	return ([firstResponder isKindOfClass:[NSText class]] && (id)[firstResponder delegate] == self);
 }
 
 - (BOOL)becomeFirstResponder {
