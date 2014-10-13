@@ -16,7 +16,7 @@
 - (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer;
 
 // A background color for the view, or nil if none has been set.
-@property (nonatomic, strong) NSColor *backgroundColor;
+@property (nonatomic, strong) NSColor *btr_backgroundColor;
 
 // Whether the view's content and subviews masks to its bounds
 //
@@ -34,13 +34,13 @@
 // Whether the view's drawing completely fills its bounds with opaque content.
 //
 // Defaults to NO.
-@property (nonatomic, assign, getter = isOpaque) BOOL opaque;
+@property (assign, getter = isOpaque) BOOL opaque;
 
 // Whether the view's drawing and layout uses a flipped (top-left origin)
 // coordinate system.
 //
 // Defaults to NO.
-@property (nonatomic, assign, getter = isFlipped) BOOL flipped;
+@property (assign, getter = isFlipped) BOOL flipped;
 
 // Whether the content is redrawn with a default animation applied.
 //

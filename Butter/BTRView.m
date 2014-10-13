@@ -24,6 +24,11 @@
 	}
 }
 
+- (BOOL)isFlipped
+{
+    return _flipped;
+}
+
 #pragma mark Lifecycle
 
 - (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
@@ -67,11 +72,11 @@ static void BTRViewCommonInit(BTRView *self) {
 
 #pragma mark NSView
 
-- (NSColor *)backgroundColor {
+- (NSColor *)btr_backgroundColor {
 	return [NSColor colorWithCGColor:self.layer.backgroundColor];
 }
 
-- (void)setBackgroundColor:(NSColor *)color {
+- (void)setBtr_backgroundColor:(NSColor *)color {
 	self.layer.backgroundColor = color.CGColor;
 }
 
