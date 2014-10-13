@@ -140,7 +140,9 @@ static void BTRViewCommonInit(BTRView *self) {
     if (newController) {
         NSResponder *ownNextResponder = self.nextResponder;
         [super setNextResponder:_viewController];
-		_viewController.nextResponder = ownNextResponder;
+        if (ownNextResponder != _viewController) {
+            _viewController.nextResponder = ownNextResponder;
+        }
     }
 }
 
