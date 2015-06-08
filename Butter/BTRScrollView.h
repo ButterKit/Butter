@@ -28,6 +28,6 @@
 
 // Returns the scroll view's content view that is an instance of BTRClipView, or
 // nil if it does not exist.
-- (BTRClipView *)clipView;
+@property (readonly, strong) BTRClipView *clipView;
 
 @end

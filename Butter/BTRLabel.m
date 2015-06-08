@@ -18,14 +18,14 @@ static void BTRLabelCommonInit(BTRLabel *self) {
 	self.selectable = NO;
 }
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	BTRLabelCommonInit(self);
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	BTRLabelCommonInit(self);

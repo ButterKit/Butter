@@ -31,7 +31,7 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
+- (instancetype)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	
@@ -45,11 +45,11 @@
 	return self;
 }
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
 	return [self initWithFrame:frame layerHosted:NO];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	

@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, BTRViewContentMode) {
 
 // The dedicated initializer. The bounds of the image view will
 // be adjusted to match the size of the image.
-- (id)initWithImage:(NSImage *)image;
+- (instancetype)initWithImage:(NSImage *)image;
 
 // The image displayed in the image view.
 @property (nonatomic, strong) NSImage *image;

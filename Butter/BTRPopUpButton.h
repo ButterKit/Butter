@@ -11,7 +11,7 @@
 @interface BTRPopUpButton : BTRControl
 
 // The pop up button's menu.
-@property (nonatomic, copy) IBOutlet NSMenu *menu;
+@property IBOutlet NSMenu *menu;
 
 // The selected item whose title is being currently displayed in
 // the pop up button.
@@ -25,7 +25,7 @@
 @property (nonatomic, assign) NSTextAlignment textAlignment;
 
 - (void)selectItemAtIndex:(NSUInteger)index;
-- (NSUInteger)indexOfSelectedItem;
+@property (readonly) NSUInteger indexOfSelectedItem;
 
 // Adjust the width of the view to fit the content
 - (void)sizeToFit;
@@ -35,22 +35,22 @@
 
 // Can be overriden by subclasses to customize layout
 // The frame of the image view 
-- (NSRect)imageFrame;
+@property (readonly) NSRect imageFrame;
 
 // The frame of the text label
-- (NSRect)labelFrame;
+@property (readonly) NSRect labelFrame;
 
 // The frame of the arrow image view
-- (NSRect)arrowFrame;
+@property (readonly) NSRect arrowFrame;
 
 // The padding between each element (between image and label, and label and arrow)
-- (CGFloat)interElementSpacing;
+@property (readonly) CGFloat interElementSpacing;
 
 // The distance between the pop up button content and the view edges
-- (CGFloat)edgeInset;
+@property (readonly) CGFloat edgeInset;
 
 // The width to fit all the content in the view (used by -sizeToFit)
-- (CGFloat)widthToFit;
+@property (readonly) CGFloat widthToFit;
 
 // Returns the arrow image for the current `BTRControlState`
 @property (nonatomic, strong, readonly) NSImage *currentArrowImage;

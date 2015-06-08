@@ -23,16 +23,20 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 @implementation BTRActivityIndicator
 @synthesize progressShapeLayer = _progressShapeLayer;
 
-- (id)initWithFrame:(NSRect)frame {
+//- (instancetype)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
+//	return [super initWithFrame:frame layerHosted:hostsLayer];
+//}
+
+- (instancetype)initWithFrame:(NSRect)frame {
 	return [self initWithFrame:frame activityIndicatorStyle:BTRActivityIndicatorStyleGray];
 }
 
-- (id)initWithActivityIndicatorStyle:(BTRActivityIndicatorStyle)style {
+- (instancetype)initWithActivityIndicatorStyle:(BTRActivityIndicatorStyle)style {
 	CGFloat length = BTRActivityIndicatorDefaultFrameLength;
 	return [self initWithFrame:CGRectMake(0, 0, length, length) activityIndicatorStyle:style];
 }
 
-- (id)initWithFrame:(NSRect)frame activityIndicatorStyle:(BTRActivityIndicatorStyle)style {
+- (instancetype)initWithFrame:(NSRect)frame activityIndicatorStyle:(BTRActivityIndicatorStyle)style {
 	self = [super initWithFrame:frame layerHosted:YES];
 	if (self == nil) return nil;
 	
