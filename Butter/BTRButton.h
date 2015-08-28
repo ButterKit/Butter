@@ -21,8 +21,8 @@
 @property (nonatomic, assign) BTRViewContentMode imageContentMode;
 
 // Subclassing hooks
-- (CGRect)backgroundImageFrame;
-- (CGRect)imageFrame;
-- (CGRect)labelFrame;
+@property (readonly) CGRect backgroundImageFrame;
+@property (readonly) CGRect imageFrame;
+@property (readonly) CGRect labelFrame;
 
 @end

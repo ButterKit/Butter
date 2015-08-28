@@ -29,7 +29,8 @@
 @end
 
 @implementation BTRPopUpButton
-@synthesize menu = _menu;
+
+@dynamic menu;
 
 #pragma mark - Initialization
 
@@ -57,14 +58,14 @@ static void BTRPopupButtonCommonInit(BTRPopUpButton *self) {
 	
 }
 
-- (id)initWithFrame:(NSRect)frameRect {
+- (instancetype)initWithFrame:(NSRect)frameRect {
 	self = [super initWithFrame:frameRect];
 	if (self == nil) return nil;
 	BTRPopupButtonCommonInit(self);
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	BTRPopupButtonCommonInit(self);
@@ -153,23 +154,23 @@ static void BTRPopupButtonCommonInit(BTRPopUpButton *self) {
 #pragma mark - Accessors
 
 - (void)setMenu:(NSMenu *)menu {
-	if (_menu != menu) {
+	if (self.menu != menu) {
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		if (self.notificationObserver) {
 			[nc removeObserver:self.notificationObserver];
 			self.notificationObserver = nil;
 		}
 		self.selectedItem = nil;
-		_menu = menu;
-		if (_menu) {
-			_menu.autoenablesItems = self.autoenablesItems;
+		super.menu = menu;
+		if (self.menu) {
+			self.menu.autoenablesItems = self.autoenablesItems;
 			// Register for notifications for when the menu closes. This is important
 			// because mouseUp: and mouseExited: are not normally called if the menu is closed
 			// when the cursor is outside the pop up button. This ensures that the proper
 			// state is restored once the menu is closed.
 			__weak BTRPopUpButton *weakSelf = self;
 			
-			self.notificationObserver = [nc addObserverForName:NSMenuDidEndTrackingNotification object:_menu queue:nil usingBlock:^(NSNotification *note) {
+			self.notificationObserver = [nc addObserverForName:NSMenuDidEndTrackingNotification object:self.menu queue:nil usingBlock:^(NSNotification *note) {
 				BTRPopUpButton *strongSelf = weakSelf;
 				
 				[strongSelf mouseUp:nil];

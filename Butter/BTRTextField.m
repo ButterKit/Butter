@@ -57,14 +57,14 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 @synthesize state = _state;
 @synthesize clickCount = _clickCount;
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	BTRTextFieldCommonInit(self);
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	BTRTextFieldCommonInit(self);
