@@ -11,7 +11,7 @@
 @implementation AppDelegate
 
 - (void)awakeFromNib {
-	self.control.backgroundColor = [NSColor redColor];
+	self.control.btr_backgroundColor = [NSColor redColor];
 	
 	[self.control addBlock:^(BTRControlEvents events) { NSLog(@"drag enter"); } forControlEvents:BTRControlEventMouseDragEnter];
 	[self.control addBlock:^(BTRControlEvents events) { NSLog(@"drag exit"); } forControlEvents:BTRControlEventMouseDragExit];
