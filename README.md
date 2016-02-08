@@ -1,4 +1,4 @@
-#Butter#
+#Butter [![Build Status](https://travis-ci.org/ButterKit/Butter.svg?branch=master)](https://travis-ci.org/ButterKit/Butter)#
 
 Butter is a framework for OS X that seeks to provide a set of commonly used controls which are full replacements for their cell-based AppKit counterparts. This framework is still a work in progress, but it is **usable in production apps.**
 
