@@ -25,7 +25,7 @@
 @property (nonatomic, assign) NSTextAlignment textAlignment;
 
 - (void)selectItemAtIndex:(NSUInteger)index;
-@property (readonly) NSUInteger indexOfSelectedItem;
+- (NSUInteger)indexOfSelectedItem;
 
 // Adjust the width of the view to fit the content
 - (void)sizeToFit;
@@ -35,22 +35,22 @@
 
 // Can be overriden by subclasses to customize layout
 // The frame of the image view 
-@property (readonly) NSRect imageFrame;
+- (NSRect)imageFrame;
 
 // The frame of the text label
-@property (readonly) NSRect labelFrame;
+- (NSRect)labelFrame;
 
 // The frame of the arrow image view
-@property (readonly) NSRect arrowFrame;
+- (NSRect)arrowFrame;
 
 // The padding between each element (between image and label, and label and arrow)
-@property (readonly) CGFloat interElementSpacing;
+- (CGFloat)interElementSpacing;
 
 // The distance between the pop up button content and the view edges
-@property (readonly) CGFloat edgeInset;
+- (CGFloat)edgeInset;
 
 // The width to fit all the content in the view (used by -sizeToFit)
-@property (readonly) CGFloat widthToFit;
+- (CGFloat)widthToFit;
 
 // Returns the arrow image for the current `BTRControlState`
 @property (nonatomic, strong, readonly) NSImage *currentArrowImage;

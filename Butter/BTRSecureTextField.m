@@ -57,14 +57,14 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 @synthesize state = _state;
 @synthesize clickCount = _clickCount;
 
-- (instancetype)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	BTRSecureTextFieldCommonInit(self);
 	return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	BTRSecureTextFieldCommonInit(self);
@@ -452,15 +452,25 @@ static void BTRSecureTextFieldCommonInit(BTRSecureTextField *textField) {
 }
 
 - (BOOL)becomeFirstResponder {
-	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
-	self.layer.shadowOpacity = 1.f;
-	self.highlighted = YES;
-	return [super becomeFirstResponder];
+
+    BOOL success = [super becomeFirstResponder];
+    if (success){
+        [self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
+        self.layer.shadowOpacity = 1.f;
+        self.highlighted = YES;
+
+        NSTextView* textField = (NSTextView*) [self currentEditor];
+        if( [textField respondsToSelector: @selector(setInsertionPointColor:)] )
+            [textField setInsertionPointColor: [NSColor whiteColor]];
+    }
+    
+	return success;
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification {
 	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
 	self.layer.shadowOpacity = 0.f;
+    [self sendActionsForControlEvents:BTRControlEventValueChanged];
 	[super textDidEndEditing:notification];
 	self.highlighted = NO;
 }

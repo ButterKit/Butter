@@ -49,14 +49,14 @@ static void BTRControlCommonInit(BTRControl *self) {
 	self.content = [NSMutableDictionary dictionary];
 }
 
-- (instancetype)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	BTRControlCommonInit(self);
 	return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	BTRControlCommonInit(self);

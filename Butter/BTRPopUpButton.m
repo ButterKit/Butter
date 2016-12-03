@@ -11,6 +11,7 @@
 
 @interface BTRPopUpButtonLabel : BTRLabel
 @end
+
 @interface BTRPopUpButtonImageView : BTRImageView
 @end
 
@@ -29,8 +30,7 @@
 @end
 
 @implementation BTRPopUpButton
-
-@dynamic menu;
+@synthesize menu = _menu;
 
 #pragma mark - Initialization
 
@@ -153,6 +153,7 @@ static void BTRPopupButtonCommonInit(BTRPopUpButton *self) {
 
 #pragma mark - Accessors
 
+/*
 - (void)setMenu:(NSMenu *)menu {
 	if (self.menu != menu) {
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -162,7 +163,10 @@ static void BTRPopupButtonCommonInit(BTRPopUpButton *self) {
 		}
 		self.selectedItem = nil;
 		super.menu = menu;
-		if (self.menu) {
+        
+        //NSLog(@"%@", self.menu);
+		if (self.menu)
+        {
 			self.menu.autoenablesItems = self.autoenablesItems;
 			// Register for notifications for when the menu closes. This is important
 			// because mouseUp: and mouseExited: are not normally called if the menu is closed
@@ -181,8 +185,9 @@ static void BTRPopupButtonCommonInit(BTRPopUpButton *self) {
 			// Force a menu update from the delegate once the menu is initially set
 			[self forceMenuUpdate];
 		}
+        //self.menu = menu;
 	}
-}
+}*/
 
 - (void)setSelectedItem:(NSMenuItem *)selectedItem {
 	if (_selectedItem != selectedItem) {

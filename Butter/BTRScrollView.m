@@ -24,7 +24,7 @@
 
 #pragma mark Lifecycle
 
-- (instancetype)initWithFrame:(NSRect)frameRect {
+- (id)initWithFrame:(NSRect)frameRect {
 	self = [super initWithFrame:frameRect];
 	if (self == nil) return nil;
 	
