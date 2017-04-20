@@ -1,4 +1,4 @@
-#Butter#
+# Butter #
 
 Butter is a framework for OS X that seeks to provide a set of commonly used controls which are full replacements for their cell-based AppKit counterparts. This framework is still a work in progress, but it is **usable in production apps.**
 
@@ -12,12 +12,12 @@ This framework seeks to provide the following:
 **Butter is compatible with OS X 10.8+.**
 
 
-#Controls#
+# Controls #
 
-##BTRControl##
+## BTRControl ##
 `BTRControl` is a subclass of `BTRView` that provides a base for all controls. It offers state-based customization with block-based (or alternatively target/action-based) control event handling. `BTRControl` is designed for subclassing.
 
-##BTRButton##
+## BTRButton ##
 `BTRButton` is a subclass of `BTRControl`, and is an extremely customizable. Here's an example:
 
 ```objc
@@ -29,7 +29,7 @@ BTRButton *button = [[BTRButton alloc] initWithFrame:rect];
 button.animatesContents = YES; // animate the transition back from click
 ```
 
-##BTRActivityIndicator##
+## BTRActivityIndicator ##
 `BTRActvityIndicator` is a subclass of `BTRView` that provides a comprehensive API for creating any type of circular indeterminate activity indicator. Nearly all features of the indicator can be modified, and if more customization is desired a custom layer can be set to completely modify the appearance of the spinner. Short example:
 
 ```objc
@@ -40,7 +40,7 @@ indicator.progressShapeCount = 20; // give it more gears
 [indicator startAnimating];
 ```
 
-##BTRImageView##
+## BTRImageView ##
 `BTRImageView` is a subclass of `BTRView`, and it provides a fast and lightweight alternative to `NSImageView`. The view is layer-hosted, meaning the sublayer that contains the image itself can safely have a  transform applied. This opens up many possibilities for complex animations. `BTRImageView` can also handle animated images, such as GIFs.
 
 ```objc
@@ -52,7 +52,7 @@ imageView.animatesMultipleFrames = YES; // animate the GIF
 
 `BTRImageView` is also capable of displaying stretchable images when combined with `BTRImage`.
 
-##BTRImage##
+## BTRImage ##
 `BTRImage` is a `NSImage` subclass that provides support for stretchable images.
 
 ```objc
@@ -64,7 +64,7 @@ Note that `BTRImage` will not attempt to use the stretched images when manually 
 
 There is also a convenience category for creating `BTRImage`s out of `NSImage`s, located in `NSImage+BTRImageAdditions.h`.
 
-##BTRTextField##
+## BTRTextField ##
 `BTRTextField` is a subclass of `NSTextField`. It takes all the pain out of customizing normal text fields. Background images for states, text shadow, placeholder text customization, custom text drawing frames, control event handlers, and more.
 
 ```objc
@@ -73,17 +73,17 @@ BTRTextField *textField = [[BTRTextField alloc] initWithFrame:rect];
 textField.textShadow = someNSShadow;
 ```
 
-##BTRSecureTextField##
+## BTRSecureTextField ##
 The secure variant of `BTRTextField`.
 
-##BTRLabel##
+## BTRLabel ##
 `BTRLabel` is a subclass of `BTRTextField` that provides a common setup for labels, with no bezel, background drawing, editing, or selection.
 
 ```objc
 BTRLabel *label = [[BTRLabel alloc] initWithFrame:rect];
 ```
 
-##NSView Additions##
+## NSView Additions ##
 This category contains some convenience animation additions for `NSView`.
 
 ```objc
@@ -99,7 +99,7 @@ NSView/BTRView *view = someView;
 } completion:nil];
 ```
 
-##BTRView##
+## BTRView ##
 `BTRView` is a subclass of `NSView`, and it provides the base for many of the controls in Butter. It is layer-backed by default. It provides some convenience properties for common customization points.
 
 ```objc
@@ -110,13 +110,13 @@ view.animatesContents = YES; // fades between redraws
 view.viewController = someVC; // patch into the responder chain
 ```
 
-##BTRClipView / BTRScrollView##
+## BTRClipView / BTRScrollView ##
 `BTRClipView` implements a completely custom scrolling mechanism that is used for buttery-smooth scrolling in response to keyboard events, and calls to a custom `-scrollRectToVisible:animated:` method.
 
 `BTRScrollView` makes it easy to use `BTRClipView` by swapping out the clip view at runtime.
 
 
-##BTRPopupButton##
+## BTRPopupButton ##
 `BTRPopUpButton` is the layer-backed Butter equivalent of `NSPopUpButton`. Like `NSPopUpButton`, it uses an `NSMenu` as the model for its content. Basic elements like the arrow image are customizable via properties, and many of the layout attributes are designed to be customizable via subclassing. 
 
 
