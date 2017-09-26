@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1BE2EC80BAFB45464F850DCF6C22CB755957A826",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "74A9F3FD7617A9D8DBE0A59D7180A8FB90CAF746" : 9223372036854775807,
+    "1BE2EC80BAFB45464F850DCF6C22CB755957A826" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C5D60C9A-8331-4F11-AB25-B2A5E1F71B98",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "74A9F3FD7617A9D8DBE0A59D7180A8FB90CAF746" : "",
+    "1BE2EC80BAFB45464F850DCF6C22CB755957A826" : "Butter\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Butter",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Butter.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ButterKit\/Butter.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1BE2EC80BAFB45464F850DCF6C22CB755957A826"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/xyndl.de:7451\/opt\/git\/avirem_mac",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "74A9F3FD7617A9D8DBE0A59D7180A8FB90CAF746"
+    }
+  ]
+}
