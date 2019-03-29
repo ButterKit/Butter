@@ -22,20 +22,20 @@
 	NSTimer *_animationTimer;
 }
 
-- (instancetype)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame layerHosted:YES];
 	if (self == nil) return nil;
 	BTRImageViewCommonInit(self);
 	return self;
 }
 
-- (instancetype)initWithImage:(NSImage *)image {
+- (id)initWithImage:(NSImage *)image {
 	self = [self initWithFrame:(CGRect){ .size = image.size }];
 	self.image = image;
 	return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	self.layer = [CALayer layer];

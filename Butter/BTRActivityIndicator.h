@@ -18,12 +18,12 @@ typedef NS_ENUM(NSInteger, BTRActivityIndicatorStyle) {
 @interface BTRActivityIndicator : BTRView
 
 // Returns an activity indicator sized to the default indicator size.
-- (instancetype)initWithActivityIndicatorStyle:(BTRActivityIndicatorStyle)style;
+- (id)initWithActivityIndicatorStyle:(BTRActivityIndicatorStyle)style;
 
 // Initializes the activity indicator with the default indicator style (BTRActivityIndicatorStyleGray).
-- (instancetype)initWithFrame:(NSRect)frameRect;
+- (id)initWithFrame:(NSRect)frameRect;
 
-- (instancetype)initWithFrame:(NSRect)frameRect activityIndicatorStyle:(BTRActivityIndicatorStyle)style NS_DESIGNATED_INITIALIZER;
+- (id)initWithFrame:(NSRect)frameRect activityIndicatorStyle:(BTRActivityIndicatorStyle)style;
 
 // Starts and ends the animation of the activity indicator.
 - (void)startAnimating;

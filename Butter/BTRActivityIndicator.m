@@ -23,41 +23,38 @@ static NSString * const BTRActivityIndicatorAnimationKey = @"BTRActivityIndicato
 @implementation BTRActivityIndicator
 @synthesize progressShapeLayer = _progressShapeLayer;
 
-//- (instancetype)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
-//	return [super initWithFrame:frame layerHosted:hostsLayer];
-//}
-
 - (instancetype)initWithFrame:(NSRect)frame {
-	return [self initWithFrame:frame activityIndicatorStyle:BTRActivityIndicatorStyleGray];
+    return [self initWithFrame:frame activityIndicatorStyle:BTRActivityIndicatorStyleGray];
 }
 
 - (instancetype)initWithActivityIndicatorStyle:(BTRActivityIndicatorStyle)style {
-	CGFloat length = BTRActivityIndicatorDefaultFrameLength;
-	return [self initWithFrame:CGRectMake(0, 0, length, length) activityIndicatorStyle:style];
+    CGFloat length = BTRActivityIndicatorDefaultFrameLength;
+    return [self initWithFrame:CGRectMake(0, 0, length, length) activityIndicatorStyle:style];
 }
 
 - (instancetype)initWithFrame:(NSRect)frame activityIndicatorStyle:(BTRActivityIndicatorStyle)style {
-	self = [super initWithFrame:frame layerHosted:YES];
-	if (self == nil) return nil;
-	
-	_activityIndicatorStyle = style;
-	_progressShapeColor = (style == BTRActivityIndicatorStyleGray ? [NSColor grayColor] : [NSColor whiteColor]);
-	_progressShapeCount = 12;
-	
-	CGFloat minLength = fminf(CGRectGetWidth(frame), CGRectGetHeight(frame));
-	_progressShapeLength = ceilf(minLength / 4);
-	_progressShapeThickness = ceilf(minLength / _progressShapeCount);
-	_progressShapeSpread = _progressShapeLength;
-	_progressAnimationDuration = 1.f;
-	
-	[self.layer addSublayer:self.replicatorLayer];
-	self.progressShapeLayer.opacity = 0.f;
-	
-	[self accessibilitySetOverrideValue:NSAccessibilityProgressIndicatorRole forAttribute:NSAccessibilityRoleAttribute];
-	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityProgressIndicatorRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
-	
-	return self;
+    self = [super initWithFrame:frame layerHosted:YES];
+    if (self == nil) return nil;
+    
+    _activityIndicatorStyle = style;
+    _progressShapeColor = (style == BTRActivityIndicatorStyleGray ? [NSColor grayColor] : [NSColor whiteColor]);
+    _progressShapeCount = 12;
+    
+    CGFloat minLength = fminf(CGRectGetWidth(frame), CGRectGetHeight(frame));
+    _progressShapeLength = ceilf(minLength / 4);
+    _progressShapeThickness = ceilf(minLength / _progressShapeCount);
+    _progressShapeSpread = _progressShapeLength;
+    _progressAnimationDuration = 1.f;
+    
+    [self.layer addSublayer:self.replicatorLayer];
+    self.progressShapeLayer.opacity = 0.f;
+    
+    [self accessibilitySetOverrideValue:NSAccessibilityProgressIndicatorRole forAttribute:NSAccessibilityRoleAttribute];
+    [self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityProgressIndicatorRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
+    
+    return self;
 }
+
 
 - (void)setActivityIndicatorStyle:(BTRActivityIndicatorStyle)style {
 	self.progressShapeColor = (style == BTRActivityIndicatorStyleGray ? [NSColor grayColor] : [NSColor whiteColor]);

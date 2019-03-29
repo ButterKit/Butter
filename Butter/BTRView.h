@@ -13,7 +13,7 @@
 
 // Optional initializer which opts to provide the option to create a
 // layer-hosted view instead of a layer-backed view.
-- (instancetype)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer;
+- (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer;
 
 // A background color for the view, or nil if none has been set.
 @property (nonatomic, strong) NSColor *btr_backgroundColor;

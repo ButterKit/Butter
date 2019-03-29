@@ -31,7 +31,7 @@
 
 #pragma mark Lifecycle
 
-- (instancetype)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
+- (id)initWithFrame:(NSRect)frame layerHosted:(BOOL)hostsLayer {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	
@@ -45,11 +45,11 @@
 	return self;
 }
 
-- (instancetype)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame {
 	return [self initWithFrame:frame layerHosted:NO];
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	
@@ -127,7 +127,7 @@ static void BTRViewCommonInit(BTRView *self) {
 		return animation;
 	}
 	
-	return [super actionForLayer:layer forKey:event];
+    return nil;//[super actionForLayer:layer forKey:event];
 }
 
 #pragma mark - View controller

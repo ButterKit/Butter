@@ -57,14 +57,34 @@ static CGFloat const BTRTextFieldXInset = 2.f;
 @synthesize state = _state;
 @synthesize clickCount = _clickCount;
 
-- (instancetype)initWithFrame:(NSRect)frame {
+/*
+- (void)keyUp:(NSEvent *)theEvent{
+    
+    switch ([theEvent keyCode]) {
+            
+        case 48:
+            //[self nextKeyView] = _NSClipViewOverhangView
+            //[[self nextKeyView] nextKeyView] = NSTokenField (in my case)
+            // or something different
+            [[self nextKeyView] becomeFirstResponder];
+            //also http://stackoverflow.com/a/3008622/1067147
+            break;
+            
+            
+        default:// allow NSTextView to handle everything else
+            [super keyDown:theEvent];
+            break;
+    }
+}*/
+
+- (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self == nil) return nil;
 	BTRTextFieldCommonInit(self);
 	return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	BTRTextFieldCommonInit(self);
@@ -106,6 +126,8 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 	textField.drawsFocusRing = YES;
 	textField.drawsBackground = YES;
 	textField.bezeled = NO;
+    
+    
 }
 
 // It appears that on some layer-backed view hierarchies that are
@@ -438,7 +460,7 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 			if (action.block != nil) {
 				action.block(events);
 			} else if (action.action != nil) { // the target can be nil
-				[NSApp sendAction:action.action to:action.target];
+				[NSApp sendAction:action.action to:action.target from:self];
 			}
 		}
 	}
@@ -452,16 +474,34 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 }
 
 - (BOOL)becomeFirstResponder {
-	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
-	self.layer.shadowOpacity = 1.f;
-	self.highlighted = YES;
-	return [super becomeFirstResponder];
+    
+    BOOL    success =[super becomeFirstResponder];
+    
+    if (success){
+        [self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
+        self.layer.shadowOpacity = 1.f;
+        self.highlighted = YES;
+        
+        NSTextView* textField = (NSTextView*) [self currentEditor];
+        if( [textField respondsToSelector: @selector(setInsertionPointColor:)] )
+            [textField setInsertionPointColor: [NSColor whiteColor]];
+    
+    }
+	return success;
+    
+    /*
+    [self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
+    self.layer.shadowOpacity = 1.f;
+    self.highlighted = YES;
+
+    return [super becomeFirstResponder];*/
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification {
+    [super textDidEndEditing:notification];
 	[self.layer addAnimation:[self shadowOpacityAnimation] forKey:nil];
 	self.layer.shadowOpacity = 0.f;
-	[super textDidEndEditing:notification];
+    [self sendActionsForControlEvents:BTRControlEventValueChanged];
 	self.highlighted = NO;
 }
 
@@ -473,6 +513,8 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 		[fieldEditor.textStorage addAttribute:NSShadowAttributeName value:self.textShadow range:NSMakeRange(0, fieldEditor.textStorage.length)];
 	}
 	
+    
+    
 	// This hack is needed because in certain cases (e.g. when inside a popover), a layer backed text view will not redraw by itself
 	[self setNeedsDisplay:YES];
 }
@@ -533,6 +575,7 @@ static void BTRTextFieldCommonInit(BTRTextField *textField) {
 			newRect.size.height -= heightDelta;
 			newRect.origin.y += ceil(heightDelta / 2);
 		}
+        
 	}
 	return [(BTRTextField *)[self controlView] drawingRectForProposedDrawingRect:newRect];
 }

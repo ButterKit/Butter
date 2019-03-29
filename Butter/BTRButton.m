@@ -32,14 +32,14 @@ static void BTRButtonCommonInit(BTRButton *self) {
 	[self accessibilitySetOverrideValue:NSAccessibilityRoleDescription(NSAccessibilityButtonRole, nil) forAttribute:NSAccessibilityRoleDescriptionAttribute];
 }
 
-- (instancetype)initWithFrame:(NSRect)frameRect {
+- (id)initWithFrame:(NSRect)frameRect {
 	self = [super initWithFrame:frameRect];
 	if (self == nil) return nil;
 	BTRButtonCommonInit(self);
 	return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self == nil) return nil;
 	BTRButtonCommonInit(self);
