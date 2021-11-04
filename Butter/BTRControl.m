@@ -421,6 +421,48 @@ static void BTRControlCommonInit(BTRControl *self) {
 	}
 }
 
+- (void)removeFromSuperview {
+    // free Block and trackArea
+    [super removeFromSuperview];
+    if (self.trackingArea) {
+        self.needsTrackingArea= NO;
+        [self removeTrackingArea:self.trackingArea];
+        self.trackingArea = nil;
+    }
+  
+    for (BTRControlAction *action in self.actions) {
+        if (action.block) {
+            action.block = nil;
+        }
+    }
+    if (self.actions.count) {
+        [self.actions removeAllObjects];
+    }
+    if (self.content.count) {
+        [self.content removeAllObjects];
+    }
+}
+
+- (void)dealloc {
+    // free Block and trackArea
+    if (self.trackingArea) {
+        self.needsTrackingArea= NO;
+        [self removeTrackingArea:self.trackingArea];
+        self.trackingArea = nil;
+    }
+    for (BTRControlAction *action in self.actions) {
+        if (action.block) {
+            action.block = nil;
+        }
+    }
+    if (self.actions.count) {
+        [self.actions removeAllObjects];
+    }
+    if (self.content.count) {
+        [self.content removeAllObjects];
+    }
+}
+
 @end
 
 @implementation BTRControlContent {
